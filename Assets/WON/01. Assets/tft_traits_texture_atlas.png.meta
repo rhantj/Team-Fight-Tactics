@@ -1,0 +1,809 @@
+fileFormatVersion: 2
+guid: 6aac7a0ee0baa7746bd2a2b52bb18a09
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b864e94edd01204d88c26abaa7c77dc
+      internalID: 1613664872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_1
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddf86599fedd9de4787b8f0862694136
+      internalID: -967290717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_2
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cda5d9716644a0d4a8dbf98530f78f64
+      internalID: 1784175787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b68c5a236122643836c1a8f513d3b0
+      internalID: 537961687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 307c256952334c146bfb6fafc0249543
+      internalID: -1353681872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_5
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4774630697843b0449f54b442c4d82dc
+      internalID: 743022923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_6
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93fece673091bdd4bb7f91071d245406
+      internalID: 825084096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_7
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 201
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7f73b659ba547940a366e5eeb429f8a
+      internalID: -747866968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_8
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 226
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc27a266f50c6d44e9944900797505fc
+      internalID: 658645234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_9
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 226
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae893bba3beee9418cb48fe2e362272
+      internalID: -2110587409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_10
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 226
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82bc7412c94170c44a8846c8a0ee1663
+      internalID: 859112874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_11
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 226
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cabac080ac75c7943af23f2bb2290513
+      internalID: 1052804370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_12
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 186
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb09408c3f95bd045a174d8c5cac4984
+      internalID: 1422974308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_13
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 198
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a5f0d7ab4a4206429208e7dd3f7e171
+      internalID: -302529269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_14
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 197
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fbb53673dba76a4ab8af120d7ad4dc9
+      internalID: -527272885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_15
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 159
+        width: 26
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1993ca809afe6e54ab2f0cf82fa25663
+      internalID: -1082939852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_16
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 184
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27e099e8323f09c43ba9e26c5f7b9744
+      internalID: -489131173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_17
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 61
+        width: 41
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 212405d4b6f75584e9d3a0be2b863dc1
+      internalID: 136382021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_18
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 146
+        width: 146
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d23c427ab871244c867c834e3a8a61c
+      internalID: 37688722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_19
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 143
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fb57b24058238245b511909c04d88bb
+      internalID: 1854457425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_20
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 143
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc8fe0681f190e544b0e0803da50acbc
+      internalID: 1903220935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_21
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 94
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8a449e3f6841246b0d66b1c1f511ea
+      internalID: 1640873156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_22
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 77
+        width: 51
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 063598da34095ae4ea8e4dce177b14e6
+      internalID: -976990556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_23
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 77
+        width: 51
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6e910f5eb0e4b141a4524052aafa992
+      internalID: 1065499403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_24
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 112
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bd7929876f0a594f8c0360af804278a
+      internalID: -1581969256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_25
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 85
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f12efd789058084bb17d489ba5349cb
+      internalID: 519081591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_26
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 85
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb921f9cf2ce66d43a535b9021c67384
+      internalID: -1771440623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_27
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 18
+        width: 41
+        height: 134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5be4d975b35952942bbcc634b43e18e9
+      internalID: 1020270011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_28
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 60
+        width: 39
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fecc935ba34d98428f02391121c10d9
+      internalID: 210967045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_29
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 24
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbbcd526793d9ff47b7c3be63f22d1c3
+      internalID: -1733543170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tft_traits_texture_atlas_30
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 24
+        width: 45
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0df379ee26d565140a23a97bb006c8bf
+      internalID: 82392041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: d2b3eeb69e77b3e47b12d411419a1a57
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tft_traits_texture_atlas_0: 1613664872
+      tft_traits_texture_atlas_1: -967290717
+      tft_traits_texture_atlas_10: 859112874
+      tft_traits_texture_atlas_11: 1052804370
+      tft_traits_texture_atlas_12: 1422974308
+      tft_traits_texture_atlas_13: -302529269
+      tft_traits_texture_atlas_14: -527272885
+      tft_traits_texture_atlas_15: -1082939852
+      tft_traits_texture_atlas_16: -489131173
+      tft_traits_texture_atlas_17: 136382021
+      tft_traits_texture_atlas_18: 37688722
+      tft_traits_texture_atlas_19: 1854457425
+      tft_traits_texture_atlas_2: 1784175787
+      tft_traits_texture_atlas_20: 1903220935
+      tft_traits_texture_atlas_21: 1640873156
+      tft_traits_texture_atlas_22: -976990556
+      tft_traits_texture_atlas_23: 1065499403
+      tft_traits_texture_atlas_24: -1581969256
+      tft_traits_texture_atlas_25: 519081591
+      tft_traits_texture_atlas_26: -1771440623
+      tft_traits_texture_atlas_27: 1020270011
+      tft_traits_texture_atlas_28: 210967045
+      tft_traits_texture_atlas_29: -1733543170
+      tft_traits_texture_atlas_3: 537961687
+      tft_traits_texture_atlas_30: 82392041
+      tft_traits_texture_atlas_4: -1353681872
+      tft_traits_texture_atlas_5: 743022923
+      tft_traits_texture_atlas_6: 825084096
+      tft_traits_texture_atlas_7: -747866968
+      tft_traits_texture_atlas_8: 658645234
+      tft_traits_texture_atlas_9: -2110587409
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
