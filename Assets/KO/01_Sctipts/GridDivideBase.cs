@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridDivideBase : MonoBehaviour
 {
@@ -9,7 +10,11 @@ public class GridDivideBase : MonoBehaviour
     [SerializeField] protected float nodeRadius;
     [SerializeField] protected float nodeDiameter;
     protected Vector3 worldBottomLeft;
-    protected GridNode[,] fieldGrid;
+    public GridNode[,] fieldGrid;
+
+    [Header("TESTING SIDE")]
+    [SerializeField] protected GameObject chessPF;
+    [SerializeField] protected Button spawnBtn;
 
     private void Awake()
     {
@@ -43,6 +48,39 @@ public class GridDivideBase : MonoBehaviour
             }
         }
     }
+    
+    public bool IsContainPos(Vector3 pos)
+    {
+        var center = transform.position;
+        float halfx = gridWorldSize.x * 0.5f;
+        float halfy = gridWorldSize.y * 0.5f;
+
+        return pos.x >= center.x - halfx && pos.x <= center.x + halfx
+            && pos.z >= center.z - halfy && pos.z <= center.z + halfy;
+    }
+
+    public Vector3 GetNearGridPosition(Vector3 pos)
+    {
+        float px = Mathf.InverseLerp(worldBottomLeft.x, worldBottomLeft.x + gridWorldSize.x, pos.x);
+        float py = Mathf.InverseLerp(worldBottomLeft.z, worldBottomLeft.z + gridWorldSize.y, pos.z);
+
+        int x = Mathf.RoundToInt((gridXCnt - 1) * px);
+        int y = Mathf.RoundToInt((gridYCnt - 1) * py);
+
+        x = Mathf.Clamp(0, x, gridXCnt - 1);
+        y = Mathf.Clamp(0, y, gridYCnt - 1);
+
+        return fieldGrid[x, y].worldPosition;
+    }
+
+    public void SpawnChess()
+    {
+        foreach(var node in fieldGrid)
+        {
+            Instantiate(chessPF, node.worldPosition, Quaternion.identity);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
