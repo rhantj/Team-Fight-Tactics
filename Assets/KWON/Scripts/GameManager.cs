@@ -142,9 +142,9 @@ public class GameManager : MonoBehaviour
     {
         SetRoundState(RoundState.Battle);
 
-        EnemyUnitGroup enemyGroup = waveDatabase.GetWave(currentRround);
-
-        battleSystem.StartBattle(PlayerPrefs, enemyGroup);
+        //EnemyUnitGroup enemyGroup = waveDatabase.GetWave(currentRround);
+        //
+        //battleSystem.StartBattle(PlayerPrefs, enemyGroup);
     }
 
 
