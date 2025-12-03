@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ChessStateBase : MonoBehaviour
@@ -18,7 +19,7 @@ public abstract class ChessStateBase : MonoBehaviour
     //                  전투 / 마나 설정
     //=====================================================
     [Header("전투 설정")]
-    [Tooltip("공격 인터벌")]
+    [Tooltip("공격 인터벌 (초당 공격 속도에서 자동 계산)")]
     [SerializeField] protected float attackInterval = 1.0f;
 
     [Tooltip("공격 시 획득 마나량")]
@@ -27,6 +28,8 @@ public abstract class ChessStateBase : MonoBehaviour
     [Tooltip("피격 시 얻는 마나량")]
     [SerializeField] protected int manaOnDamaged = 5;
 
+    protected float baseAttackInterval;
+    protected float attackSpeedMultiplier = 1f;
     protected float attackTimer;
     protected Animator animator;
     protected StateMachine stateMachine;
@@ -47,9 +50,18 @@ public abstract class ChessStateBase : MonoBehaviour
         {
             return;
         }
+
         StarLevel = baseData.starLevel;
         CurrentHP = baseData.maxHP;
         CurrentMana = 0;
+
+        //아래는 공격횟수 계산입니다. 초당 공속을 위해 인터벌로 계산해둔거에요
+        if (baseData.attackSpeed > 0f)
+        {
+            baseAttackInterval = 1f / baseData.attackSpeed;
+            attackInterval = baseAttackInterval;
+        }
+
         attackTimer = attackInterval;
     }
 
@@ -105,5 +117,35 @@ public abstract class ChessStateBase : MonoBehaviour
         stateMachine?.SetDie();
         animator?.SetTrigger("Die");
         gameObject.SetActive(false);
+    }
+
+    //=====================================================
+    //                  특성 접근
+    //=====================================================
+    public IReadOnlyList<TraitType> Traits => baseData?.traits;
+
+    public bool HasTrait(TraitType trait)
+    {
+        if (baseData == null || baseData.traits == null) return false;
+
+        foreach (var t in baseData.traits)
+        {
+            if (t == trait) return true;
+        }
+
+        return false;
+    }
+
+    //=====================================================
+    //                  공속 보정 (시너지 등)
+    //=====================================================
+    public void SetAttackSpeedMultiplier(float multiplier)
+    {
+        attackSpeedMultiplier = Mathf.Max(0.1f, multiplier);
+
+        if (baseAttackInterval > 0f)
+        {
+            attackInterval = baseAttackInterval / attackSpeedMultiplier;
+        }
     }
 }
