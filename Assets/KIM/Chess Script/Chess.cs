@@ -64,8 +64,10 @@ public class Chess : ChessStateBase
 
     protected override void Die()
     {
-        base.Die();
+        if (!IsDead) return;
+
         OnDead?.Invoke(this);
+        base.Die();
     }
 
     //=====================================================

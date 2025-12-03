@@ -9,16 +9,23 @@ public class ChessStatData : ScriptableObject
     public int maxHP;
     public int armor;
     public int attackDamage;
-    public float attackSpeed;
+    public float attackSpeed; 
     public int mana;
+
     //=====================================================
     [Header("메타 정보")]
     public int starLevel;
-    public int cost;   
+    public int cost;
+
+    //=====================================================
+    [Header("특성")]
+    public TraitType[] traits;   
+
     //=====================================================
     [Header("비주얼")]
-    public Sprite icon;        
-    public GameObject prefab;  
+    public Sprite icon;
+    public GameObject prefab;
+
     //=====================================================
     [Header("스킬")]
     public string skillName;

@@ -6,3 +6,10 @@ public enum UnitState
     Skill = 3,
     Die = 4
 }
+
+public enum TraitType
+{
+    Demacia,
+    Melee,
+    Ranged
+}
