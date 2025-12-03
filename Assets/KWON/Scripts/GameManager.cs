@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnRoundStarted;    //라운드 시작 이벤트
     public event Action<float> OnPreperationTimerUpdated;   //준비단계 타이머 이벤트
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
-    public event Action<RoundState> OnRoundStateChaged;
+    public event Action<RoundState> OnRoundStateChanged;
 
     //참조
     /*
@@ -169,6 +169,6 @@ public class GameManager : MonoBehaviour
     private void SetRoundState(RoundState newState)
     {
         roundState = newState;
-        OnRoundStateChaged?.Invoke(newState);
+        OnRoundStateChanged?.Invoke(newState);
     }
 }
