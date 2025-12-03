@@ -7,9 +7,21 @@ using UnityEngine.UIElements;
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] GridDivideBase[] grids;
-    TestingCube chess;
-    Vector3 _worldPos;
-    Ray camRay;
+    [SerializeField] TestingCube chess;
+    [SerializeField] Vector3 chessFirstPos;
+    [SerializeField] GridNode targetGridNode;
+    [SerializeField] GridDivideBase targetGrid;
+    [SerializeField] GridNode prevNode;
+    [SerializeField] GridDivideBase prevGrid;
+    [SerializeField] Vector3 _worldPos;
+    [SerializeField] Ray camRay;
+
+    //[Header("CHECK VAR")]
+    //public Vector3 ChessFirstPos;
+    //public Vector3 TargetGridNodePosition;
+    //public Vector3 PrevNodePos;
+    //public bool TargetGridNodeSelection;
+    //public bool PrevNodeSelection;
 
 
     private void Update()
@@ -21,16 +33,65 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnBeginDrag(PointerEventData eventData)
     {
         CalculateWorldChess(camRay);
+        chessFirstPos = _worldPos;
+        prevGrid = FindGrid(chessFirstPos);
+        prevNode = prevGrid.GetNearGrid(chessFirstPos);
 
+        prevNode.ChessPiece = null;
+        if (prevNode != null)
+        {
+            if (prevNode.ChessPiece == null)
+                prevNode.ChessPiece = chess;
+        }
+        else prevNode = null;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (!chess) return;
         chess.SetPosition(_worldPos);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!chess) return;
+        if (targetGrid == null || targetGridNode == null)
+        {
+            if (prevNode != null) chess.SetPosition(prevNode.worldPosition);
+            else chess.SetPosition(prevNode.worldPosition);
+            return;
+        }
+
+        ClearAllNodeChess(chess);
+
+        if (prevNode != null && targetGridNode == prevNode && targetGrid == prevGrid)
+        {
+            chess.SetPosition(targetGridNode.worldPosition);
+            targetGridNode.ChessPiece = chess;
+            return;
+        }
+
+        TestingCube other = targetGridNode.ChessPiece;
+        if (other != null && other != chess)
+        {
+            var to = targetGridNode.worldPosition;
+            var from = prevNode.worldPosition;
+
+            chess.SetPosition(to);
+            other.SetPosition(from);
+
+            targetGridNode.ChessPiece = chess;
+            prevNode.ChessPiece = other;
+        }
+        else
+        {
+            chess.SetPosition(targetGridNode.worldPosition);
+            targetGridNode.ChessPiece = chess;
+        }
+
+        prevGrid = targetGrid;
+        prevNode = targetGridNode;
+        chess = null;
     }
 
     void CalculateWorldPosition(Ray ray)
@@ -40,9 +101,17 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             var pos = ray.GetPoint(hit);
 
-            var targetGrid = FindGrid(pos);
-            if (targetGrid) _worldPos = targetGrid.GetNearGridPosition(pos);
-            else _worldPos = pos;
+            targetGrid = FindGrid(pos);
+            if (targetGrid)
+            {
+                targetGridNode = targetGrid.GetNearGrid(pos);
+                _worldPos = targetGridNode.worldPosition;
+            }
+            else
+            {
+                targetGridNode = null;
+                _worldPos = pos;
+            }
         }
     }
 
@@ -72,13 +141,21 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 float closest = (pos - g.transform.position).sqrMagnitude;
                 if(closest < dist)
                 {
-                    closest = dist;
+                    dist = closest;
                     grid = g;
                 }
             }
         }
 
         return grid;
+    }
+
+    void ClearAllNodeChess(TestingCube piece)
+    {
+        foreach(var g in grids)
+        {
+            g.ClearChessPiece(piece);
+        }
     }
 
     public TestingCube Chess

@@ -12,10 +12,6 @@ public class GridDivideBase : MonoBehaviour
     protected Vector3 worldBottomLeft;
     public GridNode[,] fieldGrid;
 
-    [Header("TESTING SIDE")]
-    [SerializeField] protected GameObject chessPF;
-    [SerializeField] protected Button spawnBtn;
-
     private void Awake()
     {
         Init();
@@ -59,7 +55,7 @@ public class GridDivideBase : MonoBehaviour
             && pos.z >= center.z - halfy && pos.z <= center.z + halfy;
     }
 
-    public Vector3 GetNearGridPosition(Vector3 pos)
+    public GridNode GetNearGrid(Vector3 pos)
     {
         float px = Mathf.InverseLerp(worldBottomLeft.x, worldBottomLeft.x + gridWorldSize.x, pos.x);
         float py = Mathf.InverseLerp(worldBottomLeft.z, worldBottomLeft.z + gridWorldSize.y, pos.z);
@@ -67,17 +63,18 @@ public class GridDivideBase : MonoBehaviour
         int x = Mathf.RoundToInt((gridXCnt - 1) * px);
         int y = Mathf.RoundToInt((gridYCnt - 1) * py);
 
-        x = Mathf.Clamp(0, x, gridXCnt - 1);
-        y = Mathf.Clamp(0, y, gridYCnt - 1);
+        x = Mathf.Clamp(x, 0, gridXCnt - 1);
+        y = Mathf.Clamp(y, 0, gridYCnt - 1);
 
-        return fieldGrid[x, y].worldPosition;
+        return fieldGrid[x, y];
     }
 
-    public void SpawnChess()
+    public void ClearChessPiece(TestingCube piece)
     {
         foreach(var node in fieldGrid)
         {
-            Instantiate(chessPF, node.worldPosition, Quaternion.identity);
+            if (node.ChessPiece == piece)
+                node.ChessPiece = null;
         }
     }
 
@@ -88,8 +85,8 @@ public class GridDivideBase : MonoBehaviour
         if (fieldGrid == null) return;
         foreach (var n in fieldGrid)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter - 1f));
+            Gizmos.color = n.ChessPiece ? Color.red : Color.green;
+            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter/2));
         }
     }
 }
