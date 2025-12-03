@@ -1,6 +1,7 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 
 /// <summary>
 /// 상점 전체 로직을 관리하는 매니저
@@ -19,6 +20,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TMP_Text currentGoldText;  // 현재 골드 텍스트
     [SerializeField] private TMP_Text levelText;        // 현재 레벨 텍스트
     [SerializeField] private TMP_Text expText;          // 경험치 텍스트
+    [SerializeField] private TMP_Text costRateText;     // 등장확률 텍스트
+
 
     [Header("Unit Data (임시)")]
     [SerializeField] private ChessStatData[] allUnits;  // 나중에 PoolManager에서 제공받을 예정
@@ -67,10 +70,7 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGoldUI();
-        UpdateLevelUI();
-        UpdateExpUI();
-        RefreshShop();
+        StartCoroutine(InitUI());
     }
 
 
@@ -147,6 +147,7 @@ public class ShopManager : MonoBehaviour
 
             UpdateLevelUI();
             UpdateExpUI();
+            UpdateCostRateUI();
 
             currentLevelData = GetLevelData(playerLevel);
             if (currentLevelData == null)
@@ -219,6 +220,46 @@ public class ShopManager : MonoBehaviour
         // TODO: 구매한 기물을 벤치 AddToBench(data) 로 넘길 예정
     }
 
+    // =======================================================================
+    // SELL SYSTEM (판매 기능)
+    // =======================================================================
+
+    /// <summary>
+    /// 기물을 판매한다. (벤치/필드 어디에 있든 상관 없음)
+    /// data: 판매하려는 유닛의 ChessStatData
+    /// </summary>
+    public void SellUnit(ChessStatData data)
+    {
+        if (data == null)
+        {
+            Debug.Log("판매할 유닛 정보가 없습니다.");
+            return;
+        }
+
+        // 판매 가격 = cost 그대로
+        int sellPrice = data.cost;
+
+        // 골드 지급
+        AddGold(sellPrice);
+
+        Debug.Log($"{data.unitName} 판매 완료 (+{sellPrice} 골드)");
+
+        // TODO: 벤치/필드에서 그 유닛을 제거하는 기능 필요
+        // 이 부분은 나중에 BenchManager / FieldManager와 연동
+        // BenchManager.Instance.RemoveUnit(data);
+        // FieldManager.Instance.RemoveUnit(data);
+        // 이런느낌으로 연동할까?
+    }
+
+    /// <summary>
+    /// 플레이어가 특정 키(E) 또는 버튼을 누르면 판매 기능 실행
+    /// </summary>
+    public void RequestSellKey(ChessStatData target)
+    {
+        // target = 현재 선택된 유닛
+        SellUnit(target);
+    }
+
 
     // ================================================================
     // 랜덤 확률 기반 유닛 선택 기능
@@ -289,4 +330,43 @@ public class ShopManager : MonoBehaviour
 
         RefreshShop();
     }
+
+    // ========================================================================
+    // 코스트별 등장 확률 UI 업데이트
+    // ========================================================================
+    private void UpdateCostRateUI()
+    {
+        LevelData data = GetLevelData(playerLevel);
+        if (data == null)
+        {
+            if (costRateText != null)
+                costRateText.text = "-";
+            return;
+        }
+
+        // 한 줄로 확률 구성
+        string result = "";
+
+        foreach (var r in data.rates)
+        {
+            // 예: "1코스트: 75%   "
+            result += $"{r.cost}Cost: {r.rate}%  ";
+        }
+
+        if (costRateText != null)
+            costRateText.text = result;
+    }
+
+    // UI 갱신용 코루틴
+    private IEnumerator InitUI()
+    {
+        yield return null; // TMP 텍스트 초기화 기다림 (1프레임)
+
+        UpdateGoldUI();
+        UpdateLevelUI();
+        UpdateExpUI();
+        UpdateCostRateUI(); // ★ 여기서 정확히 적용됨
+        RefreshShop();
+    }
+
 }
