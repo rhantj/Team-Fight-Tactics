@@ -35,7 +35,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         CalculateWorldChess(camRay);
         chessFirstPos = _worldPos;
         prevGrid = FindGrid(chessFirstPos);
-        prevNode = prevGrid.GetNearGrid(chessFirstPos);
+        
+        if(prevGrid)
+            prevNode = prevGrid.GetNearGrid(chessFirstPos);
 
         prevNode.ChessPiece = null;
         if (prevNode != null)

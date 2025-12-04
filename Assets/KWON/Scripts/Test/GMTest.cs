@@ -37,11 +37,8 @@ public class GMTest : MonoBehaviour
 
     private void HandlePreparationTimer(float t)
     {
-        // 매 프레임 출력하면 시끄러우니까 특정 간격으로 표시
-        if (Mathf.Abs(t % 5) < 0.05f)
-        {
+        if (Mathf.Abs(t % 5) < 0.01f)
             Debug.Log($"[PrepTimer] 남은 준비시간: {t:F1}");
-        }
     }
 
     private void HandleRoundEnded(int round, bool win)
