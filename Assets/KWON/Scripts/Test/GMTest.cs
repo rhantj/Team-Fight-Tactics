@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GMTest : MonoBehaviour
 {
+    private int lastSec = -1;
     private void Start()
     {
         Debug.Log("<color=yellow>=== GameManager 테스트 시작 ===</color>");
@@ -37,10 +38,16 @@ public class GMTest : MonoBehaviour
 
     private void HandlePreparationTimer(float t)
     {
-        // 매 프레임 출력하면 시끄러우니까 특정 간격으로 표시
-        if (Mathf.Abs(t % 5) < 0.05f)
+        int sec = Mathf.CeilToInt(t);
+
+        // 초가 변했을 때만 반응
+        if (sec == lastSec) return;
+        lastSec = sec;
+
+        // 5초 단위라면 출력
+        if (sec % 5 == 0)
         {
-            Debug.Log($"[PrepTimer] 남은 준비시간: {t:F1}");
+            Debug.Log($"[PrepTimer] 남은 준비시간: {sec}초");
         }
     }
 
