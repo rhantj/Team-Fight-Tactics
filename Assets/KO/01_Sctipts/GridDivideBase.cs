@@ -5,11 +5,11 @@ using UnityEngine.UI;
 public class GridDivideBase : MonoBehaviour
 {
     [SerializeField] protected Vector2 gridWorldSize;
-    protected int gridXCnt;
-    protected int gridYCnt;
+    [SerializeField] protected int gridXCnt;
+    [SerializeField] protected int gridYCnt;
     [SerializeField] protected float nodeRadius;
     [SerializeField] protected float nodeDiameter;
-    protected Vector3 worldBottomLeft;
+    [SerializeField] protected Vector3 worldBottomLeft;
     public GridNode[,] fieldGrid;
 
     private void Awake()
@@ -19,6 +19,7 @@ public class GridDivideBase : MonoBehaviour
 
     void Init()
     {
+        gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
         nodeDiameter = nodeRadius * 2;
         gridXCnt = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridYCnt = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -45,7 +46,7 @@ public class GridDivideBase : MonoBehaviour
         }
     }
     
-    public bool IsContainPos(Vector3 pos)
+    public bool IsPositionInGrid(Vector3 pos)
     {
         var center = transform.position;
         float halfx = gridWorldSize.x * 0.5f;
@@ -57,16 +58,23 @@ public class GridDivideBase : MonoBehaviour
 
     public GridNode GetNearGrid(Vector3 pos)
     {
-        float px = Mathf.InverseLerp(worldBottomLeft.x, worldBottomLeft.x + gridWorldSize.x, pos.x);
-        float py = Mathf.InverseLerp(worldBottomLeft.z, worldBottomLeft.z + gridWorldSize.y, pos.z);
+        GridNode res = null;
+        float closest = float.PositiveInfinity;
 
-        int x = Mathf.RoundToInt((gridXCnt - 1) * px);
-        int y = Mathf.RoundToInt((gridYCnt - 1) * py);
+        foreach(var node in fieldGrid)
+        {
+            var nodePos = new Vector2(node.worldPosition.x, node.worldPosition.z);
+            var newPos = new Vector2(pos.x, pos.z);
+            float dist = (nodePos - newPos).sqrMagnitude;
+            
+            if(dist < closest)
+            {
+                closest = dist;
+                res = node;
+            }
+        }
 
-        x = Mathf.Clamp(x, 0, gridXCnt - 1);
-        y = Mathf.Clamp(y, 0, gridYCnt - 1);
-
-        return fieldGrid[x, y];
+        return res;
     }
 
     public void ClearChessPiece(TestingCube piece)
@@ -86,7 +94,7 @@ public class GridDivideBase : MonoBehaviour
         foreach (var n in fieldGrid)
         {
             Gizmos.color = n.ChessPiece ? Color.red : Color.green;
-            Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter/2));
+            Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeRadius);
         }
     }
 }

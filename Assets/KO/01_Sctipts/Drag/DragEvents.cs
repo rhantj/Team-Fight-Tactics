@@ -55,6 +55,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!chess) return;
+        
+        // 필드 밖
         if (targetGrid == null || targetGridNode == null)
         {
             if (prevNode != null) chess.SetPosition(prevNode.worldPosition);
@@ -64,6 +66,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         ClearAllNodeChess(chess);
 
+        // 원래자리 그대로
         if (prevNode != null && targetGridNode == prevNode && targetGrid == prevGrid)
         {
             chess.SetPosition(targetGridNode.worldPosition);
@@ -71,6 +74,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             return;
         }
 
+        // 노드 위에 기물이 있는 경우
         TestingCube other = targetGridNode.ChessPiece;
         if (other != null && other != chess)
         {
@@ -136,7 +140,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         foreach(var g in grids)
         {
             if (!g) continue;
-            if (g.IsContainPos(pos))
+            if (g.IsPositionInGrid(pos))
             {
                 float closest = (pos - g.transform.position).sqrMagnitude;
                 if(closest < dist)
