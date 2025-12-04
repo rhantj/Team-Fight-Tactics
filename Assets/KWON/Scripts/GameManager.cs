@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     [Header("Round Info")]
     [SerializeField] private int startingRound = 1; //시작 라운드
     [SerializeField] private int maxRound = 5; //마지막 라운드
-    [SerializeField] private float preperationTime = 60f; // 준비시간
+    public float preperationTime = 60f; // 준비시간
     [SerializeField] private int maxLoseCount = 3;  //게임 종료 패배 횟수
 
 
