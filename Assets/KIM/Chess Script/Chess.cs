@@ -27,6 +27,8 @@ public class Chess : ChessStateBase
 
         if (currentTarget != null && !currentTarget.IsDead)
         {
+            stateMachine?.SetBattle();
+
             attackTimer -= Time.deltaTime;
             if (attackTimer <= 0f)
             {
@@ -34,7 +36,13 @@ public class Chess : ChessStateBase
                 AttackOnce();
             }
         }
+        else
+        {
+            stateMachine?.SetIdle();
+        }
     }
+
+
 
     //=====================================================
     //                  전투 관련
@@ -48,13 +56,20 @@ public class Chess : ChessStateBase
     {
         if (currentTarget == null || currentTarget.IsDead) return;
 
-        stateMachine?.SetBattle();
+
+        if (animator != null)
+        {
+            int index = UnityEngine.Random.Range(0, 2);
+            animator.SetInteger("AttackIndex", index);
+            animator.SetTrigger("Attack");
+        }
 
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
 
         GainMana(manaOnHit);
     }
+
 
     private int GetAttackDamage()
     {

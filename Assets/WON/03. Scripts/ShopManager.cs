@@ -15,34 +15,38 @@ public class ShopManager : MonoBehaviour
     public static ShopManager Instance { get; private set; }
 
     [Header("UI References")]
-    [SerializeField] private CostUIData costUIData;     // 코스트별 UI 스타일 SO
-    [SerializeField] private Transform slotContainer;   // 슬롯 5개가 배치된 부모 오브젝트
-    [SerializeField] private TMP_Text currentGoldText;  // 현재 골드 텍스트
-    [SerializeField] private TMP_Text levelText;        // 현재 레벨 텍스트
-    [SerializeField] private TMP_Text expText;          // 경험치 텍스트
-    [SerializeField] private TMP_Text costRateText;     // 등장확률 텍스트
-
+    [SerializeField] private CostUIData costUIData;
+    [SerializeField] private Transform slotContainer;
+    [SerializeField] private TMP_Text currentGoldText;
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text expText;
+    [SerializeField] private TMP_Text costRateText;
 
     [Header("Unit Data (임시)")]
-    [SerializeField] private ChessStatData[] allUnits;  // 나중에 PoolManager에서 제공받을 예정
+    [SerializeField] private ChessStatData[] allUnits;
 
     [Header("Level Data Table")]
-    [SerializeField] private LevelDataTable levelDataTable;  // 레벨 기반 확률/필드/경험치 정보
+    [SerializeField] private LevelDataTable levelDataTable;
 
     [Header("Player Info (임시)")]
-    [SerializeField] private int playerLevel = 1;  // 현재 플레이어 레벨
-    [SerializeField] private int playerExp = 0;     // 현재 경험치
+    [SerializeField] private int playerLevel = 1;
+    [SerializeField] private int playerExp = 0;
 
     [Header("Player Gold")]
-    [SerializeField] private int currentGold = 10;  // 현재 보유 골드
+    [SerializeField] private int currentGold = 10;
 
-    private ShopSlot[] slots;                        // SlotContainer 내부의 슬롯들
-    private Dictionary<int, List<ChessStatData>> unitsByCost; // 코스트별 유닛 목록
-
+    private ShopSlot[] slots;
+    private Dictionary<int, List<ChessStatData>> unitsByCost;
 
     // ================================================================
-    // 초기화
+    // Shop Lock System
     // ================================================================
+    [Header("Shop Lock System")]
+    [SerializeField] private bool isLocked = false;                     // 상점 잠금 여부
+    [SerializeField] private UnityEngine.UI.Image lockIconImage;       // 자식 Image (아이콘)
+    [SerializeField] private Sprite lockedSprite;                      // 잠금 ON 아이콘
+    private Sprite defaultUnlockedSprite;                              // 최초 아이콘 저장용
+
     private void Awake()
     {
         // 싱글톤 설정
@@ -53,8 +57,12 @@ public class ShopManager : MonoBehaviour
         }
         Instance = this;
 
-        // 슬롯 5개 자동 탐색
+        // 슬롯 자동 탐색
         slots = slotContainer.GetComponentsInChildren<ShopSlot>();
+
+        // 최초 아이콘 스프라이트 저장 (잠금 OFF 상태)
+        if (lockIconImage != null)
+            defaultUnlockedSprite = lockIconImage.sprite;
 
         // 코스트별 유닛 분류
         unitsByCost = new Dictionary<int, List<ChessStatData>>();
@@ -73,24 +81,34 @@ public class ShopManager : MonoBehaviour
         StartCoroutine(InitUI());
     }
 
+    // ================================================================
+    // 잠금 버튼 기능
+    // ================================================================
+    public void ToggleLock()
+    {
+        isLocked = !isLocked;
+
+        if (isLocked)
+        {
+            lockIconImage.sprite = lockedSprite;
+        }
+        else
+        {
+            lockIconImage.sprite = defaultUnlockedSprite;
+        }
+
+        Debug.Log($"Shop Lock State = {isLocked}");
+    }
 
     // ================================================================
-    // 골드 관련 기능
+    // 골드 관련
     // ================================================================
-
-    /// <summary>
-    /// 현재 골드를 UI에 반영한다.
-    /// </summary>
     private void UpdateGoldUI()
     {
         if (currentGoldText != null)
             currentGoldText.text = currentGold.ToString();
     }
 
-    /// <summary>
-    /// 지정된 금액을 지불할 수 있는지 확인 후 차감한다.
-    /// 실패하면 false를 반환한다.
-    /// </summary>
     private bool TrySpendGold(int amount)
     {
         if (currentGold < amount)
@@ -104,23 +122,15 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// 외부에서 골드를 획득할 때 호출하는 함수
-    /// </summary>
     public void AddGold(int amount)
     {
         currentGold += amount;
         UpdateGoldUI();
     }
 
-
     // ================================================================
-    // EXP & 레벨업 관련 기능
+    // EXP & 레벨업
     // ================================================================
-
-    /// <summary>
-    /// 경험치 구매 기능 (기본 4골드 사용)
-    /// </summary>
     public void BuyExp()
     {
         if (!TrySpendGold(4))
@@ -131,42 +141,33 @@ public class ShopManager : MonoBehaviour
         CheckLevelUp();
     }
 
-    /// <summary>
-    /// 현재 레벨의 요구 경험치를 확인하여 레벨업 처리
-    /// </summary>
     private void CheckLevelUp()
     {
-        LevelData currentLevelData = GetLevelData(playerLevel);
-        if (currentLevelData == null)
+        LevelData current = GetLevelData(playerLevel);
+        if (current == null)
             return;
 
-        while (playerExp >= currentLevelData.requiredExp)
+        while (playerExp >= current.requiredExp)
         {
-            playerExp -= currentLevelData.requiredExp;
+            playerExp -= current.requiredExp;
             playerLevel++;
 
             UpdateLevelUI();
             UpdateExpUI();
             UpdateCostRateUI();
 
-            currentLevelData = GetLevelData(playerLevel);
-            if (currentLevelData == null)
+            current = GetLevelData(playerLevel);
+            if (current == null)
                 break;
         }
     }
 
-    /// <summary>
-    /// 레벨 텍스트 UI 갱신
-    /// </summary>
     private void UpdateLevelUI()
     {
         if (levelText != null)
             levelText.text = $"Lv. {playerLevel}";
     }
 
-    /// <summary>
-    /// 경험치 텍스트 UI 갱신
-    /// </summary>
     private void UpdateExpUI()
     {
         LevelData data = GetLevelData(playerLevel);
@@ -177,16 +178,17 @@ public class ShopManager : MonoBehaviour
             expText.text = "EXP: -";
     }
 
-
     // ================================================================
-    // 상점 슬롯 갱신 기능
+    // 상점 갱신 기능
     // ================================================================
-
-    /// <summary>
-    /// 상점 슬롯 5개를 모두 새 유닛으로 갱신한다.
-    /// </summary>
     public void RefreshShop()
     {
+        if (isLocked)
+        {
+            Debug.Log("상점 잠금 상태 → RefreshShop 실행되지 않음.");
+            return;
+        }
+
         for (int i = 0; i < slots.Length; i++)
         {
             int cost = GetRandomCostByLevel(playerLevel);
@@ -196,9 +198,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 슬롯 클릭 시 호출되는 구매 처리
-    /// </summary>
     public void BuyUnit(int index)
     {
         ChessStatData data = slots[index].CurrentData;
@@ -214,60 +213,28 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log($"{data.unitName} 구매 완료");
 
-        // 슬롯을 빈 상태로 초기화
         slots[index].ClearSlot();
 
-        // TODO: 구매한 기물을 벤치 AddToBench(data) 로 넘길 예정
+        // TODO: 벤치 AddToBench 호출
     }
 
-    // =======================================================================
-    // SELL SYSTEM (판매 기능)
-    // =======================================================================
-
-    /// <summary>
-    /// 기물을 판매한다. (벤치/필드 어디에 있든 상관 없음)
-    /// data: 판매하려는 유닛의 ChessStatData
-    /// </summary>
+    // 판매 기능
     public void SellUnit(ChessStatData data)
     {
         if (data == null)
-        {
-            Debug.Log("판매할 유닛 정보가 없습니다.");
             return;
-        }
 
-        // 판매 가격 = cost 그대로
         int sellPrice = data.cost;
-
-        // 골드 지급
         AddGold(sellPrice);
 
-        Debug.Log($"{data.unitName} 판매 완료 (+{sellPrice} 골드)");
+        Debug.Log($"{data.unitName} 판매 완료 (+{sellPrice} Gold)");
 
-        // TODO: 벤치/필드에서 그 유닛을 제거하는 기능 필요
-        // 이 부분은 나중에 BenchManager / FieldManager와 연동
-        // BenchManager.Instance.RemoveUnit(data);
-        // FieldManager.Instance.RemoveUnit(data);
-        // 이런느낌으로 연동할까?
+        // TODO: 벤치/필드에서 실제 제거
     }
 
-    /// <summary>
-    /// 플레이어가 특정 키(E) 또는 버튼을 누르면 판매 기능 실행
-    /// </summary>
-    public void RequestSellKey(ChessStatData target)
-    {
-        // target = 현재 선택된 유닛
-        SellUnit(target);
-    }
-
-
     // ================================================================
-    // 랜덤 확률 기반 유닛 선택 기능
+    // 확률 / 유닛 생성
     // ================================================================
-
-    /// <summary>
-    /// 현재 레벨 기반으로 코스트 확률을 계산하여 하나를 반환한다.
-    /// </summary>
     private int GetRandomCostByLevel(int level)
     {
         LevelData data = GetLevelData(level);
@@ -275,34 +242,27 @@ public class ShopManager : MonoBehaviour
             return 1;
 
         float total = 0;
-        foreach (var r in data.rates)
-            total += r.rate;
+        foreach (var r in data.rates) total += r.rate;
 
         float rand = Random.Range(0f, total);
-        float cumulative = 0;
+        float sum = 0;
 
         foreach (var r in data.rates)
         {
-            cumulative += r.rate;
-            if (rand <= cumulative)
+            sum += r.rate;
+            if (rand <= sum)
                 return r.cost;
         }
 
         return data.rates[0].cost;
     }
 
-    /// <summary>
-    /// 해당 코스트의 유닛 리스트에서 랜덤으로 하나 선택
-    /// </summary>
     private ChessStatData GetRandomUnitByCost(int cost)
     {
         var list = unitsByCost[cost];
         return list[Random.Range(0, list.Count)];
     }
 
-    /// <summary>
-    /// 입력된 레벨에 해당하는 LevelData를 반환한다.
-    /// </summary>
     private LevelData GetLevelData(int level)
     {
         foreach (var lv in levelDataTable.levels)
@@ -310,30 +270,12 @@ public class ShopManager : MonoBehaviour
             if (lv.level == level)
                 return lv;
         }
-
-        Debug.LogWarning($"Level {level} 데이터가 존재하지 않음");
         return null;
     }
 
-
     // ================================================================
-    // 리롤 기능
+    // 등장확률 UI
     // ================================================================
-
-    /// <summary>
-    /// 리롤 기능 (2골드 사용)
-    /// </summary>
-    public void Reroll()
-    {
-        if (!TrySpendGold(2))
-            return;
-
-        RefreshShop();
-    }
-
-    // ========================================================================
-    // 코스트별 등장 확률 UI 업데이트
-    // ========================================================================
     private void UpdateCostRateUI()
     {
         LevelData data = GetLevelData(playerLevel);
@@ -344,12 +286,9 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
-        // 한 줄로 확률 구성
         string result = "";
-
         foreach (var r in data.rates)
         {
-            // 예: "1코스트: 75%   "
             result += $"{r.cost}Cost: {r.rate}%  ";
         }
 
@@ -357,16 +296,17 @@ public class ShopManager : MonoBehaviour
             costRateText.text = result;
     }
 
-    // UI 갱신용 코루틴
+    // ================================================================
+    // UI 초기화
+    // ================================================================
     private IEnumerator InitUI()
     {
-        yield return null; // TMP 텍스트 초기화 기다림 (1프레임)
+        yield return null;
 
         UpdateGoldUI();
         UpdateLevelUI();
         UpdateExpUI();
-        UpdateCostRateUI(); // ★ 여기서 정확히 적용됨
+        UpdateCostRateUI();
         RefreshShop();
     }
-
 }

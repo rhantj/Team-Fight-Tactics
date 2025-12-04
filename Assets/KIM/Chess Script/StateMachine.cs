@@ -7,6 +7,7 @@ public class StateMachine : MonoBehaviour
     public void SetBattle() => ChangeState(UnitState.Battle);
     public void SetSkill() => ChangeState(UnitState.Skill);
     public void SetDie() => ChangeState(UnitState.Die);
+
     //=====================================================
     //                  ÇÊµå
     //=====================================================
