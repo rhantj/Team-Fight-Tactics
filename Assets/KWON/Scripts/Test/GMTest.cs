@@ -40,11 +40,9 @@ public class GMTest : MonoBehaviour
     {
         int sec = Mathf.CeilToInt(t);
 
-        // 초가 변했을 때만 반응
         if (sec == lastSec) return;
         lastSec = sec;
 
-        // 5초 단위라면 출력
         if (sec % 5 == 0)
         {
             Debug.Log($"[PrepTimer] 남은 준비시간: {sec}초");
