@@ -1573,6 +1573,8 @@ GameObject:
   m_Component:
   - component: {fileID: 616537771397387548}
   - component: {fileID: 8576068832434120343}
+  - component: {fileID: 1453239419652450474}
+  - component: {fileID: 82483899050251971}
   m_Layer: 0
   m_Name: Galio
   m_TagString: Untagged
@@ -1618,6 +1620,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1453239419652450474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585181783347588496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a24bb9960d810045a8d8336d5b41f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 11400000, guid: e5bc827c2a91d604baf6eaf5ed6e2ddf, type: 2}
+  attackInterval: 1
+  manaOnHit: 10
+  manaOnDamaged: 5
+--- !u!114 &82483899050251971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585181783347588496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15d14efaf1861bf4bbf79636ab527063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8576068832434120343}
 --- !u!1 &5788294508114663299
 GameObject:
   m_ObjectHideFlags: 0
