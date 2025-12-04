@@ -7,6 +7,7 @@ public enum UnitState
     Die = 4
 }
 
+
 public enum TraitType
 {
     Demacia,
