@@ -77,7 +77,7 @@ public class GridDivideBase : MonoBehaviour
         return res;
     }
 
-    public void ClearChessPiece(TestingCube piece)
+    public void ClearChessPiece(Chess piece)
     {
         foreach(var node in fieldGrid)
         {

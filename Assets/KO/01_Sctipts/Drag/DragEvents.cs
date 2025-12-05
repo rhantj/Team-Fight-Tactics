@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] GridDivideBase[] grids;
-    [SerializeField] TestingCube chess;
+    [SerializeField] Chess chess;
     [SerializeField] Vector3 chessFirstPos;
     [SerializeField] GridNode targetGridNode;
     [SerializeField] GridDivideBase targetGrid;
@@ -15,14 +15,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] GridDivideBase prevGrid;
     [SerializeField] Vector3 _worldPos;
     [SerializeField] Ray camRay;
-
-    //[Header("CHECK VAR")]
-    //public Vector3 ChessFirstPos;
-    //public Vector3 TargetGridNodePosition;
-    //public Vector3 PrevNodePos;
-    //public bool TargetGridNodeSelection;
-    //public bool PrevNodeSelection;
-
 
     private void Update()
     {
@@ -77,7 +69,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
 
         // 노드 위에 기물이 있는 경우
-        TestingCube other = targetGridNode.ChessPiece;
+        Chess other = targetGridNode.ChessPiece;
         if (other != null && other != chess)
         {
             var to = targetGridNode.worldPosition;
@@ -125,7 +117,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         if(Physics.Raycast(ray, out var hit, 1000f))
         {
-            if(hit.transform.TryGetComponent<TestingCube>(out var ch))
+            if(hit.transform.TryGetComponent<Chess>(out var ch))
             {
                 Chess = ch;
             }
@@ -156,7 +148,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return grid;
     }
 
-    void ClearAllNodeChess(TestingCube piece)
+    void ClearAllNodeChess(Chess piece)
     {
         foreach(var g in grids)
         {
@@ -164,7 +156,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
-    public TestingCube Chess
+    public Chess Chess
     {
         get { return chess; }
         set { chess = value; }
