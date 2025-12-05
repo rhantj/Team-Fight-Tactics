@@ -484,11 +484,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyContainer
+      value: 
+      objectReference: {fileID: 93929980}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyIconPrefab
+      value: 
+      objectReference: {fileID: 6425314416357840190, guid: 68db4c1e0ea197044b177576df060885, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+--- !u!224 &93929980 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3481138004810390018, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+  m_PrefabInstance: {fileID: 93929979}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &126425899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -625,6 +638,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyContainer
+      value: 
+      objectReference: {fileID: 126425901}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyIconPrefab
+      value: 
+      objectReference: {fileID: 6425314416357840190, guid: 68db4c1e0ea197044b177576df060885, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -633,6 +654,11 @@ PrefabInstance:
 --- !u!224 &126425900 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6384114242438532594, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+  m_PrefabInstance: {fileID: 126425899}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &126425901 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3481138004810390018, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
   m_PrefabInstance: {fileID: 126425899}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &126425907 stripped
@@ -1272,11 +1298,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyContainer
+      value: 
+      objectReference: {fileID: 440232848}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyIconPrefab
+      value: 
+      objectReference: {fileID: 6425314416357840190, guid: 68db4c1e0ea197044b177576df060885, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+--- !u!224 &440232848 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3481138004810390018, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+  m_PrefabInstance: {fileID: 440232847}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &486969435 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6384114242438532594, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
@@ -2023,11 +2062,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyContainer
+      value: 
+      objectReference: {fileID: 1187980306}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyIconPrefab
+      value: 
+      objectReference: {fileID: 6425314416357840190, guid: 68db4c1e0ea197044b177576df060885, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+--- !u!224 &1187980306 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3481138004810390018, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+  m_PrefabInstance: {fileID: 1187980305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1204518293
 GameObject:
   m_ObjectHideFlags: 0
@@ -2360,11 +2412,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyContainer
+      value: 
+      objectReference: {fileID: 1307266139}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: synergyIconPrefab
+      value: 
+      objectReference: {fileID: 6425314416357840190, guid: 68db4c1e0ea197044b177576df060885, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+--- !u!224 &1307266139 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3481138004810390018, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+  m_PrefabInstance: {fileID: 1307266138}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1322429172
 GameObject:
   m_ObjectHideFlags: 0
