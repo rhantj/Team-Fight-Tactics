@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
+  m_Name: Jarvan SO
+  m_EditorClassIdentifier: 
+  unitName: Jarvan
+  maxHP: 100
+  armor: 20
+  attackDamage: 20
+  attackSpeed: 2
+  mana: 2
+  starLevel: 1
+  cost: 1
+  traits: 01000000
+  icon: {fileID: 21300000, guid: a78efa390f048054ab4bbcd4e34451fb, type: 3}
+  prefab: {fileID: 6135306812765045976, guid: 544a5d45814e3dd489097de5e76de26e, type: 3}
+  skillName: 
+  skillDescription: 
+  poolID: 

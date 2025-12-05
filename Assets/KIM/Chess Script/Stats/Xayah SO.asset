@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
+  m_Name: Xayah SO
+  m_EditorClassIdentifier: 
+  unitName: Xayah
+  maxHP: 100
+  armor: 20
+  attackDamage: 20
+  attackSpeed: 2
+  mana: 2
+  starLevel: 1
+  cost: 1
+  traits: 02000000
+  icon: {fileID: 21300000, guid: b8237f8e724e12948b5c4dee3da7990f, type: 3}
+  prefab: {fileID: 3383580942465328081, guid: 2d040fa56da010a48bd613fd08468c6a, type: 3}
+  skillName: 
+  skillDescription: 
+  poolID: 
