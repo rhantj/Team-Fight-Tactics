@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 8550071981907137227}
   - component: {fileID: 6026209023899547575}
   - component: {fileID: 2097294989554330495}
+  - component: {fileID: 3458617273432967246}
   m_Layer: 0
   m_Name: Garen
   m_TagString: Untagged
@@ -338,6 +339,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8550071981907137227}
+--- !u!136 &3458617273432967246
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: -7949136978043226412}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &-7502535394802665022
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,7 +2219,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1387521866775524820}
-  - component: {fileID: -7081068979476173659}
   m_Layer: 0
   m_Name: Garen
   m_TagString: Untagged
@@ -2219,29 +2242,6 @@ Transform:
   - {fileID: -3124914424127336872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &-7081068979476173659
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6536777313077106968}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &6898326027041315426
 GameObject:
   m_ObjectHideFlags: 0

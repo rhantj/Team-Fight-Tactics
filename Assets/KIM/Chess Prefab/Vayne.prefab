@@ -972,6 +972,7 @@ GameObject:
   - component: {fileID: 4325810587792759749}
   - component: {fileID: 7722363949635020289}
   - component: {fileID: 5963329559379825386}
+  - component: {fileID: 39078447523211289}
   m_Layer: 0
   m_Name: Vayne
   m_TagString: Untagged
@@ -1046,6 +1047,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4325810587792759749}
+--- !u!136 &39078447523211289
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3424173141841929431}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &3526409598302861928
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,7 +2515,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7658495915055586818}
-  - component: {fileID: 2851404782845895833}
   m_Layer: 0
   m_Name: Vayne
   m_TagString: Untagged
@@ -2515,29 +2538,6 @@ Transform:
   - {fileID: 3531364608320253514}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2851404782845895833
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8102437935410029392}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &8231554460433129883
 GameObject:
   m_ObjectHideFlags: 0

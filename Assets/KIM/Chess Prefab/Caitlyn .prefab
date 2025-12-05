@@ -135,7 +135,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3564512836516980615}
-  - component: {fileID: 8955938986750462225}
   m_Layer: 0
   m_Name: 'Caitlyn '
   m_TagString: Untagged
@@ -159,29 +158,6 @@ Transform:
   - {fileID: 3218350673558489213}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &8955938986750462225
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373028469288263894}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &377566267228591994
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,6 +3637,7 @@ GameObject:
   - component: {fileID: 1174217832055311926}
   - component: {fileID: 5748987260722970548}
   - component: {fileID: 7701086339185150924}
+  - component: {fileID: 2586469019237445363}
   m_Layer: 0
   m_Name: Caitlyn
   m_TagString: Untagged
@@ -3735,6 +3712,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1174217832055311926}
+--- !u!136 &2586469019237445363
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612503979959595249}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &7629669183820802658
 GameObject:
   m_ObjectHideFlags: 0

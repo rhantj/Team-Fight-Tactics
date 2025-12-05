@@ -1872,7 +1872,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6503301811233630322}
-  - component: {fileID: -2693973380176422714}
   m_Layer: 0
   m_Name: Xayah
   m_TagString: Untagged
@@ -1896,29 +1895,6 @@ Transform:
   - {fileID: 741687239309952838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &-2693973380176422714
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3383580942465328081}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &3519831391427082230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,6 +2780,7 @@ GameObject:
   - component: {fileID: 4831646162635402157}
   - component: {fileID: 2827274565811021156}
   - component: {fileID: 1451133022711726368}
+  - component: {fileID: 1068116714681477571}
   m_Layer: 0
   m_Name: Xayah
   m_TagString: Untagged
@@ -2878,6 +2855,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4831646162635402157}
+--- !u!136 &1068116714681477571
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5712794648140349386}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &5798574586638328770
 GameObject:
   m_ObjectHideFlags: 0

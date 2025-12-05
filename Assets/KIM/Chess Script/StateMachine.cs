@@ -23,6 +23,11 @@ public class StateMachine : MonoBehaviour
             animator = GetComponent<Animator>();
     }
 
+    void OnEnable()
+    {
+        ChangeState(UnitState.Idle);
+    }
+
     //=====================================================
     //                  상태 변경
     //=====================================================

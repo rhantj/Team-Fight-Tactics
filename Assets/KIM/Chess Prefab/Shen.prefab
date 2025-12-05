@@ -443,6 +443,7 @@ GameObject:
   - component: {fileID: 5297051178621782695}
   - component: {fileID: 6148791523907165758}
   - component: {fileID: 3006548596055868323}
+  - component: {fileID: 8433971462138675707}
   m_Layer: 0
   m_Name: Shen
   m_TagString: Untagged
@@ -517,6 +518,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5297051178621782695}
+--- !u!136 &8433971462138675707
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281421408645549677}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &1358860151701787110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,7 +1738,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1694818156262987495}
-  - component: {fileID: 2324494829174744482}
   m_Layer: 0
   m_Name: Shen
   m_TagString: Untagged
@@ -1738,29 +1761,6 @@ Transform:
   - {fileID: 6108122516109981409}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2324494829174744482
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7799542236707969748}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &8024139408369621632
 GameObject:
   m_ObjectHideFlags: 0
