@@ -215,7 +215,7 @@ public class ShopManager : MonoBehaviour
         slots[index].ClearSlot();
 
         // PoolManager에서 미리 만들어둔 비활성 프리팹을 Spawn
-        //GameObject spawned = PoolManager.Instance.Spawn(data.prefabPoolID);
+        GameObject spawned = PoolManager.Instance.Spawn(data.poolID);
 
         //AddToBench
     }
@@ -232,7 +232,7 @@ public class ShopManager : MonoBehaviour
         Debug.Log(data.unitName + " 판매 완료. +" + sellPrice + " Gold");
 
         // 판매된 유닛을 풀로 되돌림
-        //PoolManager.Instance.Despawn(data.prefabPoolID, obj);
+        PoolManager.Instance.Despawn(data.poolID, obj);
     }
 
     // ================================================================
@@ -264,21 +264,12 @@ public class ShopManager : MonoBehaviour
     private ChessStatData GetRandomUnitByCost(int cost)
     {
         List<ChessStatData> list = unitsByCost[cost];
-
-        // 재고 있는 유닛만 후보에 넣는다
         List<ChessStatData> candidates = new List<ChessStatData>();
 
-        for (int i = 0; i < list.Count; i++)
+        foreach (var unit in list)
         {
-            ChessStatData unit = list[i];
-
-            // 풀에서 사용할 ID. 미리 SO에 세팅되어 있어야 한다
-            /*
-            int stock = PoolManager.Instance.GetAvailableCount(unit.prefabPoolID);
-
-            if (stock > 0)
-                candidates.Add(unit);
-            */
+             int stock = PoolManager.Instance.GetRemainCount(unit.poolID);
+             if (stock > 0) candidates.Add(unit);
         }
 
         if (candidates.Count == 0)
@@ -286,6 +277,7 @@ public class ShopManager : MonoBehaviour
 
         return candidates[Random.Range(0, candidates.Count)];
     }
+
 
     private LevelData GetLevelData(int level)
     {

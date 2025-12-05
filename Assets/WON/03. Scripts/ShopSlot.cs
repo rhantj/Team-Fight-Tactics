@@ -11,21 +11,20 @@ using TMPro;
 public class ShopSlot : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Image portraitImage;           // 유닛 초상화
-    [SerializeField] private TMP_Text nameText;             // 유닛 이름
-    [SerializeField] private TMP_Text costText;             // 유닛 가격
-    [SerializeField] private Image costFrameImage;          // 코스트 프레임 이미지
-    [SerializeField] private Image bgImage;                 // 배경 이미지
+    [SerializeField] private Image portraitImage;       // 유닛 초상화
+    [SerializeField] private TMP_Text nameText;         // 유닛 이름
+    [SerializeField] private TMP_Text costText;         // 유닛 가격
+    [SerializeField] private Image costFrameImage;      // 코스트 프레임
+    [SerializeField] private Image bgImage;             // 배경 이미지
+    [SerializeField] private Image goldImage;           // 골드 아이콘 이미지
 
-    public ChessStatData CurrentData { get; private set; }  // 현재 슬롯에 표시 중인 유닛 데이터
+    public ChessStatData CurrentData { get; private set; }
 
     private int slotIndex;
     private ShopManager shopManager;
 
     /// <summary>
     /// 슬롯 초기화
-    /// - null이면 빈 슬롯으로 처리
-    /// - 데이터가 있으면 UI 세팅
     /// </summary>
     public void Init(ChessStatData data, CostUIData uiData, int index, ShopManager manager)
     {
@@ -33,27 +32,43 @@ public class ShopSlot : MonoBehaviour
         shopManager = manager;
         CurrentData = data;
 
+        // 빈 슬롯일 때
         if (data == null)
         {
             ClearSlot();
             return;
         }
 
+        // UI 완전 복구
+        portraitImage.color = Color.white;
+        costFrameImage.color = Color.white;
+        goldImage.color = Color.white;
+
         portraitImage.sprite = data.icon;
         nameText.text = data.unitName;
         costText.text = data.cost.ToString();
 
-        // 코스트에 따른 UI 스타일 적용
+        goldImage.enabled = true;
+
+        // 코스트 스타일 적용
         CostUIInfo info = uiData.GetInfo(data.cost);
         if (info != null)
         {
             costFrameImage.sprite = info.frameSprite;
-            bgImage.color = info.backgroundColor;
+
+            // 배경색 alpha 보정 (투명 문제 방지)
+            Color bg = info.backgroundColor;
+            bg.a = 1f;
+            bgImage.color = bg;
+        }
+        else
+        {
+            bgImage.color = Color.white;
         }
     }
 
     /// <summary>
-    /// 슬롯 클릭 시 ShopManager의 BuyUnit 호출
+    /// 슬롯 클릭 시 구매
     /// </summary>
     public void OnClickSlot()
     {
@@ -64,18 +79,28 @@ public class ShopSlot : MonoBehaviour
     }
 
     /// <summary>
-    /// 슬롯을 빈 상태로 초기화
+    /// 빈 슬롯으로 초기화 (구매 후 슬롯 비우기)
     /// </summary>
     public void ClearSlot()
     {
         CurrentData = null;
 
+        // 초상화 투명화
         portraitImage.sprite = null;
+        portraitImage.color = new Color(1, 1, 1, 0);
+
+        // 텍스트 제거
         nameText.text = "";
         costText.text = "";
+
+        // 프레임 투명 처리
         costFrameImage.sprite = null;
+        costFrameImage.color = new Color(1, 1, 1, 0);
+
+        // 골드 아이콘 숨기기
+        goldImage.enabled = false;
 
         // 배경 투명화
-        bgImage.color = new Color(0, 0, 0, 0);
+        bgImage.color = new Color(1, 1, 1, 0);
     }
 }
