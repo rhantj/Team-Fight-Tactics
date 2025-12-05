@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class GridDivideBase : MonoBehaviour
     [SerializeField] protected float nodeRadius;
     [SerializeField] protected float nodeDiameter;
     [SerializeField] protected Vector3 worldBottomLeft;
-    public GridNode[,] fieldGrid;
+    protected GridNode[,] fieldGrid;
 
     private void Awake()
     {
@@ -96,5 +97,21 @@ public class GridDivideBase : MonoBehaviour
             Gizmos.color = n.ChessPiece ? Color.red : Color.green;
             Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeRadius);
         }
+    }
+
+    protected GridNode FindEmptyNode()
+    {
+        GridNode res = null;
+
+        foreach(var node in fieldGrid)
+        {
+            if (node.ChessPiece == null)
+            {
+                res = node;
+                break;
+            }
+        }
+
+        return res;
     }
 }

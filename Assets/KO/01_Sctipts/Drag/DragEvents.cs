@@ -31,7 +31,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if(prevGrid)
             prevNode = prevGrid.GetNearGrid(chessFirstPos);
 
-        prevNode.ChessPiece = null;
+        if(prevNode.ChessPiece != null)
+            prevNode.ChessPiece = null;
+
         if (prevNode != null)
         {
             if (prevNode.ChessPiece == null)
@@ -117,10 +119,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         if(Physics.Raycast(ray, out var hit, 1000f))
         {
-            if(hit.transform.TryGetComponent<Chess>(out var ch))
-            {
-                Chess = ch;
-            }
+            Chess = hit.transform.GetComponentInChildren<Chess>();
         }
     }
 
