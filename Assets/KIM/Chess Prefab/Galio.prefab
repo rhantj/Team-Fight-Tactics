@@ -1575,6 +1575,7 @@ GameObject:
   - component: {fileID: 8576068832434120343}
   - component: {fileID: 1453239419652450474}
   - component: {fileID: 82483899050251971}
+  - component: {fileID: 279724692217091867}
   m_Layer: 0
   m_Name: Galio
   m_TagString: Untagged
@@ -1649,6 +1650,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8576068832434120343}
+--- !u!136 &279724692217091867
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585181783347588496}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 210, y: 120, z: 0}
 --- !u!1 &5788294508114663299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2140,7 +2164,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2019477963327507518}
-  - component: {fileID: -717383604028216908}
   m_Layer: 0
   m_Name: Galio
   m_TagString: Untagged
@@ -2164,29 +2187,6 @@ Transform:
   - {fileID: 616537771397387548}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &-717383604028216908
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6723881527899124690}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 210, y: 120, z: 0}
 --- !u!1 &6817760583827065273
 GameObject:
   m_ObjectHideFlags: 0

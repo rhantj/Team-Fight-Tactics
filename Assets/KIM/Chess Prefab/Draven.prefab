@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4839974218248861524}
   - component: {fileID: 2374310641449707669}
   - component: {fileID: 8276885289502522322}
+  - component: {fileID: 827296451280140268}
   m_Layer: 0
   m_Name: Draven
   m_TagString: Untagged
@@ -86,6 +87,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4839974218248861524}
+--- !u!136 &827296451280140268
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9084015086920622}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 50
+  m_Height: 200
+  m_Direction: 1
+  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &331345243879857352
 GameObject:
   m_ObjectHideFlags: 0
@@ -2213,7 +2237,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7011214050351117184}
-  - component: {fileID: 9015139951203503711}
   m_Layer: 0
   m_Name: Draven
   m_TagString: Untagged
@@ -2237,29 +2260,6 @@ Transform:
   - {fileID: 4984544940085812002}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &9015139951203503711
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7234582637776124808}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 50
-  m_Height: 200
-  m_Direction: 1
-  m_Center: {x: 0, y: 120, z: 0}
 --- !u!1 &7282756273552859164
 GameObject:
   m_ObjectHideFlags: 0
