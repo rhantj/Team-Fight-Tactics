@@ -7,6 +7,7 @@ using TMPro;
 /// - 유닛 정보 표시
 /// - 구매 버튼 이벤트 전달
 /// - 빈 슬롯 처리
+/// - 특성(시너지) 아이콘 표시
 /// </summary>
 public class ShopSlot : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class ShopSlot : MonoBehaviour
     [SerializeField] private Image costFrameImage;      // 코스트 프레임
     [SerializeField] private Image bgImage;             // 배경 이미지
     [SerializeField] private Image goldImage;           // 골드 아이콘 이미지
+
+    [Header("Synergy UI")]
+    [SerializeField] private Transform synergyContainer;     // 시너지 아이콘들이 들어갈 부모
+    [SerializeField] private GameObject synergyIconPrefab;   // 시너지 아이콘 프리팹
 
     public ChessStatData CurrentData { get; private set; }
 
@@ -32,25 +37,27 @@ public class ShopSlot : MonoBehaviour
         shopManager = manager;
         CurrentData = data;
 
-        // 빈 슬롯일 때
+        // 시너지 아이콘 먼저 초기화
+        ClearSynergyIcons();
+
+        // 빈 슬롯 처리
         if (data == null)
         {
             ClearSlot();
             return;
         }
 
-        // UI 완전 복구
+        // UI 복구
         portraitImage.color = Color.white;
         costFrameImage.color = Color.white;
         goldImage.color = Color.white;
+        goldImage.enabled = true;
 
         portraitImage.sprite = data.icon;
         nameText.text = data.unitName;
         costText.text = data.cost.ToString();
 
-        goldImage.enabled = true;
-
-        // 코스트 스타일 적용
+        // 코스트 UI 적용
         CostUIInfo info = uiData.GetInfo(data.cost);
         if (info != null)
         {
@@ -65,6 +72,11 @@ public class ShopSlot : MonoBehaviour
         {
             bgImage.color = Color.white;
         }
+
+        // ======================
+        //   시너지 아이콘 생성
+        // ======================
+        GenerateSynergyIcons(data);
     }
 
     /// <summary>
@@ -79,7 +91,7 @@ public class ShopSlot : MonoBehaviour
     }
 
     /// <summary>
-    /// 빈 슬롯으로 초기화 (구매 후 슬롯 비우기)
+    /// 빈 슬롯으로 만들기
     /// </summary>
     public void ClearSlot()
     {
@@ -102,5 +114,64 @@ public class ShopSlot : MonoBehaviour
 
         // 배경 투명화
         bgImage.color = new Color(1, 1, 1, 0);
+
+        // 시너지 아이콘 제거
+        ClearSynergyIcons();
+    }
+
+    // ===============================
+    // 시너지 처리용 함수들
+    // ===============================
+
+    /// <summary>
+    /// 기존에 생성된 시너지 아이콘 전부 제거
+    /// </summary>
+    private void ClearSynergyIcons()
+    {
+        if (synergyContainer == null) return;
+
+        foreach (Transform child in synergyContainer)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// 유닛의 traits 데이터 기반으로 아이콘 생성
+    /// </summary>
+    private void GenerateSynergyIcons(ChessStatData data)
+    {
+        if (data.traits == null || synergyIconPrefab == null || synergyContainer == null)
+            return;
+
+        foreach (var trait in data.traits)
+        {
+            GameObject icon = Instantiate(synergyIconPrefab, synergyContainer);
+
+            // SynergyIconPrefab 구조:
+            // icon (root)
+            //   ├─ TraitIcon (Image)
+            //   └─ TraitName (TMP_Text)
+
+            Image traitIcon = null;
+            TMP_Text traitNameObj = null;
+
+            foreach (var t in icon.GetComponentsInChildren<Transform>())
+            {
+                if (t.name == "TraitIcon")
+                    traitIcon = t.GetComponent<Image>();
+
+                if (t.name == "TraitName")
+                    traitNameObj = t.GetComponent<TMP_Text>();
+            }
+
+            // 아이콘 설정 (지금은 기본 이미지)
+            if (traitIcon != null)
+                traitIcon.color = Color.white;
+
+            // 이름 설정 (enum 이름 출력)
+            if (traitNameObj != null)
+                traitNameObj.text = trait.ToString();
+        }
     }
 }
