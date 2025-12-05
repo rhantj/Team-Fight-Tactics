@@ -8,6 +8,8 @@ public class ObjectPool<T> where T : Component
     private readonly T prefab;
     private readonly Transform parent;
 
+    public int Count => pool.Count; // 재고 확인용 프로퍼티
+
     public ObjectPool(T prefab, int preloadCount, Transform parent = null)
     {
         this.prefab = prefab;

@@ -89,4 +89,15 @@ public class PoolManager : MonoBehaviour
 
         pool.Release(obj.GetComponent<Component>());
     }
+
+    public int GetRemainCount(string id)
+    {
+        if(!poolDict.TryGetValue(id, out var pool))
+        {
+            Debug.LogError($"Pool ID '{id}' ¾øÀ½");
+            return -1;
+        }
+
+        return pool.Count;
+    }
 }
