@@ -3,33 +3,29 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// 상점의 한 슬롯을 표현하는 클래스
-/// 유닛 데이터를 UI에 표시하고, 클릭 시 구매 요청을 ShopManager에 전달한다.
+/// 상점 슬롯 1칸의 UI 처리
+/// - 유닛 정보 표시
+/// - 구매 버튼 이벤트 전달
+/// - 빈 슬롯 처리
 /// </summary>
 public class ShopSlot : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private Image portraitImage;   // 초상화 이미지
-    [SerializeField] private TMP_Text nameText;     // 기물 이름
-    [SerializeField] private TMP_Text costText;     // 기물 코스트 텍스트
-    [SerializeField] private Image costFrameImage;  // 프레임 이미지
-    [SerializeField] private Image bgImage;         // 배경 색상
+    [SerializeField] private Image portraitImage;           // 유닛 초상화
+    [SerializeField] private TMP_Text nameText;             // 유닛 이름
+    [SerializeField] private TMP_Text costText;             // 유닛 가격
+    [SerializeField] private Image costFrameImage;          // 코스트 프레임 이미지
+    [SerializeField] private Image bgImage;                 // 배경 이미지
 
-    [Header("Debug Test (테스트 전용 설정)")]
-    [SerializeField] private CostUIData debugUIData; // 테스트할 때 사용할 CostUIData
-
-    public ChessStatData CurrentData { get; private set; }
+    public ChessStatData CurrentData { get; private set; }  // 현재 슬롯에 표시 중인 유닛 데이터
 
     private int slotIndex;
     private ShopManager shopManager;
 
-    // ================================================================
-    // 초기화
-    // ================================================================
-
     /// <summary>
-    /// 상점 매니저가 호출하는 슬롯 초기화 함수
-    /// 슬롯 인덱스, 매니저 참조, 유닛 데이터 및 UI 세팅을 모두 처리한다.
+    /// 슬롯 초기화
+    /// - null이면 빈 슬롯으로 처리
+    /// - 데이터가 있으면 UI 세팅
     /// </summary>
     public void Init(ChessStatData data, CostUIData uiData, int index, ShopManager manager)
     {
@@ -37,46 +33,38 @@ public class ShopSlot : MonoBehaviour
         shopManager = manager;
         CurrentData = data;
 
-        // UI 표시
+        if (data == null)
+        {
+            ClearSlot();
+            return;
+        }
+
         portraitImage.sprite = data.icon;
         nameText.text = data.unitName;
         costText.text = data.cost.ToString();
 
-        // 코스트 UI 적용
-        var ui = uiData.GetInfo(data.cost);
-        if (ui != null)
+        // 코스트에 따른 UI 스타일 적용
+        CostUIInfo info = uiData.GetInfo(data.cost);
+        if (info != null)
         {
-            costFrameImage.sprite = ui.frameSprite;
-            bgImage.color = ui.backgroundColor;
+            costFrameImage.sprite = info.frameSprite;
+            bgImage.color = info.backgroundColor;
         }
     }
 
-    // ================================================================
-    // 슬롯 클릭
-    // ================================================================
-
     /// <summary>
-    /// 버튼 클릭 시 호출되는 함수
-    /// ShopManager에 구매 요청을 전달한다.
+    /// 슬롯 클릭 시 ShopManager의 BuyUnit 호출
     /// </summary>
     public void OnClickSlot()
     {
         if (CurrentData == null)
-        {
-            Debug.Log("빈 슬롯 클릭됨. 구매 불가.");
             return;
-        }
 
         shopManager.BuyUnit(slotIndex);
     }
 
-    // ================================================================
-    // 슬롯 초기화 (구매 후 빈 상태)
-    // ================================================================
-
     /// <summary>
-    /// 슬롯을 "빈 슬롯" 상태로 만든다.
-    /// 실제 오브젝트는 유지되고 UI만 초기화된다.
+    /// 슬롯을 빈 상태로 초기화
     /// </summary>
     public void ClearSlot()
     {
@@ -87,47 +75,7 @@ public class ShopSlot : MonoBehaviour
         costText.text = "";
         costFrameImage.sprite = null;
 
-        // 투명 배경 처리
-        bgImage.color = new Color(0f, 0f, 0f, 0f);
+        // 배경 투명화
+        bgImage.color = new Color(0, 0, 0, 0);
     }
-
-
-    // ================================================================
-    // 테스트 기능 (코스트별 UI 확인용 & 이거 나중에 지울거임)
-    // ================================================================
-
-    /// <summary>
-    /// 공통 UI 테스트용 내부 함수
-    /// </summary>
-    private void ApplyTestUI(int testCost)
-    {
-        if (debugUIData == null)
-        {
-            Debug.LogError("debugUIData가 설정되지 않았습니다.");
-            return;
-        }
-
-        // 가짜 데이터 생성
-        ChessStatData fake = ScriptableObject.CreateInstance<ChessStatData>();
-        fake.unitName = $"Test {testCost}";
-        fake.cost = testCost;
-        fake.icon = null;
-
-        CurrentData = fake;
-        nameText.text = fake.unitName;
-        costText.text = fake.cost.ToString();
-
-        // UI 정보 적용
-        var ui = debugUIData.GetInfo(testCost);
-        if (ui != null)
-        {
-            costFrameImage.sprite = ui.frameSprite;
-            bgImage.color = ui.backgroundColor;
-        }
-    }
-
-    // 버튼에서 직접 호출할 테스트 함수들
-    public void TestCost1() => ApplyTestUI(1);
-    public void TestCost2() => ApplyTestUI(2);
-    public void TestCost3() => ApplyTestUI(3);
 }

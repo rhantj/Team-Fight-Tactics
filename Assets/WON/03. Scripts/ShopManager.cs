@@ -42,10 +42,10 @@ public class ShopManager : MonoBehaviour
     // Shop Lock System
     // ================================================================
     [Header("Shop Lock System")]
-    [SerializeField] private bool isLocked = false;                     // 상점 잠금 여부
-    [SerializeField] private UnityEngine.UI.Image lockIconImage;       // 자식 Image (아이콘)
-    [SerializeField] private Sprite lockedSprite;                      // 잠금 ON 아이콘
-    private Sprite defaultUnlockedSprite;                              // 최초 아이콘 저장용
+    [SerializeField] private bool isLocked = false;
+    [SerializeField] private UnityEngine.UI.Image lockIconImage;
+    [SerializeField] private Sprite lockedSprite;
+    private Sprite defaultUnlockedSprite;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class ShopManager : MonoBehaviour
         // 슬롯 자동 탐색
         slots = slotContainer.GetComponentsInChildren<ShopSlot>();
 
-        // 최초 아이콘 스프라이트 저장 (잠금 OFF 상태)
+        // 최초 아이콘 스프라이트 저장
         if (lockIconImage != null)
             defaultUnlockedSprite = lockIconImage.sprite;
 
@@ -89,15 +89,11 @@ public class ShopManager : MonoBehaviour
         isLocked = !isLocked;
 
         if (isLocked)
-        {
             lockIconImage.sprite = lockedSprite;
-        }
         else
-        {
             lockIconImage.sprite = defaultUnlockedSprite;
-        }
 
-        Debug.Log($"Shop Lock State = {isLocked}");
+        Debug.Log("Shop Lock State = " + isLocked);
     }
 
     // ================================================================
@@ -165,7 +161,7 @@ public class ShopManager : MonoBehaviour
     private void UpdateLevelUI()
     {
         if (levelText != null)
-            levelText.text = $"Lv. {playerLevel}";
+            levelText.text = "Lv. " + playerLevel;
     }
 
     private void UpdateExpUI()
@@ -173,7 +169,7 @@ public class ShopManager : MonoBehaviour
         LevelData data = GetLevelData(playerLevel);
 
         if (data != null)
-            expText.text = $"EXP: {playerExp} / {data.requiredExp}";
+            expText.text = "EXP: " + playerExp + " / " + data.requiredExp;
         else
             expText.text = "EXP: -";
     }
@@ -185,13 +181,15 @@ public class ShopManager : MonoBehaviour
     {
         if (isLocked)
         {
-            Debug.Log("상점 잠금 상태 → RefreshShop 실행되지 않음.");
+            Debug.Log("상점 잠금 상태. RefreshShop 실행되지 않음.");
             return;
         }
 
         for (int i = 0; i < slots.Length; i++)
         {
             int cost = GetRandomCostByLevel(playerLevel);
+
+            // 수정된 유닛 뽑기 함수
             ChessStatData unit = GetRandomUnitByCost(cost);
 
             slots[i].Init(unit, costUIData, i, this);
@@ -211,15 +209,19 @@ public class ShopManager : MonoBehaviour
         if (!TrySpendGold(data.cost))
             return;
 
-        Debug.Log($"{data.unitName} 구매 완료");
+        Debug.Log(data.unitName + " 구매 완료");
 
+        // 슬롯 비우기
         slots[index].ClearSlot();
 
-        // TODO: 벤치 AddToBench 호출
+        // PoolManager에서 미리 만들어둔 비활성 프리팹을 Spawn
+        //GameObject spawned = PoolManager.Instance.Spawn(data.prefabPoolID);
+
+        //AddToBench
     }
 
     // 판매 기능
-    public void SellUnit(ChessStatData data)
+    public void SellUnit(ChessStatData data, GameObject obj)
     {
         if (data == null)
             return;
@@ -227,9 +229,10 @@ public class ShopManager : MonoBehaviour
         int sellPrice = data.cost;
         AddGold(sellPrice);
 
-        Debug.Log($"{data.unitName} 판매 완료 (+{sellPrice} Gold)");
+        Debug.Log(data.unitName + " 판매 완료. +" + sellPrice + " Gold");
 
-        // TODO: 벤치/필드에서 실제 제거
+        // 판매된 유닛을 풀로 되돌림
+        //PoolManager.Instance.Despawn(data.prefabPoolID, obj);
     }
 
     // ================================================================
@@ -242,7 +245,8 @@ public class ShopManager : MonoBehaviour
             return 1;
 
         float total = 0;
-        foreach (var r in data.rates) total += r.rate;
+        foreach (var r in data.rates)
+            total += r.rate;
 
         float rand = Random.Range(0f, total);
         float sum = 0;
@@ -259,8 +263,28 @@ public class ShopManager : MonoBehaviour
 
     private ChessStatData GetRandomUnitByCost(int cost)
     {
-        var list = unitsByCost[cost];
-        return list[Random.Range(0, list.Count)];
+        List<ChessStatData> list = unitsByCost[cost];
+
+        // 재고 있는 유닛만 후보에 넣는다
+        List<ChessStatData> candidates = new List<ChessStatData>();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            ChessStatData unit = list[i];
+
+            // 풀에서 사용할 ID. 미리 SO에 세팅되어 있어야 한다
+            /*
+            int stock = PoolManager.Instance.GetAvailableCount(unit.prefabPoolID);
+
+            if (stock > 0)
+                candidates.Add(unit);
+            */
+        }
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
     }
 
     private LevelData GetLevelData(int level)
@@ -289,12 +313,29 @@ public class ShopManager : MonoBehaviour
         string result = "";
         foreach (var r in data.rates)
         {
-            result += $"{r.cost}Cost: {r.rate}%  ";
+            result += r.cost + "Cost: " + r.rate + "%  ";
         }
 
         if (costRateText != null)
             costRateText.text = result;
     }
+    // ================================================================
+    // 리롤 기능
+    // ================================================================
+    public void Reroll()
+    {
+        if (isLocked)
+        {
+            Debug.Log("상점이 잠겨 있어 리롤 불가");
+            return;
+        }
+
+        if (!TrySpendGold(2))
+            return;
+
+        RefreshShop();
+    }
+
 
     // ================================================================
     // UI 초기화
