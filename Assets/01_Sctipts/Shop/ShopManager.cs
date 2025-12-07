@@ -189,7 +189,7 @@ public class ShopManager : MonoBehaviour
         {
             int cost = GetRandomCostByLevel(playerLevel);
 
-            // 수정된 유닛 뽑기 함수
+            // 유닛 뽑기 함수
             ChessStatData unit = GetRandomUnitByCost(cost);
 
             slots[i].Init(unit, costUIData, i, this);
@@ -198,6 +198,7 @@ public class ShopManager : MonoBehaviour
 
     public void BuyUnit(int index)
     {
+        // 1) 슬롯 데이터 확인
         ChessStatData data = slots[index].CurrentData;
 
         if (data == null)
@@ -206,19 +207,62 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
+        // 2) 골드 체크
         if (!TrySpendGold(data.cost))
             return;
 
-        Debug.Log(data.unitName + " 구매 완료");
+        Debug.Log(data.unitName + " 구매 시도");
 
-        // 슬롯 비우기
+        // 슬롯은 아직 지우지 않고 벤치 배치 성공 여부 확인 후 지우도록 하자
+
+        // 3) 풀에서 유닛 생성
+        GameObject obj = PoolManager.Instance.Spawn(data.poolID);
+
+        // Chess가 자식에 있으므로 GetComponentInChildren 사용
+        Chess chess = obj.GetComponentInChildren<Chess>();
+
+        if (chess == null)
+        {
+            Debug.LogError("Spawn된 오브젝트에서 Chess 컴포넌트를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 4) BenchGrid 찾기
+        BenchGrid bench = FindObjectOfType<BenchGrid>();
+
+        if (bench == null)
+        {
+            Debug.LogError("BenchGrid를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 5) 배치 실패 대비 기존 위치 저장
+        Vector3 beforePos = obj.transform.position;
+
+        // 6) 벤치 배치 시도
+        bench.SetChessOnBenchNode(chess);
+
+        // 7) 벤치가 꽉 차서 배치 실패한 경우
+        if (chess.transform.position == beforePos)
+        {
+            Debug.Log("벤치가 가득 차서 구매 불가!");
+
+            // 유닛 반환
+            PoolManager.Instance.Despawn(data.poolID, obj);
+
+            
+            AddGold(data.cost);
+
+            return;
+        }
+
+        // 8) 여기서야 구매 확정 → 슬롯 비우기
         slots[index].ClearSlot();
 
-        // PoolManager에서 미리 만들어둔 비활성 프리팹을 Spawn
-        GameObject spawned = PoolManager.Instance.Spawn(data.poolID);
-
-        //AddToBench
+        Debug.Log($"{data.unitName} 구매 완료 및 벤치 배치 성공!");
     }
+
+
 
     // 판매 기능
     public void SellUnit(ChessStatData data, GameObject obj)
