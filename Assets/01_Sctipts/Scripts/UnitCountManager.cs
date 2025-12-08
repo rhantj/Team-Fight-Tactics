@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitCountManager : MonoBehaviour
 {
-    public static UnitManager Instance { get; private set; }
+    public static UnitCountManager Instance { get; private set; }
     
     public List<Chess> playerUnits = new List<Chess>();
     public List<Chess> enemyUnits = new List<Chess>();
@@ -33,9 +33,15 @@ public class UnitManager : MonoBehaviour
         {
             playerUnits.Remove(unit);
         }
-        //else if(enemyUnits.Contains(unit)
-        //    {
-
-        //}
+        else if(enemyUnits.Contains(unit))
+        {
+            enemyUnits.Remove(unit);
+        }
     }
+
+    public int GetPlayerAliveCount() => playerUnits.Count;
+    public int GetEnemyAliveCount() => enemyUnits.Count;
+
+    public bool ArePlayerAllDead() => playerUnits.Count == 0;
+    public bool AreEnemyAllDead() => enemyUnits.Count == 0;
 }

@@ -21,6 +21,7 @@ public class TimeUI : MonoBehaviour
     {
         GameManager.Instance.OnRoundStateChanged += UpdateRoundStateText;
         GameManager.Instance.OnPreparationTimerUpdated += UpdateTimerUI;
+        GameManager.Instance.OnBattleTimerUpdated += UpdateBattleTimerUI;
     }
 
     private void OnDestroy()
@@ -29,6 +30,7 @@ public class TimeUI : MonoBehaviour
 
         GameManager.Instance.OnRoundStateChanged -= UpdateRoundStateText;
         GameManager.Instance.OnPreparationTimerUpdated -= UpdateTimerUI;
+        GameManager.Instance.OnBattleTimerUpdated -= UpdateBattleTimerUI;
     }
 
     private void UpdateRoundStateText(RoundState state)
@@ -38,6 +40,10 @@ public class TimeUI : MonoBehaviour
         if(state == RoundState.Preparation)
         {
             maxTime = GameManager.Instance.preparationTime;
+        }
+        else if(state == RoundState.Battle)
+        {
+            maxTime = GameManager.Instance.battleTime;
         }
         else
         {
@@ -51,5 +57,13 @@ public class TimeUI : MonoBehaviour
 
         timerText.text = $"{time:F1} √ ";
         timerBar.fillAmount = time / maxTime;
+    }
+
+    private void UpdateBattleTimerUI(float time)
+    {
+        if (time < 0) time = 0;
+
+        timerText.text = $"{time:F1} √ ";
+        timerBar.fillAmount = time / GameManager.Instance.battleTime;
     }
 }

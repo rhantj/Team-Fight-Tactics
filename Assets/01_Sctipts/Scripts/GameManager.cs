@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     public event Action<int> OnRoundStarted;    //라운드 시작 이벤트
     public event Action<float> OnPreparationTimerUpdated;   //준비단계 타이머 이벤트
-    public event Action<float> OnBattleTimerUpdateed; //전투단계 타이머 이벤트
+    public event Action<float> OnBattleTimerUpdated; //전투단계 타이머 이벤트
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
 
@@ -121,15 +121,34 @@ public class GameManager : MonoBehaviour
         while(true)
         {
             battleTimer -=Time.deltaTime;
-            OnBattleTimerUpdateed?.Invoke(battleTimer);
+            OnBattleTimerUpdated?.Invoke(battleTimer);
 
-            //bool playerAllDead = UnitManager.Instance.
+            bool playerAllDead = UnitCountManager.Instance.ArePlayerAllDead();
+            bool enemyAllDead = UnitCountManager.Instance.AreEnemyAllDead();
+
+            if(playerAllDead || enemyAllDead)
+            {
+                bool playerWin = enemyAllDead && !playerAllDead;
+                EndBattle(playerWin);
+                break;
+            }
+
+            if(battleTimer <= 0f)
+            {
+                int playerAlive = UnitCountManager.Instance.GetPlayerAliveCount();
+                int enemyAlive = UnitCountManager.Instance.GetEnemyAliveCount();
+
+                bool playerWin = playerAlive > enemyAlive;
+                EndBattle(playerWin);
+                break;
+            }
+
+            yield return null;
         }
 
         //결과 계산
         SetRoundState(RoundState.Result);
 
-        EndRound(true);
 
         //다음 라운드or게임 오버
         if(loseCount >= maxLoseCount)
@@ -152,7 +171,10 @@ public class GameManager : MonoBehaviour
         //battleSystem.StartBattle(PlayerPrefs, enemyGroup);
     }
 
-
+    private void EndBattle(bool win)
+    {
+        EndRound(win);
+    }
     //라운드 종료 메서드
     private void EndRound(bool win)
     {
