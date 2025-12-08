@@ -261,6 +261,9 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
+        chess.SetBaseData(data); //25.12.08 Add Kim
+
+
         // 4) BenchGrid Ã£±â
         BenchGrid bench = FindObjectOfType<BenchGrid>();
 

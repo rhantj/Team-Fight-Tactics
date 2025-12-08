@@ -45,6 +45,11 @@ public abstract class ChessStateBase : MonoBehaviour
         InitFromSO();
     }
 
+    public virtual void SetBaseData(ChessStatData newData)
+    {
+        baseData = newData;
+        InitFromSO();
+    }
     public virtual void InitFromSO()
     {
         if (baseData == null)

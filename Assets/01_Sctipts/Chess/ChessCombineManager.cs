@@ -22,6 +22,7 @@ public class ChessCombineManager : MonoBehaviour
         if (data == null) return false;
         return completedUnits.Contains(data);
     }
+
     private void MarkCompletedUnit(ChessStatData data)
     {
         if (data == null) return;
@@ -29,7 +30,7 @@ public class ChessCombineManager : MonoBehaviour
     }
 
     // =========================
-    //        등록/취소
+    //        등록 / 해제
     // =========================
     public void Register(Chess chess)
     {
@@ -43,7 +44,6 @@ public class ChessCombineManager : MonoBehaviour
         }
 
         string key = GetKey(chess);
-
         if (!chessGroups.TryGetValue(key, out var list))
         {
             list = new List<Chess>();
@@ -53,40 +53,11 @@ public class ChessCombineManager : MonoBehaviour
         if (!list.Contains(chess))
         {
             list.Add(chess);
-
             chess.OnUsedAsMaterial += HandleUsedAsMaterial;
             chess.OnDead += HandleDead;
+
             TryCombine(key);
         }
-    }
-
-    public int GetRemainingPiecesForThreeStar(ChessStatData data)
-    {
-        if (data == null) return 9;
-
-        if (completedUnits.Contains(data))
-            return 0;
-
-        int fragments = 0;
-
-        foreach (var kvp in chessGroups)
-        {
-            var list = kvp.Value;
-            foreach (var chess in list)
-            {
-                if (chess.BaseData != data) continue;
-                switch (chess.StarLevel)
-                {
-                    case 1: fragments += 1; break;
-                    case 2: fragments += 3; break;
-                    case 3: fragments += 9; break;
-                }
-            }
-        }
-
-        int remaining = 9 - fragments;
-        if (remaining < 0) remaining = 0;
-        return remaining;
     }
 
     public void Unregister(Chess chess)
@@ -95,7 +66,6 @@ public class ChessCombineManager : MonoBehaviour
             return;
 
         string key = GetKey(chess);
-
         if (chessGroups.TryGetValue(key, out var list))
         {
             list.Remove(chess);
@@ -109,11 +79,15 @@ public class ChessCombineManager : MonoBehaviour
 
     private string GetKey(Chess chess)
     {
-        return $"{chess.BaseData.unitName}_Star{chess.StarLevel}";
+        string uniqueID = !string.IsNullOrEmpty(chess.BaseData.poolID)
+            ? chess.BaseData.poolID
+            : chess.BaseData.unitName;
+
+        return $"{uniqueID}_Star{chess.StarLevel}";
     }
 
     // =========================
-    //         합성 로직
+    //        합성 로직
     // =========================
     private void TryCombine(string key)
     {
@@ -125,10 +99,31 @@ public class ChessCombineManager : MonoBehaviour
             Chess main = list[0];
             Chess material1 = list[1];
             Chess material2 = list[2];
-            if (main.BaseData != material1.BaseData || main.BaseData != material2.BaseData)
+
+            string mainID = !string.IsNullOrEmpty(main.BaseData.poolID)
+                ? main.BaseData.poolID
+                : main.BaseData.unitName;
+            string mat1ID = !string.IsNullOrEmpty(material1.BaseData.poolID)
+                ? material1.BaseData.poolID
+                : material1.BaseData.unitName;
+            string mat2ID = !string.IsNullOrEmpty(material2.BaseData.poolID)
+                ? material2.BaseData.poolID
+                : material2.BaseData.unitName;
+
+            if (mainID != mat1ID || mainID != mat2ID)
+            {
                 break;
+            }
+
+            if (main.StarLevel != material1.StarLevel ||
+                main.StarLevel != material2.StarLevel)
+            {
+                break;
+            }
+
             if (main.StarLevel >= 3)
                 break;
+
             main.CombineWith(material1, material2);
 
             list.Remove(main);
@@ -139,6 +134,7 @@ public class ChessCombineManager : MonoBehaviour
             {
                 chessGroups.Remove(key);
             }
+
             Register(main);
 
             if (!chessGroups.TryGetValue(key, out list))
@@ -147,7 +143,7 @@ public class ChessCombineManager : MonoBehaviour
     }
 
     // =========================
-    //    이벤트 핸들러
+    //     재료 / 사망 처리
     // =========================
     private void HandleUsedAsMaterial(Chess material)
     {
@@ -158,13 +154,9 @@ public class ChessCombineManager : MonoBehaviour
 
         var pooled = material.GetComponentInParent<PooledObject>();
         if (pooled != null)
-        {
             pooled.ReturnToPool();
-        }
         else
-        {
             Destroy(material.gameObject);
-        }
     }
 
     private void HandleDead(Chess deadChess)
