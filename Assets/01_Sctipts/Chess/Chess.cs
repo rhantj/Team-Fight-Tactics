@@ -104,6 +104,7 @@ public class Chess : ChessStateBase
 
         Debug.Log($"Á¶ÇÕµÊ");
     }
+<<<<<<< HEAD
 
     public void SetPosition(Vector3 position)
     {
@@ -122,4 +123,6 @@ public class Chess : ChessStateBase
     {
         animator?.SetBool("IsBattle", true);
     }
+=======
+>>>>>>> 0fa517420d082f00aa9ec0c4dfc1033286c194bc
 }
