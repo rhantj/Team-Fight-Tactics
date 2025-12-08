@@ -1,10 +1,11 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] GridDivideBase[] grids;
-    [SerializeField] Chess chess;
+    [SerializeField] ChessStateBase chess;
     [SerializeField] Vector3 chessFirstPos;
     GridNode targetNode;
     [SerializeField] GridDivideBase targetGrid;
@@ -63,8 +64,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             return;
         }
 
-        SellPiece();
-
         ClearAllNodeChess(chess);
 
         // 원래자리 그대로
@@ -76,6 +75,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         // 노드 위에 기물이 있는 경우
         SwapPiece();
+
+        SellPiece();
 
         UpdateGridAndNode();
         chess = null;
@@ -117,7 +118,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     private void SwapPiece()
     {
         if (!targetGrid) return;
-        Chess other = targetNode.ChessPiece;
+        ChessStateBase other = targetNode.ChessPiece;
         if (other != null && other != chess && !IsPointerOverSellArea)
         {
             var to = targetNode.worldPosition;
@@ -144,13 +145,34 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     private void SellPiece()
     {
-        if (IsPointerOverSellArea)
-        {
-            ShopManager shop = FindObjectOfType<ShopManager>();
+        if (!IsPointerOverSellArea || !chess) return;
 
-            ChessStatData chessData = null;
-            shop.SellUnit(chessData, chess.gameObject);
+        ShopManager shop = FindObjectOfType<ShopManager>();
+        if (!shop)
+        {
+            Debug.LogError("ShopManager is not founded");
+            return;
         }
+
+        FieldInfo baseDataField = typeof(ChessStateBase).GetField
+            ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
+        if (baseDataField == null)
+        {
+            Debug.LogError("Cannot found baseData");
+            return;
+        }
+
+        ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
+        if (chessData == null)
+        {
+            Debug.LogError("chess's baseData is null");
+            return;
+        }
+
+        Debug.LogWarning($"Chess Pool ID : {chessData.poolID}");
+
+        shop.SellUnit(chessData, chess.gameObject);
+        ClearAllNodeChess(chess);
     }
 
     void CalculateWorldPosition(Ray ray)
@@ -209,7 +231,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return grid;
     }
 
-    void ClearAllNodeChess(Chess piece)
+    void ClearAllNodeChess(ChessStateBase piece)
     {
         foreach(var g in grids)
         {
@@ -217,7 +239,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
-    public Chess Chess
+    public ChessStateBase Chess
     {
         get { return chess; }
         set { chess = value; }

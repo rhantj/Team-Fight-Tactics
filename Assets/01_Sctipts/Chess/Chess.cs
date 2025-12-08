@@ -104,13 +104,7 @@ public class Chess : ChessStateBase
 
         Debug.Log($"조합됨");
     }
-<<<<<<< HEAD
 
-    public void SetPosition(Vector3 position)
-    {
-        position.y = 1.5f;
-        transform.position = position;
-    }
     //=====================================================
     //           게임 상태 따른 기물 State 변화
     //=====================================================
@@ -123,6 +117,4 @@ public class Chess : ChessStateBase
     {
         animator?.SetBool("IsBattle", true);
     }
-=======
->>>>>>> 0fa517420d082f00aa9ec0c4dfc1033286c194bc
 }

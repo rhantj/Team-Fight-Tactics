@@ -123,7 +123,7 @@ public class GameManager : MonoBehaviour
             battleTimer -=Time.deltaTime;
             OnBattleTimerUpdateed?.Invoke(battleTimer);
 
-            bool playerAllDead = UnitManager.Instance.
+            //bool playerAllDead = UnitManager.Instance.
         }
 
         //결과 계산

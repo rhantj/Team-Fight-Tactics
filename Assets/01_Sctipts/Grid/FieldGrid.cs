@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class FieldGrid : GridDivideBase
 {
+    static int chessCount;
     
 }

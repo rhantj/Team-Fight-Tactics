@@ -33,9 +33,9 @@ public class UnitManager : MonoBehaviour
         {
             playerUnits.Remove(unit);
         }
-        else if(enemyUnits.Contains(unit)
-            {
+        //else if(enemyUnits.Contains(unit)
+        //    {
 
-        }
+        //}
     }
 }
