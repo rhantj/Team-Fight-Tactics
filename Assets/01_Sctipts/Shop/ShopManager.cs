@@ -37,6 +37,8 @@ public class ShopManager : MonoBehaviour
 
     private ShopSlot[] slots;
     private Dictionary<int, List<ChessStatData>> unitsByCost;
+    private Dictionary<ChessStatData, int> unitBuyCount = new Dictionary<ChessStatData, int>();
+
 
     // ================================================================
     // Shop Lock System
@@ -188,14 +190,46 @@ public class ShopManager : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             int cost = GetRandomCostByLevel(playerLevel);
-
-            // 유닛 뽑기 함수
             ChessStatData unit = GetRandomUnitByCost(cost);
 
             slots[i].Init(unit, costUIData, i, this);
+
+            //if (unit != null)
+            //{
+            //    if (!shopAppearCount.ContainsKey(unit))
+            //        shopAppearCount[unit] = 0;
+
+            //    shopAppearCount[unit]++;
+            //} // 안씁니다.
         }
     }
 
+    private ChessStatData GetRandomUnitByCost(int cost)
+    {
+        List<ChessStatData> list = unitsByCost[cost];
+        List<ChessStatData> candidates = new List<ChessStatData>();
+
+        foreach (var unit in list)
+        {
+            int stock = PoolManager.Instance.GetRemainCount(unit.poolID);
+            if (stock <= 0)
+                continue;
+
+            if (ChessCombineManager.Instance != null &&
+                ChessCombineManager.Instance.IsUnitCompleted(unit))
+                continue;
+
+            if (unitBuyCount.TryGetValue(unit, out int bought) && bought >= 9)
+                continue;
+
+            candidates.Add(unit);
+        }
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
+    }
     public void BuyUnit(int index)
     {
         // 1) 슬롯 데이터 확인
@@ -226,6 +260,9 @@ public class ShopManager : MonoBehaviour
             Debug.LogError("Spawn된 오브젝트에서 Chess 컴포넌트를 찾을 수 없습니다.");
             return;
         }
+
+        chess.SetBaseData(data); //25.12.08 Add Kim
+
 
         // 4) BenchGrid 찾기
         BenchGrid bench = FindObjectOfType<BenchGrid>();
@@ -260,6 +297,13 @@ public class ShopManager : MonoBehaviour
         slots[index].ClearSlot();
 
         Debug.Log($"{data.unitName} 구매 완료 및 벤치 배치 성공!");
+
+        if (!unitBuyCount.ContainsKey(data))
+            unitBuyCount[data] = 0;
+
+        unitBuyCount[data]++;
+
+        ChessCombineManager.Instance?.Register(chess); //25.12.08 Add KIM
     }
 
 
@@ -275,6 +319,11 @@ public class ShopManager : MonoBehaviour
 
         Debug.Log(data.unitName + " 판매 완료. +" + sellPrice + " Gold");
 
+        Chess chess = obj.GetComponentInChildren<Chess>(); //25.12.08 Add Kim : 합성 매니저에서 제거합니다.
+        if (chess != null)
+        {
+            ChessCombineManager.Instance?.Unregister(chess);
+        }
         // 판매된 유닛을 풀로 되돌림
         PoolManager.Instance.Despawn(data.poolID, obj);
     }
@@ -304,24 +353,6 @@ public class ShopManager : MonoBehaviour
 
         return data.rates[0].cost;
     }
-
-    private ChessStatData GetRandomUnitByCost(int cost)
-    {
-        List<ChessStatData> list = unitsByCost[cost];
-        List<ChessStatData> candidates = new List<ChessStatData>();
-
-        foreach (var unit in list)
-        {
-             int stock = PoolManager.Instance.GetRemainCount(unit.poolID);
-             if (stock > 0) candidates.Add(unit);
-        }
-
-        if (candidates.Count == 0)
-            return null;
-
-        return candidates[Random.Range(0, candidates.Count)];
-    }
-
 
     private LevelData GetLevelData(int level)
     {

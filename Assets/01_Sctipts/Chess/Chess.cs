@@ -85,21 +85,30 @@ public class Chess : ChessStateBase
     //=====================================================
     //                  조합 & 성급 상승
     //=====================================================
-    public void CombineWith(Chess material)
+    public void CombineWith(Chess material1, Chess material2)
     {
-        if (material == null) return;
-        if (material.baseData != baseData) return;
+        if (material1 == null || material2 == null) return;
 
-        StarLevel++;
-
+        if (material1.baseData != baseData || material2.baseData != baseData)
+            return;
+        if (StarLevel >= 3)
+            return;
+        StarLevel = Mathf.Min(StarLevel + 1, 3);
         float hpMultiplier = 1.5f;
         CurrentHP = Mathf.RoundToInt(baseData.maxHP * Mathf.Pow(hpMultiplier, StarLevel - 1));
         CurrentMana = 0;
 
+        //재료 소모쪽.
+        ConsumeMaterial(material1);
+        ConsumeMaterial(material2);
+
+        Debug.Log($"조합됨 (현재 성급: {StarLevel})");
+    }
+
+    private void ConsumeMaterial(Chess material)
+    {
         OnUsedAsMaterial?.Invoke(material);
         material.gameObject.SetActive(false);
-
-        Debug.Log($"조합됨");
     }
     //=====================================================
     //           게임 상태 따른 기물 State 변화
