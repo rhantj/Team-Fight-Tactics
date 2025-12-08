@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
-public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] GridDivideBase[] grids;
     [SerializeField] Chess chess;
     [SerializeField] Vector3 chessFirstPos;
-    [SerializeField] GridNode targetGridNode;
+    GridNode targetNode;
     [SerializeField] GridDivideBase targetGrid;
-    [SerializeField] GridNode prevNode;
+    GridNode prevNode;
     [SerializeField] GridDivideBase prevGrid;
     [SerializeField] Vector3 _worldPos;
     [SerializeField] Ray camRay;
+    public bool IsPointerOverSellArea = false;
 
     private void Update()
     {
@@ -22,24 +20,30 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         CalculateWorldPosition(camRay);
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        IsPointerOverSellArea = false;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        IsPointerOverSellArea = true;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         CalculateWorldChess(camRay);
+        if (!chess) return;
         chessFirstPos = _worldPos;
         prevGrid = FindGrid(chessFirstPos);
         
         if(prevGrid)
             prevNode = prevGrid.GetNearGrid(chessFirstPos);
 
-        if(prevNode.ChessPiece != null)
-            prevNode.ChessPiece = null;
-
-        if (prevNode != null)
+        if (prevNode != null && !prevNode.ChessPiece)
         {
-            if (prevNode.ChessPiece == null)
-                prevNode.ChessPiece = chess;
+            prevNode.ChessPiece = chess;
         }
-        else prevNode = null;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -51,47 +55,102 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!chess) return;
-        
+
         // 필드 밖
-        if (targetGrid == null || targetGridNode == null)
+        if (OutofGrid())
         {
-            if (prevNode != null) chess.SetPosition(prevNode.worldPosition);
-            else chess.SetPosition(prevNode.worldPosition);
+            chess = null;
             return;
         }
+
+        SellPiece();
 
         ClearAllNodeChess(chess);
 
         // 원래자리 그대로
-        if (prevNode != null && targetGridNode == prevNode && targetGrid == prevGrid)
+        if (OnFirstNode())
         {
-            chess.SetPosition(targetGridNode.worldPosition);
-            targetGridNode.ChessPiece = chess;
+            chess = null;
             return;
         }
 
         // 노드 위에 기물이 있는 경우
-        Chess other = targetGridNode.ChessPiece;
-        if (other != null && other != chess)
+        SwapPiece();
+
+        UpdateGridAndNode();
+        chess = null;
+    }
+
+    private bool OutofGrid()
+    {
+        if ((targetGrid == null || targetNode == null) && !IsPointerOverSellArea)
         {
-            var to = targetGridNode.worldPosition;
+            if (prevNode != null)
+            {
+                chess.SetPosition(prevNode.worldPosition);
+                prevNode.ChessPiece = chess;
+            }
+            else
+            {
+                chess.SetPosition(chessFirstPos);
+                prevNode.ChessPiece = chess;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    private bool OnFirstNode()
+    {
+        if (prevNode != null && targetNode == prevNode && targetGrid == prevGrid && !IsPointerOverSellArea)
+        {
+            chess.SetPosition(targetNode.worldPosition);
+            targetNode.ChessPiece = chess;
+
+            UpdateGridAndNode();
+            return true;
+        }
+        return false;
+    }
+
+    private void SwapPiece()
+    {
+        if (!targetGrid) return;
+        Chess other = targetNode.ChessPiece;
+        if (other != null && other != chess && !IsPointerOverSellArea)
+        {
+            var to = targetNode.worldPosition;
             var from = prevNode.worldPosition;
 
             chess.SetPosition(to);
             other.SetPosition(from);
 
-            targetGridNode.ChessPiece = chess;
+            targetNode.ChessPiece = chess;
             prevNode.ChessPiece = other;
         }
         else
         {
-            chess.SetPosition(targetGridNode.worldPosition);
-            targetGridNode.ChessPiece = chess;
+            chess.SetPosition(targetNode.worldPosition);
+            targetNode.ChessPiece = chess;
         }
+    }
 
+    private void UpdateGridAndNode()
+    {
         prevGrid = targetGrid;
-        prevNode = targetGridNode;
-        chess = null;
+        prevNode = targetNode;
+    }
+
+    private void SellPiece()
+    {
+        if (IsPointerOverSellArea)
+        {
+            ShopManager shop = FindObjectOfType<ShopManager>();
+
+            ChessStatData chessData = null;
+            shop.SellUnit(chessData, chess.gameObject);
+        }
     }
 
     void CalculateWorldPosition(Ray ray)
@@ -104,12 +163,12 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             targetGrid = FindGrid(pos);
             if (targetGrid)
             {
-                targetGridNode = targetGrid.GetNearGrid(pos);
-                _worldPos = targetGridNode.worldPosition;
+                targetNode = targetGrid.GetNearGrid(pos);
+                _worldPos = targetNode.worldPosition;
             }
             else
             {
-                targetGridNode = null;
+                targetNode = null;
                 _worldPos = pos;
             }
         }
@@ -120,7 +179,10 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if(Physics.Raycast(ray, out var hit, 1000f))
         {
             Chess = hit.transform.GetComponentInChildren<Chess>();
+            return;
         }
+
+        Chess = null;
     }
 
     GridDivideBase FindGrid(Vector3 pos)

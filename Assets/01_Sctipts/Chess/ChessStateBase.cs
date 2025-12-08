@@ -148,4 +148,14 @@ public abstract class ChessStateBase : MonoBehaviour
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
         }
     }
+
+
+    //=====================================================
+    //                  위치 변경
+    //=====================================================
+    public void SetPosition(Vector3 position)
+    {
+        position.y = 1.5f;
+        transform.position = position;
+    }
 }
