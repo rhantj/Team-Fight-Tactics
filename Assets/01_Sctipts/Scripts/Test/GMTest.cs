@@ -11,7 +11,7 @@ public class GMTest : MonoBehaviour
         Debug.Log(GameManager.Instance == null ? "<color=red>GM NULL</color>" : "<color:green>GM FOUND</color>");
         // GameManager 이벤트 연결
         GameManager.Instance.OnRoundStarted += HandleRoundStarted;
-        GameManager.Instance.OnPreperationTimerUpdated += HandlePreparationTimer;
+        GameManager.Instance.OnPreparationTimerUpdated += HandlePreparationTimer;
         GameManager.Instance.OnRoundEnded += HandleRoundEnded;
         GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
 
@@ -24,7 +24,7 @@ public class GMTest : MonoBehaviour
         // 이벤트 해제 (메모리 누수 방지)
         if (GameManager.Instance == null) return;
         GameManager.Instance.OnRoundStarted -= HandleRoundStarted;
-        GameManager.Instance.OnPreperationTimerUpdated -= HandlePreparationTimer;
+        GameManager.Instance.OnPreparationTimerUpdated -= HandlePreparationTimer;
         GameManager.Instance.OnRoundEnded -= HandleRoundEnded;
         GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
     }

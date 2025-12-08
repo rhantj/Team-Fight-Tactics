@@ -110,4 +110,16 @@ public class Chess : ChessStateBase
         position.y = 1.5f;
         transform.position = position;
     }
+    //=====================================================
+    //           게임 상태 따른 기물 State 변화
+    //=====================================================
+    public void ForceIdle()
+    {
+        animator?.SetBool("IsBattle", false);
+    }
+
+    public void ForceBattle()
+    {
+        animator?.SetBool("IsBattle", true);
+    }
 }

@@ -45,18 +45,19 @@ public class GameManager : MonoBehaviour
     public GameState gameState { get; private set; }
     public RoundState roundState { get; private set; }
     public int currentRound { get; private set; }
+
     private int loseCount = 0;
 
     [Header("Round Info")]
     [SerializeField] private int startingRound = 1; //시작 라운드
     [SerializeField] private int maxRound = 5; //마지막 라운드
-    public float preperationTime = 60f; // 준비시간
     [SerializeField] private int maxLoseCount = 3;  //게임 종료 패배 횟수
-
-
+    public float battleTime = 30f; // 전투시간
+    public float preparationTime = 60f; // 준비시간
 
     public event Action<int> OnRoundStarted;    //라운드 시작 이벤트
-    public event Action<float> OnPreperationTimerUpdated;   //준비단계 타이머 이벤트
+    public event Action<float> OnPreparationTimerUpdated;   //준비단계 타이머 이벤트
+    public event Action<float> OnBattleTimerUpdateed; //전투단계 타이머 이벤트
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
 
@@ -68,6 +69,11 @@ public class GameManager : MonoBehaviour
     */
 
     //게임 시작
+
+    private void Start()
+    {
+        StartGame();
+    }
     public void StartGame()
     {
         gameState = GameState.Playing;
@@ -95,14 +101,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundRoutine()
     {
         // 준비단계
-        float timer = preperationTime;
+        float timer = preparationTime;
 
         while(timer > 0f)
         {
             timer -= Time.deltaTime;
 
             //준비시간 갱신 UI전달
-            OnPreperationTimerUpdated?.Invoke(timer);
+            OnPreparationTimerUpdated?.Invoke(timer);
 
             yield return null;
         }
@@ -110,16 +116,15 @@ public class GameManager : MonoBehaviour
         //전투단계
         StartBattle();
 
-        // 전투 종료까지 
-        /*
-        while (!battleSystem.IsBattleFinished)
-        {
-            battleSysyem.UpdateBattle();
+        float battleTimer = battleTime;
 
-            yield return null;
+        while(true)
+        {
+            battleTimer -=Time.deltaTime;
+            OnBattleTimerUpdateed?.Invoke(battleTimer);
+
+            bool playerAllDead = UnitManager.Instance.
         }
-        bool win = battleSystem.IsPlayerWin;
-        */
 
         //결과 계산
         SetRoundState(RoundState.Result);
