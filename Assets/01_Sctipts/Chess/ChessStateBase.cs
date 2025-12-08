@@ -9,6 +9,7 @@ public abstract class ChessStateBase : MonoBehaviour
     [Header("ÅÛÇÃ¸´")]
     [SerializeField]
     protected ChessStatData baseData;
+    public ChessStatData BaseData => baseData;
 
     public int CurrentHP { get; protected set; }
     public int CurrentMana { get; protected set; }
