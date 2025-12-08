@@ -148,26 +148,11 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if (!IsPointerOverSellArea || !chess) return;
 
         ShopManager shop = FindObjectOfType<ShopManager>();
-        if (!shop)
-        {
-            Debug.LogError("ShopManager is not founded");
-            return;
-        }
+        if (!shop) return;
 
         FieldInfo baseDataField = typeof(ChessStateBase).GetField
             ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (baseDataField == null)
-        {
-            Debug.LogError("Cannot found baseData");
-            return;
-        }
-
         ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
-        if (chessData == null)
-        {
-            Debug.LogError("chess's baseData is null");
-            return;
-        }
 
         Debug.LogWarning($"Chess Pool ID : {chessData.poolID}");
 

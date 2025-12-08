@@ -5,5 +5,5 @@ using UnityEngine;
 public class FieldGrid : GridDivideBase
 {
     static int chessCount;
-    
+    List<ChessStateBase> chessList = new();
 }

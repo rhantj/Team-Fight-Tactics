@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ public class GridDivideBase : MonoBehaviour
     [SerializeField] protected float nodeDiameter;
     [SerializeField] protected Vector3 worldBottomLeft;
     protected GridNode[,] fieldGrid;
+    protected Dictionary<int, GridNode> nodePerInt = new();
 
     private void Awake()
     {
@@ -42,7 +44,10 @@ public class GridDivideBase : MonoBehaviour
                     + (i * nodeDiameter + nodeRadius) * Vector3.right
                     + (j * nodeDiameter + nodeRadius) * Vector3.forward;
 
-                fieldGrid[i, j] = new GridNode(worldPoint);
+                var node = new GridNode(worldPoint);
+                fieldGrid[i, j] = node;
+
+                nodePerInt.Add(i * 7 + j, node);
             }
         }
     }
@@ -92,11 +97,22 @@ public class GridDivideBase : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
         if (fieldGrid == null) return;
+#if UNITY_EDITOR
         foreach (var n in fieldGrid)
         {
             Gizmos.color = n.ChessPiece ? Color.red : Color.green;
             Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeRadius);
+
+            foreach (var kvp in nodePerInt)
+            {
+                if (kvp.Value == n)
+                {
+                    Handles.Label(n.worldPosition + Vector3.up * nodeDiameter, $"{kvp.Key}");
+                    break;
+                }
+            }
         }
+#endif
     }
 
     protected GridNode FindEmptyNode()
