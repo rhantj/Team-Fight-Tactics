@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class FieldGrid : GridDivideBase
 {
-    static int chessCount;
-    List<ChessStateBase> chessList = new();
+    public List<ChessStateBase> GetAllFieldUnits()
+    {
+        List<ChessStateBase> result = new();
+
+        foreach(var node in fieldGrid)
+        {
+            if(node.ChessPiece != null)
+            {
+                result.Add(node.ChessPiece);
+            }
+        }
+        return result;
+    }
+   
 }
