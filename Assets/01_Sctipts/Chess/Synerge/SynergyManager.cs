@@ -24,10 +24,8 @@ public class SynergyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    //필드 시너지 계싼
     public void RecalculateSynergies(IEnumerable<ChessStateBase> fieldUnits)
     {
-        // 1) 아직 필드에 없는 경우 안전 처리
         if (fieldUnits == null)
         {
             ClearSynergies();
@@ -71,15 +69,12 @@ public class SynergyManager : MonoBehaviour
 
             TraitType trait = config.trait;
 
-            // 해당 Trait가 필드에 아예 없는 경우
             if (!currentCounts.TryGetValue(trait, out int count))
                 continue;
 
-            // 최소 2기 이상일 때만 시너지 활성
             if (count < 2)
                 continue;
 
-            // count에 맞는 가장 높은 Threshold 찾기
             SynergyThreshold best = null;
 
             foreach (var t in config.thresholds)
@@ -88,7 +83,6 @@ public class SynergyManager : MonoBehaviour
 
                 if (count >= t.requiredCount)
                 {
-                    // 조건을 만족하는 것 중 "가장 높은 requiredCount"를 선택
                     if (best == null || t.requiredCount > best.requiredCount)
                         best = t;
                 }
@@ -107,12 +101,10 @@ public class SynergyManager : MonoBehaviour
     }
     private void ApplySynergyEffects(IEnumerable<ChessStateBase> fieldUnits)
     {
-        // 1) 먼저 기본 상태로 초기화 (공속 배수 1.0)
         foreach (var unit in fieldUnits)
         {
             if (unit == null) continue;
 
-            // 이미 ChessStateBase에는 공속 배수 Setter가 있음 
             unit.SetAttackSpeedMultiplier(1f);
         }
 
