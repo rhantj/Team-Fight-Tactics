@@ -39,7 +39,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         prevGrid = FindGrid(chessFirstPos);
         
         if(prevGrid)
-            prevNode = prevGrid.GetNearGrid(chessFirstPos);
+            prevNode = prevGrid.GetNearGridNode(chessFirstPos);
 
         if (prevNode != null && !prevNode.ChessPiece)
         {
@@ -170,7 +170,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             targetGrid = FindGrid(pos);
             if (targetGrid)
             {
-                targetNode = targetGrid.GetNearGrid(pos);
+                targetNode = targetGrid.GetNearGridNode(pos);
                 _worldPos = targetNode.worldPosition;
             }
             else

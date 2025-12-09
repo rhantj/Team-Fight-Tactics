@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GridDivideBase : MonoBehaviour
 {
@@ -20,6 +18,23 @@ public class GridDivideBase : MonoBehaviour
         Init();
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+
+        if (fieldGrid == null) return;
+#if UNITY_EDITOR
+        foreach (var n in fieldGrid)
+        {
+            Gizmos.color = n.ChessPiece ? Color.red : Color.green;
+            Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeRadius);
+
+            Handles.Label(n.worldPosition + Vector3.up * nodeDiameter, $"{n.NodeNumber}");
+
+        }
+#endif
+    }
+
     void Init()
     {
         gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
@@ -31,23 +46,24 @@ public class GridDivideBase : MonoBehaviour
 
     void CreateGrid()
     {
-        fieldGrid = new GridNode[gridXCnt, gridYCnt];
+        fieldGrid = new GridNode[gridYCnt, gridXCnt];
         worldBottomLeft = transform.position
             - Vector3.right * gridWorldSize.x / 2
             - Vector3.forward * gridWorldSize.y / 2;
 
-        for (int i = 0; i < gridXCnt; ++i)
+        for (int y = 0; y < gridYCnt; ++y)
         {
-            for (int j = 0; j < gridYCnt; ++j)
+            for (int x = 0; x < gridXCnt; ++x)
             {
                 Vector3 worldPoint = worldBottomLeft
-                    + (i * nodeDiameter + nodeRadius) * Vector3.right
-                    + (j * nodeDiameter + nodeRadius) * Vector3.forward;
+                    + (x * nodeDiameter + nodeRadius) * Vector3.right
+                    + (y * nodeDiameter + nodeRadius) * Vector3.forward;
 
-                var node = new GridNode(worldPoint);
-                fieldGrid[i, j] = node;
+                var num = y * gridXCnt + x;
+                var node = new GridNode(worldPoint,x,y,num);
 
-                nodePerInt.Add(i * 7 + j, node);
+                fieldGrid[y, x] = node;
+                nodePerInt.Add(num, node);
             }
         }
     }
@@ -62,7 +78,7 @@ public class GridDivideBase : MonoBehaviour
             && pos.z >= center.z - halfy && pos.z <= center.z + halfy;
     }
 
-    public GridNode GetNearGrid(Vector3 pos)
+    public GridNode GetNearGridNode(Vector3 pos)
     {
         GridNode res = null;
         float closest = float.PositiveInfinity;
@@ -83,6 +99,11 @@ public class GridDivideBase : MonoBehaviour
         return res;
     }
 
+    public GridNode GetNodeByNumber(int num)
+    {
+        return nodePerInt.TryGetValue(num, out var node) ? node : null;
+    }
+
     public void ClearChessPiece(ChessStateBase piece)
     {
         foreach(var node in fieldGrid)
@@ -92,28 +113,6 @@ public class GridDivideBase : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-
-        if (fieldGrid == null) return;
-#if UNITY_EDITOR
-        foreach (var n in fieldGrid)
-        {
-            Gizmos.color = n.ChessPiece ? Color.red : Color.green;
-            Gizmos.DrawCube(n.worldPosition, Vector3.one * nodeRadius);
-
-            foreach (var kvp in nodePerInt)
-            {
-                if (kvp.Value == n)
-                {
-                    Handles.Label(n.worldPosition + Vector3.up * nodeDiameter, $"{kvp.Key}");
-                    break;
-                }
-            }
-        }
-#endif
-    }
 
     protected GridNode FindEmptyNode()
     {
