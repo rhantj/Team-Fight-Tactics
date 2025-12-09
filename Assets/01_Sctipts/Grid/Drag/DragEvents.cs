@@ -55,7 +55,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
 
             if (chessData != null)
-                shop.EnterSellMode(chessData.cost);
+                shop.EnterSellMode(shop.CalculateSellPrice(chessData, chess.StarLevel));
         }
     }
 
@@ -93,8 +93,20 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             shop.ExitSellMode();
         SellPiece();
 
+
         UpdateGridAndNode();
+        UpdateSynergy(); //12.09 Kim add
         chess = null;
+    }
+
+
+    private void UpdateSynergy()
+    {
+        FieldGrid fieldGrid = FindObjectOfType<FieldGrid>();
+        if (fieldGrid == null) return;
+        if (SynergyManager.Instance == null) return;
+        var fieldUnits = fieldGrid.GetAllFieldUnits();
+        SynergyManager.Instance.RecalculateSynergies(fieldUnits);
     }
 
     private bool OutofGrid()

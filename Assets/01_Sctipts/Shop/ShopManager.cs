@@ -232,10 +232,12 @@ public class ShopManager : MonoBehaviour
         return candidates[Random.Range(0, candidates.Count)];
     }
 
+
+   
     // ================================================================
     // 판매 가격 계산 (성급 반영)
     // ================================================================
-    private int CalculateSellPrice(ChessStatData data, int starLevel)
+    public int CalculateSellPrice(ChessStatData data, int starLevel)
     {
         int baseCost = data.cost;
 
