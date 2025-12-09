@@ -23,6 +23,9 @@ public class ShopSlot : MonoBehaviour
     [SerializeField] private Transform synergyContainer;     // 시너지 아이콘들이 들어갈 부모
     [SerializeField] private GameObject synergyIconPrefab;   // 시너지 아이콘 프리팹
 
+    [Header("Trait Icon Database")]
+    [SerializeField] private TraitIconDatabase traitIconDB;  // 시너지 아이콘 데이터베이스
+
     public ChessStatData CurrentData { get; private set; }
 
     private int slotIndex;
@@ -165,9 +168,21 @@ public class ShopSlot : MonoBehaviour
                     traitNameObj = t.GetComponent<TMP_Text>();
             }
 
-            // 아이콘 설정 (지금은 기본 이미지)
-            if (traitIcon != null)
-                traitIcon.color = Color.white;
+            // 아이콘 스프라이트 설정
+            if (traitIcon != null && traitIconDB != null)
+            {
+                Sprite iconSprite = traitIconDB.GetIcon(trait);
+                traitIcon.sprite = iconSprite;
+
+                if (iconSprite != null)
+                {
+                    traitIcon.color = Color.white;   // 아이콘 정상 표시
+                }
+                else
+                {
+                    traitIcon.color = Color.gray;    // 아이콘 누락 시 회색 처리
+                }
+            }
 
             // 이름 설정 (enum 이름 출력)
             if (traitNameObj != null)
