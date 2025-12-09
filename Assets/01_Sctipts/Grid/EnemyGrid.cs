@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldGrid : GridDivideBase
+public class EnemyGrid : GridDivideBase
 {
     public List<ChessStateBase> GetAllFieldUnits()
     {
         List<ChessStateBase> result = new();
 
-        foreach(var node in fieldGrid)
+        foreach (var node in fieldGrid)
         {
-            if(node.ChessPiece != null)
+            if (node.ChessPiece != null)
             {
                 result.Add(node.ChessPiece);
             }
