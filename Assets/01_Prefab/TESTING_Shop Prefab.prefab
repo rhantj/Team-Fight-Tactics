@@ -919,7 +919,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &3556275872786802141
 MonoBehaviour:
@@ -1435,6 +1435,7 @@ MonoBehaviour:
   levelText: {fileID: 2890469252832623097}
   expText: {fileID: 4166181492377157609}
   costRateText: {fileID: 1799465270805581042}
+  sellPriceText: {fileID: 0}
   allUnits:
   - {fileID: 11400000, guid: 97ff9c636f0172f41bfabcc18a496b39, type: 2}
   - {fileID: 11400000, guid: 9318b695b56ed6c48aae2043ff4b5a5a, type: 2}

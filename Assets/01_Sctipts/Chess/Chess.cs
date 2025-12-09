@@ -22,6 +22,7 @@ public class Chess : ChessStateBase
     //                  타겟 / 이벤트
     //=====================================================
     private Chess currentTarget;
+    public bool overrideState = false; //외부제어용 플래그
 
     public event Action<Chess> OnDead;
     public event Action<Chess> OnUsedAsMaterial;
@@ -31,6 +32,8 @@ public class Chess : ChessStateBase
     //=====================================================
     private void Update()
     {
+        if (overrideState) return;
+
         if (IsDead) return;
 
         if (currentTarget != null && !currentTarget.IsDead)
@@ -123,11 +126,13 @@ public class Chess : ChessStateBase
     //=====================================================
     public void ForceIdle()
     {
-        animator?.SetBool("IsBattle", false);
+        overrideState = true;
+        animator?.SetInteger("State", 0);
     }
 
     public void ForceBattle()
     {
-        animator?.SetBool("IsBattle", true);
+        overrideState = true;
+        animator?.SetInteger("State", 2);
     }
 }
