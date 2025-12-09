@@ -55,7 +55,7 @@ public class TimeUI : MonoBehaviour
     {
         if (time < 0) time = 0;
 
-        timerText.text = $"{time:F1} ÃÊ";
+        timerText.text = $"{time:F1} ";
         timerBar.fillAmount = time / maxTime;
     }
 
@@ -63,7 +63,7 @@ public class TimeUI : MonoBehaviour
     {
         if (time < 0) time = 0;
 
-        timerText.text = $"{time:F1} ÃÊ";
+        timerText.text = $"{time:F1} ";
         timerBar.fillAmount = time / GameManager.Instance.battleTime;
     }
 }

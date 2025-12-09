@@ -49,8 +49,8 @@ public class GameManager : MonoBehaviour
     private int loseCount = 0;
 
     [Header("Round Info")]
-    [SerializeField] private int startingRound = 1; //시작 라운드
-    [SerializeField] private int maxRound = 5; //마지막 라운드
+    //[SerializeField] private int startingRound = 1; //시작 라운드
+    //[SerializeField] private int maxRound = 5; //마지막 라운드
     [SerializeField] private int maxLoseCount = 3;  //게임 종료 패배 횟수
     public float battleTime = 30f; // 전투시간
     public float preparationTime = 60f; // 준비시간
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
             bool playerAllDead = UnitCountManager.Instance.ArePlayerAllDead();
             bool enemyAllDead = UnitCountManager.Instance.AreEnemyAllDead();
 
-            //if(playerAllDead || enemyAllDead)
+            //if(playerAllDead || enemyAllDead) //임시임 이거 있으면 겜매니저 안돌아서 나중에 적 기물 만들고 실험해봐야할듯
             //{
             //    bool playerWin = enemyAllDead && !playerAllDead;
             //    EndBattle(playerWin);

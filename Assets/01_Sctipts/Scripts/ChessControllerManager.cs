@@ -24,33 +24,33 @@ public class ChessControllerManager : MonoBehaviour
 
     private void OnRoundStateChanged(RoundState state)
     {
-        switch(state)
+        RefreshChessList();
+
+        foreach (var chess in allChess)
         {
-            case RoundState.Preparation:
-                foreach(var chess in allChess)
-                {
-                    chess.SetTarget(null);
+            switch (state)
+            {
+                case RoundState.Preparation:
+                case RoundState.Result:
+                    chess.overrideState = true;
                     chess.ForceIdle();
-                }
-                break;
-            case RoundState.Battle:
-                foreach(var chess in allChess)
-                {
+                    break;
+
+                case RoundState.Battle:
+                    chess.overrideState = true;
                     chess.ForceBattle();
-                    //전투 타겟 자동 설정 로직 구현해야함
-                }
-                break;
-            case RoundState.Result:
-                foreach(var chess in allChess)
-                {
-                    chess.ForceIdle();
-                }
-                break;
+                    break;
+            }
         }
     }
     
     private void OnPreparationTimerUpdated(float time)
     {
         //기물 준비 애니메이션/이펙트
+    }
+    private void RefreshChessList()
+    {
+        allChess.Clear();
+        allChess.AddRange(FindObjectsOfType<Chess>());
     }
 }
