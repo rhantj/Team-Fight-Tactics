@@ -17,5 +17,4 @@ public class FieldGrid : GridDivideBase
         }
         return result;
     }
-   
 }

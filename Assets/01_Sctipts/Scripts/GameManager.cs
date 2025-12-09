@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
+        //StartGame();
     }
     public void StartGame()
     {
@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
     //라운드 시작
     private void StartRound()
     {
+        UnitCountManager.Instance.Clear();
+
         SetRoundState(RoundState.Preparation);
 
         OnRoundStarted?.Invoke(currentRound);
@@ -126,12 +128,12 @@ public class GameManager : MonoBehaviour
             bool playerAllDead = UnitCountManager.Instance.ArePlayerAllDead();
             bool enemyAllDead = UnitCountManager.Instance.AreEnemyAllDead();
 
-            if(playerAllDead || enemyAllDead)
-            {
-                bool playerWin = enemyAllDead && !playerAllDead;
-                EndBattle(playerWin);
-                break;
-            }
+            //if(playerAllDead || enemyAllDead)
+            //{
+            //    bool playerWin = enemyAllDead && !playerAllDead;
+            //    EndBattle(playerWin);
+            //    break;
+            //}
 
             if(battleTimer <= 0f)
             {
@@ -164,11 +166,19 @@ public class GameManager : MonoBehaviour
     //전투시작 메서드
     private void StartBattle()
     {
-        SetRoundState(RoundState.Battle);
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        var fieldUnits = fieldGrid.GetAllFieldUnits();
 
-        //EnemyUnitGroup enemyGroup = waveDatabase.GetWave(currentRround);
-        //
-        //battleSystem.StartBattle(PlayerPrefs, enemyGroup);
+        foreach(var unit in fieldUnits)
+        {
+            Chess chess = unit.GetComponent<Chess>();
+            if (chess == null) continue;
+
+            bool isPlayer = chess.team == Team.Player; //팀 분류 기준
+            UnitCountManager.Instance.RegisterUnit(chess, isPlayer);
+        }
+
+        SetRoundState(RoundState.Battle);
     }
 
     private void EndBattle(bool win)

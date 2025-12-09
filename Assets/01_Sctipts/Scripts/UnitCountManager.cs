@@ -11,7 +11,18 @@ public class UnitCountManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); 
+            return;
+        }
         Instance = this;
+    }
+
+    public void Clear()
+    {
+        playerUnits.Clear();
+        enemyUnits.Clear();
     }
     public void RegisterUnit(Chess unit, bool isPlayer)
     {

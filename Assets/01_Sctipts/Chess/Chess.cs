@@ -8,8 +8,16 @@ using UnityEngine;
 - 마나에 따른 스킬 실행
 - 조합 시 성급 상승
 */
+
+public enum Team
+{
+    Player,
+    Enemy
+}
+
 public class Chess : ChessStateBase
 {
+    public Team team;
     //=====================================================
     //                  타겟 / 이벤트
     //=====================================================
