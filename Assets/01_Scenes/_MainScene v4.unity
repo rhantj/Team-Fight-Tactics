@@ -766,34 +766,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolConfigs:
   - id: Caitlyn
-    prefab: {fileID: 373028469288263894, guid: 30459cb547fcb3a47ac3d081dc7953bd, type: 3}
+    prefab:
+      m_AssetGUID: 30459cb547fcb3a47ac3d081dc7953bd
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Garen
-    prefab: {fileID: 6536777313077106968, guid: a5feb2668f9e9654fa43d7584f940ffe, type: 3}
+    prefab:
+      m_AssetGUID: a5feb2668f9e9654fa43d7584f940ffe
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 9
   - id: Vi
-    prefab: {fileID: 4817332306984177319, guid: a95303a206cd34342b6d76eb23756b9a, type: 3}
+    prefab:
+      m_AssetGUID: a95303a206cd34342b6d76eb23756b9a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Shen
-    prefab: {fileID: 7799542236707969748, guid: f90c643926880594dbc8c3073dfb3141, type: 3}
+    prefab:
+      m_AssetGUID: f90c643926880594dbc8c3073dfb3141
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Galio
-    prefab: {fileID: 6723881527899124690, guid: fb9a5235429c651468cd882d1232e043, type: 3}
+    prefab:
+      m_AssetGUID: fb9a5235429c651468cd882d1232e043
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 12
   - id: Draven
-    prefab: {fileID: 7234582637776124808, guid: f21375d493a18ff41a3b7f75f06c125c, type: 3}
+    prefab:
+      m_AssetGUID: f21375d493a18ff41a3b7f75f06c125c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Saion
-    prefab: {fileID: 9176150212420796809, guid: 871b36cca748428449c1c46c3bc43f6d, type: 3}
+    prefab:
+      m_AssetGUID: 871b36cca748428449c1c46c3bc43f6d
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Vayne
-    prefab: {fileID: 8102437935410029392, guid: 807e40d6869eb2b43a115ffe40c354b2, type: 3}
+    prefab:
+      m_AssetGUID: 807e40d6869eb2b43a115ffe40c354b2
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Xayah
-    prefab: {fileID: 3383580942465328081, guid: 2d040fa56da010a48bd613fd08468c6a, type: 3}
+    prefab:
+      m_AssetGUID: 2d040fa56da010a48bd613fd08468c6a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 15
   - id: Jarvan
-    prefab: {fileID: 6135306812765045976, guid: 544a5d45814e3dd489097de5e76de26e, type: 3}
+    prefab:
+      m_AssetGUID: 544a5d45814e3dd489097de5e76de26e
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
     preloadCount: 12
 --- !u!4 &1754517119
 Transform:

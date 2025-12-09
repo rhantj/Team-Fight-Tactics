@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PoolManager : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class PoolManager : MonoBehaviour
     public class PoolConfig
     {
         public string id;               //풀 이름
-        public GameObject prefab;       //풀에서 생성할 프리펩
+        public AssetReferenceGameObject prefab;       //풀에서 생성할 프리펩
         public int preloadCount = 10;   //미리 만들 갯수
     }
 
@@ -44,11 +46,20 @@ public class PoolManager : MonoBehaviour
                 continue;
             }
 
-            Component component = config.prefab.GetComponent<Component>();
+            AsyncOperationHandle<GameObject> handle = config.prefab.LoadAssetAsync<GameObject>();
+            GameObject loadedPF = handle.WaitForCompletion();
+            if (!loadedPF)
+            {
+                Debug.LogError($"Failed Load Addressables : {config.id}");
+                continue;
+            }
+
+            Component component = loadedPF.GetComponent<Component>();
 
             var pool = new ObjectPool<Component>(
                 component,
                 config.preloadCount,
+                config.id,
                 transform);
 
             poolDict.Add(config.id, pool);

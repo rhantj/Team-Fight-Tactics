@@ -45,6 +45,18 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             prevNode.ChessPiece = chess;
         }
+
+        ShopManager shop = ShopManager.Instance;
+        if (shop != null)
+        {
+            FieldInfo baseDataField = typeof(ChessStateBase).GetField
+                ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
+
+            if (chessData != null)
+                shop.EnterSellMode(chessData.cost);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -76,6 +88,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         // 노드 위에 기물이 있는 경우
         SwapPiece();
 
+        ShopManager shop = ShopManager.Instance;
+        if (shop != null)
+            shop.ExitSellMode();
         SellPiece();
 
         UpdateGridAndNode();
@@ -153,8 +168,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         FieldInfo baseDataField = typeof(ChessStateBase).GetField
             ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
         ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
-
-        Debug.LogWarning($"Chess Pool ID : {chessData.poolID}");
 
         shop.SellUnit(chessData, chess.gameObject);
         ClearAllNodeChess(chess);
