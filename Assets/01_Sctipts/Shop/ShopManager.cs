@@ -231,6 +231,30 @@ public class ShopManager : MonoBehaviour
 
         return candidates[Random.Range(0, candidates.Count)];
     }
+
+
+   
+    // ================================================================
+    // 판매 가격 계산 (성급 반영)
+    // ================================================================
+    public int CalculateSellPrice(ChessStatData data, int starLevel)
+    {
+        int baseCost = data.cost;
+
+        // 1성
+        if (starLevel == 1)
+            return baseCost;
+
+        // 2성: (기본 공식) cost * 2 - 1
+        if (starLevel == 2)
+            return baseCost * 2 - 1;
+
+        // 3성: cost * 3 - 1
+        if (starLevel == 3)
+            return baseCost * 3 - 1;
+
+        return baseCost;
+    }
     public void BuyUnit(int index)
     {
         // 1) 슬롯 데이터 확인
@@ -307,27 +331,37 @@ public class ShopManager : MonoBehaviour
         ChessCombineManager.Instance?.Register(chess); //25.12.08 Add KIM
     }
 
-
-
     // 판매 기능
     public void SellUnit(ChessStatData data, GameObject obj)
     {
         if (data == null)
             return;
 
-        int sellPrice = data.cost;
+        // 판매되는 유닛의 Chess 컴포넌트 가져오기
+        Chess chess = obj.GetComponentInChildren<Chess>(); //25.12.08 Add Kim : 합성 매니저에서 제거합니다.
+
+        // 유닛의 성급 정보 가져오기 (없으면 기본 1성 처리)
+        int starLevel = 1;
+        if (chess != null)
+            starLevel = chess.StarLevel;
+
+        // 성급을 고려한 판매가격 계산
+        int sellPrice = CalculateSellPrice(data, starLevel);
+
+        // 판매 골드 지급
         AddGold(sellPrice);
 
         Debug.Log(data.unitName + " 판매 완료. +" + sellPrice + " Gold");
 
-        Chess chess = obj.GetComponentInChildren<Chess>(); //25.12.08 Add Kim : 합성 매니저에서 제거합니다.
         if (chess != null)
         {
             ChessCombineManager.Instance?.Unregister(chess);
         }
+
         // 판매된 유닛을 풀로 되돌림
         PoolManager.Instance.Despawn(data.poolID, obj);
     }
+
 
     // ================================================================
     // 확률 / 유닛 생성
@@ -432,7 +466,7 @@ public class ShopManager : MonoBehaviour
         if (sellPriceText != null)
         {
             sellPriceText.gameObject.SetActive(true);
-            sellPriceText.text = "판매 가격 : " + price.ToString() + " 골드";
+            sellPriceText.text = "Sell Price : " + price.ToString() + " Gold";
         }
     }
     public void ExitSellMode()

@@ -15,6 +15,16 @@ public abstract class ChessStateBase : MonoBehaviour
     public int CurrentMana { get; protected set; }
     public int StarLevel { get; protected set; }
     public bool IsDead => CurrentHP <= 0;
+    //=====================================================
+    //                  보너스 스탯 
+    //=====================================================
+    protected int bonusMaxHP;
+    protected int bonusAttack;
+    protected int bonusArmor;
+
+    public int MaxHP => (baseData != null ? baseData.maxHP : 0) + bonusMaxHP;
+    public int AttackDamage => (baseData != null ? baseData.attackDamage : 0) + bonusAttack;
+    public int Armor => (baseData != null ? baseData.armor : 0) + bonusArmor;
 
     //=====================================================
     //                  전투 / 마나 설정
@@ -53,15 +63,17 @@ public abstract class ChessStateBase : MonoBehaviour
     public virtual void InitFromSO()
     {
         if (baseData == null)
-        {
             return;
-        }
 
         StarLevel = baseData.starLevel;
-        CurrentHP = baseData.maxHP;
+
+        bonusMaxHP = 0;
+        bonusAttack = 0;
+        bonusArmor = 0;
+
+        CurrentHP = MaxHP;   
         CurrentMana = 0;
 
-        //아래는 공격횟수 계산입니다. 초당 공속을 위해 인터벌로 계산해둔거에요
         if (baseData.attackSpeed > 0f)
         {
             baseAttackInterval = 1f / baseData.attackSpeed;
@@ -70,6 +82,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
         attackTimer = attackInterval;
     }
+
 
     //=====================================================
     //                  전투 / 피격
@@ -152,6 +165,24 @@ public abstract class ChessStateBase : MonoBehaviour
         if (baseAttackInterval > 0f)
         {
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
+        }
+    }
+    //=====================================================
+    //                  보너스 스탯 적용
+    //=====================================================
+    public void AddBonusStats(int attack, int armor, int hp)
+    {
+        bonusAttack = attack;
+        bonusArmor = armor;
+
+        int oldMaxHP = MaxHP;
+        bonusMaxHP = hp;
+        int newMaxHP = MaxHP;
+
+        if (newMaxHP > oldMaxHP && !IsDead)
+        {
+            int hpIncrease = newMaxHP - oldMaxHP;
+            CurrentHP += hpIncrease;
         }
     }
 
