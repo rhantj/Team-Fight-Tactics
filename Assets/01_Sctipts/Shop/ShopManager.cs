@@ -21,6 +21,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text expText;
     [SerializeField] private TMP_Text costRateText;
+    [SerializeField] private TMP_Text sellPriceText;
 
     [Header("Unit Data (임시)")]
     [SerializeField] private ChessStatData[] allUnits;
@@ -417,4 +418,32 @@ public class ShopManager : MonoBehaviour
         UpdateCostRateUI();
         RefreshShop();
     }
+
+    // ================================================================
+    // 판매 모드 진입/종료
+    // ================================================================
+    public void EnterSellMode(int price)
+    {
+        // 상점 슬롯 전체 숨김
+        if (slotContainer != null)
+            slotContainer.gameObject.SetActive(false);
+
+        // 판매 가격 텍스트 활성화
+        if (sellPriceText != null)
+        {
+            sellPriceText.gameObject.SetActive(true);
+            sellPriceText.text = "판매 가격 : " + price.ToString() + " 골드";
+        }
+    }
+    public void ExitSellMode()
+    {
+        // 판매 텍스트 숨김
+        if (sellPriceText != null)
+            sellPriceText.gameObject.SetActive(false);
+
+        // 상점 슬롯 다시 표시
+        if (slotContainer != null)
+            slotContainer.gameObject.SetActive(true);
+    }
+
 }
