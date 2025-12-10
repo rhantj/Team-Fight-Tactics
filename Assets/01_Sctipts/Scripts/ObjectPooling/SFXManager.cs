@@ -29,7 +29,17 @@ public class SFXManager : MonoBehaviour
     IEnumerator Co_SpawnSfx()
     {
         yield return null;
-        PlaySfx("BGM1", Vector3.zero, 1f, 0);
+        PlaySfx("BGM1", Vector3.zero, .5f, 0);
+        yield return new WaitForSeconds(1f);
+
+        PlaySfx("Darius_Normal_Hit1", Vector3.zero, 1f, 0);
+        yield return new WaitForSeconds(1f);
+
+        PlaySfx("Jarvan_Normal_Hit1", Vector3.zero, 1f, 0);
+        yield return new WaitForSeconds(1f);
+
+        PlaySfx("Xayah_Normal_Hit", Vector3.zero, 1f, 0);
+        yield return new WaitForSeconds(1f);
     }
 
     public void PlaySfx(string name, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
