@@ -233,28 +233,42 @@ public class ShopManager : MonoBehaviour
     }
 
 
-   
+
     // ================================================================
     // 판매 가격 계산 (성급 반영)
     // ================================================================
     public int CalculateSellPrice(ChessStatData data, int starLevel)
     {
-        int baseCost = data.cost;
+        int cost = data.cost;
+        int price = 0;
 
-        // 1성
-        if (starLevel == 1)
-            return baseCost;
+        switch (starLevel)
+        {
+            case 1:
+                price = cost;
+                break;
 
-        // 2성: (기본 공식) cost * 2 - 1
-        if (starLevel == 2)
-            return baseCost * 2 - 1;
+            case 2:
+                price = cost * 3;
+                break;
 
-        // 3성: cost * 3 - 1
-        if (starLevel == 3)
-            return baseCost * 3 - 1;
+            case 3:
+                price = cost * 9;
+                break;
 
-        return baseCost;
+            default:
+                price = cost;
+                break;
+        }
+
+        // cost가 2 이상이고, 2성 또는 3성일 때 -1 적용
+        if (cost >= 2 && starLevel >= 2)
+            price -= 1;
+
+        return price;
     }
+
+
     public void BuyUnit(int index)
     {
         // 1) 슬롯 데이터 확인
