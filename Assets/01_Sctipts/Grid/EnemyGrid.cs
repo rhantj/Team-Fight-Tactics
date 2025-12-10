@@ -17,4 +17,26 @@ public class EnemyGrid : GridDivideBase
         }
         return result;
     }
+
+    #region - TEST FIELD -
+    [SerializeField] GameObject enemyPF;
+    [SerializeField] int startNode = 0;
+    private void OnEnable()
+    {
+        SpawnEnemy();
+    }
+
+
+    void SpawnEnemy()
+    {
+        for (int i = startNode; i < startNode + 3; ++i)
+        {
+            var node = nodePerInt[i];
+            var pos = node.worldPosition;
+            var obj = Instantiate(enemyPF);
+
+            obj.GetComponent<Enemy>().SetPosition(pos);
+        }
+    }
+    #endregion
 }
