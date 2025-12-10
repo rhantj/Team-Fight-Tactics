@@ -10,10 +10,9 @@ using UnityEngine;
 /// - 경험치 구매 및 레벨업 처리
 /// - 코스트 확률 기반 랜덤 유닛 생성
 /// </summary>
-public class ShopManager : MonoBehaviour
+public class ShopManager : Singleton<ShopManager>
 {
-    public static ShopManager Instance { get; private set; }
-
+    
     [Header("UI References")]
     [SerializeField] private CostUIData costUIData;
     [SerializeField] private Transform slotContainer;
@@ -50,15 +49,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Sprite lockedSprite;
     private Sprite defaultUnlockedSprite;
 
-    private void Awake()
+    protected override void Awake()
     {
-        // 싱글톤 설정
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        base.Awake();
 
         // 슬롯 자동 탐색
         slots = slotContainer.GetComponentsInChildren<ShopSlot>();
