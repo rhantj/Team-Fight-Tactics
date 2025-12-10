@@ -26,7 +26,7 @@ public class SFXModule : MonoBehaviour
             yield return null;
         }
 
-        if (aus.spatialBlend >= 0.9f)
+        if (aus.spatialBlend <= 0.9f)
             pooled.ReturnToPool();
     }
 
