@@ -23,22 +23,84 @@ public class Chess : ChessStateBase
     //=====================================================
     private Chess currentTarget;
     public bool overrideState = false; //외부제어용 플래그
+    private bool isInBattlePhase = false; 
 
     public event Action<Chess> OnDead;
     public event Action<Chess> OnUsedAsMaterial;
+    //=====================================================
+    //                  초기화
+    //=====================================================
+    protected override void Awake()
+    {
+        base.Awake();
 
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+        }
+    }
+    //=====================================================
+    //                  라운드 상태 처리
+    //=====================================================
+    private void HandleRoundStateChanged(RoundState newState)
+    {
+        switch (newState)
+        {
+            case RoundState.Preparation:
+                ExitBattlePhase();
+                break;
+
+            case RoundState.Battle:
+                EnterBattlePhase();
+                break;
+
+            case RoundState.Result:
+                ExitBattlePhase();
+                break;
+        }
+    }
+
+    private void EnterBattlePhase()
+    {
+        isInBattlePhase = true;
+
+        //Battle 상태가 필요한 유닛만 전환시킵니다
+        if (baseData != null && baseData.useBattleState)
+        {
+            stateMachine?.SetBattle();
+        }
+    }
+
+    private void ExitBattlePhase()
+    {
+        isInBattlePhase = false;
+        currentTarget = null;
+        attackTimer = attackInterval;
+        stateMachine?.SetIdle();
+    }
     //=====================================================
     //                  업데이트 루프
     //=====================================================
     private void Update()
     {
         if (overrideState) return;
-
         if (IsDead) return;
+        if (!isInBattlePhase) return;
 
         if (currentTarget != null && !currentTarget.IsDead)
         {
-            stateMachine?.SetBattle();
+            if (baseData != null && baseData.useBattleState) //케틀
+            {
+                stateMachine?.SetBattle();
+            }
 
             attackTimer -= Time.deltaTime;
             if (attackTimer <= 0f)
@@ -46,10 +108,6 @@ public class Chess : ChessStateBase
                 attackTimer = attackInterval;
                 AttackOnce();
             }
-        }
-        else
-        {
-            stateMachine?.SetIdle();
         }
     }
     //=====================================================
@@ -67,8 +125,8 @@ public class Chess : ChessStateBase
 
         if (animator != null)
         {
-            int index = UnityEngine.Random.Range(0, 2);
-            animator.SetInteger("AttackIndex", index);
+            //int index = UnityEngine.Random.Range(0, 2);
+            //animator.SetInteger("AttackIndex", index);
             animator.SetTrigger("Attack");
         }
 

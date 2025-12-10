@@ -44,5 +44,9 @@ public class ChessStatData : ScriptableObject
     [Header("풀 설정")]
     [Tooltip("PoolConfig.id랑 맞추면 됩니당")]
     public string poolID;
+    //=====================================================
+    [Header("서브스테이트머신 설정")]
+    [Tooltip("서브스테이트머신으로 전이될지를 정합니다.")]
+    public bool useBattleState = false;
 
 }
