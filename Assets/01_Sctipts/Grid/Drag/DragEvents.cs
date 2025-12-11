@@ -58,6 +58,11 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             if (chessData != null)
                 shop.EnterSellMode(shop.CalculateSellPrice(chessData, chess.StarLevel));
         }
+
+        foreach(var g in grids)
+        {
+            g.lineParent.gameObject.SetActive(true);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -98,6 +103,11 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         UpdateGridAndNode();
         UpdateSynergy(); //12.09 Kim add
         chess = null;
+
+        foreach (var g in grids)
+        {
+            g.lineParent.gameObject.SetActive(false);
+        }
     }
 
 
@@ -122,7 +132,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             else
             {
                 chess.SetPosition(chessFirstPos);
-                prevNode.ChessPiece = chess;
+                //prevNode.ChessPiece = chess;
             }
 
             return true;

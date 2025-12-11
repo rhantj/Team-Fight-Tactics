@@ -2,13 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SFXManager : MonoBehaviour
+/*
+Don't use Singleton pattern
+
+spatialBlend == 0 : bgm
+spatialBlend == 1 : other 
+ */
+
+public static class SoundSystem
 {
-    // SINGLETON
+    public static ISoundable SoundPlayer { get; private set; }
+    public static void DI(ISoundable soundPlayer)
+    {
+        SoundPlayer = soundPlayer;
+    }
+}
 
-    // spatialBlend == 0 : bgm
-    // spatialBlend == 1 : other
-
+public class SFXManager : MonoBehaviour, ISoundable
+{
     [SerializeField] AudioClip[] preloadSFX;
     private Dictionary<string, AudioClip> clipDic = new();
     public List<GameObject> usingSound = new();
@@ -19,30 +30,11 @@ public class SFXManager : MonoBehaviour
         {
             clipDic[clip.name] = clip;
         }
+
+        SoundSystem.DI(this);
     }
 
-    private void Start()
-    {
-        StartCoroutine(Co_SpawnSfx());
-    }
-
-    IEnumerator Co_SpawnSfx()
-    {
-        yield return null;
-        PlaySfx("BGM1", Vector3.zero, .5f, 0);
-        yield return new WaitForSeconds(1f);
-
-        PlaySfx("Darius_Normal_Hit1", Vector3.zero, 1f, 0);
-        yield return new WaitForSeconds(1f);
-
-        PlaySfx("Jarvan_Normal_Hit1", Vector3.zero, 1f, 0);
-        yield return new WaitForSeconds(1f);
-
-        PlaySfx("Xayah_Normal_Hit", Vector3.zero, 1f, 0);
-        yield return new WaitForSeconds(1f);
-    }
-
-    public void PlaySfx(string name, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
+    public void PlaySound(string name, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
     {
         if (!clipDic.ContainsKey(name)) return;
 

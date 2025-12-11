@@ -28,6 +28,10 @@ public class ChessControllerManager : MonoBehaviour
 
         foreach (var chess in allChess)
         {
+
+
+            if (chess.GetComponent<Enemy>() != null) continue; //12.11 Kim add
+
             switch (state)
             {
                 case RoundState.Preparation:
