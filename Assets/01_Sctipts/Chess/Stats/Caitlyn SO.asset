@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHP: 100
   armor: 20
   attackDamage: 20
-  attackSpeed: 2
+  attackSpeed: 1
   mana: 2
   starLevel: 1
   cost: 1
@@ -25,5 +25,6 @@ MonoBehaviour:
   prefab: {fileID: 373028469288263894, guid: 30459cb547fcb3a47ac3d081dc7953bd, type: 3}
   skillName: 
   skillDescription: 
+  skillIcon: {fileID: 0}
   poolID: Caitlyn
-  useBattleState: 1
+  useBattleState: 0

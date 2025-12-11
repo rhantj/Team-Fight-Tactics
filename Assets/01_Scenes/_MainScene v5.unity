@@ -160,6 +160,8 @@ MonoBehaviour:
   nodeRadius: 3
   nodeDiameter: 0
   worldBottomLeft: {x: 0, y: 0, z: 0}
+  linePF: {fileID: 0}
+  lineParent: {fileID: 0}
   enemyPF: {fileID: 9097066778206276765, guid: 7ff9fec1bee4fd145beef462b5aea341, type: 3}
   startNode: 0
 --- !u!23 &224909169
@@ -940,6 +942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2085570468}
   - component: {fileID: 2085570467}
+  - component: {fileID: 2085570469}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -960,7 +963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLoseCount: 3
-  battleTime: 10
+  battleTime: 30
   preparationTime: 5
 --- !u!4 &2085570468
 Transform:
@@ -977,6 +980,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2085570469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085570466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc970371826bb21428d9a6586067cee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &337912312526828377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1200,6 +1215,8 @@ MonoBehaviour:
   nodeRadius: 3
   nodeDiameter: 0
   worldBottomLeft: {x: 0, y: 0, z: 0}
+  linePF: {fileID: 0}
+  lineParent: {fileID: 0}
 --- !u!223 &4015154964981791954
 Canvas:
   m_ObjectHideFlags: 0
@@ -1393,6 +1410,8 @@ MonoBehaviour:
   nodeRadius: 2.2
   nodeDiameter: 0
   worldBottomLeft: {x: 0, y: 0, z: 0}
+  linePF: {fileID: 0}
+  lineParent: {fileID: 0}
 --- !u!114 &8143662388720478753
 MonoBehaviour:
   m_ObjectHideFlags: 0
