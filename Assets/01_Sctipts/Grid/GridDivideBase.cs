@@ -10,6 +10,8 @@ public class GridDivideBase : MonoBehaviour
     [SerializeField] protected float nodeRadius;
     [SerializeField] protected float nodeDiameter;
     [SerializeField] protected Vector3 worldBottomLeft;
+    [SerializeField] protected LineRenderer linePF;
+    [HideInInspector] public Transform lineParent;
     protected GridNode[,] fieldGrid;
     protected Dictionary<int, GridNode> nodePerInt = new();
 
@@ -66,6 +68,48 @@ public class GridDivideBase : MonoBehaviour
                 nodePerInt.Add(num, node);
             }
         }
+
+        if (!linePF) return;
+        DrawLine();
+    }
+
+    void DrawLine()
+    {
+        lineParent = new GameObject("Grid Line").transform;
+
+        float width = gridWorldSize.x;
+        float height = gridWorldSize.y;
+
+        Vector3 origin = worldBottomLeft;
+
+        for (int x = 0; x < gridXCnt; ++x)
+        {
+            var start = origin + Vector3.right * (x * nodeDiameter);
+            var end = start + Vector3.forward * height;
+
+            MakeLine(start, end);
+        }
+
+        for (int y = 0; y < gridYCnt; ++y)
+        {
+            var start = origin + Vector3.forward * (y * nodeDiameter);
+            var end = start + Vector3.right * width;
+
+            MakeLine(start, end);
+        }
+
+        lineParent.gameObject.SetActive(false);
+    }
+
+    void MakeLine(Vector3 start, Vector3 end)
+    {
+        var lr = Instantiate(linePF, lineParent);
+        lr.positionCount = 2;
+        lr.useWorldSpace = true;
+
+        var offset = Vector3.up * 2f;
+        lr.SetPosition(0, start + offset);
+        lr.SetPosition(1, end + offset);
     }
     
     public bool IsPositionInGrid(Vector3 pos)
