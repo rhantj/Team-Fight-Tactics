@@ -136,6 +136,7 @@ public class Chess : ChessStateBase
 
     private void AttackOnce()
     {
+        Debug.Log($"[{name}]Attack once,Interval ={attackInterval}");
         if (currentTarget == null || currentTarget.IsDead) return;
 
 
