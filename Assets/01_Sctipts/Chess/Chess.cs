@@ -209,4 +209,12 @@ public class Chess : ChessStateBase
         overrideState = true;
         animator?.SetInteger("State", 2);
     }
+
+    // 기물 클릭 관련 : 12-11 로건 추가
+    private void OnMouseDown()
+    {
+        SelectionSubject.OnUnitSelected?.Invoke(baseData);
+    }
+
+
 }
