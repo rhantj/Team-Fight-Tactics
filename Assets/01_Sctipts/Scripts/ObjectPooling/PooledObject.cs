@@ -15,7 +15,7 @@ public class PooledObject : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"PooledObject '{name}' 풀 아이티 없음. ");
+            Debug.LogWarning($"PooledObject '{name}' 풀 아이디 없음. ");
             Destroy(gameObject);
         }
     }
