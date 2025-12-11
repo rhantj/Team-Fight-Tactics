@@ -47,7 +47,9 @@ public class PoolManager : MonoBehaviour
             }
 
             AsyncOperationHandle<GameObject> handle = config.prefab.LoadAssetAsync<GameObject>();
+
             GameObject loadedPF = handle.WaitForCompletion();
+
             if (!loadedPF)
             {
                 Debug.LogError($"Failed Load Addressables : {config.id}");
