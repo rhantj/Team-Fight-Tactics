@@ -1527,6 +1527,8 @@ MonoBehaviour:
   nodeRadius: 2.2
   nodeDiameter: 0
   worldBottomLeft: {x: 0, y: 0, z: 0}
+  linePF: {fileID: 0}
+  lineParent: {fileID: 0}
 --- !u!1 &1000154965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,6 +2326,8 @@ MonoBehaviour:
   nodeRadius: 3
   nodeDiameter: 0
   worldBottomLeft: {x: 0, y: 0, z: 0}
+  linePF: {fileID: 0}
+  lineParent: {fileID: 0}
 --- !u!1001 &1705223730
 PrefabInstance:
   m_ObjectHideFlags: 0
