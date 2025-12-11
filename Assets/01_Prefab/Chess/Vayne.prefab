@@ -974,7 +974,7 @@ GameObject:
   - component: {fileID: 5963329559379825386}
   - component: {fileID: 1556719438659799718}
   m_Layer: 0
-  m_Name: Vayne
+  m_Name: Vayne_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1035,6 +1035,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &5963329559379825386
 MonoBehaviour:
   m_ObjectHideFlags: 0

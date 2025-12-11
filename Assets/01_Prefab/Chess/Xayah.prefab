@@ -2782,7 +2782,7 @@ GameObject:
   - component: {fileID: 1451133022711726368}
   - component: {fileID: 5076353908699122423}
   m_Layer: 0
-  m_Name: Xayah
+  m_Name: Xayah_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2843,6 +2843,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &1451133022711726368
 MonoBehaviour:
   m_ObjectHideFlags: 0

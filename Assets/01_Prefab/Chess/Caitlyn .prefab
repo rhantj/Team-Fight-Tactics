@@ -3639,7 +3639,7 @@ GameObject:
   - component: {fileID: 7701086339185150924}
   - component: {fileID: 5082899872862623145}
   m_Layer: 0
-  m_Name: Caitlyn
+  m_Name: Caitlyn_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3700,6 +3700,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &7701086339185150924
 MonoBehaviour:
   m_ObjectHideFlags: 0

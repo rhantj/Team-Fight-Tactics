@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 3184202953260664850}
   - component: {fileID: 2946080646446584480}
   m_Layer: 0
-  m_Name: Vi
+  m_Name: Vi_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -794,6 +794,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &3184202953260664850
 MonoBehaviour:
   m_ObjectHideFlags: 0

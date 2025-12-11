@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 3006548596055868323}
   - component: {fileID: 2805244758944928564}
   m_Layer: 0
-  m_Name: Shen
+  m_Name: Shen_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -506,6 +506,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &3006548596055868323
 MonoBehaviour:
   m_ObjectHideFlags: 0

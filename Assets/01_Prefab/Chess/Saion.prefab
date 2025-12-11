@@ -1609,7 +1609,7 @@ GameObject:
   - component: {fileID: 5558127583122510583}
   - component: {fileID: 4529901148644308778}
   m_Layer: 0
-  m_Name: Saion
+  m_Name: Saion_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1670,6 +1670,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &5558127583122510583
 MonoBehaviour:
   m_ObjectHideFlags: 0

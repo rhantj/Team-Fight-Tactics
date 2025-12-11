@@ -934,7 +934,7 @@ GameObject:
   - component: {fileID: 4983511191955893143}
   - component: {fileID: 157304445071610452}
   m_Layer: 0
-  m_Name: Jarvan
+  m_Name: Jarvan_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -995,6 +995,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &4983511191955893143
 MonoBehaviour:
   m_ObjectHideFlags: 0

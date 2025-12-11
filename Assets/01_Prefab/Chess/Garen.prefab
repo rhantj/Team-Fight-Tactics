@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 2097294989554330495}
   - component: {fileID: 7182612781179258947}
   m_Layer: 0
-  m_Name: Garen
+  m_Name: Garen_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -327,6 +327,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &2097294989554330495
 MonoBehaviour:
   m_ObjectHideFlags: 0

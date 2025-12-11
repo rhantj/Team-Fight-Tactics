@@ -1577,7 +1577,7 @@ GameObject:
   - component: {fileID: 82483899050251971}
   - component: {fileID: 279724692217091867}
   m_Layer: 0
-  m_Name: Galio
+  m_Name: Galio_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1638,6 +1638,7 @@ MonoBehaviour:
   manaOnHit: 10
   manaOnDamaged: 5
   team: 0
+  overrideState: 0
 --- !u!114 &82483899050251971
 MonoBehaviour:
   m_ObjectHideFlags: 0
