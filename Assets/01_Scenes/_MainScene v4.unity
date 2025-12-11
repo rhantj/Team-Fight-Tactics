@@ -403,7 +403,7 @@ PrefabInstance:
     - target: {fileID: 8737100797837873291, guid: d62d80742be1631408fd364c1c3a2b77, type: 3}
       propertyPath: goldImage
       value: 
-      objectReference: {fileID: 1792209327}
+      objectReference: {fileID: 2023325770}
     - target: {fileID: 8737100797837873291, guid: d62d80742be1631408fd364c1c3a2b77, type: 3}
       propertyPath: emptySprite
       value: 
@@ -1051,6 +1051,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2023325770 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 468129198627570923, guid: d62d80742be1631408fd364c1c3a2b77, type: 3}
+  m_PrefabInstance: {fileID: 300020393}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2107883948 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2723682608931013107, guid: d62d80742be1631408fd364c1c3a2b77, type: 3}
