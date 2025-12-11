@@ -34,10 +34,18 @@ public class Chess : ChessStateBase
     {
         base.Awake();
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
-        }
+        //if (GameManager.Instance != null)
+        //{
+        //    GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
+        //}
+    }
+    private void Start()
+    {
+        TryRegisterGameManager();
+    }
+    private void OnEnable()
+    {
+        TryRegisterGameManager();
     }
 
     private void OnDestroy()
@@ -45,6 +53,14 @@ public class Chess : ChessStateBase
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+        }
+    }
+    private void TryRegisterGameManager()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+            GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
         }
     }
     //=====================================================

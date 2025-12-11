@@ -122,7 +122,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             else
             {
                 chess.SetPosition(chessFirstPos);
-                prevNode.ChessPiece = chess;
+                //prevNode.ChessPiece = chess;
             }
 
             return true;
