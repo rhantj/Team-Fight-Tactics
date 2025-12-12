@@ -31,24 +31,37 @@ public class SynergyManager : MonoBehaviour
             ClearSynergies();
             return;
         }
-        currentCounts.Clear();
+
+        //Trait별 "서로 다른 기물" 집합
+        Dictionary<TraitType, HashSet<ChessStatData>> uniqueByTrait = new();
+
         foreach (var unit in fieldUnits)
         {
             if (unit == null) continue;
-            var traits = unit.Traits; //ChessStateBase.트레
+            if (unit.BaseData == null) continue;
+
+            var traits = unit.Traits;
             if (traits == null) continue;
 
             foreach (var trait in traits)
             {
-                if (!currentCounts.ContainsKey(trait))
-                    currentCounts[trait] = 0;
-
-                currentCounts[trait]++;
+                if (!uniqueByTrait.TryGetValue(trait, out var set))
+                {
+                    set = new HashSet<ChessStatData>();
+                    uniqueByTrait.Add(trait, set);
+                }
+                set.Add(unit.BaseData);
             }
         }
+
+        currentCounts.Clear();
+        foreach (var kv in uniqueByTrait)
+            currentCounts[kv.Key] = kv.Value.Count;
+
         UpdateActiveSynergies();
         ApplySynergyEffects(fieldUnits);
     }
+
 
     public bool TryGetSynergyEffect(
         TraitType trait,

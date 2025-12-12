@@ -71,6 +71,8 @@ public class Chess : ChessStateBase
         switch (newState)
         {
             case RoundState.Preparation:
+                overrideState = false;
+                animator.SetTrigger("ToIdle");
                 ExitBattlePhase();
                 break;
 
@@ -101,7 +103,7 @@ public class Chess : ChessStateBase
         currentTarget = null;
         attackTimer = attackInterval;
 
-        overrideState = false;
+        if (overrideState) return;
         stateMachine?.SetIdle();
     }
 
@@ -204,21 +206,26 @@ public class Chess : ChessStateBase
     //=====================================================
     public void ForceIdle()
     {
-        overrideState = true;
-        animator?.SetInteger("State", 0);
+        overrideState = false;
+        animator.ResetTrigger("ToIdle");
+        animator.SetTrigger("ToIdle");
     }
+
 
     public void ForceBattle()
     {
         overrideState = true;
-        animator?.SetInteger("State", 2);
+        //animator?.SetInteger("State", 2);
+        stateMachine?.SetBattle();
     }
 
     public void ForceVictory()
     {
-        overrideState = true;
-        animator?.SetInteger("State", (int)UnitState.Victory);
+        overrideState = true;      
+        animator?.ResetTrigger("Attack"); 
+        animator?.SetTrigger("Victory");  
     }
+
 
 
 

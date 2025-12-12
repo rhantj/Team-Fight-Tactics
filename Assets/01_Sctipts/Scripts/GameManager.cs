@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
 
+    [SerializeField] private float resultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
+
     //참조
     /*
     public Player player;
@@ -156,9 +158,11 @@ public class GameManager : MonoBehaviour
         //결과 계산
         SetRoundState(RoundState.Result);
 
+        //연출시간.
+        yield return new WaitForSeconds(resultTime);
 
         //다음 라운드or게임 오버
-        if(loseCount >= maxLoseCount)
+        if (loseCount >= maxLoseCount)
         {
             EndGame();
             yield break;
