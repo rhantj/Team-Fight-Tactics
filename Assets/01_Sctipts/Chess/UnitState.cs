@@ -4,7 +4,8 @@ public enum UnitState
     Move = 1,
     Battle = 2,
     Skill = 3,
-    Die = 4
+    Die = 4,
+    Victory = 5
 }
 
 

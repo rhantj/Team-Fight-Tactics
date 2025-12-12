@@ -4037,7 +4037,7 @@ MonoBehaviour:
     preloadCount: 15
   - id: Garen
     prefab:
-      m_AssetGUID: a5feb2668f9e9654fa43d7584f940ffe
+      m_AssetGUID: fb9a5235429c651468cd882d1232e043
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
@@ -8287,10 +8287,19 @@ MonoBehaviour:
   iconImage: {fileID: 2025771088}
   nameText: {fileID: 168885216}
   costText: {fileID: 805598315}
+  frameImage: {fileID: 0}
   armorText: {fileID: 1115484256}
   attackDamageText: {fileID: 417298668}
   attackSpeedText: {fileID: 1682937486}
   skillIconImage: {fileID: 1992439038}
+  costUIData: {fileID: 0}
+  hpFillImage: {fileID: 0}
+  hpText: {fileID: 0}
+  manaFillImage: {fileID: 0}
+  manaText: {fileID: 0}
+  synergyContainer: {fileID: 0}
+  synergyIconPrefab: {fileID: 0}
+  traitIconDB: {fileID: 0}
 --- !u!4 &1751471409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b5f015f5642c5274385b2ecf4c04f26e, type: 3}

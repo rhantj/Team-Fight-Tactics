@@ -29,13 +29,15 @@ public class EnemyGrid : GridDivideBase
 
     void SpawnEnemy()
     {
-        for (int i = startNode; i < startNode + 3; ++i)
+        for (int i = startNode; i < startNode + 1; ++i)
         {
             var node = nodePerInt[i];
             var pos = node.worldPosition;
             var obj = Instantiate(enemyPF);
 
             obj.GetComponent<Enemy>().SetPosition(pos);
+            node.ChessPiece = obj.GetComponent<Enemy>(); //12.12 add Kim
+
         }
     }
     #endregion

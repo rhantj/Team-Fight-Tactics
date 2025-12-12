@@ -100,8 +100,11 @@ public class Chess : ChessStateBase
         isInBattlePhase = false;
         currentTarget = null;
         attackTimer = attackInterval;
+
+        overrideState = false;
         stateMachine?.SetIdle();
     }
+
     //=====================================================
     //                  업데이트 루프
     //=====================================================
@@ -211,7 +214,14 @@ public class Chess : ChessStateBase
         animator?.SetInteger("State", 2);
     }
 
-    
+    public void ForceVictory()
+    {
+        overrideState = true;
+        animator?.SetInteger("State", (int)UnitState.Victory);
+    }
+
+
+
 
 
 }
