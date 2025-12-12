@@ -200,7 +200,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
 
             // 이름 설정
             if (traitNameObj != null)
-                traitNameObj.text = trait.ToString();
+                traitNameObj.text = traitIconDB.GetDisplayName(trait);
         }
     }
 
