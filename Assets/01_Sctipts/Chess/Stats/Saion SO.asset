@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
   m_Name: Saion SO
   m_EditorClassIdentifier: 
-  unitName: Saion
+  unitName: "\uC0AC\uC774\uC628"
   maxHP: 100
   armor: 20
   attackDamage: 20
@@ -23,6 +23,8 @@ MonoBehaviour:
   traits: 01000000
   icon: {fileID: 21300000, guid: 0947cc8f23f9fa24b860767f22ede4ac, type: 3}
   prefab: {fileID: 9176150212420796809, guid: 871b36cca748428449c1c46c3bc43f6d, type: 3}
-  skillName: 
-  skillDescription: 
+  skillIcon: {fileID: 21300000, guid: 2ac405c99264f54479bcf21779048a9b, type: 3}
+  skillName: "\uC601\uD63C\uC758 \uC6A9\uAD11\uB85C"
+  skillDescription: "\uC601\uD63C\uC758 \uC6A9\uAD11\uB85C : "
   poolID: Saion
+  useBattleState: 0

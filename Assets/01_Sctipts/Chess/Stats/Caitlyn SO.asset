@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
   m_Name: Caitlyn SO
   m_EditorClassIdentifier: 
-  unitName: Caitlyn
+  unitName: "\uCF00\uC774\uD2C0\uB9B0"
   maxHP: 100
   armor: 20
   attackDamage: 20
@@ -23,8 +23,8 @@ MonoBehaviour:
   traits: 02000000
   icon: {fileID: 21300000, guid: 250809e3c45799246a42b166ebe3cdc2, type: 3}
   prefab: {fileID: 373028469288263894, guid: 30459cb547fcb3a47ac3d081dc7953bd, type: 3}
-  skillName: 
-  skillDescription: 
-  skillIcon: {fileID: 0}
+  skillIcon: {fileID: 21300000, guid: 2de3238e590adef4a805b5b1621ff890, type: 3}
+  skillName: "\uD544\uD2B8\uC624\uBC84 \uD53C\uC2A4\uBA54\uC774\uCEE4"
+  skillDescription: "\uD544\uD2B8\uC624\uBC84 \uD53C\uC2A4\uBA54\uC774\uCEE4 : "
   poolID: Caitlyn
   useBattleState: 0

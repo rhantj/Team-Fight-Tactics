@@ -120,33 +120,38 @@ public class GameManager : MonoBehaviour
 
         float battleTimer = battleTime;
 
-        while(true)
+        while (true)
         {
-            battleTimer -=Time.deltaTime;
+            battleTimer -= Time.deltaTime;
             OnBattleTimerUpdated?.Invoke(battleTimer);
 
             bool playerAllDead = UnitCountManager.Instance.ArePlayerAllDead();
             bool enemyAllDead = UnitCountManager.Instance.AreEnemyAllDead();
+            if (enemyAllDead)
+            {
+                EndBattle(true);  
+                break;
+            }
 
-            //if(playerAllDead || enemyAllDead) //임시임 이거 있으면 겜매니저 안돌아서 나중에 적 기물 만들고 실험해봐야할듯
-            //{
-            //    bool playerWin = enemyAllDead && !playerAllDead;
-            //    EndBattle(playerWin);
-            //    break;
-            //}
+            if (playerAllDead)
+            {
+                EndBattle(false);  
+                break;
+            }
 
-            if(battleTimer <= 0f)
+            if (battleTimer <= 0f)
             {
                 int playerAlive = UnitCountManager.Instance.GetPlayerAliveCount();
                 int enemyAlive = UnitCountManager.Instance.GetEnemyAliveCount();
 
-                bool playerWin = playerAlive > enemyAlive;
+                bool playerWin = playerAlive > enemyAlive; 
                 EndBattle(playerWin);
                 break;
             }
 
             yield return null;
         }
+
 
         //결과 계산
         SetRoundState(RoundState.Result);
@@ -166,20 +171,36 @@ public class GameManager : MonoBehaviour
     //전투시작 메서드
     private void StartBattle()
     {
+        UnitCountManager.Instance.Clear();
+
         var fieldGrid = FindAnyObjectByType<FieldGrid>();
-        var fieldUnits = fieldGrid.GetAllFieldUnits();
+        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
 
-        foreach(var unit in fieldUnits)
+        if (fieldGrid != null)
         {
-            Chess chess = unit.GetComponent<Chess>();
-            if (chess == null) continue;
-
-            bool isPlayer = chess.team == Team.Player; //팀 분류 기준
-            UnitCountManager.Instance.RegisterUnit(chess, isPlayer);
+            foreach (var unit in fieldGrid.GetAllFieldUnits())
+            {
+                var chess = unit.GetComponent<Chess>();
+                if (chess == null) continue;
+                UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+            }
         }
+
+        if (enemyGrid != null)
+        {
+            foreach (var unit in enemyGrid.GetAllFieldUnits()) 
+            {
+                var chess = unit.GetComponent<Chess>();
+                if (chess == null) continue;
+                UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+            }
+        }
+
+        Debug.Log($"[StartBattle] Player={UnitCountManager.Instance.GetPlayerAliveCount()}, Enemy={UnitCountManager.Instance.GetEnemyAliveCount()}");
 
         SetRoundState(RoundState.Battle);
     }
+
 
     private void EndBattle(bool win)
     {
@@ -190,11 +211,27 @@ public class GameManager : MonoBehaviour
     {
         OnRoundEnded?.Invoke(currentRound, win);
 
-        if(!win)
+        if (!win) loseCount++;
+
+        if (win)
         {
-            loseCount++;
+            var fieldGrid = FindAnyObjectByType<FieldGrid>();
+            if (fieldGrid != null)
+            {
+                var units = fieldGrid.GetAllFieldUnits();
+                foreach (var u in units)
+                {
+                    var c = u.GetComponent<Chess>();
+                    if (c == null) continue;
+                    if (c.team != Team.Player) continue;
+                    if (c.IsDead) continue;
+
+                    c.ForceVictory();
+                }
+            }
         }
     }
+
 
     //게임 종료 메서드
     private void EndGame()
@@ -205,7 +242,9 @@ public class GameManager : MonoBehaviour
     //라운드 상태 변경 메서드
     private void SetRoundState(RoundState newState)
     {
+        Debug.Log($"RoundState => {newState}");
         roundState = newState;
         OnRoundStateChanged?.Invoke(newState);
     }
+
 }

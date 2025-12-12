@@ -473,7 +473,7 @@ public class ShopManager : Singleton<ShopManager>
         if (sellPriceText != null)
         {
             sellPriceText.gameObject.SetActive(true);
-            sellPriceText.text = "Sell Price : " + price.ToString() + " Gold";
+            sellPriceText.text = "판매 가격 : " + price.ToString() + " 골드";
         }
     }
     public void ExitSellMode()

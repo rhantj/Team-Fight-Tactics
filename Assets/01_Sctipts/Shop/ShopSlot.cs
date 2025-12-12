@@ -185,8 +185,9 @@ public class ShopSlot : MonoBehaviour
             }
 
             // 이름 설정 (enum 이름 출력)
-            if (traitNameObj != null)
-                traitNameObj.text = trait.ToString();
+            if (traitNameObj != null && traitIconDB != null)
+                traitNameObj.text = traitIconDB.GetDisplayName(trait);
+
         }
     }
 }

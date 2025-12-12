@@ -5,6 +5,7 @@ public class TraitIconEntry
 {
     public TraitType trait;
     public Sprite icon;
+    public string displayName;
 }
 
 [CreateAssetMenu(fileName = "TraitIconDatabase", menuName = "TFT/Trait Icon Database")]
@@ -20,5 +21,16 @@ public class TraitIconDatabase : ScriptableObject
                 return e.icon;
         }
         return null;
+    }
+    public string GetDisplayName(TraitType trait)
+    {
+        foreach (var e in entries)
+        {
+            if (e.trait == trait)
+                return string.IsNullOrEmpty(e.displayName)
+                    ? trait.ToString()
+                    : e.displayName;
+        }
+        return trait.ToString();
     }
 }

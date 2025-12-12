@@ -15,6 +15,9 @@ public class CostUIInfo
 
     [Tooltip("해당 코스트일 때 슬롯 배경 색상")]
     public Color backgroundColor;
+
+    [Tooltip("기물 정보 UI 프레임 스프라이트")]
+    public Sprite infoFrameSprite;
 }
 
 /// <summary>

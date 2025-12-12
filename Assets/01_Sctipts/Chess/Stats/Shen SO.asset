@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
   m_Name: Shen SO
   m_EditorClassIdentifier: 
-  unitName: Shen
+  unitName: "\uC254"
   maxHP: 100
   armor: 20
   attackDamage: 20
@@ -23,6 +23,8 @@ MonoBehaviour:
   traits: 01000000
   icon: {fileID: 21300000, guid: 99d20934e39f0044497754d304f160b6, type: 3}
   prefab: {fileID: 7799542236707969748, guid: f90c643926880594dbc8c3073dfb3141, type: 3}
-  skillName: 
-  skillDescription: 
+  skillIcon: {fileID: 21300000, guid: 75e770195ff05084484bc4c7cc0c7926, type: 3}
+  skillName: "\uB2E8\uACB0\uB41C \uC758\uC9C0"
+  skillDescription: "\uB2E8\uACB0\uB41C \uC758\uC9C0 : "
   poolID: Shen
+  useBattleState: 0

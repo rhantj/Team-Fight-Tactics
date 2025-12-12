@@ -37,10 +37,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         CalculateWorldChess(camRay);
         if (!chess) return;
 
-        var field = typeof(ChessStateBase).GetField("baseData", BindingFlags.NonPublic | BindingFlags.Instance);
-        ChessStatData data = field.GetValue(chess) as ChessStatData;
-
-        ChessInfoUI.Instance.ShowInfo(data);
+        ChessInfoUI.Instance.ShowInfo(chess);
 
         chessFirstPos = _worldPos;
         prevGrid = FindGrid(chessFirstPos);
