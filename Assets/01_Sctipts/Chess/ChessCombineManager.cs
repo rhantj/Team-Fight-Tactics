@@ -159,6 +159,10 @@ public class ChessCombineManager : MonoBehaviour
             Destroy(material.gameObject);
     }
 
+
+
+
+
     private void HandleDead(Chess deadChess)
     {
         if (deadChess == null)
@@ -166,4 +170,12 @@ public class ChessCombineManager : MonoBehaviour
 
         Unregister(deadChess);
     }
+
+    // 3성 판매시 다시 상점에 등장하게 설정
+    public void UnmarkCompletedUnit(ChessStatData data)
+    {
+        if (data == null) return;
+        completedUnits.Remove(data);
+    }
+
 }
