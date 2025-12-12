@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class ItemDrag : MonoBehaviour
 {
     public static ItemDrag Instance;
 
     [SerializeField] private Image dragIcon;
+    [SerializeField] private ItemCombineManager combineManager;
 
     private Canvas canvas;
     private ItemSlot originSlot;
@@ -42,17 +44,29 @@ public class ItemDrag : MonoBehaviour
         dragIcon.enabled = false;
 
         GameObject dragingObj = eventData.pointerEnter;
+        if (!dragingObj) return;
 
-        if(dragingObj != null)
+        ItemSlot targetSlot = dragingObj.GetComponent<ItemSlot>();
+
+        if (!targetSlot || targetSlot == originSlot) return;
+
+        if (targetSlot.IsEmpty)
         {
-            ItemSlot targetSlot = dragingObj.GetComponent<ItemSlot>();
-
-            if(targetSlot != null && targetSlot != originSlot)
-            {
-                ItemSlotSwap(originSlot, targetSlot);
-                return;
-            }
+            ItemSlotSwap(originSlot, targetSlot);
+            return;
         }
+
+        var a = originSlot.CurrentItem.Data;
+        var b = targetSlot.CurrentItem.Data;
+
+        if (combineManager.TryCombine(a, b, out var combined))
+        {
+            targetSlot.SetItem(combined);
+            originSlot.ClearSlot();
+            return;
+        }
+
+        ItemSlotSwap(originSlot, targetSlot);
         //드래그 후 드랍 위치 오류 -> 원래 있던 위치로 자동 드랍
     }
 
