@@ -341,33 +341,57 @@ public class ShopManager : Singleton<ShopManager>
     // 판매 기능
     public void SellUnit(ChessStatData data, GameObject obj)
     {
-        if (data == null)
+        if (data == null || obj == null)
             return;
 
-        // 판매되는 유닛의 Chess 컴포넌트 가져오기
-        Chess chess = obj.GetComponentInChildren<Chess>(); //25.12.08 Add Kim : 합성 매니저에서 제거합니다.
+        // 판매되는 유닛의 Chess 컴포넌트
+        Chess chess = obj.GetComponentInChildren<Chess>();
 
-        // 유닛의 성급 정보 가져오기 (없으면 기본 1성 처리)
+        // 성급 판별
         int starLevel = 1;
         if (chess != null)
             starLevel = chess.StarLevel;
 
-        // 성급을 고려한 판매가격 계산
+        // 판매 가격 계산 및 골드 지급
         int sellPrice = CalculateSellPrice(data, starLevel);
-
-        // 판매 골드 지급
         AddGold(sellPrice);
 
-        Debug.Log(data.unitName + " 판매 완료. +" + sellPrice + " Gold");
+        Debug.Log($"{data.unitName} 판매 완료. +{sellPrice} Gold");
 
+        // ===============================
+        // 1. CombineManager 정리
+        // ===============================
         if (chess != null)
         {
             ChessCombineManager.Instance?.Unregister(chess);
+
+            // 3성 유닛 판매 시 completed 상태 해제
+            if (starLevel >= 3)
+            {
+                ChessCombineManager.Instance?.UnmarkCompletedUnit(data);
+            }
         }
 
-        // 판매된 유닛을 풀로 되돌림
+        // ===============================
+        // 2. Shop 등장 제한용 구매 카운트 복구
+        // ===============================
+        if (unitBuyCount.ContainsKey(data))
+        {
+            int returnCount = 1;
+
+            if (starLevel == 2) returnCount = 3;
+            else if (starLevel == 3) returnCount = 9;
+
+            unitBuyCount[data] = Mathf.Max(0, unitBuyCount[data] - returnCount);
+        }
+
+        // ===============================
+        // 3. 풀로 반환
+        // ===============================
         PoolManager.Instance.Despawn(data.poolID, obj);
     }
+
+
 
 
     // ================================================================

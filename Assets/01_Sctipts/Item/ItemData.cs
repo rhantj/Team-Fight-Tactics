@@ -23,6 +23,9 @@ public class ItemData : ScriptableObject
 
     public ItemData combineA;     //재료 A  
     public ItemData combineB;     //재료 B
+
+    public GameObject infoUIPrefab; //아이템 정보 UI
+    public GameObject recipeUIPrefab;//아이템 레시피 UI
 }
 
     
