@@ -23,7 +23,6 @@ public class ItemData : ScriptableObject
 
     public ItemData combineA;     //재료 A  
     public ItemData combineB;     //재료 B
-    public ItemData combinedItem; //완성템
 }
 
     

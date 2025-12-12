@@ -10,7 +10,6 @@ public class ItemCombineManager : MonoBehaviour
 
     private void Awake()
     {
-        combinedItems.Clear();
         foreach(var combined in arr_CombinedItemDatas)
         {
             AddItemPair(combined.combineA, combined.combineB, combined);
