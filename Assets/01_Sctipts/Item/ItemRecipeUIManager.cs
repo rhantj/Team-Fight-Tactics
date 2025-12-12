@@ -63,7 +63,25 @@ public class ItemRecipeUIManager : MonoBehaviour
     private void FollowMouse(RectTransform ui)
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(uiRoot, Input.mousePosition, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out Vector2 localPos);
+        // 2. 오프셋 적용
+        Vector2 pos = localPos + offset;
 
-        ui.anchoredPosition = localPos + offset;
+        // 3. Canvas / UI 크기
+        Vector2 canvasSize = uiRoot.rect.size;
+        Vector2 uiSize = ui.rect.size;
+
+        // 4. Clamp 범위 계산 (Canvas 중앙 기준)
+        float minX = -canvasSize.x * 0.5f;
+        float maxX = canvasSize.x * 0.5f - uiSize.x;
+
+        float minY = -canvasSize.y * 0.5f + uiSize.y;
+        float maxY = canvasSize.y * 0.5f;
+
+        // 5. Canvas 밖으로 못 나가게 고정
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+
+        // 6. 적용
+        ui.anchoredPosition = pos;
     }
 }
