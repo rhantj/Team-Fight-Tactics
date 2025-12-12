@@ -37,10 +37,10 @@ public class ChessStatData : ScriptableObject
 
     //=====================================================
     [Header("스킬")]
+    public Sprite skillIcon;
     public string skillName;
     [TextArea]
     public string skillDescription;
-    public Sprite skillIcon;
     //=====================================================
     [Header("풀 설정")]
     [Tooltip("PoolConfig.id랑 맞추면 됩니당")]
