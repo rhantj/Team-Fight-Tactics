@@ -124,35 +124,40 @@ public class Chess : ChessStateBase
     //=====================================================
     private void Update()
     {
-        if (overrideState) return; //마찬가지로 연출상태라면 내부로직 중단.
-        if (IsDead) return;//사망했다면 로직중단
-        if (!isInBattlePhase) return; //Battle라운드가 아니면 중단.
+        if (overrideState) return;      
+        if (IsDead) return;                 
+        if (!isInBattlePhase) return;        
 
         if (currentTarget != null && !currentTarget.IsDead)
         {
-            FaceTarget(currentTarget.transform);
-            float dist = Vector3.Distance(transform.position, currentTarget.transform.position);
+            FaceTarget(currentTarget.transform); //적을 바라보게
+
+            float dist = Vector3.Distance(
+                transform.position,
+                currentTarget.transform.position
+            );
 
             if (dist > AttackRange)
             {
-                stateMachine?.SetMove(); // Move는 State(int) 기반이라 “상태가 바뀔 때만” 적용됨 (CurrentState 가드로 안전)
-
-                MoveTowards(currentTarget.transform.position); // 실제 이동
-                return; // 이동 중엔 공격 로직 실행 X
+                stateMachine?.SetMove();          //사거리 밖이면 이동 상태
+                MoveTowards(currentTarget.transform.position); //타겟 방향으로 이동
+                return;                           //이동 중엔 공격하지 않음
             }
-            if (baseData != null && baseData.useBattleState) //케틀
+
+            if (baseData != null && baseData.useBattleState)
             {
-                stateMachine?.SetBattle();
+                stateMachine?.SetBattle();        //사거리 안이면 전투 상태
             }
 
-            attackTimer -= Time.deltaTime;/*공격주기입니다*/
+            attackTimer -= Time.deltaTime;        //공격 쿨타임 감소
             if (attackTimer <= 0f)
             {
-                attackTimer = attackInterval;
-                AttackOnce();
+                attackTimer = attackInterval;     
+                AttackOnce();                     
             }
         }
     }
+
     //=====================================================
     //                  이동 관련
     //=====================================================
@@ -258,7 +263,7 @@ public class Chess : ChessStateBase
     private void ConsumeMaterial(Chess material)
     {
         OnUsedAsMaterial?.Invoke(material); //외부에서 후처리 가능하게.
-        material.gameObject.SetActive(false); //풀링반환용
+        //material.gameObject.SetActive(false); 
     }
     //=====================================================
     //           게임 상태 따른 기물 State 변화

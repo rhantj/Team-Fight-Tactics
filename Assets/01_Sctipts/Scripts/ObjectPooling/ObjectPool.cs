@@ -29,8 +29,17 @@ public class ObjectPool<T> where T : Component
     {
         T obj = GameObject.Instantiate(prefab, parent);
         obj.gameObject.name = poolId;
+
+        //PooledObject 자동 부착해주는
+        var pooled = obj.GetComponent<PooledObject>();
+        if (pooled == null)
+            pooled = obj.gameObject.AddComponent<PooledObject>();
+
+        pooled.poolId = poolId;
+
         return obj;
     }
+
 
     public T Get()
     {
@@ -50,4 +59,6 @@ public class ObjectPool<T> where T : Component
         obj.gameObject.SetActive(false);
         pool.Enqueue(obj);
     }
+
+
 }

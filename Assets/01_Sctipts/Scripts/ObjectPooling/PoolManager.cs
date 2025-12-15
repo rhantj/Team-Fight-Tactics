@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -18,7 +19,8 @@ public class PoolManager : MonoBehaviour
 
     [Header("Pool Settig")]
     public List<PoolConfig> poolConfigs = new List<PoolConfig>();
-    private Dictionary<string, ObjectPool<Component>> poolDict = new Dictionary<string, ObjectPool<Component>>();
+    private Dictionary<string, ObjectPool<UnityEngine.Component>> poolDict
+        = new Dictionary<string, ObjectPool<UnityEngine.Component>>();
 
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class PoolManager : MonoBehaviour
                 continue;
             }
 
-            Component component = loadedPF.GetComponent<Component>();
+            UnityEngine.Component component = loadedPF.GetComponent<UnityEngine.Component>();
 
             var pool = new ObjectPool<Component>(
                 component,
@@ -77,15 +79,15 @@ public class PoolManager : MonoBehaviour
             return null;
         }
 
-        Component compnent = pool.Get();
+        UnityEngine.Component compnent = pool.Get();
         GameObject obj = compnent.gameObject;
 
         var pooledObj = obj.GetComponent<PooledObject>();
+        if (pooledObj == null)
+            pooledObj = obj.AddComponent<PooledObject>();
 
-        if(pooledObj != null)
-        {
-            pooledObj.poolId = id;
-        }
+        pooledObj.poolId = id;
+        pooledObj.releaseComponent = compnent;
 
         return obj;
     }
@@ -93,19 +95,26 @@ public class PoolManager : MonoBehaviour
     //풀 집어넣기
     public void Despawn(string id, GameObject obj)
     {
-        if(!poolDict.TryGetValue(id, out var pool))
+        if (!poolDict.TryGetValue(id, out var pool))
         {
             Debug.LogError($"Pool ID '{id}' 없음");
             Destroy(obj);
             return;
         }
 
-        pool.Release(obj.GetComponent<Component>());
+        var pooledObj = obj.GetComponent<PooledObject>();
+        if (pooledObj != null && pooledObj.releaseComponent != null)
+        {
+            pool.Release(pooledObj.releaseComponent);
+            return;
+        }
+
+        Destroy(obj);
     }
 
     public int GetRemainCount(string id)
     {
-        if(!poolDict.TryGetValue(id, out var pool))
+        if (!poolDict.TryGetValue(id, out var pool))
         {
             Debug.LogError($"Pool ID '{id}' 없음");
             return -1;
@@ -113,4 +122,19 @@ public class PoolManager : MonoBehaviour
 
         return pool.Count;
     }
+
+    public void Despawn(GameObject obj)
+    {
+        if (obj == null) return;
+
+        var pooled = obj.GetComponent<PooledObject>();
+        if (pooled == null || string.IsNullOrEmpty(pooled.poolId))
+        {
+            Destroy(obj);
+            return;
+        }
+
+        Despawn(pooled.poolId, obj);
+    }
+
 }

@@ -1,22 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PooledObject : MonoBehaviour
 {
-    [HideInInspector]
-    public string poolId;
+    [HideInInspector] public string poolId;
+    [HideInInspector] public UnityEngine.Component releaseComponent;
 
     public void ReturnToPool()
     {
-        if(!string.IsNullOrEmpty(poolId))
+        if (PoolManager.Instance == null)
         {
-            PoolManager.Instance.Despawn(poolId, gameObject);
-        }
-        else
-        {
-            Debug.LogWarning($"PooledObject '{name}' 풀 아이디 없음. ");
             Destroy(gameObject);
+            return;
         }
+
+        PoolManager.Instance.Despawn(gameObject);
     }
 }
