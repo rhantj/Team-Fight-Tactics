@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*전체 정리
+ 아이템 정보UI를 관리하는 코드
+- 슬롯에 마우스를 올리면 Show
+- 마우스를 떼면 Hide
+- UI는 마우스를 따라다니고, 화면 밖으로 나가지 않도록 Clamp처리함.
+*/
 public class ItemInfoUIManager : MonoBehaviour
 {
     public static ItemInfoUIManager Instance;
 
     [SerializeField] private RectTransform uiRoot;
+
     [SerializeField] private Vector2 offset = new Vector2(60f, -60f); //오버시 오른쪽 아래 등장
 
     private GameObject currentUI;
@@ -21,13 +28,19 @@ public class ItemInfoUIManager : MonoBehaviour
     }
     private void Update()
     {
+        //UI가 있으면 마우스 위치를 따라감
         if (currentRect != null)
         {
             FollowMouse(currentRect);
         }
     }
 
-
+    /*===================== Show메서드 ====================
+    정보 UI 표시하는 메서드
+    - 만약 이미 같은 Data를 띄우고 있으면 Return
+    - 기존의 UI는 hide로 정리하고 새로 생성
+    - data.infoUIPrefab이 없으면 표시 안함.
+    */
     public void Show(ItemData data)
     {
         if (currentUI != null && currentData == data)
@@ -35,20 +48,27 @@ public class ItemInfoUIManager : MonoBehaviour
             return;
         }
 
+        //이전 UI제거
         Hide();
 
+        //표시할게 없으면 종료
         if(data.infoUIPrefab == null)
         {
             return;
         }
 
+        //UI 생성 + 활성화
         currentUI = Instantiate(data.infoUIPrefab, uiRoot);
         currentRect = currentUI.GetComponent<RectTransform>();
         currentUI.SetActive(true);
 
+        //생성 후 위치 조정
         FollowMouse(currentRect);
     }
 
+    /*================== Hide메서드 ===================
+     * 현재 정보 UI 제거
+     */
     public void Hide()
     {
         if (currentUI != null)
@@ -60,9 +80,15 @@ public class ItemInfoUIManager : MonoBehaviour
         }
     }
 
+    /* ================ FollowMouse메서드 ===================
+     - 마우스 위치에 따라 UI 위치 이동
+     - Canvas 영역 밖으로 UI가 나가지 않도록 Clamp처리
+     */
     private void FollowMouse(RectTransform ui)
     {
+        // 1. 스크린 좌표를 uiRoot 로컬 좌표로 변환
         RectTransformUtility.ScreenPointToLocalPointInRectangle(uiRoot, Input.mousePosition, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out Vector2 localPos);
+       
         // 2. 오프셋 적용
         Vector2 pos = localPos + offset;
 
