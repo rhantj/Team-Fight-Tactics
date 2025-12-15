@@ -4,15 +4,17 @@ using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// 상점 전체 로직을 관리하는 매니저
-/// - 유닛 슬롯 초기화 및 갱신
-/// - 골드 사용 및 UI 갱신
-/// - 경험치 구매 및 레벨업 처리
-/// - 코스트 확률 기반 랜덤 유닛 생성
+/// 상점 시스템 전체를 제어하는 파사드(Facade) 매니저
+/// 
+/// 상점과 관련된 여러 하위 시스템(UI, 확률, 골드, 레벨, 풀링, 합성)을
+/// 하나의 진입점으로 묶어서 외부에서는 ShopManager만을 통해
+/// 상점 기능을 사용하도록 설계했습니다.
+/// 
+/// 이 클래스는 의도적으로 책임 범위가 넓으며,
+/// "상점 시스템이 변경될 때"라는 단일 이유만으로 수정되는 것을 목표로 합니다.
 /// </summary>
 public class ShopManager : Singleton<ShopManager>
 {
-    
     [Header("UI References")]
     [SerializeField] private CostUIData costUIData;
     [SerializeField] private Transform slotContainer;
@@ -35,20 +37,42 @@ public class ShopManager : Singleton<ShopManager>
     [Header("Player Gold")]
     [SerializeField] private int currentGold = 10;
 
+    /// <summary>
+    /// 상점 슬롯 UI 배열
+    /// slotContainer 하위의 ShopSlot을 자동으로 탐색하여 설정됩니다.
+    /// </summary>
     private ShopSlot[] slots;
+
+    /// <summary>
+    /// 코스트 기준으로 분류된 기물 데이터 캐시.
+    /// 랜덤 유닛 선택 시 빠른 조회를 위해 사용됩니다.
+    /// </summary>
     private Dictionary<int, List<ChessStatData>> unitsByCost;
+
+    /// <summary>
+    /// 상점 등장 제한을 위한 내부 카운트 데이터
+    /// 특정 기물이 과도하게 등장하지 않도록 제어하는 용도이며.
+    /// 판매 시에는 성급에 따라 복구됩니다.
+    /// </summary>
     private Dictionary<ChessStatData, int> unitBuyCount = new Dictionary<ChessStatData, int>();
 
 
     // ================================================================
-    // Shop Lock System
+    // 샵 잠금 시스템
     // ================================================================
+    /// <summary>
+    /// 상점 잠금 시스템 관련 데이터
+    /// 잠금 상태에서는 Refresh 및 Reroll이 제한됩니다.
+    /// </summary>
     [Header("Shop Lock System")]
     [SerializeField] private bool isLocked = false;
     [SerializeField] private UnityEngine.UI.Image lockIconImage;
     [SerializeField] private Sprite lockedSprite;
     private Sprite defaultUnlockedSprite;
 
+    // ================================================================
+    // 초기화
+    // ================================================================
     protected override void Awake()
     {
         base.Awake();
@@ -56,13 +80,12 @@ public class ShopManager : Singleton<ShopManager>
         // 슬롯 자동 탐색
         slots = slotContainer.GetComponentsInChildren<ShopSlot>();
 
-        // 최초 아이콘 스프라이트 저장
+        // 잠금 아이콘 기본 상태 저장
         if (lockIconImage != null)
             defaultUnlockedSprite = lockIconImage.sprite;
 
-        // 코스트별 유닛 분류
+        // 코스트 기준 기물을 분류
         unitsByCost = new Dictionary<int, List<ChessStatData>>();
-
         foreach (var unit in allUnits)
         {
             if (!unitsByCost.ContainsKey(unit.cost))
@@ -80,6 +103,10 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // 잠금 버튼 기능
     // ================================================================
+    /// <summary>
+    /// 상점 잠금 상태를 토글합니다.
+    /// 잠금 상태에서는 상점 갱신 및 리롤이 제한됩니다.
+    /// </summary>
     public void ToggleLock()
     {
         isLocked = !isLocked;
@@ -95,12 +122,19 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // 골드 관련
     // ================================================================
+    /// <summary>
+    /// 현재 골드UI를 갱신합니다.
+    /// </summary>
     private void UpdateGoldUI()
     {
         if (currentGoldText != null)
             currentGoldText.text = currentGold.ToString();
     }
 
+    /// <summary>
+    /// 골드 소비를 시도합니다.
+    /// 소비 가능할 경우 골드를 차감하고 true를 반환합니다.
+    /// </summary>
     private bool TrySpendGold(int amount)
     {
         if (currentGold < amount)
@@ -114,6 +148,9 @@ public class ShopManager : Singleton<ShopManager>
         return true;
     }
 
+    /// <summary>
+    /// 골드를 추가하고 UI를 갱신합니다.
+    /// </summary>
     public void AddGold(int amount)
     {
         currentGold += amount;
@@ -123,6 +160,10 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // EXP & 레벨업
     // ================================================================
+    /// <summary>
+    /// 경험치 구매 버튼 처리
+    /// 골드를 소모하여 경험치를 획득하고 레벨업 여부를 검사합니다.
+    /// </summary>
     public void BuyExp()
     {
         if (!TrySpendGold(4))
@@ -133,6 +174,9 @@ public class ShopManager : Singleton<ShopManager>
         CheckLevelUp();
     }
 
+    /// <summary>
+    /// 현재 경험치를 기준으로 레벨업을 반복 검사합니다.
+    /// </summary>
     private void CheckLevelUp()
     {
         LevelData current = GetLevelData(playerLevel);
@@ -154,12 +198,21 @@ public class ShopManager : Singleton<ShopManager>
         }
     }
 
+    /// <summary>
+    /// 현재 플레이어 레벨 UI를 갱신합니다.
+    /// 레벨업 발생 시 및 초기 UI 설정 단계에서 호출됩니다.
+    /// </summary>
     private void UpdateLevelUI()
     {
         if (levelText != null)
             levelText.text = "Lv. " + playerLevel;
     }
 
+    /// <summary>
+    /// 현재 플레이어 경험치UI를 갱신합니다.
+    /// 현재 레벨의 요구 경험치(LevelData)를 기준으로
+    /// EXP 진행 상황을 텍스트로 표시합니다.
+    /// </summary>
     private void UpdateExpUI()
     {
         LevelData data = GetLevelData(playerLevel);
@@ -173,6 +226,10 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // 상점 갱신 기능
     // ================================================================
+    /// <summary>
+    /// 상점 슬롯을 새로 갱신합니다.
+    /// 잠금 상태일 경우 실행되지 않습니다.
+    /// </summary>
     public void RefreshShop()
     {
         if (isLocked)
@@ -187,17 +244,13 @@ public class ShopManager : Singleton<ShopManager>
             ChessStatData unit = GetRandomUnitByCost(cost);
 
             slots[i].Init(unit, costUIData, i, this);
-
-            //if (unit != null)
-            //{
-            //    if (!shopAppearCount.ContainsKey(unit))
-            //        shopAppearCount[unit] = 0;
-
-            //    shopAppearCount[unit]++;
-            //} // 안씁니다.
         }
     }
 
+    /// <summary>
+    /// 지정된 코스트 범위 내에서 실제 등장 가능한 유닛을 랜덤으로 선택합니다.
+    /// 풀 잔여 수량, 합성 완료 여부, 등장 제한 카운트를 모두 고려합니다.
+    /// </summary>
     private ChessStatData GetRandomUnitByCost(int cost)
     {
         List<ChessStatData> list = unitsByCost[cost];
@@ -230,6 +283,9 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // 판매 가격 계산 (성급 반영)
     // ================================================================
+    /// <summary>
+    /// 기물의 코스트와 성급을 기준으로 판매 가격을 계산합니다.
+    /// </summary>
     public int CalculateSellPrice(ChessStatData data, int starLevel)
     {
         int cost = data.cost;
@@ -261,7 +317,9 @@ public class ShopManager : Singleton<ShopManager>
         return price;
     }
 
-
+    /// <summary>
+    /// 상점 슬롯에서 기물을 구매하는 트랜잭션 처리 메서드.
+    /// </summary>
     public void BuyUnit(int index)
     {
         // 1) 슬롯 데이터 확인
@@ -338,7 +396,9 @@ public class ShopManager : Singleton<ShopManager>
         ChessCombineManager.Instance?.Register(chess); //25.12.08 Add KIM
     }
 
-    // 판매 기능
+    /// <summary>
+    /// 기물을 판매하는 트랜잭션 처리 메서드.
+    /// </summary>
     public void SellUnit(ChessStatData data, GameObject obj)
     {
         if (data == null || obj == null)
@@ -397,6 +457,9 @@ public class ShopManager : Singleton<ShopManager>
     // ================================================================
     // 확률 / 유닛 생성
     // ================================================================
+    /// <summary>
+    /// 현재 레벨의 등장 확률을 기준으로 랜덤 코스트를 반환합니다.
+    /// </summary>
     private int GetRandomCostByLevel(int level)
     {
         LevelData data = GetLevelData(level);
@@ -420,6 +483,9 @@ public class ShopManager : Singleton<ShopManager>
         return data.rates[0].cost;
     }
 
+    /// <summary>
+    /// 레벨 데이터 테이블에서 특정 레벨 데이터를 조회합니다.
+    /// </summary>
     private LevelData GetLevelData(int level)
     {
         foreach (var lv in levelDataTable.levels)

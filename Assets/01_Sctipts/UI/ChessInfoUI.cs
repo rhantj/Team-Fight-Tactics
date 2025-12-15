@@ -3,6 +3,18 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 선택된 기물(Chess)의 상세 정보를 화면에 표시하는 UI 매니저.
+///
+/// - 기물 기본 정보(아이콘, 이름, 코스트)
+/// - 스탯 정보(방어력, 공격력, 공격속도)
+/// - 스킬 아이콘 및 스킬 툴팁 연동
+/// - 체력 / 마나 UI 실시간 갱신
+/// - 시너지(특성) 아이콘 표시
+///
+/// 씬 내에서 단 하나만 존재하도록 Singleton 기반으로 설계되었으며,
+/// 기물 선택 시 ShowInfo, 해제 시 Hide를 통해 제어된다.
+/// </summary>
 public class ChessInfoUI : Singleton<ChessInfoUI>
 {
     [Header("Root Panel")]
@@ -22,6 +34,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Skill Icon")]
     [SerializeField] private Image skillIconImage;
 
+    /// <summary>
+    /// 스킬 아이콘에 마우스를 올렸을 때 표시되는 툴팁 트리거.
+    /// </summary>
     private SkillTooltipTrigger skillTooltipTrigger;
 
     [Header("Cost UI Data")]
@@ -54,6 +69,10 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         panel.SetActive(false);
     }
 
+    /// <summary>
+    /// 특정 기물의 정보를 UI에 표시한다.
+    /// 기물 선택 시 외부에서 호출된다.
+    /// </summary>
     public void ShowInfo(ChessStateBase chess)
     {
         if (chess == null)
@@ -129,6 +148,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         }
     }
 
+    /// <summary>
+    /// 현재 기물의 체력 정보를 UI에 반영한다.
+    /// </summary>
     private void UpdateHPUI()
     {
         if (currentChess == null) return;
@@ -140,6 +162,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         hpText.text = $"{currentHP} / {maxHP}";
     }
 
+    /// <summary>
+    /// 현재 기물의 마나 정보를 UI에 반영한다.
+    /// </summary>
     private void UpdateManaUI()
     {
         if (currentChess == null) return;
@@ -151,6 +176,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         manaText.text = $"{currentMana} / {maxMana}";
     }
 
+    /// <summary>
+    /// 기존에 생성된 시너지 UI를 모두 제거한다.
+    /// </summary>
     private void ClearSynergyUI()
     {
         foreach (Transform child in synergyContainer)
@@ -159,6 +187,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         }
     }
 
+    /// <summary>
+    /// 기물이 보유한 특성(traits)을 기반으로 시너지 아이콘 UI를 생성한다.
+    /// </summary>
     private void CreateSynergyUI(ChessStateBase chess)
     {
         if (chess == null || chess.BaseData == null)
@@ -204,8 +235,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         }
     }
 
-
-
+    /// <summary>
+    /// 기물 정보 UI를 숨기고 상태를 초기화한다.
+    /// </summary>
     public void Hide()
     {
         panel.SetActive(false);

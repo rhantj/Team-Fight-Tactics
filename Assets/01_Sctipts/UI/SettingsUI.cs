@@ -1,9 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 게임 내 설정(옵션) UI를 담당하는 컨트롤러.
+///
+/// - 설정 패널 열기 / 닫기
+/// - 배경음(BGM), 효과음(SFX) 전역 볼륨 설정
+/// - ESC 키 입력 처리
+/// - 게임 일시정지(Time.timeScale) 제어
+/// - 사운드 재생을 위한 전역 래퍼 메서드 제공
+///
+/// 실제 사운드 재생은 SoundSystem.SoundPlayer에 위임하며,
+/// 이 클래스는 "UI 입력 + 전역 볼륨 관리" 역할만 담당한다.
+/// </summary>
 public class SettingsUI : MonoBehaviour
 {
     //전역 사운드 옵션 (static)
