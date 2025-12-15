@@ -577,4 +577,37 @@ public class ShopManager : Singleton<ShopManager>
             slotContainer.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 샵매니저가 게임매니저의 이벤트를 구독과 해제합니다.
+    /// </summary>
+    private void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+        }
+    }
+
+    /// <summary>
+    /// GameManager의 라운드 상태 변경 이벤트 콜백.
+    /// 준비단계 진입 시 상점을 자동으로 갱신합니다.
+    /// </summary>
+    private void HandleRoundStateChanged(RoundState newState)
+    {
+        if (newState == RoundState.Preparation)
+        {
+            RefreshShop();
+        }
+    }
+
+
+
 }
