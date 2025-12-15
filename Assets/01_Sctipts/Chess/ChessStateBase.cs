@@ -16,7 +16,7 @@ public abstract class ChessStateBase : MonoBehaviour
     public int StarLevel { get; protected set; }
     public bool IsDead => CurrentHP <= 0;
     //=====================================================
-    //                  보너스 스탯 
+    //                  보너스(시너지,아이템) 스탯 
     //=====================================================
     protected int bonusMaxHP;
     protected int bonusAttack;
@@ -30,7 +30,7 @@ public abstract class ChessStateBase : MonoBehaviour
     //                  전투 / 마나 설정
     //=====================================================
     [Header("전투 설정")]
-    [Tooltip("공격 인터벌 (초당 공격 속도에서 자동 계산)")]
+    [Tooltip("공격 인터벌 (초당 공속 계산)")]
     [SerializeField] protected float attackInterval = 1.0f;
 
     [Tooltip("공격 시 획득 마나량")]
@@ -63,7 +63,7 @@ public abstract class ChessStateBase : MonoBehaviour
     public virtual void InitFromSO()
     {
         if (baseData == null)
-            return;
+            return; //SO없으면 리턴
 
         StarLevel = baseData.starLevel;
 
@@ -80,7 +80,7 @@ public abstract class ChessStateBase : MonoBehaviour
             attackInterval = baseAttackInterval;
         }
 
-        attackTimer = attackInterval;
+        attackTimer = attackInterval; //첫 전투시작시 공속리셋
     }
 
 
@@ -89,9 +89,9 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     public virtual void TakeDamage(int amount, Chess attacker = null)
     {
-        if (IsDead) return;
+        if (IsDead) return; 
 
-        int finalDamage = Mathf.Max(1, amount - baseData.armor);
+        int finalDamage = Mathf.Max(1, amount - baseData.armor); //최소 1뎀 
 
         CurrentHP -= finalDamage;
         if (CurrentHP < 0) CurrentHP = 0;

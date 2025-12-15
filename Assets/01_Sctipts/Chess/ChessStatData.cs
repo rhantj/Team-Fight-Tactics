@@ -20,6 +20,11 @@ public class ChessStatData : ScriptableObject
     public int attackDamage;
     public float attackSpeed; 
     public int mana;
+    [Header("공격 사거리")]
+    public float attackRange = 1.8f; 
+
+    [Header("이동 설정")]
+    public float moveSpeed = 3.5f; 
 
     //=====================================================
     [Header("메타 정보")]
