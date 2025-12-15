@@ -1,6 +1,17 @@
 using UnityEngine;
 
-// DDOL이 적용되지 않은 버전입니다. 필요시 상속받은 클래스에서 별도로 처리해주세요.
+/// <summary>
+/// 씬 단위 싱글톤(Singleton) 패턴을 제공하는 제네릭 베이스 클래스.
+///
+/// - DontDestroyOnLoad(DDOL)을 사용하지 않는다.
+/// - 씬마다 하나의 인스턴스만 존재하도록 보장한다.
+/// - 씬에 이미 배치된 오브젝트가 있으면 그것을 싱글톤으로 사용한다.
+/// - 씬에 존재하지 않을 경우, 자동으로 GameObject를 생성하여 싱글톤으로 사용한다.
+///
+/// 전투 씬 / 준비 씬 등 씬 전환이 명확한 구조에서
+/// 매니저 객체의 생명주기를 씬 단위로 관리하기 위한 용도로 설계되었다.
+/// </summary>
+/// <typeparam name="T">싱글톤으로 관리할 MonoBehaviour 타입</typeparam>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance; //필드

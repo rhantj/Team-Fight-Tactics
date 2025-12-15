@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//아직 작성중인 스크립트입니다 보완이 필요해서 완성 후 주석 추가 하겠습니다
 public class ChessStatusUI : MonoBehaviour
 {
     [Header("Target")]
