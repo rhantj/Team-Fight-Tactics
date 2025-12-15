@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,10 +15,24 @@ public class GridDivideBase : MonoBehaviour
     [HideInInspector] public Transform lineParent;      // 관리용 라인 부모 오브젝트
     protected GridNode[,] fieldGrid;                    // 실제 필드
     protected Dictionary<int, GridNode> nodePerInt = new(); // 숫자별로 노드 접근
+    protected List<int> unitPerLevel = new();           // 레벨 당 유닛 제한 수
+
+    protected int CountOfPiece { get; private set; }
+    public int countOfPiece;
 
     private void Awake()
     {
         Init();
+    }
+
+    private void OnEnable()
+    {
+        InitUnitLimits();
+    }
+
+    private void Update()
+    {
+        countOfPiece = CountOfPiece;
     }
 
     private void OnDrawGizmos()
@@ -66,7 +81,7 @@ public class GridDivideBase : MonoBehaviour
                     + (y * nodeDiameter + nodeRadius) * Vector3.forward;
 
                 var num = y * gridXCnt + x;
-                var node = new GridNode(worldPoint,x,y,num);
+                var node = new GridNode(this,worldPoint,x,y,num);
 
                 fieldGrid[y, x] = node;
                 nodePerInt.Add(num, node);
@@ -185,5 +200,35 @@ public class GridDivideBase : MonoBehaviour
         }
 
         return res;
+    }
+
+    void InitUnitLimits()
+    {
+        FieldInfo baseDataField = typeof(ShopManager).GetField
+            ("levelDataTable", BindingFlags.Instance | BindingFlags.NonPublic);
+        LevelDataTable data = baseDataField.GetValue(ShopManager.Instance) as LevelDataTable;
+
+        foreach(var d in data.levels)
+        {
+            unitPerLevel.Add(d.boardUnitLimit);
+        }
+
+        foreach(var i in unitPerLevel)
+        {
+            Debug.Log(i);
+        }
+    }
+
+    public void IncreasePieceCount() => CountOfPiece++;
+    public void DecreasePieceCount() => CountOfPiece = Mathf.Max(0, CountOfPiece - 1);
+
+    public bool IsFull(int level)
+    {
+        return CountOfPiece >= unitPerLevel[level - 1];
+    }
+
+    public GridNode[,] FieldGrid
+    {
+        get { return fieldGrid; }
     }
 }
