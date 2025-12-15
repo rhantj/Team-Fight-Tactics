@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// ItemInfoUIManager코드와 설명 동일
 public class ItemRecipeUIManager : MonoBehaviour
 {
     public static ItemRecipeUIManager Instance;

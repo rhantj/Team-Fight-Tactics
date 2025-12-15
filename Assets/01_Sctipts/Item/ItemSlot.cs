@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+/* 전체정리
+ * 아이템 슬롯 1칸에서 수행하는 역할 담당.
+ * 1. 슬롯 아이템 설정 및 제거
+ * 2. 마우스 오버 시 ItemInfoUI
+ * 3. 마우스 우클릭 ItemRecipeUI
+ * 4. 드래그 & 드랍 -> ItemDrag로 전달함
+*/
 public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [SerializeField] private Image itemIcon;
    
+    //슬롯이 들고있는 아이템 인스턴스
     public ItemBase CurrentItem { get; private set; }
+
+    //슬롯이 비었는지 여부 판단.
     public bool IsEmpty => CurrentItem == null;
 
     private bool isHover;
@@ -27,7 +36,7 @@ public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHa
         itemIcon.enabled = true;
     }
 
-    public void ClearSlot()
+    public void ClearSlot() //슬롯 비우기
     {
         CurrentItem = null;
         itemIcon.sprite = null;
@@ -37,6 +46,7 @@ public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHa
     //========================= 마우스 오버 ==================================
     public void OnPointerEnter(PointerEventData eventData)
     {
+        //슬롯 빔 또는 드래그 중이면 UI 안띄움
         if(IsEmpty || isDragging)
         {
             return;
@@ -44,6 +54,7 @@ public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHa
         isHover = true;
         ItemInfoUIManager.Instance.Show(CurrentItem.Data);
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         isHover = false;
