@@ -1,3 +1,4 @@
+using GLTFast.Schema;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class ChessCombineManager : MonoBehaviour
     public static ChessCombineManager Instance { get; private set; } //합성매니저 싱글톤 접근용
     private Dictionary<string, List<Chess>> chessGroups = new Dictionary<string, List<Chess>>();
     private HashSet<ChessStatData> completedUnits = new HashSet<ChessStatData>(); //완성된 기물은 재등장 못하게
+
+    [SerializeField] FieldGrid mainField;
+    [SerializeField] BenchGrid benchField;
 
     private void Awake()
     {
@@ -158,13 +162,24 @@ public class ChessCombineManager : MonoBehaviour
         Unregister(material);
 
         var pooled = material.GetComponentInParent<PooledObject>();
+
+        ClearPiece(mainField, material);
+        ClearPiece(benchField, material);
+
         if (pooled != null)
             pooled.ReturnToPool();
         else
             Destroy(material.gameObject);
     }
 
-
+    void ClearPiece(GridDivideBase field, Chess material)
+    {
+        foreach (var n in field.FieldGrid)
+        {
+            if (n.ChessPiece == material)
+                n.ChessPiece = null;
+        }
+    }
 
 
 
