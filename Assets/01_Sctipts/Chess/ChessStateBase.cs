@@ -196,5 +196,14 @@ public abstract class ChessStateBase : MonoBehaviour
         transform.position = position;
     }
 
+    //애니메이션 설정
+
+    public void OnDieAnimationEnd()
+    {
+        // 풀링 오브젝트면 풀로 반환, 아니면 비활성화
+        var pooled = GetComponentInParent<PooledObject>();
+        if (pooled != null) pooled.ReturnToPool();
+        else gameObject.SetActive(false);
+    }
 
 }

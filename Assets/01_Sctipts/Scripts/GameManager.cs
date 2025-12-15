@@ -61,7 +61,9 @@ public class GameManager : MonoBehaviour
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
 
-    [SerializeField] private float resultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
+    [SerializeField] private float winResultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
+    [SerializeField] private float loseResultTime = 2.0f;
+    private bool lastBattleWin = false;
 
     //참조
     /*
@@ -159,7 +161,7 @@ public class GameManager : MonoBehaviour
         SetRoundState(RoundState.Result);
 
         //연출시간.
-        yield return new WaitForSeconds(resultTime);
+        yield return new WaitForSeconds(lastBattleWin ? winResultTime : loseResultTime);
 
         //다음 라운드or게임 오버
         if (loseCount >= maxLoseCount)
@@ -194,7 +196,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (var unit in enemyGrid.GetAllFieldUnits()) 
             {
-                var chess = unit.GetComponent<Chess>();
+                var chess = unit.GetComponent<Chess>(); 
                 if (chess == null) continue;
                 UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
             }
@@ -213,6 +215,7 @@ public class GameManager : MonoBehaviour
     //라운드 종료 메서드
     private void EndRound(bool win)
     {
+        lastBattleWin = win;
         OnRoundEnded?.Invoke(currentRound, win);
 
         if (!win) loseCount++;
