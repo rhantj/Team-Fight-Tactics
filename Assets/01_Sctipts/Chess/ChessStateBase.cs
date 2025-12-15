@@ -135,7 +135,7 @@ public abstract class ChessStateBase : MonoBehaviour
         Debug.Log("»ç¸Á");
         stateMachine?.SetDie();
         animator?.SetTrigger("Die");
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     //=====================================================
@@ -195,4 +195,6 @@ public abstract class ChessStateBase : MonoBehaviour
         position.y = 1.5f;
         transform.position = position;
     }
+
+
 }

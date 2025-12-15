@@ -47,6 +47,7 @@ public class Chess : ChessStateBase
     }
     private void Start()
     {
+        GetComponentInChildren<ChessStatusUI>()?.Bind(this);
         TryRegisterGameManager(); //라운드 이벤트 구독
     }
     private void OnEnable()
@@ -124,13 +125,13 @@ public class Chess : ChessStateBase
     //=====================================================
     private void Update()
     {
-        if (overrideState) return;      
-        if (IsDead) return;                 
-        if (!isInBattlePhase) return;        
+        if (overrideState) return;              
+        if (IsDead) return;                     
+        if (!isInBattlePhase) return;           
 
         if (currentTarget != null && !currentTarget.IsDead)
         {
-            FaceTarget(currentTarget.transform); //적을 바라보게
+            FaceTarget(currentTarget.transform); //항상 현재 타겟을 바라보게 회전
 
             float dist = Vector3.Distance(
                 transform.position,
@@ -139,24 +140,28 @@ public class Chess : ChessStateBase
 
             if (dist > AttackRange)
             {
-                stateMachine?.SetMove();          //사거리 밖이면 이동 상태
-                MoveTowards(currentTarget.transform.position); //타겟 방향으로 이동
-                return;                           //이동 중엔 공격하지 않음
+                stateMachine?.SetMove();         //사거리 밖이면 이동 상태 유지
+                MoveTowards(currentTarget.transform.position); //타겟 방향으로 계속 접근
+                                                              
+            }
+            else
+            {
+                if (baseData != null && baseData.useBattleState)
+                {
+                    stateMachine?.SetBattle();   //사거리 안이면 전투 상태로 
+                }
             }
 
-            if (baseData != null && baseData.useBattleState)
-            {
-                stateMachine?.SetBattle();        //사거리 안이면 전투 상태
-            }
+            attackTimer -= Time.deltaTime;    
 
-            attackTimer -= Time.deltaTime;        //공격 쿨타임 감소
-            if (attackTimer <= 0f)
+            if (attackTimer <= 0f && dist <= AttackRange)
             {
-                attackTimer = attackInterval;     
-                AttackOnce();                     
+                attackTimer = attackInterval;    //다음 공격을 위해 쿨타임 초기화
+                AttackOnce();                    
             }
         }
     }
+
 
     //=====================================================
     //                  이동 관련

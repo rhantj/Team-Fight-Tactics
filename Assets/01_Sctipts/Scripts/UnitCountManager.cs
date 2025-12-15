@@ -35,6 +35,7 @@ public class UnitCountManager : MonoBehaviour
             enemyUnits.Add(unit);
         }
 
+        unit.OnDead -= HandleUnitDead;
         unit.OnDead += HandleUnitDead;
     }
 

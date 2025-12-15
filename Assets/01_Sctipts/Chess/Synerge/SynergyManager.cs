@@ -9,11 +9,13 @@ public class SynergyManager : MonoBehaviour
     [SerializeField]
     private SynergyConfig[] synergyConfigs;
 
-    //현재활성화된
+    //현재활성화된 효과
     private Dictionary<TraitType, SynergyThreshold> activeSynergies = new Dictionary<TraitType, SynergyThreshold>();
 
+    //현재 특성카운트
     private Dictionary<TraitType, int> currentCounts = new Dictionary<TraitType, int>();
-    private void Awake()
+
+    private void Awake() //싱글톤 , DDOL
     {
         if (Instance != null && Instance != this)
         {
@@ -24,16 +26,17 @@ public class SynergyManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    //유닛카운트 ->시너지 갱신 ->효과적용
     public void RecalculateSynergies(IEnumerable<ChessStateBase> fieldUnits)
     {
         if (fieldUnits == null)
         {
-            ClearSynergies();
+            ClearSynergies(); //유닛 없으면 시너지 초기화.
             return;
         }
 
         //Trait별 "서로 다른 기물" 집합
-        Dictionary<TraitType, HashSet<ChessStatData>> uniqueByTrait = new();
+        Dictionary<TraitType, HashSet<ChessStatData>> uniqueByTrait = new(); //중복 방지.
 
         foreach (var unit in fieldUnits)
         {
@@ -50,7 +53,7 @@ public class SynergyManager : MonoBehaviour
                     set = new HashSet<ChessStatData>();
                     uniqueByTrait.Add(trait, set);
                 }
-                set.Add(unit.BaseData);
+                set.Add(unit.BaseData); //동일 기물 SO는 1번만카운트,.
             }
         }
 
@@ -58,8 +61,8 @@ public class SynergyManager : MonoBehaviour
         foreach (var kv in uniqueByTrait)
             currentCounts[kv.Key] = kv.Value.Count;
 
-        UpdateActiveSynergies();
-        ApplySynergyEffects(fieldUnits);
+        UpdateActiveSynergies(); //카운트기반으로 
+        ApplySynergyEffects(fieldUnits); //시너지를 기물스텟 반영
     }
 
 
@@ -69,7 +72,7 @@ public class SynergyManager : MonoBehaviour
     {
         return activeSynergies.TryGetValue(trait, out effect);
     }
-
+    //currentCounts 기준으로 각 특성의 가장 높은 단계 시너지 1개만 활성화됩니다.
     private void UpdateActiveSynergies()
     {
         activeSynergies.Clear();
@@ -103,11 +106,11 @@ public class SynergyManager : MonoBehaviour
 
             if (best != null)
             {
-                activeSynergies[trait] = best;
+                activeSynergies[trait] = best; //최종적으로 활성화되는 시너지 등록
             }
         }
     }
-    private void ClearSynergies()
+    private void ClearSynergies() //시너지 카운터 데이터 초기화
     {
         activeSynergies.Clear();
         currentCounts.Clear();
@@ -128,7 +131,7 @@ public class SynergyManager : MonoBehaviour
             var traits = unit.Traits;
             if (traits == null) continue;
 
-            float attackSpeedMul = 1f;
+            float attackSpeedMul = 1f; //공속은 배수누적입니다. 그이외엔 합산.
             int bonusAttack = 0;
             int bonusArmor = 0;
             int bonusHP = 0;

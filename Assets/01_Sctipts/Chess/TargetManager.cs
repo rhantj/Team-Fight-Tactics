@@ -64,12 +64,12 @@ public class TargetManager : MonoBehaviour
         switch (newState)
         {
             case RoundState.Battle:
-                RegisterAllUnits();
+                RegisterAllUnits(); //유닛목록 수집합니다
                 AssignTargets(); //타겟 할당 코드입니다.
                 break;
             case RoundState.Preparation:
             case RoundState.Result:
-                ClearAllTargets();
+                ClearAllTargets(); //타겟 초기화
                 break;
             //호출
             //RegisterAllUnits ==
@@ -102,7 +102,7 @@ public class TargetManager : MonoBehaviour
     //================================================
     private void AssignTargets()
     {
-        foreach (var player in playerUnits)
+        foreach (var player in playerUnits) //가장 가까운 적을 찾습니다.
         {
             if (player == null || player.IsDead) continue;
 
@@ -113,7 +113,7 @@ public class TargetManager : MonoBehaviour
             }
         }
 
-        foreach (var enemy in enemyUnits)
+        foreach (var enemy in enemyUnits) //반대로 유닛이 플레이어를 가장가까운 애부터 찾습니다.
         {
             if (enemy == null || enemy.IsDead) continue;
             Chess target = FindNearestEnemy(enemy, playerUnits);
@@ -124,7 +124,7 @@ public class TargetManager : MonoBehaviour
         }
     }
 
-    private Chess FindNearestEnemy(Chess attacker, List<Chess> enemyList)
+    private Chess FindNearestEnemy(Chess attacker, List<Chess> enemyList)//기준유닛
     {
         Chess nearest = null;
         float nearestDist = maxDetectionRange;
@@ -162,7 +162,7 @@ public class TargetManager : MonoBehaviour
     //================================================
     //                  수동갱신용
     //================================================
-    public void RefreshTargets()
+    public void RefreshTargets() //외부호출용,
     {
         RegisterAllUnits();
         AssignTargets();
