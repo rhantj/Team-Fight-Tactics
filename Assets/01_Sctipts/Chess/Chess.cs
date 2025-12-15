@@ -72,7 +72,10 @@ public class Chess : ChessStateBase
         {
             case RoundState.Preparation:
                 overrideState = false;
-                animator.SetTrigger("ToIdle");
+                if (animator != null)
+                {
+                    animator.SetTrigger("ToIdle");
+                }
                 ExitBattlePhase();
                 break;
 
