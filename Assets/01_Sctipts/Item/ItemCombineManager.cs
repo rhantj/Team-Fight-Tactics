@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemCombineManager : MonoBehaviour
 {
+    // 상위 아이템 캐싱
     [SerializeField] ItemData[] arr_CombinedItemDatas;
+
+    // 양방향 딕셔너리로 조합식 정리
     private Dictionary<ItemData, Dictionary<ItemData, ItemData>> combinedItems = new();
 
     private void Awake()
@@ -17,6 +18,7 @@ public class ItemCombineManager : MonoBehaviour
         }
     }
 
+    // 조합식 추가
     void AddItemPair(ItemData a, ItemData b, ItemData res)
     {
         if(!combinedItems.TryGetValue(a, out var item))
@@ -27,6 +29,7 @@ public class ItemCombineManager : MonoBehaviour
         item[b] = res;
     }
 
+    // 합성 가능한지 판단
     public bool TryCombine(ItemData a, ItemData b, out ItemData res)
     {
         res = null;

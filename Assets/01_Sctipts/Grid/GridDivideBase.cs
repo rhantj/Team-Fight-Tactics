@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class GridDivideBase : MonoBehaviour
 {
-    [SerializeField] protected Vector2 gridWorldSize;
-    [SerializeField] protected int gridXCnt;
-    [SerializeField] protected int gridYCnt;
-    [SerializeField] protected float nodeRadius;
-    [SerializeField] protected float nodeDiameter;
-    [SerializeField] protected Vector3 worldBottomLeft;
-    [SerializeField] protected LineRenderer linePF;
-    [HideInInspector] public Transform lineParent;
-    protected GridNode[,] fieldGrid;
-    protected Dictionary<int, GridNode> nodePerInt = new();
+    [SerializeField] protected Vector2 gridWorldSize;   // 필드 크기
+    [SerializeField] protected int gridXCnt;            // 필드 위 가로 노드 개수
+    [SerializeField] protected int gridYCnt;            // 필드 뒤 새로 노드 개수
+    [SerializeField] protected float nodeRadius;        // 노드 반지름
+    [SerializeField] protected float nodeDiameter;      // 노드 지름
+    [SerializeField] protected Vector3 worldBottomLeft; // 필드 좌하단 위치
+    [SerializeField] protected LineRenderer linePF;     // 노드 별 위치 표시
+    [HideInInspector] public Transform lineParent;      // 관리용 라인 부모 오브젝트
+    protected GridNode[,] fieldGrid;                    // 실제 필드
+    protected Dictionary<int, GridNode> nodePerInt = new(); // 숫자별로 노드 접근
 
     private void Awake()
     {
@@ -46,17 +46,21 @@ public class GridDivideBase : MonoBehaviour
         CreateGrid();
     }
 
+    // 필드 생성
     void CreateGrid()
     {
+        // 필드 크기
         fieldGrid = new GridNode[gridYCnt, gridXCnt];
         worldBottomLeft = transform.position
             - Vector3.right * gridWorldSize.x / 2
             - Vector3.forward * gridWorldSize.y / 2;
 
+        // 필드 생성
         for (int y = 0; y < gridYCnt; ++y)
         {
             for (int x = 0; x < gridXCnt; ++x)
             {
+                // 좌하단부터 시작
                 Vector3 worldPoint = worldBottomLeft
                     + (x * nodeDiameter + nodeRadius) * Vector3.right
                     + (y * nodeDiameter + nodeRadius) * Vector3.forward;
@@ -73,6 +77,7 @@ public class GridDivideBase : MonoBehaviour
         DrawLine();
     }
 
+    // 노드별 라인 생성
     void DrawLine()
     {
         lineParent = new GameObject("Grid Line").transform;
@@ -80,8 +85,10 @@ public class GridDivideBase : MonoBehaviour
         float width = gridWorldSize.x;
         float height = gridWorldSize.y;
 
+        // 원점
         Vector3 origin = worldBottomLeft;
 
+        // 가로 라인 생성
         for (int x = 0; x < gridXCnt; ++x)
         {
             var start = origin + Vector3.right * (x * nodeDiameter);
@@ -90,6 +97,7 @@ public class GridDivideBase : MonoBehaviour
             MakeLine(start, end);
         }
 
+        // 새로 라인 생성
         for (int y = 0; y < gridYCnt; ++y)
         {
             var start = origin + Vector3.forward * (y * nodeDiameter);
@@ -101,6 +109,7 @@ public class GridDivideBase : MonoBehaviour
         lineParent.gameObject.SetActive(false);
     }
 
+    // 라인 긋기
     void MakeLine(Vector3 start, Vector3 end)
     {
         var lr = Instantiate(linePF, lineParent);
@@ -112,6 +121,7 @@ public class GridDivideBase : MonoBehaviour
         lr.SetPosition(1, end + offset);
     }
     
+    // 위치가 그리드 안에 있는지 판단
     public bool IsPositionInGrid(Vector3 pos)
     {
         var center = transform.position;
@@ -122,6 +132,7 @@ public class GridDivideBase : MonoBehaviour
             && pos.z >= center.z - halfy && pos.z <= center.z + halfy;
     }
 
+    // 위치에서 가장 가까운 노드 반환
     public GridNode GetNearGridNode(Vector3 pos)
     {
         GridNode res = null;
@@ -143,11 +154,13 @@ public class GridDivideBase : MonoBehaviour
         return res;
     }
 
+    // 정수로 노드에 접근
     public GridNode GetNodeByNumber(int num)
     {
         return nodePerInt.TryGetValue(num, out var node) ? node : null;
     }
 
+    // 기물이 움직인 칸의 노드 정보 초기화
     public void ClearChessPiece(ChessStateBase piece)
     {
         foreach(var node in fieldGrid)
@@ -157,7 +170,7 @@ public class GridDivideBase : MonoBehaviour
         }
     }
 
-
+    // 빈 노드 찾기
     protected GridNode FindEmptyNode()
     {
         GridNode res = null;

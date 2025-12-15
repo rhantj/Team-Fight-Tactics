@@ -5,16 +5,16 @@ using UnityEngine.EventSystems;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] GridDivideBase[] grids;
-    [SerializeField] ChessStateBase chess;
-    [SerializeField] Vector3 chessFirstPos;
-    GridNode targetNode;
-    [SerializeField] GridDivideBase targetGrid;
-    GridNode prevNode;
-    [SerializeField] GridDivideBase prevGrid;
-    [SerializeField] Vector3 _worldPos;
-    [SerializeField] Ray camRay;
-    public bool IsPointerOverSellArea = false;
+    [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
+    [SerializeField] ChessStateBase chess;      // 잡고있는 기물
+    [SerializeField] Vector3 chessFirstPos;     // 기물의 첫 위치
+    GridNode targetNode;                        // 옮기고자 하는 노드
+    [SerializeField] GridDivideBase targetGrid; // 옮기고자 하는 그리드
+    GridNode prevNode;                          // 전에 위치한 노드
+    [SerializeField] GridDivideBase prevGrid;   // 전에 위치한 그리드
+    [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
+    [SerializeField] Ray camRay;                // 레이
+    public bool IsPointerOverSellArea = false;  // 상점 판매용 
 
     private void Update()
     {
@@ -22,16 +22,20 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         CalculateWorldPosition(camRay);
     }
 
+    // 드래그 캔버스 위에 위치
     public void OnPointerEnter(PointerEventData eventData)
     {
         IsPointerOverSellArea = false;
     }
 
+    // 드래그 캔버스 밖에 위치
     public void OnPointerExit(PointerEventData eventData)
     {
         IsPointerOverSellArea = true;
     }
 
+
+    // 드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
         CalculateWorldChess(camRay);
@@ -68,12 +72,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
+    // 드래그 중
     public void OnDrag(PointerEventData eventData)
     {
         if (!chess) return;
         chess.SetPosition(_worldPos);
     }
 
+    // 드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!chess) return;
@@ -123,6 +129,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         SynergyManager.Instance.RecalculateSynergies(fieldUnits);
     }
 
+    // 기물이 필드 밖으로 나갔을 떄
     private bool OutofGrid()
     {
         if ((targetGrid == null || targetNode == null) && !IsPointerOverSellArea)
@@ -143,6 +150,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return false;
     }
 
+    // 기물이 처음 노드 위에 있을 때
     private bool OnFirstNode()
     {
         if (prevNode != null && targetNode == prevNode && targetGrid == prevGrid && !IsPointerOverSellArea)
@@ -156,6 +164,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return false;
     }
 
+    // 다른 기물이 노드위에 있는 경우
     private void SwapPiece()
     {
         if (!targetGrid) return;
@@ -178,12 +187,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
+    // 그리드 업데이트
     private void UpdateGridAndNode()
     {
         prevGrid = targetGrid;
         prevNode = targetNode;
     }
 
+    // 기물 판매
     private void SellPiece()
     {
         if (!IsPointerOverSellArea || !chess) return;
@@ -191,6 +202,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         ShopManager shop = FindObjectOfType<ShopManager>();
         if (!shop) return;
 
+        // reflection
         FieldInfo baseDataField = typeof(ChessStateBase).GetField
             ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
         ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
@@ -199,6 +211,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         ClearAllNodeChess(chess);
     }
 
+    // 마우스 위치를 월드 위치로 변환
     void CalculateWorldPosition(Ray ray)
     {
         var ground = new Plane(Vector3.up, Vector3.zero);
@@ -220,6 +233,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
+    // 드래그 시 마우스 포인터 앞에 있는 기물 잡기
     void CalculateWorldChess(Ray ray)
     {
         if(Physics.Raycast(ray, out var hit, 1000f))
@@ -231,6 +245,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         Chess = null;
     }
 
+    // 마우스 위치가 현재 어떤 그리드 위에 있는지
     GridDivideBase FindGrid(Vector3 pos)
     {
         GridDivideBase grid = null;
@@ -255,6 +270,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return grid;
     }
 
+    // 드래그 시 노드 위의 기물 정보 제거
     void ClearAllNodeChess(ChessStateBase piece)
     {
         foreach(var g in grids)
@@ -263,6 +279,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
+    // 기물 프로퍼티
     public ChessStateBase Chess
     {
         get { return chess; }
