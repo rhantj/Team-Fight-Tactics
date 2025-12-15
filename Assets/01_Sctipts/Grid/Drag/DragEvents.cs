@@ -2,6 +2,7 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Timeline;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,6 +16,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
+    public bool CanDrag = false;
 
     private void Update()
     {
@@ -38,6 +40,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
+        //CanDrag = GameManager.Instance.roundState == RoundState.Preparation;
+        //if (!CanDrag) return;
+
         CalculateWorldChess(camRay);
         if (!chess) return;
 
@@ -83,11 +88,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!chess) return;
+        ShopManager shop = ShopManager.Instance;
 
         // 필드 밖
         if (OutofGrid())
         {
             chess = null;
+            if (shop != null)
+                shop.ExitSellMode();
             return;
         }
 
@@ -103,7 +111,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         // 노드 위에 기물이 있는 경우
         SwapPiece();
 
-        ShopManager shop = ShopManager.Instance;
         if (shop != null)
             shop.ExitSellMode();
         SellPiece();
@@ -132,7 +139,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 기물이 필드 밖으로 나갔을 떄
     private bool OutofGrid()
     {
-        if ((targetGrid == null || targetNode == null) && !IsPointerOverSellArea)
+        if (!CanDrop() && !IsPointerOverSellArea)
         {
             if (prevNode != null)
             {
@@ -284,5 +291,34 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         get { return chess; }
         set { chess = value; }
+    }
+
+    // 플레이어 레벨 가져오기
+    int PlayerLevel()
+    {
+        FieldInfo field = typeof(ShopManager).GetField(
+            "playerLevel", (BindingFlags.Instance | BindingFlags.NonPublic) );
+        int level = (int)field.GetValue(ShopManager.Instance);
+
+        return level;
+    }
+
+    // 필드에 드랍 가능한지 판단
+    bool CanDrop()
+    {
+        FieldGrid field = targetGrid as FieldGrid;
+        if (!field) return true;
+
+        bool isOnField = prevGrid is FieldGrid;
+
+        // 벤치 -> 필드
+        if (!isOnField)
+        {
+            if (!targetNode.ChessPiece) return !field.IsFull(PlayerLevel());
+
+            return true;
+        }
+
+        return false;
     }
 }
