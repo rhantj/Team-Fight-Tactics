@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-//아직 작성중인 스크립트입니다 보완이 필요해서 완성 후 주석 추가 하겠습니다
 public class ChessStatusUI : MonoBehaviour
 {
     [Header("Target")]
-    [SerializeField] private ChessStateBase targetChess; // 임시 수동 연결용
+    [SerializeField] private ChessStateBase targetChess;
 
     [Header("HP / MP Fill Images")]
     [SerializeField] private Image hpFillImage;
@@ -29,45 +28,41 @@ public class ChessStatusUI : MonoBehaviour
 
     private void UpdateHP()
     {
-        int currentHP = targetChess.CurrentHP;
-        int maxHP = targetChess.MaxHP;
+        if (hpFillImage == null) return;
 
+        int maxHP = targetChess.MaxHP;
         if (maxHP <= 0) return;
 
-        hpFillImage.fillAmount = (float)currentHP / maxHP;
+        hpFillImage.fillAmount = (float)targetChess.CurrentHP / maxHP;
     }
 
     private void UpdateMana()
     {
-        int currentMana = targetChess.CurrentMana;
-        int maxMana = targetChess.BaseData.mana;
+        if (manaFillImage == null) return;
 
+        int maxMana = targetChess.BaseData.mana;
         if (maxMana <= 0) return;
 
-        manaFillImage.fillAmount = (float)currentMana / maxMana;
+        manaFillImage.fillAmount = (float)targetChess.CurrentMana / maxMana;
     }
 
     private void UpdateStarFrame()
     {
-        int starLevel = targetChess.StarLevel;
-
         if (frameImage == null) return;
-        if (starFrameSprites == null || starFrameSprites.Length == 0) return;
-        if (starLevel <= 0 || starLevel > starFrameSprites.Length) return;
+
+        int starLevel = targetChess.StarLevel;
+        if (starLevel <= 0 || starLevel > starFrameSprites.Length)
+            return;
 
         frameImage.sprite = starFrameSprites[starLevel - 1];
     }
 
-    // =========================
-    // 나중에 자동 연결용
-    // =========================
     public void Bind(ChessStateBase chess)
     {
         targetChess = chess;
+
         UpdateHP();
         UpdateMana();
         UpdateStarFrame();
     }
-    
-
 }

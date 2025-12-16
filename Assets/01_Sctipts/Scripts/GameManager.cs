@@ -14,7 +14,7 @@ public enum RoundState //라운드 상태
 {
     None,
     Preparation,    //준비단계 - 상점, 배치, 아이템
-    Battle,
+    Battle,         //전투단계 - 상점과 벤치간 상호작용만 가능, 필드 위 기물은 건드릴 수 없음
     Result          //라운드 승/패 연출타임, 정산
 }
 
@@ -26,20 +26,12 @@ public enum BattleResult //전투 결과
 }
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
 
-    private void Awake()
+    protected override void Awake()
     {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
     }
 
     public GameState gameState { get; private set; }

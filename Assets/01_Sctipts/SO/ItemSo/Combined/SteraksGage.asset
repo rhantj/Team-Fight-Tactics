@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SteraksGage
   m_EditorClassIdentifier: 
   itemName: SteraksGage
-  icon: {fileID: 21300000, guid: 85bdb58d244b68e4cbd20c963683c348, type: 3}
+  icon: {fileID: 21300000, guid: f181cb452b411854d8fa7b8fb18d43b0, type: 3}
   itemType: 1
   addAttack: 40
   addDefense: 0
@@ -22,6 +22,5 @@ MonoBehaviour:
   addAttackSpeed: 0
   combineA: {fileID: 11400000, guid: 38bec68fbff450048a768915be70d906, type: 2}
   combineB: {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
-  combinedItem: {fileID: 11400000}
   infoUIPrefab: {fileID: 98230620580387283, guid: 34172e3e940013846b502b58ac882b2a, type: 3}
   recipeUIPrefab: {fileID: 98230620580387283, guid: 34172e3e940013846b502b58ac882b2a, type: 3}
