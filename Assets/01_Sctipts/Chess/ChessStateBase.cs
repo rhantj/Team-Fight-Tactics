@@ -121,9 +121,11 @@ public abstract class ChessStateBase : MonoBehaviour
 
     protected virtual void CastSkill()
     {
-        stateMachine?.SetSkill();
-        animator?.SetTrigger("Skill");
+        var runner = GetComponent<SkillRunner>();
+        if (runner != null)
+            runner.RequestCast();
     }
+
 
     //=====================================================
     //                  »ç¸Á Ã³¸®
@@ -205,5 +207,7 @@ public abstract class ChessStateBase : MonoBehaviour
         if (pooled != null) pooled.ReturnToPool();
         else gameObject.SetActive(false);
     }
+
+
 
 }
