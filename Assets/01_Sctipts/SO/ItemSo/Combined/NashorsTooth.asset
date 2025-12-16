@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NashorsTooth
   m_EditorClassIdentifier: 
   itemName: NashorsTooth
-  icon: {fileID: 21300000, guid: f09e3b33bbcdc5545bcfab21ebb8acd2, type: 3}
+  icon: {fileID: 21300000, guid: 38884d9435320ba46bb877e94dbfd31c, type: 3}
   itemType: 1
   addAttack: 0
   addDefense: 0
@@ -22,6 +22,5 @@ MonoBehaviour:
   addAttackSpeed: 10
   combineA: {fileID: 11400000, guid: 38bec68fbff450048a768915be70d906, type: 2}
   combineB: {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
-  combinedItem: {fileID: 11400000}
   infoUIPrefab: {fileID: 8613027788391259003, guid: 06e3db162096b97408be1193c2ba979c, type: 3}
   recipeUIPrefab: {fileID: 8613027788391259003, guid: 06e3db162096b97408be1193c2ba979c, type: 3}

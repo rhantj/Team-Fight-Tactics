@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RedBuffItem
   m_EditorClassIdentifier: 
   itemName: RedBuffItem
-  icon: {fileID: 21300000, guid: 3349381b1f7ed28418aa6d627a436189, type: 3}
+  icon: {fileID: 21300000, guid: abcd78f41b4cba546b56fb58d0dbdbaa, type: 3}
   itemType: 1
   addAttack: 0
   addDefense: 0
@@ -22,6 +22,5 @@ MonoBehaviour:
   addAttackSpeed: 45
   combineA: {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
   combineB: {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
-  combinedItem: {fileID: 11400000}
   infoUIPrefab: {fileID: 8941205954110610390, guid: 7678402c4c53beb4eacd3168812c8423, type: 3}
   recipeUIPrefab: {fileID: 8941205954110610390, guid: 7678402c4c53beb4eacd3168812c8423, type: 3}
