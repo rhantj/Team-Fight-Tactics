@@ -44,6 +44,7 @@ public class ItemRecipeUIManager : MonoBehaviour
 
         currentUI = Instantiate(data.recipeUIPrefab, uiRoot);
         currentRect = currentUI.GetComponent<RectTransform>();
+        currentData = data;
         currentUI.SetActive(true);
 
         FollowMouse(currentRect);
