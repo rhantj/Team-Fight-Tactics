@@ -33,7 +33,7 @@ public class SkillRunner : MonoBehaviour
         chess.overrideState = true; 
 
         sm?.SetSkill();
-        animator?.SetTrigger("Skill");
+        animator?.SetTrigger("UseSkill");
         yield return skill.Execute(chess);
 
         chess.overrideState = false;

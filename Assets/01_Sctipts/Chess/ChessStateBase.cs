@@ -123,8 +123,16 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         var runner = GetComponent<SkillRunner>();
         if (runner != null)
+        {
             runner.RequestCast();
+            return;
+        }
+
+        stateMachine?.SetSkill();
+        animator?.SetTrigger("UseSkill");
     }
+
+
 
 
     //=====================================================
