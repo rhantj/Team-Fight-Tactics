@@ -52,11 +52,13 @@ public class GameManager : Singleton<GameManager>
     public event Action<float> OnBattleTimerUpdated; //전투단계 타이머 이벤트
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
+    public event Action<int, bool> OnRoundReward; //정산때 보상이벤트 추가 12-16 Won Add
 
     [SerializeField] private float winResultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
     [SerializeField] private float loseResultTime = 2.0f;
     private bool lastBattleWin = false;
 
+    private bool isReady = false;
     //참조
     /*
     public Player player;
@@ -99,16 +101,11 @@ public class GameManager : Singleton<GameManager>
     private IEnumerator RoundRoutine()
     {
         // 준비단계
-        float timer = preparationTime;
+        isReady = false;
 
-        while(timer > 0f)
+        while (!isReady)
         {
-            timer -= Time.deltaTime;
-
-            //준비시간 갱신 UI전달
-            OnPreparationTimerUpdated?.Invoke(timer);
-
-            yield return null;
+            yield return null;  
         }
 
         //전투단계
@@ -151,6 +148,9 @@ public class GameManager : Singleton<GameManager>
 
         //결과 계산
         SetRoundState(RoundState.Result);
+
+        // 정산(보상) 타이밍 알림
+        OnRoundReward?.Invoke(currentRound, lastBattleWin);
 
         //연출시간.
         yield return new WaitForSeconds(lastBattleWin ? winResultTime : loseResultTime);
@@ -244,6 +244,16 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"RoundState => {newState}");
         roundState = newState;
         OnRoundStateChanged?.Invoke(newState);
+    }
+
+    // 전투시작버튼이 호출할 메서드
+    public void RequestStartBattle()
+    {
+        if (roundState != RoundState.Preparation) return;
+
+        Debug.Log("[GameManger] Battle start requested");
+        isReady = true;
+
     }
 
 }

@@ -16,7 +16,7 @@ public class GMTest : MonoBehaviour
         GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
 
         // 실제 게임 시작
-        GameManager.Instance.StartGame();
+        //GameManager.Instance.StartGame(); 12-16 Won Edit To HotFix
     }
 
     private void OnDestroy()

@@ -56,6 +56,7 @@ public class ShopManager : Singleton<ShopManager>
     /// </summary>
     private Dictionary<ChessStatData, int> unitBuyCount = new Dictionary<ChessStatData, int>();
 
+    private int rewardGold = 5;
 
     // ================================================================
     // 샵 잠금 시스템
@@ -169,11 +170,15 @@ public class ShopManager : Singleton<ShopManager>
         if (!TrySpendGold(4))
             return;
 
-        playerExp += 4;
+        AddExp(4);
+    }
+
+    public void AddExp(int exp)
+    {
+        playerExp += exp;
         UpdateExpUI();
         CheckLevelUp();
     }
-
     /// <summary>
     /// 현재 경험치를 기준으로 레벨업을 반복 검사합니다.
     /// </summary>
@@ -585,6 +590,7 @@ public class ShopManager : Singleton<ShopManager>
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
+            GameManager.Instance.OnRoundReward += HandleRoundReward;
         }
     }
 
@@ -593,6 +599,7 @@ public class ShopManager : Singleton<ShopManager>
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+            GameManager.Instance.OnRoundReward -= HandleRoundReward;
         }
     }
 
@@ -606,6 +613,48 @@ public class ShopManager : Singleton<ShopManager>
         {
             RefreshShop();
         }
+    }
+
+    private void HandleRoundReward(int round, bool isWin)
+    {
+        int rewardExp = 2;
+
+        // 현재 보유 골드 기준 이자 계산
+        int interestGold = CalculateInterestGold(currentGold); // ← 보유 골드 변수
+
+        // 이번 라운드 최종 골드 보상
+        int totalGoldReward = rewardGold + interestGold;
+
+        // 지급
+        AddGold(totalGoldReward);
+        AddExp(rewardExp);
+
+        Debug.Log(
+            $"[RoundReward] Round {round} | Win={isWin} | " +
+            $"BaseReward={rewardGold}, Interest={interestGold}, TotalGold={totalGoldReward}"
+        );
+
+        // 다음 라운드를 위한 연승 보상 갱신
+        if (isWin)
+        {
+            rewardGold += 1;
+        }
+        else
+        {
+            rewardGold = 5;
+        }
+    }
+
+
+    /// <summary>
+    /// 이자 계산하는 메서드
+    /// </summary>
+    /// <param name="currentGold"></param>
+    /// <returns></returns>
+    private int CalculateInterestGold(int currentGold)
+    {
+        int interest = currentGold / 10;
+        return Mathf.Min(interest, 5); //10원마다 나뉘어 떨어지며 상한 이자골드는 5원
     }
 
 
