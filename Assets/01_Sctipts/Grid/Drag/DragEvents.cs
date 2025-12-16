@@ -40,8 +40,11 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //CanDrag = GameManager.Instance.roundState == RoundState.Preparation;
-        //if (!CanDrag) return;
+        if (GameManager.Instance)
+        {
+            CanDrag = GameManager.Instance.roundState == RoundState.Preparation;
+            if (!CanDrag) return;
+        }
 
         CalculateWorldChess(camRay);
         if (!chess) return;

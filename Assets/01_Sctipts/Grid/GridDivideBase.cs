@@ -231,4 +231,15 @@ public class GridDivideBase : MonoBehaviour
     {
         get { return fieldGrid; }
     }
+
+    public void ClearNode<T>(T piece) where T : ChessStateBase
+    {
+        foreach(var node in fieldGrid)
+        {
+            if(ReferenceEquals(node, piece))
+            {
+                node.ChessPiece = null;
+            }
+        }
+    }
 }
