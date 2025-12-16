@@ -60,6 +60,7 @@ public class ItemInfoUIManager : MonoBehaviour
         //UI 생성 + 활성화
         currentUI = Instantiate(data.infoUIPrefab, uiRoot);
         currentRect = currentUI.GetComponent<RectTransform>();
+        currentData = data;
         currentUI.SetActive(true);
 
         //생성 후 위치 조정

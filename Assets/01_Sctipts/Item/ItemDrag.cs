@@ -51,7 +51,7 @@ public class ItemDrag : MonoBehaviour
         dragIcon.rectTransform.localPosition = pos;
     }
 
-    
+
     //===================== 드래그 끝 ========================
     // - 드래그 아이콘 숨김
     // - 현재 마우스가 가리키는 UI 가져옴
@@ -64,35 +64,45 @@ public class ItemDrag : MonoBehaviour
     {
         dragIcon.enabled = false;
 
-        GameObject dragingObj = eventData.pointerEnter;
-        if (!dragingObj) return;
-
-        ItemSlot targetSlot = dragingObj.GetComponent<ItemSlot>();
-
-        //슬롯이 아니거나, 자기 자신 슬롯에 드랍하면 아무것도 안함
-        if (!targetSlot || targetSlot == originSlot) return;
-
-        //빈슬롯에 드랍 시 그냥 Swap
-        if (targetSlot.IsEmpty)
+        if (originSlot == null || originSlot.IsEmpty)
         {
-            ItemSlotSwap(originSlot, targetSlot);
             return;
         }
 
-        //슬롯 아이템이 있으면 조합 시도
-        var a = originSlot.CurrentItem.Data;
-        var b = targetSlot.CurrentItem.Data;
+        GameObject dragingObj = eventData.pointerEnter;
 
-        if (combineManager.TryCombine(a, b, out var combined))
+        if(dragingObj != null)
         {
-            //조합 성공 : 완성템으로 교체, 출발 슬롯은 비움
-            targetSlot.SetItem(combined);
+            ItemSlot targetSlot = dragingObj.GetComponentInParent<ItemSlot>();
+
+            if(targetSlot != null && targetSlot != originSlot)
+            {
+                if(targetSlot.IsEmpty)
+                {
+                    ItemSlotSwap(originSlot, targetSlot);
+                    return;
+                }
+                var a = originSlot.CurrentItem.Data;
+                var b = targetSlot.CurrentItem.Data;
+
+                if(combineManager != null && combineManager.TryCombine(a,b,out var combined))
+                {
+                    targetSlot.SetItem(combined);
+                    originSlot.ClearSlot();
+                    return;
+                }
+
+                ItemSlotSwap(originSlot, targetSlot);
+                return;
+            }
+        }
+
+        if (TryAttachItemToChess(eventData.position))
+        {
             originSlot.ClearSlot();
             return;
         }
-
-        ItemSlotSwap(originSlot, targetSlot);
-        //드래그 후 드랍 위치 오류 -> 원래 있던 위치로 자동 드랍
+        
     }
 
     //===================== 아이템 슬롯 스왑 함수 ========================
@@ -123,5 +133,30 @@ public class ItemDrag : MonoBehaviour
         {
             b.SetItem(temp);
         }
+    }
+
+    private bool TryAttachItemToChess(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+
+        if(!Physics.Raycast(ray, out RaycastHit hit, 200f))
+        {
+            return false;
+        }
+
+        Chess chess = hit.transform.GetComponentInParent<Chess>();
+        if (chess == null)
+        {
+            return false;
+        }
+
+        ChessItemUI itemUI = chess.GetComponentInChildren<ChessItemUI>();
+        if(itemUI == null)
+        {
+            return false;
+        }
+
+        ItemData itemData = originSlot.CurrentItem.Data;
+        return itemUI.AddItem(itemData);
     }
 }
