@@ -10,6 +10,8 @@ public class ChessItemUI : MonoBehaviour
 
     private List<ItemData> equippedItems = new();
 
+    public int EquippedItemCount => equippedItems.Count;   //외부 접근용
+
     private void Awake()
     {
         combineManager = FindObjectOfType<ItemCombineManager>();
@@ -48,6 +50,14 @@ public class ChessItemUI : MonoBehaviour
         equippedItems.Add(newItem);
         RefreshUI();
         return true;
+    }
+
+    public List<ItemData> PopAllItems()
+    {
+        List<ItemData> items = new List<ItemData>(equippedItems);
+        equippedItems.Clear();
+        RefreshUI();
+        return items;
     }
 
     private void RefreshUI()

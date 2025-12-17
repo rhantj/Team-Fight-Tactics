@@ -456,6 +456,42 @@ public class ShopManager : Singleton<ShopManager>
         PoolManager.Instance.Despawn(data.poolID, obj);
     }
 
+    //12/17 Add Kwon - 아이템 회수 메서드
+    public void TrySellUnit(ChessStatData data, GameObject obj)
+    {
+        if (data == null || obj == null)
+        {
+            return;
+        }
+
+        ChessItemUI itemUI = obj.GetComponentInChildren<ChessItemUI>();
+        
+        //템 미장착 기물 -> 바로 판매 가능
+        if (itemUI == null || itemUI.EquippedItemCount == 0)
+        {
+            SellUnit(data, obj);
+            return;
+        }
+
+        //외부 아이템 슬롯 여유 검사
+        if(ItemSlotManager.Instance.EmptySlotCount < equippedCount)
+        {
+            Debug.Log("남은 아이템 슬롯 부족.");
+
+            //토스트/팝업 UI연결 필요;
+        }
+
+        //아이템 반환
+        List<ItemData> items = itemUI.PopAllItems();
+        foreach(var item in items)
+        {
+            ItemSlotManager.Instance.AddItem(item);
+        }
+
+        //기존 판매 로직 시행
+        SellUnit(data.obj);
+    }
+
 
 
 
