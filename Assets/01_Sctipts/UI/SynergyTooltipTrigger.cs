@@ -40,4 +40,6 @@ public class SynergyTooltipTrigger : MonoBehaviour,
         if (SynergyTooltipUI.Instance != null)
             SynergyTooltipUI.Instance.Hide();
     }
+
+
 }
