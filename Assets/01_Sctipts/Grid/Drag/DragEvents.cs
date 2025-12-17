@@ -182,7 +182,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         bool prevField = prevGrid is FieldGrid;
         bool enemyField = targetGrid is EnemyGrid;
 
+        // 필드 밖이나 벤치
+        if (!targetField && !enemyField) return true;
 
+        // 필드-> 필드로 이동 가능
+        if (prevField && !enemyField) return true;
+
+        int level = PlayerLevel();
+        if (!targetNode.ChessPiece) return !targetGrid.IsFull(level);
         return true;
     }
 
@@ -247,7 +254,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
         ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
 
-        shop.SellUnit(chessData, chess.gameObject);
+        shop.TrySellUnit(chessData, chess.gameObject);
         ClearAllNodeChess(chess);
     }
 
