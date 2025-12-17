@@ -34,7 +34,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnPointerEnter(PointerEventData eventData)
     {
         IsPointerOverSellArea = false;
-        SoundSystem.SoundPlayer.PlaySound("BGM1", transform.position, 1f);
     }
 
     // 드래그 캔버스 밖에 위치
