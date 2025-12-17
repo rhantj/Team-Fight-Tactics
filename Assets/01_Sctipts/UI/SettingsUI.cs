@@ -72,6 +72,9 @@ public class SettingsUI : MonoBehaviour
     {
         BGMVolume = value / 100f; //0~1로 변환
         bgmValueText.text = ((int)value).ToString();
+
+        // 실시간 반영
+        SoundSystem.SoundPlayer?.SetBGMVolume(BGMVolume);
     }
 
     //효과음 조절 함수
@@ -79,6 +82,8 @@ public class SettingsUI : MonoBehaviour
     {
         SFXVolume = value / 100f; //0~1로 변환
         sfxValueText.text = ((int)value).ToString();
+
+        SoundSystem.SoundPlayer?.SetSFXVolume(SFXVolume);
     }
 
     //설정창 닫는 함수

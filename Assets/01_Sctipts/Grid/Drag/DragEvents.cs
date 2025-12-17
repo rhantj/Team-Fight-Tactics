@@ -34,6 +34,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnPointerEnter(PointerEventData eventData)
     {
         IsPointerOverSellArea = false;
+        SoundSystem.SoundPlayer.PlaySound("BGM1", transform.position, 1f);
     }
 
     // 드래그 캔버스 밖에 위치
@@ -356,7 +357,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     void UpdateUI()
     {
-        //pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
-        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[playerLevel]}";
+        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
     }
 }
