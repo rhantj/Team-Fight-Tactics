@@ -26,6 +26,8 @@ public abstract class ChessStateBase : MonoBehaviour
     public int AttackDamage => (baseData != null ? baseData.attackDamage : 0) + bonusAttack;
     public int Armor => (baseData != null ? baseData.armor : 0) + bonusArmor;
 
+
+
     //=====================================================
     //                  전투 / 마나 설정
     //=====================================================
@@ -44,6 +46,59 @@ public abstract class ChessStateBase : MonoBehaviour
     protected float attackTimer;
     protected Animator animator;
     protected StateMachine stateMachine;
+
+    //=====================================================
+    //                  Shield (Barrier)
+    //=====================================================
+    [Header("Shield")]
+    [SerializeField, Tooltip("현재 실드(베리어) 수치")]
+    protected int currentShield;
+
+    public int CurrentShield => currentShield;
+
+    private Coroutine shieldCoroutine;
+    private int shieldVersion = 0;
+
+    //=====================================================
+    //                  Shield API
+    //=====================================================
+    public void AddShield(int amount, float duration)
+    {
+        if (IsDead) return;
+        if (amount <= 0) return;
+
+        currentShield += amount;
+        if (duration > 0f)
+        {
+            shieldVersion++;
+
+            if (shieldCoroutine != null)
+                StopCoroutine(shieldCoroutine);
+
+            shieldCoroutine = StartCoroutine(ShieldExpireRoutine(shieldVersion, duration));
+        }
+    }
+
+    public void ClearShield()
+    {
+        currentShield = 0;
+
+        if (shieldCoroutine != null)
+        {
+            StopCoroutine(shieldCoroutine);
+            shieldCoroutine = null;
+        }
+    }
+
+    private System.Collections.IEnumerator ShieldExpireRoutine(int version, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        if (version != shieldVersion) yield break;
+
+        currentShield = 0;
+        shieldCoroutine = null;
+    }
 
     //=====================================================
     //                  초기화
@@ -73,6 +128,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
         CurrentHP = MaxHP;   
         CurrentMana = 0;
+        currentShield = 0; //12.17 쉴드추가
 
         if (baseData.attackSpeed > 0f)
         {
@@ -89,12 +145,24 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     public virtual void TakeDamage(int amount, Chess attacker = null)
     {
-        if (IsDead) return; 
+        if (IsDead) return;
 
-        int finalDamage = Mathf.Max(1, amount - baseData.armor); //최소 1뎀 
+        int finalDamage = Mathf.Max(1, amount - baseData.armor); // 최소 1뎀
 
-        CurrentHP -= finalDamage;
-        if (CurrentHP < 0) CurrentHP = 0;
+        //실드부터 
+        if (currentShield > 0)
+        {
+            int absorbed = Mathf.Min(currentShield, finalDamage);
+            currentShield -= absorbed;
+            finalDamage -= absorbed;
+        }
+
+        
+        if (finalDamage > 0)
+        {
+            CurrentHP -= finalDamage;
+            if (CurrentHP < 0) CurrentHP = 0;
+        }
 
         GainMana(manaOnDamaged);
 
@@ -103,6 +171,7 @@ public abstract class ChessStateBase : MonoBehaviour
             Die();
         }
     }
+
 
     //=====================================================
     //                  마나 & 스킬
@@ -140,6 +209,7 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     protected virtual void Die()
     {
+        ClearShield();
         if (!IsDead) return;
 
         Debug.Log("사망");
