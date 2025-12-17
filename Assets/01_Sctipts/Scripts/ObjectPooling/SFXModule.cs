@@ -35,7 +35,7 @@ public class SFXModule : MonoBehaviour
         aus.clip = clip;
         aus.volume = volume;
         aus.spatialBlend = spatialBlend;
-        aus.loop = spatialBlend >= 0.9f;
+        aus.loop = spatialBlend <= 0.9f;
         aus.Play();
     }
 }
