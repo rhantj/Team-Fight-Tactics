@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 8612226405732216595}
   - component: {fileID: 2547268168209580486}
   - component: {fileID: 8659854977791464665}
-  - component: {fileID: 2584390302780174687}
+  - component: {fileID: 8941908934793213159}
   m_Layer: 5
   m_Name: SynergyUIPrefab
   m_TagString: Untagged
@@ -301,7 +301,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2584390302780174687
+--- !u!114 &8941908934793213159
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,13 +310,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5237205965381560896}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9540e231d5c20048981d9e181b57816, type: 3}
+  m_Script: {fileID: 11500000, guid: daa3be3c21576d84392990116c81cd37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 5630661924012372674}
-  nameText: {fileID: 1321973611536885647}
-  countText: {fileID: 5371131510696797117}
-  canvasGroup: {fileID: 8659854977791464665}
+  synergyIcon: {fileID: 5630661924012372674}
+  synergyNameText: {fileID: 1321973611536885647}
+  synergyCountText: {fileID: 5371131510696797117}
 --- !u!1 &6273285597326600541
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,6 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Trait Icon Database")]
     [SerializeField] private TraitIconDatabase traitIconDB;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -89,10 +88,8 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         nameText.text = data.unitName;
         costText.text = data.cost.ToString();
 
-        // 스탯
-        armorText.text = data.armor.ToString();
-        attackDamageText.text = data.attackDamage.ToString();
-        attackSpeedText.text = data.attackSpeed.ToString("0.00");
+        // 스탯 (현재 스탯 기준)
+        UpdateStatUI();
 
         // 스킬 아이콘
         skillIconImage.sprite = data.skillIcon;
@@ -107,7 +104,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         if (costUIData != null)
         {
             CostUIInfo info = costUIData.GetInfo(data.cost);
-            if(info != null && info.infoFrameSprite != null)
+            if (info != null && info.infoFrameSprite != null)
             {
                 frameImage.sprite = info.infoFrameSprite;
             }
@@ -131,6 +128,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         {
             UpdateHPUI();
             UpdateManaUI();
+            UpdateStatUI(); // 시너지 반영 실시간 갱신
         }
 
         // 기존 클릭 처리
@@ -174,6 +172,19 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
 
         manaFillImage.fillAmount = (float)currentMana / maxMana;
         manaText.text = $"{currentMana} / {maxMana}";
+    }
+
+    /// <summary>
+    /// 현재 기물의 스탯 정보를 UI에 반영한다.
+    /// 시너지 효과가 적용된 "실시간 스탯"을 표시한다.
+    /// </summary>
+    private void UpdateStatUI()
+    {
+        if (currentChess == null) return;
+
+        armorText.text = currentChess.Armor.ToString();
+        attackDamageText.text = currentChess.AttackDamage.ToString();
+        attackSpeedText.text = currentChess.AttackSpeed.ToString("0.00");
     }
 
     /// <summary>
@@ -248,5 +259,4 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         if (SkillTooltipUI.Instance != null)
             SkillTooltipUI.Instance.Hide();
     }
-
 }
