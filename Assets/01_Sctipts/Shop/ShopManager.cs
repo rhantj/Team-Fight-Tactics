@@ -483,6 +483,11 @@ public class ShopManager : Singleton<ShopManager>
         if (ItemSlotManager.Instance.EmptySlotCount < equippedCount)
         {
             Debug.Log("남은 아이템 슬롯 부족.");
+
+            if(ToastUI.Instance != null)
+            {
+                ToastUI.Instance.Show("The unit cannot be sold due to insufficient item slots.", Color.yellow);
+            }
             return false;
             //토스트/팝업 UI연결 필요;
         }
