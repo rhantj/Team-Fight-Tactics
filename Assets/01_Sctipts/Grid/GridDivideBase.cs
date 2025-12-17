@@ -15,10 +15,9 @@ public class GridDivideBase : MonoBehaviour
     [HideInInspector] public Transform lineParent;      // 관리용 라인 부모 오브젝트
     protected GridNode[,] fieldGrid;                    // 실제 필드
     protected Dictionary<int, GridNode> nodePerInt = new(); // 숫자별로 노드 접근
-    protected List<int> unitPerLevel = new();           // 레벨 당 유닛 제한 수
+    public List<int> unitPerLevel = new();           // 레벨 당 유닛 제한 수
 
-    protected int CountOfPiece { get; private set; }
-    public int countOfPiece;
+    public int CountOfPiece { get; private set; }
 
     private void Awake()
     {
@@ -28,11 +27,6 @@ public class GridDivideBase : MonoBehaviour
     private void OnEnable()
     {
         InitUnitLimits();
-    }
-
-    private void Update()
-    {
-        countOfPiece = CountOfPiece;
     }
 
     private void OnDrawGizmos()

@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Timeline;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,8 +14,15 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] GridDivideBase prevGrid;   // 전에 위치한 그리드
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
+    [SerializeField] protected TextMeshProUGUI pieceCountText;
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
+    public int playerLevel;
+
+    void Start()
+    {
+        UpdateUI();
+    }
 
     private void Update()
     {
@@ -99,6 +105,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             if (shop != null)
                 shop.ExitSellMode();
+
+            UpdateUI();
             return;
         }
 
@@ -116,6 +124,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if (OnFirstNode())
         {
             chess = null;
+            UpdateUI();
             return;
         }
 
@@ -135,6 +144,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         {
             g.lineParent.gameObject.SetActive(false);
         }
+
+        UpdateUI();
     }
 
 
@@ -340,7 +351,12 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             "playerLevel", (BindingFlags.Instance | BindingFlags.NonPublic) );
         int level = (int)field.GetValue(ShopManager.Instance);
 
-        return level;
+        return playerLevel;
     }
 
+    void UpdateUI()
+    {
+        //pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
+        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[playerLevel]}";
+    }
 }
