@@ -2,9 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// 시너지 UI 프리팹 1개의 표시 로직
-/// </summary>
 public class SynergyUI : MonoBehaviour
 {
     [Header("UI References")]
@@ -12,8 +9,11 @@ public class SynergyUI : MonoBehaviour
     [SerializeField] private TMP_Text synergyNameText;
     [SerializeField] private TMP_Text synergyCountText;
 
+    [Header("Tooltip")]
+    [SerializeField] private SynergyTooltipTrigger tooltipTrigger;
+
     /// <summary>
-    /// 시너지 UI 갱신
+    /// 시너지 UI 기본 정보 세팅
     /// </summary>
     public void SetUI(Sprite icon, string name, int count)
     {
@@ -28,9 +28,21 @@ public class SynergyUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 시너지 카운트 표시 규칙
-    /// 1  -> "1 > 2"
-    /// 2+ -> "2 > 3 > 4"
+    /// 툴팁 데이터 주입 (SynergyUIController에서 호출)
+    /// </summary>
+    public void SetTooltipData(
+        Sprite icon,
+        string name,
+        TraitTooltipData tooltipData
+    )
+    {
+        if (tooltipTrigger == null) return;
+
+        tooltipTrigger.SetData(icon, name, tooltipData);
+    }
+
+    /// <summary>
+    /// 카운트 표시 규칙
     /// </summary>
     private string BuildCountText(int count)
     {

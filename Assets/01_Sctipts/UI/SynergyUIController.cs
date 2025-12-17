@@ -5,6 +5,7 @@ using UnityEngine;
 /// 시너지 UI 전체를 관리하는 컨트롤러
 /// - SynergyManager의 계산 결과를 받아
 /// - 시너지 UI 프리팹 생성 / 갱신 / 제거를 담당
+/// - 시너지 툴팁 데이터 주입 책임을 가짐
 /// </summary>
 public class SynergyUIController : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class SynergyUIController : MonoBehaviour
 
     [Header("Databases")]
     [SerializeField] private TraitSynergyIconDatabase synergyIconDB;
-    [SerializeField] private TraitIconDatabase traitIconDB; // 표시 이름용
+    [SerializeField] private TraitIconDatabase traitIconDB; // 이름 표시용
+
+    [Header("Tooltip Data")]
+    [SerializeField] private TraitTooltipData[] tooltipDatas;
 
     // TraitType 당 하나의 UI만 유지
     private Dictionary<TraitType, SynergyUI> uiMap
@@ -57,11 +61,22 @@ public class SynergyUIController : MonoBehaviour
                 ? traitIconDB.GetDisplayName(state.trait)
                 : state.trait.ToString();
 
-            // UI 갱신
+            // 기본 UI 갱신
             ui.SetUI(
                 icon,
                 displayName,
                 state.count
+            );
+
+            // ─────────────────────────────
+            // 툴팁 데이터 주입 (핵심)
+            // ─────────────────────────────
+            TraitTooltipData tooltipData = GetTooltipData(state.trait);
+
+            ui.SetTooltipData(
+                icon,          // 시너지 UI에서 쓰는 동일 아이콘 (회색/동/은/금 중 현재 상태)
+                displayName,   // 시너지 UI에 표시되는 이름 그대로
+                tooltipData
             );
         }
 
@@ -94,5 +109,20 @@ public class SynergyUIController : MonoBehaviour
                 Destroy(kv.Value.gameObject);
         }
         uiMap.Clear();
+    }
+
+    /// <summary>
+    /// TraitType에 해당하는 TooltipData 검색
+    /// </summary>
+    private TraitTooltipData GetTooltipData(TraitType trait)
+    {
+        if (tooltipDatas == null) return null;
+
+        foreach (var data in tooltipDatas)
+        {
+            if (data != null && data.trait == trait)
+                return data;
+        }
+        return null;
     }
 }

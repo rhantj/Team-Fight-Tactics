@@ -8008,6 +8008,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 36563891614080839, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -189
+      objectReference: {fileID: 0}
     - target: {fileID: 1634713458598283867, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9688,42 +9692,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760727532115630606, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[0].bonusHP
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[1].bonusHP
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[2].bonusHP
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[0].thresholds.Array.data[0].bonusArmor
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[0].thresholds.Array.data[1].bonusArmor
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[0].thresholds.Array.data[2].bonusArmor
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[2].thresholds.Array.data[0].attackSpeedMultiplier
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[2].thresholds.Array.data[1].attackSpeedMultiplier
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
-      propertyPath: synergyConfigs.Array.data[2].thresholds.Array.data[2].attackSpeedMultiplier
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
