@@ -46,6 +46,7 @@ public abstract class ChessStateBase : MonoBehaviour
     protected float attackTimer;
     protected Animator animator;
     protected StateMachine stateMachine;
+    public float AttackSpeedMultiplier => attackSpeedMultiplier;
 
     //=====================================================
     //                  Shield (Barrier)
@@ -110,6 +111,20 @@ public abstract class ChessStateBase : MonoBehaviour
         InitFromSO();
     }
 
+    protected virtual void OnEnable()
+    {
+        lastAttacker = null;
+        deathHandled = false;
+
+        // 쉴드,코루틴 리셋
+        currentShield = 0;
+        if (shieldCoroutine != null)
+        {
+            StopCoroutine(shieldCoroutine);
+            shieldCoroutine = null;
+        }
+    }
+
     public virtual void SetBaseData(ChessStatData newData)
     {
         baseData = newData;
@@ -128,8 +143,11 @@ public abstract class ChessStateBase : MonoBehaviour
 
         CurrentHP = MaxHP;   
         CurrentMana = 0;
-        currentShield = 0; //12.17 쉴드추가
-
+        //==
+        lastAttacker = null;
+        deathHandled = false;
+        currentShield = 0; //12.17 추가
+        //==
         if (baseData.attackSpeed > 0f)
         {
             baseAttackInterval = 1f / baseData.attackSpeed;
@@ -139,6 +157,11 @@ public abstract class ChessStateBase : MonoBehaviour
         attackTimer = attackInterval; //첫 전투시작시 공속리셋
     }
 
+    //=====================================================
+    //                  Kill Tracking
+    //=====================================================
+    protected Chess lastAttacker;
+    private bool deathHandled = false;
 
     //=====================================================
     //                  전투 / 피격
@@ -146,6 +169,7 @@ public abstract class ChessStateBase : MonoBehaviour
     public virtual void TakeDamage(int amount, Chess attacker = null)
     {
         if (IsDead) return;
+        if (attacker != null) lastAttacker = attacker;
 
         int finalDamage = Mathf.Max(1, amount - baseData.armor); // 최소 1뎀
 
@@ -209,14 +233,24 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     protected virtual void Die()
     {
-        ClearShield();
         if (!IsDead) return;
+        if (deathHandled) return;
+        deathHandled = true;
+
+        if (lastAttacker != null && lastAttacker != (this as Chess))
+        {
+            var effects = lastAttacker.GetComponents<IOnKillEffect>();
+            for (int i = 0; i < effects.Length; i++)
+            {
+                effects[i].OnKill(lastAttacker, this as Chess);
+            }
+        }
 
         Debug.Log("사망");
         stateMachine?.SetDie();
         animator?.SetTrigger("Die");
-        //gameObject.SetActive(false);
     }
+
 
     //=====================================================
     //                  특성 접근

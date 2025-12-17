@@ -356,7 +356,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     void UpdateUI()
     {
-        //pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
-        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[playerLevel]}";
+        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
     }
 }

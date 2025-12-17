@@ -51,8 +51,9 @@ public class Chess : ChessStateBase
         GetComponentInChildren<ChessStatusUI>()?.Bind(this);
         TryRegisterGameManager(); //라운드 이벤트 구독
     }
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         TryRegisterGameManager(); //풀링 재활성화할때 구독끊기는거 방지용으로 재등록하게했습니다
     }
 
@@ -246,8 +247,8 @@ public class Chess : ChessStateBase
     {
         if (!IsDead) return;
 
-        OnDead?.Invoke(this);
         base.Die();
+        OnDead?.Invoke(this);
     }
 
     //=====================================================
