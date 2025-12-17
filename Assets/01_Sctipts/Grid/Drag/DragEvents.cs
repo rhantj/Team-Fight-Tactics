@@ -97,54 +97,75 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!chess) return;
+
         ShopManager shop = ShopManager.Instance;
 
-        // 필드 밖
-        if (OutofGrid())
+        // 1) 판매 영역이면: 배치 로직 절대 타지 않게 완전 분기
+        if (IsPointerOverSellArea)
         {
-            chess = null;
-            if (shop != null)
-                shop.ExitSellMode();
+            // 판매 시도 (성공 여부 반환)
+            bool sold = TrySellFromDrag(shop);
 
+            // 판매 성공: 끝
+            if (sold)
+            {
+                chess = null;
+                if (shop != null) shop.ExitSellMode();
+                HideLines();
+                UpdateUI();
+                return;
+            }
+
+            // 판매 실패: 원래 자리 복구 후 끝
+            RestoreToPrevNode();
+            chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
             UpdateUI();
             return;
         }
 
-        ClearAllNodeChess(chess);
+        // 2) 필드 밖(유효 드랍 불가) 처리
+        if (OutofGrid())
+        {
+            chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
+            UpdateUI();
+            return;
+        }
 
         bool wasOnField = prevGrid is FieldGrid;
         bool nowOnBench = targetGrid is BenchGrid;
-
         if (wasOnField && nowOnBench)
         {
             chess.ResetSynergyStats();
         }
 
-        // 원래자리 그대로
+        // 3) 원래자리 그대로면 복구 처리 후 종료
         if (OnFirstNode())
         {
             chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
             UpdateUI();
             return;
         }
 
-        // 노드 위에 기물이 있는 경우
+        // 4) 정상 배치/스왑 확정 직전에만 이전 노드에서 제거
+        ClearAllNodeChess(chess);
+
+        // 5) 스왑/배치
         SwapPiece();
 
         if (shop != null)
             shop.ExitSellMode();
-        SellPiece();
-
 
         UpdateGridAndNode();
-        UpdateSynergy(); //12.09 Kim add
+        UpdateSynergy();
+
         chess = null;
-
-        foreach (var g in grids)
-        {
-            g.lineParent.gameObject.SetActive(false);
-        }
-
+        HideLines();
         UpdateUI();
     }
 
@@ -253,21 +274,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
 
     // 기물 판매
-    private void SellPiece()
-    {
-        if (!IsPointerOverSellArea || !chess) return;
-
-        ShopManager shop = FindObjectOfType<ShopManager>();
-        if (!shop) return;
-
-        // reflection
-        FieldInfo baseDataField = typeof(ChessStateBase).GetField
-            ("baseData", BindingFlags.Instance | BindingFlags.NonPublic);
-        ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
-
-        shop.TrySellUnit(chessData, chess.gameObject);
-        ClearAllNodeChess(chess);
-    }
+  
 
     // 마우스 위치를 월드 위치로 변환
     void CalculateWorldPosition(Ray ray)
@@ -357,5 +364,53 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     void UpdateUI()
     {
         pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
+    }
+
+    private bool TrySellFromDrag(ShopManager shop)
+    {
+        if (!chess) return false;
+        if (shop == null) shop = FindObjectOfType<ShopManager>();
+        if (!shop) return false;
+
+        FieldInfo baseDataField = typeof(ChessStateBase).GetField(
+            "baseData", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
+        if (chessData == null)
+        {
+            Debug.LogError("[TrySellFromDrag] chessData is null");
+            return false;
+        }
+
+        bool sold = shop.TrySellUnit(chessData, chess.gameObject);
+        if (!sold) return false;
+
+        // 판매 성공일 때만 그리드/노드에서 제거
+        ClearAllNodeChess(chess);
+        return true;
+    }
+
+    private void RestoreToPrevNode()
+    {
+        if (!chess) return;
+
+        if (prevNode != null)
+        {
+            chess.SetPosition(prevNode.worldPosition);
+            prevNode.ChessPiece = chess;
+        }
+        else
+        {
+            chess.SetPosition(chessFirstPos);
+        }
+    }
+
+    private void HideLines()
+    {
+        foreach (var g in grids)
+        {
+            if (g != null && g.lineParent != null)
+                g.lineParent.gameObject.SetActive(false);
+        }
     }
 }
