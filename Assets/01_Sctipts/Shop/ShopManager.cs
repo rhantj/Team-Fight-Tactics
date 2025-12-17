@@ -457,11 +457,17 @@ public class ShopManager : Singleton<ShopManager>
     }
 
     //12/17 Add Kwon - 아이템 회수 메서드
-    public void TrySellUnit(ChessStatData data, GameObject obj)
+    public bool TrySellUnit(ChessStatData data, GameObject obj)
     {
         if (data == null || obj == null)
         {
-            return;
+            return false;
+        }
+
+        if(ItemSlotManager.Instance== null)
+        {
+            Debug.LogError("[TrySellUnit] ItemSlotManager.Instance is null");
+            return false;
         }
 
         ChessItemUI itemUI = obj.GetComponentInChildren<ChessItemUI>();
@@ -470,14 +476,14 @@ public class ShopManager : Singleton<ShopManager>
         if (itemUI == null || itemUI.EquippedItemCount == 0)
         {
             SellUnit(data, obj);
-            return;
+            return true;
         }
         int equippedCount = itemUI.EquippedItemCount;
         //외부 아이템 슬롯 여유 검사
         if (ItemSlotManager.Instance.EmptySlotCount < equippedCount)
         {
             Debug.Log("남은 아이템 슬롯 부족.");
-
+            return false;
             //토스트/팝업 UI연결 필요;
         }
 
@@ -485,11 +491,17 @@ public class ShopManager : Singleton<ShopManager>
         List<ItemData> items = itemUI.PopAllItems();
         foreach(var item in items)
         {
-            ItemSlotManager.Instance.AddItem(item);
+            bool ok = ItemSlotManager.Instance.AddItem(item);
+            if (!ok)
+            {
+                Debug.LogError("[TrySellUnit] EmptySlotCount는 충분했는데 AddItem 실패. 슬롯 상태/로직 확인 필요.");
+                return false;
+            }
         }
 
         //기존 판매 로직 시행
         SellUnit(data, obj);
+        return true;
     }
 
 
