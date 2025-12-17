@@ -31,7 +31,7 @@ public class ItemDrag : MonoBehaviour
     }
 
     //===================== 드래그 시작 ========================
-    // - 출발 슬롯 저장
+    // - 출발 슬롯 저장 
     public void BeginDrag(ItemSlot startSlot, Sprite icon)
     {
         originSlot = startSlot;
