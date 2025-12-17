@@ -216,6 +216,33 @@ public abstract class ChessStateBase : MonoBehaviour
         else gameObject.SetActive(false);
     }
 
+    // 공속 읽기전용 프로퍼티 하나 추가할게요 Won Add
+    public float AttackSpeed
+    {
+        get
+        {
+            if (attackInterval <= 0f) return 0f;
+            return 1f / attackInterval;
+        }
+    }
+
+    //필드에서 내려갈때 호출 용도로 추가했습니다
+    public void ResetSynergyStats()
+    {
+        SetAttackSpeedMultiplier(1f);
+        ClearBonusStats();
+    }
+
+    /// <summary>
+    /// 시너지 및 기타 버프로 인해 추가된 보너스 스탯을 모두 초기화한다.
+    /// 필드를 벗어나거나 시너지 해제 시 호출된다.
+    /// </summary>
+    public void ClearBonusStats()
+    {
+        bonusAttack = 0;
+        bonusArmor = 0;
+        bonusMaxHP = 0;
+    }
 
 
 }

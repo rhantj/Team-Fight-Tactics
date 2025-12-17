@@ -8,6 +8,7 @@ public class SynergyManager : MonoBehaviour
     [Header("시너지 설정")]
     [SerializeField]
     private SynergyConfig[] synergyConfigs;
+    [SerializeField] private SynergyUIController synergyUIController;
 
     //현재활성화된 효과
     private Dictionary<TraitType, SynergyThreshold> activeSynergies = new Dictionary<TraitType, SynergyThreshold>();
@@ -63,6 +64,7 @@ public class SynergyManager : MonoBehaviour
 
         UpdateActiveSynergies(); //카운트기반으로 
         ApplySynergyEffects(fieldUnits); //시너지를 기물스텟 반영
+        synergyUIController?.RefreshUI();
     }
 
 
@@ -152,4 +154,29 @@ public class SynergyManager : MonoBehaviour
             unit.AddBonusStats(bonusAttack, bonusArmor, bonusHP);
         }
     }
+    public List<SynergyUIState> GetSynergyUIStates()
+    {
+        List<SynergyUIState> result = new();
+
+        foreach (var kv in currentCounts)
+        {
+            TraitType trait = kv.Key;
+            int count = kv.Value;
+
+            if (count <= 0)
+                continue;
+
+            activeSynergies.TryGetValue(trait, out var active);
+
+            result.Add(new SynergyUIState
+            {
+                trait = trait,
+                count = count,
+                active = active
+            });
+        }
+
+        return result;
+    }
+
 }

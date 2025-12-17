@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: TraitSynergyIconDB
+  m_EditorClassIdentifier: Assembly-CSharp::TraitSynergyIconDatabase
+  sets:
+  - trait: 0
+    gray: {fileID: 21300000, guid: 7d9a567e9bd5e5140ab3f43cab9f3c36, type: 3}
+    bronze: {fileID: 21300000, guid: 0e44ef153a828da468d727f9b5e31ebf, type: 3}
+    silver: {fileID: 21300000, guid: a2aa6f8a381580d4c8ade1e21fae5a2d, type: 3}
+    gold: {fileID: 21300000, guid: 521ba90221fdd8540913b70b8cee7586, type: 3}
+  - trait: 2
+    gray: {fileID: 21300000, guid: cee224d4c6fc8234e999ee693f7f3665, type: 3}
+    bronze: {fileID: 21300000, guid: e9c075ffaa6680949b434ac3b618e6e8, type: 3}
+    silver: {fileID: 21300000, guid: 3d6f9ed54f4436d47a4f87199b6d6549, type: 3}
+    gold: {fileID: 21300000, guid: c22b886bcf827a64fbc0c3597ae77c68, type: 3}
+  - trait: 1
+    gray: {fileID: 21300000, guid: 8b234b17ca3efce42a85614a1068fe72, type: 3}
+    bronze: {fileID: 21300000, guid: f7d3c2b454a2d06409844e20eaed599d, type: 3}
+    silver: {fileID: 21300000, guid: 0281d92cda06d654fb6828a5cd1b4587, type: 3}
+    gold: {fileID: 21300000, guid: 9103336e0a5303740bfe5361347f7d88, type: 3}

@@ -104,6 +104,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         ClearAllNodeChess(chess);
 
+        bool wasOnField = prevGrid is FieldGrid;
+        bool nowOnBench = targetGrid is BenchGrid;
+
+        if (wasOnField && nowOnBench)
+        {
+            chess.ResetSynergyStats();
+        }
+
         // 원래자리 그대로
         if (OnFirstNode())
         {
@@ -142,7 +150,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 기물이 필드 밖으로 나갔을 떄
     private bool OutofGrid()
     {
-        if (!CanDrop() && !IsPointerOverSellArea)
+        if (OutOfGridCondition())
         {
             if (prevNode != null)
             {
@@ -159,6 +167,28 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
         return false;
     }
+
+
+    // 필드에 드랍 가능한지 판단
+    bool CanDrop()
+    {
+        // 필드 식별 불가
+        if (!targetGrid || targetNode == null) return false;
+
+        // 판매 영역
+        if (IsPointerOverSellArea) return true;
+
+        bool targetField = targetGrid is FieldGrid;
+        bool prevField = prevGrid is FieldGrid;
+        bool enemyField = targetGrid is EnemyGrid;
+
+
+        return true;
+    }
+
+    bool OutOfGridCondition() =>
+        (targetGrid == null || targetNode == null || !CanDrop()) && 
+        !IsPointerOverSellArea;
 
     // 기물이 처음 노드 위에 있을 때
     private bool OnFirstNode()
@@ -306,22 +336,4 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return level;
     }
 
-    // 필드에 드랍 가능한지 판단
-    bool CanDrop()
-    {
-        FieldGrid field = targetGrid as FieldGrid;
-        if (!field) return true;
-
-        bool isOnField = prevGrid is FieldGrid;
-
-        // 벤치 -> 필드
-        if (!isOnField)
-        {
-            if (!targetNode.ChessPiece) return !field.IsFull(PlayerLevel());
-
-            return true;
-        }
-
-        return false;
-    }
 }
