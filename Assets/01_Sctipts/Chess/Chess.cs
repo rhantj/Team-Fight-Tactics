@@ -30,8 +30,9 @@ public class Chess : ChessStateBase
     public event Action<Chess> OnDead; //사망시 매니저에게 알리기위한 이벤트입니다
     public event Action<Chess> OnUsedAsMaterial; //조합에 사용되는 처리용 이벤트입니다. 풀반환이라던가,벤치 정리등.
     public float AttackRange => (baseData != null && baseData.attackRange > 0f) ? baseData.attackRange : 1.8f; //사거리
-    public float MoveSpeed => (baseData != null) ? baseData.moveSpeed : 0f;   
-                                                                              
+    public float MoveSpeed => (baseData != null) ? baseData.moveSpeed : 0f;
+    public Chess CurrentTarget => currentTarget; //바이 E 스킬때문에 넣었어요 12.17 add Kim
+
 
     //=====================================================
     //                  초기화
