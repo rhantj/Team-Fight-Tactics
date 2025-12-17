@@ -26,6 +26,8 @@ public class SFXManager : MonoBehaviour, ISoundable
     private Dictionary<string, AudioClip> clipDic = new();  // 효과음 분류
     public List<GameObject> usingSound = new();             // 사용중인 사운드
 
+    private AudioSource currentBGMSource;  //12-17 Won Add
+
     private void Awake()
     {
         foreach(var clip in preloadSFX)
@@ -48,6 +50,12 @@ public class SFXManager : MonoBehaviour, ISoundable
         var sfx = obj.GetComponent<SFXModule>();
         var clip = clipDic[name];
         sfx.Play(clip, volume, spatialBlend);
+
+        // BGM 인 경우
+        if (spatialBlend < 0.9f)
+        {
+            currentBGMSource = obj.GetComponent<AudioSource>();
+        }
     }
 
     // 씬이 변경되거나 bgm 종료 시 사용
@@ -64,4 +72,34 @@ public class SFXManager : MonoBehaviour, ISoundable
 
         usingSound.Clear();
     }
+
+    // 브금 볼륨 조절 
+    public void SetBGMVolume(float volume)
+    {
+        if (currentBGMSource == null) return;
+        currentBGMSource.volume = volume;
+    }
+
+    // SFX 볼륨 조절
+    public void SetSFXVolume(float volume)
+    {
+        for (int i = usingSound.Count - 1; i >= 0; i--)
+        {
+            var obj = usingSound[i];
+
+            if (obj == null)
+            {
+                usingSound.RemoveAt(i);
+                continue;
+            }
+
+            var src = obj.GetComponent<AudioSource>();
+            if (src != null)
+            {
+                src.volume = volume;
+            }
+        }
+    }
+
+
 }
