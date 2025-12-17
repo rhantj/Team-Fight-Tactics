@@ -2,17 +2,103 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GalioSkill_W : MonoBehaviour
+public class GalioSkill_W : SkillBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Cast")]
+    [SerializeField, Tooltip("모션유지 시간")]
+    private float channelTime = 1.0f;
 
-    // Update is called once per frame
-    void Update()
+    //=====================================================
+    //                  Damage
+    //=====================================================
+    [Header("Damage")]
+    [SerializeField, Tooltip("범위 반경")]
+    private float radius = 2.5f;
+
+    [SerializeField, Tooltip("피해 배율)")]
+    private float damageMultiplier = 1.0f;
+
+    [SerializeField, Tooltip("추가 피해")]
+    private int flatBonusDamage = 10;
+
+    //=====================================================
+    //                  Barrier (Shield)
+    //=====================================================
+    [Header("Barrier")]
+    [SerializeField, Tooltip("실드 배율")]
+    private float shieldHpMultiplier = 0.25f;
+
+    [SerializeField, Tooltip("실드량")]
+    private int shieldFlat = 50;
+
+    [SerializeField, Tooltip("실드 지속시간")]
+    private float shieldDuration = 4.0f;
+
+    //=====================================================
+    //                  VFX (꼭 다 할당안해도 됩니다.)
+    //=====================================================
+    [Header("VFX")]
+    [SerializeField, Tooltip("채널링 VFX")]
+    private GameObject channelVfxPrefab;
+
+    [SerializeField, Tooltip("히트 vfx")]
+    private GameObject blastVfxPrefab;
+
+    [SerializeField, Tooltip("실드 VFX")]
+    private GameObject shieldVfxPrefab;
+
+    public override IEnumerator Execute(ChessStateBase caster)
     {
-        
+        Chess galio = caster as Chess;
+        if (galio == null) yield break;
+
+        Vector3 pos = galio.transform.position;
+        pos.y = 1.5f;
+
+        GameObject channelVfx = null;
+        if (channelVfxPrefab != null)
+        {
+            channelVfx = Object.Instantiate(channelVfxPrefab, galio.transform.position, Quaternion.identity, galio.transform);
+        }
+
+        if (channelTime > 0f)
+            yield return new WaitForSeconds(channelTime);
+
+        if (channelVfx != null)
+            Object.Destroy(channelVfx);
+
+        // VFX
+        if (blastVfxPrefab != null)
+            Object.Instantiate(blastVfxPrefab, pos, Quaternion.identity);
+
+        //범위피해
+        List<Chess> enemies = (galio.team == Team.Player)
+            ? UnitCountManager.Instance.enemyUnits
+            : UnitCountManager.Instance.playerUnits;
+
+        int dmg = Mathf.Max(1, Mathf.RoundToInt(galio.AttackDamage * damageMultiplier) + flatBonusDamage);
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Chess t = enemies[i];
+            if (t == null || t.IsDead) continue;
+
+            float dist = Vector3.Distance(pos, t.transform.position);
+            if (dist > radius) continue;
+
+            t.TakeDamage(dmg, galio);
+        }
+
+        int shield = Mathf.Max(1, Mathf.RoundToInt(galio.MaxHP * shieldHpMultiplier) + shieldFlat);
+        galio.AddShield(shield, shieldDuration);
+
+        //VFX
+        if (shieldVfxPrefab != null)
+        {
+            GameObject vfx = Object.Instantiate(shieldVfxPrefab, galio.transform.position, Quaternion.identity, galio.transform);
+
+            if (shieldDuration > 0f) //vfx제거
+                Object.Destroy(vfx, shieldDuration);
+        }
     }
 }

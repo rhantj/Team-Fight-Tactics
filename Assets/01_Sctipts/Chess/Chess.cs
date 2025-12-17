@@ -222,10 +222,19 @@ public class Chess : ChessStateBase
 
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
+        InvokeOnHitEffects(currentTarget);
 
         GainMana(manaOnHit); //¸¶³ªÈ¹µæ
     }
 
+    private void InvokeOnHitEffects(Chess target)
+    {
+        var effects = GetComponents<IOnHitEffect>();
+        for (int i = 0; i < effects.Length; i++)
+        {
+            effects[i].OnHit(this, target);
+        }
+    }
 
     private int GetAttackDamage()
     {
