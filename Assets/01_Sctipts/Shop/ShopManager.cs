@@ -472,9 +472,9 @@ public class ShopManager : Singleton<ShopManager>
             SellUnit(data, obj);
             return;
         }
-
+        int equippedCount = itemUI.EquippedItemCount;
         //외부 아이템 슬롯 여유 검사
-        if(ItemSlotManager.Instance.EmptySlotCount < equippedCount)
+        if (ItemSlotManager.Instance.EmptySlotCount < equippedCount)
         {
             Debug.Log("남은 아이템 슬롯 부족.");
 
@@ -489,7 +489,7 @@ public class ShopManager : Singleton<ShopManager>
         }
 
         //기존 판매 로직 시행
-        SellUnit(data.obj);
+        SellUnit(data, obj);
     }
 
 
