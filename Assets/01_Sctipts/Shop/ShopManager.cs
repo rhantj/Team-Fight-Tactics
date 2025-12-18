@@ -23,6 +23,7 @@ public class ShopManager : Singleton<ShopManager>
     [SerializeField] private TMP_Text expText;
     [SerializeField] private TMP_Text costRateText;
     [SerializeField] private TMP_Text sellPriceText;
+    [SerializeField] private TMP_Text pieceCountText;
 
     [Header("Unit Data (임시)")]
     [SerializeField] private ChessStatData[] allUnits;
@@ -57,6 +58,10 @@ public class ShopManager : Singleton<ShopManager>
     private Dictionary<ChessStatData, int> unitBuyCount = new Dictionary<ChessStatData, int>();
 
     private int rewardGold = 5;
+
+    [Header("Piece Counting Variables")]        // 12.18 ko
+    private List<int> unitPerLevel = new();   
+    int cnt = 0;
 
     // ================================================================
     // 샵 잠금 시스템
@@ -93,6 +98,11 @@ public class ShopManager : Singleton<ShopManager>
                 unitsByCost[unit.cost] = new List<ChessStatData>();
 
             unitsByCost[unit.cost].Add(unit);
+        }
+
+        foreach(var data in levelDataTable.levels)
+        {
+            unitPerLevel.Add(data.boardUnitLimit);
         }
     }
 
@@ -195,6 +205,7 @@ public class ShopManager : Singleton<ShopManager>
 
             UpdateLevelUI();
             UpdateExpUI();
+            UpdateCountUI(null);
             UpdateCostRateUI();
 
             current = GetLevelData(playerLevel);
@@ -226,6 +237,16 @@ public class ShopManager : Singleton<ShopManager>
             expText.text = "EXP: " + playerExp + " / " + data.requiredExp;
         else
             expText.text = "EXP: -";
+    }
+
+    /// <summary>
+    /// 현재 필드 위에 올릴 수 있는 최대 기물 개수 갱신.
+    /// 필드 위의 개수 / 최대 상한치 확인가능.
+    /// </summary>
+    public void UpdateCountUI(GridDivideBase field)
+    {
+        if (field) cnt = field.CountOfPiece;
+        pieceCountText.text = $"{cnt} / {unitPerLevel[playerLevel - 1]}";
     }
 
     // ================================================================
@@ -604,6 +625,7 @@ public class ShopManager : Singleton<ShopManager>
         UpdateGoldUI();
         UpdateLevelUI();
         UpdateExpUI();
+        UpdateCountUI(null);    // 12.18 ko
         UpdateCostRateUI();
         RefreshShop();
     }

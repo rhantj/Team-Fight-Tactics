@@ -206,11 +206,6 @@ public class GridDivideBase : MonoBehaviour
         {
             unitPerLevel.Add(d.boardUnitLimit);
         }
-
-        foreach(var i in unitPerLevel)
-        {
-            Debug.Log(i);
-        }
     }
 
     public void IncreasePieceCount() => CountOfPiece++;

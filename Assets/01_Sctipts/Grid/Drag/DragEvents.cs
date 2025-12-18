@@ -1,5 +1,6 @@
 using System.Reflection;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,15 +15,10 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] GridDivideBase prevGrid;   // 전에 위치한 그리드
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
-    [SerializeField] protected TextMeshProUGUI pieceCountText;
+    //[SerializeField] protected TextMeshProUGUI pieceCountText;
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
     public int playerLevel;
-
-    void Start()
-    {
-        UpdateUI();
-    }
 
     private void Update()
     {
@@ -99,6 +95,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if (!chess) return;
 
         ShopManager shop = ShopManager.Instance;
+        GridDivideBase field = grids[0];
 
         // 1) 판매 영역이면: 배치 로직 절대 타지 않게 완전 분기
         if (IsPointerOverSellArea)
@@ -112,7 +109,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 chess = null;
                 if (shop != null) shop.ExitSellMode();
                 HideLines();
-                UpdateUI();
+                shop.UpdateCountUI(field);
                 return;
             }
 
@@ -121,7 +118,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             if (shop != null) shop.ExitSellMode();
             HideLines();
-            UpdateUI();
+            shop.UpdateCountUI(field);
             return;
         }
 
@@ -131,7 +128,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             if (shop != null) shop.ExitSellMode();
             HideLines();
-            UpdateUI();
+            shop.UpdateCountUI(field);
             return;
         }
 
@@ -148,7 +145,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             if (shop != null) shop.ExitSellMode();
             HideLines();
-            UpdateUI();
+            shop.UpdateCountUI(field);
             return;
         }
 
@@ -166,7 +163,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         chess = null;
         HideLines();
-        UpdateUI();
+        shop.UpdateCountUI(field);
     }
 
 
@@ -358,13 +355,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             "playerLevel", (BindingFlags.Instance | BindingFlags.NonPublic) );
         int level = (int)field.GetValue(ShopManager.Instance);
 
-        return playerLevel;
+        return level;
     }
 
-    void UpdateUI()
-    {
-        pieceCountText.text = $"{grids[1].CountOfPiece} / {grids[1].unitPerLevel[PlayerLevel() - 1]}";
-    }
 
     private bool TrySellFromDrag(ShopManager shop)
     {
@@ -385,8 +378,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         bool sold = shop.TrySellUnit(chessData, chess.gameObject);
         if (!sold) return false;
 
+        if (ChessInfoUI.Instance != null)
+        {
+            ChessInfoUI.Instance.NotifyChessSold(chess);
+        }
+
         // 판매 성공일 때만 그리드/노드에서 제거
         ClearAllNodeChess(chess);
+        UpdateSynergy();
         return true;
     }
 
