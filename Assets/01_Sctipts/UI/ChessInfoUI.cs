@@ -57,6 +57,10 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Trait Icon Database")]
     [SerializeField] private TraitIconDatabase traitIconDB;
 
+    [Header("Item Slots (Info UI)")]
+    [SerializeField] private Image[] itemSlotImages; // 하얀 네모 3칸
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -117,6 +121,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         panel.SetActive(true);
 
         CreateSynergyUI(chess);
+
+        // 스킬 아이콘 동기화 함수
+        SyncItemSlotsFromWorldUI(chess);
     }
 
     private void Update()
@@ -259,4 +266,66 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         if (SkillTooltipUI.Instance != null)
             SkillTooltipUI.Instance.Hide();
     }
+
+    /// <summary>
+    /// 기물 프리팹 하위의 World Space ItemSlot UI를 탐색하여
+    /// 활성화된 슬롯의 아이콘을 정보 UI에 그대로 반영한다.
+    /// (UI → UI 동기화 방식)
+    /// </summary>
+    private void SyncItemSlotsFromWorldUI(ChessStateBase chess)
+    {
+        Debug.Log("[ChessInfoUI] SyncItemSlotsFromWorldUI CALLED");
+        if (chess == null || itemSlotImages == null)
+            return;
+
+        // 우선 정보 UI 슬롯 초기화
+        for (int i = 0; i < itemSlotImages.Length; i++)
+        {
+            itemSlotImages[i].enabled = false;
+            itemSlotImages[i].sprite = null;
+        }
+
+        // ChessStatusUI 탐색
+        var statusUI = chess.GetComponentInChildren<ChessStatusUI>();
+        if (statusUI == null)
+            return;
+
+        // ItemSlotGroup 탐색
+        Transform itemSlotGroup =
+            statusUI.transform.Find("Canvas(World Space)/ItemSlotGroup");
+
+        if (itemSlotGroup == null)
+            return;
+
+        // Slot1 ~ Slot3 순서대로 확인
+        for (int i = 0; i < itemSlotImages.Length; i++)
+        {
+            Transform slot = itemSlotGroup.Find($"Slot{i + 1}");
+            if (slot == null || !slot.gameObject.activeSelf)
+                continue;
+
+            Image worldSlotImage = slot.GetComponent<Image>();
+            if (worldSlotImage == null || worldSlotImage.sprite == null)
+                continue;
+
+            itemSlotImages[i].enabled = true;
+            itemSlotImages[i].sprite = worldSlotImage.sprite;
+        }
+    }
+    public void RefreshItemUIOnly()
+    {
+        if (currentChess == null) return;
+        SyncItemSlotsFromWorldUI(currentChess);
+    }
+
+    // 기물이 팔릴때 알릴 메서드 -> 기물정보UI닫기와 연결
+    public void NotifyChessSold(ChessStateBase soldChess)
+    {
+        if (currentChess == soldChess)
+        {
+            Hide();
+        }
+    }
+
+
 }

@@ -38,6 +38,10 @@ public class ChessItemUI : MonoBehaviour
                 equippedItems.Add(combined);
 
                 RefreshUI();
+
+                // 기물정보UI에 실시간 갱신
+                ChessInfoUI.Instance?.RefreshItemUIOnly();
+
                 return true;
             }
         }
@@ -49,6 +53,9 @@ public class ChessItemUI : MonoBehaviour
 
         equippedItems.Add(newItem);
         RefreshUI();
+
+        // 마찬가지로 갱신
+        ChessInfoUI.Instance?.RefreshItemUIOnly();
         return true;
     }
 
