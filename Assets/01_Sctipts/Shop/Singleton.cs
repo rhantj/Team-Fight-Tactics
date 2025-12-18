@@ -18,10 +18,12 @@ using UnityEngine;
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance; //필드
+    private static bool isQuitting;
     public static T Instance   //프로퍼티
     {
         get
         {
+            if (isQuitting) return null;
             if (instance == null)
             {
                 // 이미 씬에 배치된 매니저 오브젝트가 있다면 싱글톤으로 사용

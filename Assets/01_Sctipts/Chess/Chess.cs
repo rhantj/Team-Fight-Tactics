@@ -86,7 +86,8 @@ public class Chess : ChessStateBase
                 overrideState = false; //결과,연출로 강제 상태였다면 정상적으로 복귀
                 if (animator != null)
                 {
-                    animator.SetTrigger("ToIdle"); //Animator있을때만
+                    if (HasAnimParam("ToIdle"))
+                        animator.SetTrigger("ToIdle"); //Animator있을때만
                 }
                 ExitBattlePhase(); //타겟타이머 초기화시키고 Idle로 복귀시킵니다.
                 break;
@@ -287,14 +288,21 @@ public class Chess : ChessStateBase
     public void ForceIdle()
     {
         overrideState = false;
-        animator.ResetTrigger("ToIdle");
-        animator.SetTrigger("ToIdle");
+
+        if (animator != null && HasAnimParam("ToIdle"))
+        {
+            animator.ResetTrigger("ToIdle");
+            animator.SetTrigger("ToIdle");
+        }
+
+        stateMachine?.SetIdle(); // 애니 트리거가 없으면 로직이라도 Idle로 복귀
     }
+
 
 
     public void ForceBattle()
     {
-        overrideState = true;
+        //overrideState = false;
         //animator?.SetInteger("State", 2);
         stateMachine?.SetBattle();
     }

@@ -214,19 +214,28 @@ public abstract class ChessStateBase : MonoBehaviour
 
     protected virtual void CastSkill()
     {
-        var runner = GetComponent<SkillRunner>();
-        if (runner != null)
+        var manager = GetComponent<SkillManager>();
+        if (manager != null)
         {
-            runner.RequestCast();
+            manager.TryCastSkill();
             return;
         }
 
         stateMachine?.SetSkill();
-        animator?.SetTrigger("UseSkill");
+
+        if (HasAnimParam("UseSkill"))
+            animator.SetTrigger("UseSkill");
     }
 
 
 
+    protected bool HasAnimParam(string param)
+    {
+        if (animator == null) return false;
+        foreach (var p in animator.parameters)
+            if (p.name == param) return true;
+        return false;
+    }
 
     //=====================================================
     //                  »ç¸Á Ã³¸®

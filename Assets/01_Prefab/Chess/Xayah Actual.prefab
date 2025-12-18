@@ -1680,6 +1680,7 @@ GameObject:
   - component: {fileID: 5036928389010978307}
   - component: {fileID: -5893183216020479998}
   - component: {fileID: 3766256279864990407}
+  - component: {fileID: -4139392111788031141}
   m_Layer: 0
   m_Name: Xayah Actual
   m_TagString: Untagged
@@ -1742,6 +1743,7 @@ MonoBehaviour:
   attackInterval: 1
   manaOnHit: 10
   manaOnDamaged: 5
+  currentShield: 0
   rotateSpeed: 720
   team: 0
   overrideState: 1
@@ -1781,6 +1783,18 @@ CapsuleCollider:
   m_Height: 200
   m_Direction: 1
   m_Center: {x: 0, y: 120, z: 0}
+--- !u!114 &-4139392111788031141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128248724202302188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3243565911846364497
 GameObject:
   m_ObjectHideFlags: 0

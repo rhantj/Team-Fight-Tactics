@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 8141621601151445567}
   - component: {fileID: 8928047306044565374}
   - component: {fileID: 4651160062980104659}
+  - component: {fileID: 2204416426562397172}
   m_Layer: 0
   m_Name: Jarvan Actual
   m_TagString: Untagged
@@ -1004,6 +1005,7 @@ MonoBehaviour:
   attackInterval: 1
   manaOnHit: 10
   manaOnDamaged: 5
+  currentShield: 0
   rotateSpeed: 720
   team: 0
   overrideState: 1
@@ -1020,6 +1022,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5435086866000728292}
+--- !u!114 &2204416426562397172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833920127434609807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3877300690438695348
 GameObject:
   m_ObjectHideFlags: 0

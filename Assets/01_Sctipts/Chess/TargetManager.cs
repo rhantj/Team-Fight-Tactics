@@ -53,6 +53,7 @@ public class TargetManager : MonoBehaviour
         if (updateTimer >= targetUpdateInterval)
         {
             updateTimer = 0f;
+            RegisterAllUnits();
             AssignTargets();
         }
     }
@@ -64,8 +65,9 @@ public class TargetManager : MonoBehaviour
         switch (newState)
         {
             case RoundState.Battle:
-                RegisterAllUnits(); //유닛목록 수집합니다
-                AssignTargets(); //타겟 할당 코드입니다.
+                //RegisterAllUnits(); //유닛목록 수집합니다
+                //AssignTargets(); //타겟 할당 코드입니다.
+                StartCoroutine(BattleSetup()); //12.18 kim Add
                 break;
             case RoundState.Preparation:
             case RoundState.Result:
@@ -76,6 +78,13 @@ public class TargetManager : MonoBehaviour
             //AssignTargets ==
             //ClearAllTargets();
         }
+    }
+
+    private IEnumerator BattleSetup() //12.18 kim Add
+    {
+        yield return null;
+        RegisterAllUnits();
+        AssignTargets();
     }
 
     //================================================

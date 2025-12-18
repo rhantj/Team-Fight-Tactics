@@ -54,10 +54,12 @@ public class GameManager : Singleton<GameManager>
     public event Action<RoundState> OnRoundStateChanged;
     public event Action<int, bool> OnRoundReward; //정산때 보상이벤트 추가 12-16 Won Add
 
+    [SerializeField] private float battleStartDelay = 5f; //12.12 add Kim
     [SerializeField] private float winResultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
     [SerializeField] private float loseResultTime = 2.0f;
     private bool lastBattleWin = false;
-
+    public event Action<float> OnTimerMaxTimeChanged; //12.18 add Kim
+    private Coroutine battleCountdownCo; //12.18 add Kim
     private bool isReady = false;
     //참조
     /*
@@ -103,12 +105,19 @@ public class GameManager : Singleton<GameManager>
         // 준비단계
         isReady = false;
 
+        //while (!isReady)
+        //{
+        //    yield return null;  
+        //}
+        //float t = battleStartDelay;
+        //while (t > 0f)
+        //{
+        //    OnPreparationTimerUpdated?.Invoke(t); // TimeUI가 여기로 받으면 됨
+        //    t -= Time.deltaTime;
+        //    yield return null;
+        //}
         while (!isReady)
-        {
-            yield return null;  
-        }
-
-        //전투단계
+            yield return null;
         StartBattle();
 
         float battleTimer = battleTime;
@@ -250,10 +259,35 @@ public class GameManager : Singleton<GameManager>
     public void RequestStartBattle()
     {
         if (roundState != RoundState.Preparation) return;
+        if (isReady) return; //이미 준비 완료면 무시
 
-        Debug.Log("[GameManger] Battle start requested");
+        if (battleCountdownCo != null)
+        {
+            StopCoroutine(battleCountdownCo);
+            battleCountdownCo = null;
+        }
+
+        battleCountdownCo = StartCoroutine(BattleCountdownRoutine(battleStartDelay));
+    }
+
+
+    private IEnumerator BattleCountdownRoutine(float wait)
+    {
+        OnTimerMaxTimeChanged?.Invoke(wait);
+
+        float t = wait;
+        while (t > 0f)
+        {
+            OnPreparationTimerUpdated?.Invoke(t);
+            t -= Time.deltaTime;
+            yield return null;
+        }
+
+        OnPreparationTimerUpdated?.Invoke(0f);
         isReady = true;
 
+        battleCountdownCo = null;
     }
+
 
 }

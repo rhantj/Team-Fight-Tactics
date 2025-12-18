@@ -11,6 +11,7 @@ public class TimeUI : MonoBehaviour
     [SerializeField] private Image timerBar;
 
     private float maxTime = 60.0f; //준비 시간과 동일하게 설정해야함
+    private GameManager gm;
 
     private void Awake()
     {
@@ -19,18 +20,27 @@ public class TimeUI : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnRoundStateChanged += UpdateRoundStateText;
-        GameManager.Instance.OnPreparationTimerUpdated += UpdateTimerUI;
-        GameManager.Instance.OnBattleTimerUpdated += UpdateBattleTimerUI;
+        gm = GameManager.Instance;
+        gm.OnRoundStateChanged += UpdateRoundStateText;
+        gm.OnPreparationTimerUpdated += UpdateTimerUI;
+        gm.OnBattleTimerUpdated += UpdateBattleTimerUI;
+        GameManager.Instance.OnTimerMaxTimeChanged += SetMaxTime;
+
     }
 
     private void OnDestroy()
     {
-        if (GameManager.Instance == null) return;
+        if (gm == null) return;
+        gm.OnRoundStateChanged -= UpdateRoundStateText;
+        gm.OnPreparationTimerUpdated -= UpdateTimerUI;
+        gm.OnBattleTimerUpdated -= UpdateBattleTimerUI;
+        GameManager.Instance.OnTimerMaxTimeChanged -= SetMaxTime;
 
-        GameManager.Instance.OnRoundStateChanged -= UpdateRoundStateText;
-        GameManager.Instance.OnPreparationTimerUpdated -= UpdateTimerUI;
-        GameManager.Instance.OnBattleTimerUpdated -= UpdateBattleTimerUI;
+    }
+
+    private void SetMaxTime(float t)
+    {
+        maxTime = Mathf.Max(0.01f, t);
     }
 
     private void UpdateRoundStateText(RoundState state)

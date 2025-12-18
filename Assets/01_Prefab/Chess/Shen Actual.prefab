@@ -186,6 +186,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: d33b1b226982ad74e90be72f2995387b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2601599842656142964}
+    - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: d33b1b226982ad74e90be72f2995387b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4286712653920614556}
   m_SourcePrefab: {fileID: 3150474306388093854, guid: d33b1b226982ad74e90be72f2995387b, type: 3}
 --- !u!95 &791094590453201568 stripped
 Animator:
@@ -241,6 +244,7 @@ MonoBehaviour:
   attackInterval: 1
   manaOnHit: 10
   manaOnDamaged: 5
+  currentShield: 0
   rotateSpeed: 720
   team: 0
   overrideState: 1
@@ -257,3 +261,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 791094590453201568}
+--- !u!114 &4286712653920614556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404584320565165771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
