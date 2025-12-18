@@ -151,7 +151,8 @@ public class SynergyManager : MonoBehaviour
 
             //공속 배수
             unit.SetAttackSpeedMultiplier(attackSpeedMul);
-            unit.AddBonusStats(bonusAttack, bonusArmor, bonusHP);
+            unit.SetSynergyBonusStats(bonusAttack, bonusArmor, bonusHP);
+
         }
     }
     public List<SynergyUIState> GetSynergyUIStates()

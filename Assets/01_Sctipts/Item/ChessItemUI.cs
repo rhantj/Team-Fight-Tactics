@@ -27,37 +27,56 @@ public class ChessItemUI : MonoBehaviour
 
     public bool AddItem(ItemData newItem)
     {
-        for(int i =0; i<equippedItems.Count; i++)
+        if (newItem == null) return false;
+
+        var handler = GetComponentInParent<ChessItemHandler>();
+        if (handler == null)
+        {
+            Debug.LogError("[ChessItemUI] ChessItemHandler not found");
+            return false;
+        }
+
+        // 1. 조합 체크
+        for (int i = 0; i < equippedItems.Count; i++)
         {
             ItemData exist = equippedItems[i];
 
-            if(combineManager.TryCombine(exist, newItem, out ItemData combined))
+            if (combineManager.TryCombine(exist, newItem, out ItemData combined))
             {
                 equippedItems.RemoveAt(i);
-
                 equippedItems.Add(combined);
 
+                // Handler는 UI 기준 상태로 재계산
+                handler.ClearItems();
+                foreach (var item in equippedItems)
+                {
+                    handler.EquipItem(item);
+                }
+
                 RefreshUI();
-
-                // 기물정보UI에 실시간 갱신
                 ChessInfoUI.Instance?.RefreshItemUIOnly();
-
                 return true;
             }
         }
 
-        if(equippedItems.Count >= itemSlots.Length)
-        {
+        // 2. 슬롯 초과
+        if (equippedItems.Count >= itemSlots.Length)
             return false;
+
+        // 3. 일반 장착
+        equippedItems.Add(newItem);
+
+        handler.ClearItems();
+        foreach (var item in equippedItems)
+        {
+            handler.EquipItem(item);
         }
 
-        equippedItems.Add(newItem);
         RefreshUI();
-
-        // 마찬가지로 갱신
         ChessInfoUI.Instance?.RefreshItemUIOnly();
         return true;
     }
+
 
     public List<ItemData> PopAllItems()
     {

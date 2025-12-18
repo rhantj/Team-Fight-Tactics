@@ -136,7 +136,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         bool nowOnBench = targetGrid is BenchGrid;
         if (wasOnField && nowOnBench)
         {
-            chess.ResetSynergyStats();
+            chess.SetSynergyBonusStats(0, 0, 0);
         }
 
         // 3) 원래자리 그대로면 복구 처리 후 종료

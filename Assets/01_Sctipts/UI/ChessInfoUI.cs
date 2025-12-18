@@ -321,6 +321,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     {
         if (currentChess == null) return;
         SyncItemSlotsFromWorldUI(currentChess);
+
+        UpdateStatUI();
+        UpdateHPUI();
     }
 
     // 기물이 팔릴때 알릴 메서드 -> 기물정보UI닫기와 연결

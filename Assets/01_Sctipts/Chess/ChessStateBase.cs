@@ -15,18 +15,36 @@ public abstract class ChessStateBase : MonoBehaviour
     public int CurrentMana { get; protected set; }
     public int StarLevel { get; protected set; }
     public bool IsDead => CurrentHP <= 0;
+
     //=====================================================
-    //                  보너스(시너지,아이템) 스탯 
+    //          보너스 스탯 (시너지 / 아이템 분리)
     //=====================================================
-    protected int bonusMaxHP;
-    protected int bonusAttack;
-    protected int bonusArmor;
 
-    public int MaxHP => (baseData != null ? baseData.maxHP : 0) + bonusMaxHP;
-    public int AttackDamage => (baseData != null ? baseData.attackDamage : 0) + bonusAttack;
-    public int Armor => (baseData != null ? baseData.armor : 0) + bonusArmor;
+    // 시너지 보너스
+    protected int bonusMaxHP_Synergy;
+    protected int bonusAttack_Synergy;
+    protected int bonusArmor_Synergy;
 
+    // 아이템 보너스
+    protected int bonusMaxHP_Item;
+    protected int bonusAttack_Item;
+    protected int bonusArmor_Item;
 
+    // ================== 최종 스탯 계산 ==================
+    public int MaxHP =>
+        (baseData != null ? baseData.maxHP : 0)
+        + bonusMaxHP_Synergy
+        + bonusMaxHP_Item;
+
+    public int AttackDamage =>
+        (baseData != null ? baseData.attackDamage : 0)
+        + bonusAttack_Synergy
+        + bonusAttack_Item;
+
+    public int Armor =>
+        (baseData != null ? baseData.armor : 0)
+        + bonusArmor_Synergy
+        + bonusArmor_Item;
 
     //=====================================================
     //                  전투 / 마나 설정
@@ -113,48 +131,44 @@ public abstract class ChessStateBase : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        lastAttacker = null;
-        deathHandled = false;
-
-        // 쉴드,코루틴 리셋
         currentShield = 0;
-        if (shieldCoroutine != null)
-        {
-            StopCoroutine(shieldCoroutine);
-            shieldCoroutine = null;
-        }
     }
 
     public virtual void SetBaseData(ChessStatData newData)
     {
+        // 같은 SO면 재초기화 방지 (이동 / 드롭 보호)
+        if (baseData == newData)
+            return;
+
         baseData = newData;
         InitFromSO();
     }
+
     public virtual void InitFromSO()
     {
         if (baseData == null)
-            return; //SO없으면 리턴
+            return;
 
         StarLevel = baseData.starLevel;
 
-        bonusMaxHP = 0;
-        bonusAttack = 0;
-        bonusArmor = 0;
+        bonusMaxHP_Synergy = 0;
+        bonusAttack_Synergy = 0;
+        bonusArmor_Synergy = 0;
 
-        CurrentHP = MaxHP;   
+        bonusMaxHP_Item = 0;
+        bonusAttack_Item = 0;
+        bonusArmor_Item = 0;
+
+        CurrentHP = MaxHP;
         CurrentMana = 0;
-        //==
-        lastAttacker = null;
-        deathHandled = false;
-        currentShield = 0; //12.17 추가
-        //==
+
         if (baseData.attackSpeed > 0f)
         {
             baseAttackInterval = 1f / baseData.attackSpeed;
             attackInterval = baseAttackInterval;
         }
 
-        attackTimer = attackInterval; //첫 전투시작시 공속리셋
+        attackTimer = attackInterval;
     }
 
     //=====================================================
@@ -171,9 +185,8 @@ public abstract class ChessStateBase : MonoBehaviour
         if (IsDead) return;
         if (attacker != null) lastAttacker = attacker;
 
-        int finalDamage = Mathf.Max(1, amount - baseData.armor); // 최소 1뎀
+        int finalDamage = Mathf.Max(1, amount - Armor);
 
-        //실드부터 
         if (currentShield > 0)
         {
             int absorbed = Mathf.Min(currentShield, finalDamage);
@@ -181,7 +194,6 @@ public abstract class ChessStateBase : MonoBehaviour
             finalDamage -= absorbed;
         }
 
-        
         if (finalDamage > 0)
         {
             CurrentHP -= finalDamage;
@@ -195,7 +207,6 @@ public abstract class ChessStateBase : MonoBehaviour
             Die();
         }
     }
-
 
     //=====================================================
     //                  마나 & 스킬
@@ -222,19 +233,7 @@ public abstract class ChessStateBase : MonoBehaviour
         }
 
         stateMachine?.SetSkill();
-
-        if (HasAnimParam("UseSkill"))
-            animator.SetTrigger("UseSkill");
-    }
-
-
-
-    protected bool HasAnimParam(string param)
-    {
-        if (animator == null) return false;
-        foreach (var p in animator.parameters)
-            if (p.name == param) return true;
-        return false;
+        animator?.SetTrigger("UseSkill");
     }
 
     //=====================================================
@@ -242,8 +241,7 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     protected virtual void Die()
     {
-        if (!IsDead) return;
-        if (deathHandled) return;
+        if (!IsDead || deathHandled) return;
         deathHandled = true;
 
         if (lastAttacker != null && lastAttacker != (this as Chess))
@@ -255,11 +253,9 @@ public abstract class ChessStateBase : MonoBehaviour
             }
         }
 
-        Debug.Log("사망");
         stateMachine?.SetDie();
         animator?.SetTrigger("Die");
     }
-
 
     //=====================================================
     //                  특성 접근
@@ -290,25 +286,49 @@ public abstract class ChessStateBase : MonoBehaviour
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
         }
     }
+
     //=====================================================
-    //                  보너스 스탯 적용
+    //                  보너스 스탯 API (외부 호환 유지)
     //=====================================================
+
+    // 기존 SynergyManager 호출용
     public void AddBonusStats(int attack, int armor, int hp)
     {
-        bonusAttack = attack;
-        bonusArmor = armor;
-
-        int oldMaxHP = MaxHP;
-        bonusMaxHP = hp;
-        int newMaxHP = MaxHP;
-
-        if (newMaxHP > oldMaxHP && !IsDead)
-        {
-            int hpIncrease = newMaxHP - oldMaxHP;
-            CurrentHP += hpIncrease;
-        }
+        SetSynergyBonusStats(attack, armor, hp);
     }
 
+    public void SetSynergyBonusStats(int attack, int armor, int hp)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusAttack_Synergy = attack;
+        bonusArmor_Synergy = armor;
+        bonusMaxHP_Synergy = hp;
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+    }
+
+    public void SetItemBonusStats(int attack, int armor, int hp)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusAttack_Item = attack;
+        bonusArmor_Item = armor;
+        bonusMaxHP_Item = hp;
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+    }
+
+    //=====================================================
+    //                  시너지 리셋 (기존 API 유지)
+    //=====================================================
+    public void ResetSynergyStats()
+    {
+        SetAttackSpeedMultiplier(1f);
+        bonusAttack_Synergy = 0;
+        bonusArmor_Synergy = 0;
+        bonusMaxHP_Synergy = 0;
+    }
 
     //=====================================================
     //                  위치 변경
@@ -319,17 +339,14 @@ public abstract class ChessStateBase : MonoBehaviour
         transform.position = position;
     }
 
-    //애니메이션 설정
-
     public void OnDieAnimationEnd()
     {
-        // 풀링 오브젝트면 풀로 반환, 아니면 비활성화
         var pooled = GetComponentInParent<PooledObject>();
         if (pooled != null) pooled.ReturnToPool();
         else gameObject.SetActive(false);
     }
 
-    // 공속 읽기전용 프로퍼티 하나 추가할게요 Won Add
+    // 공속 읽기전용
     public float AttackSpeed
     {
         get
@@ -339,23 +356,17 @@ public abstract class ChessStateBase : MonoBehaviour
         }
     }
 
-    //필드에서 내려갈때 호출 용도로 추가했습니다
-    public void ResetSynergyStats()
+    protected bool HasAnimParam(string param)
     {
-        SetAttackSpeedMultiplier(1f);
-        ClearBonusStats();
-    }
+        if (animator == null) return false;
 
-    /// <summary>
-    /// 시너지 및 기타 버프로 인해 추가된 보너스 스탯을 모두 초기화한다.
-    /// 필드를 벗어나거나 시너지 해제 시 호출된다.
-    /// </summary>
-    public void ClearBonusStats()
-    {
-        bonusAttack = 0;
-        bonusArmor = 0;
-        bonusMaxHP = 0;
-    }
+        foreach (var p in animator.parameters)
+        {
+            if (p.name == param)
+                return true;
+        }
 
+        return false;
+    }
 
 }
