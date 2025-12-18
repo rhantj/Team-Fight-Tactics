@@ -60,6 +60,10 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Item Slots (Info UI)")]
     [SerializeField] private Image[] itemSlotImages; // 하얀 네모 3칸
 
+    [Header("Item Slot Sprites")]
+    [SerializeField] private Sprite emptyItemSlotSprite;
+
+
 
     protected override void Awake()
     {
@@ -269,20 +273,21 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
 
     /// <summary>
     /// 기물 프리팹 하위의 World Space ItemSlot UI를 탐색하여
-    /// 활성화된 슬롯의 아이콘을 정보 UI에 그대로 반영한다.
-    /// (UI → UI 동기화 방식)
+    /// 장착된 아이템 아이콘을 정보 UI 슬롯에 반영한다.
+    /// 빈 슬롯은 항상 표시되며, 아이콘만 유무에 따라 갱신된다.
     /// </summary>
     private void SyncItemSlotsFromWorldUI(ChessStateBase chess)
     {
         Debug.Log("[ChessInfoUI] SyncItemSlotsFromWorldUI CALLED");
+
         if (chess == null || itemSlotImages == null)
             return;
 
-        // 우선 정보 UI 슬롯 초기화
+        // 슬롯은 항상 보이게 초기화 (빈 슬롯 상태)
         for (int i = 0; i < itemSlotImages.Length; i++)
         {
-            itemSlotImages[i].enabled = false;
-            itemSlotImages[i].sprite = null;
+            itemSlotImages[i].enabled = true;   // 슬롯은 항상 표시
+            itemSlotImages[i].sprite = emptyItemSlotSprite;    // 아이콘 빈 슬롯이미지로 교체
         }
 
         // ChessStatusUI 탐색
@@ -297,7 +302,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         if (itemSlotGroup == null)
             return;
 
-        // Slot1 ~ Slot3 순서대로 확인
+        // Slot1 ~ Slot3 순서대로 아이템 아이콘 반영
         for (int i = 0; i < itemSlotImages.Length; i++)
         {
             Transform slot = itemSlotGroup.Find($"Slot{i + 1}");
@@ -308,10 +313,10 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
             if (worldSlotImage == null || worldSlotImage.sprite == null)
                 continue;
 
-            itemSlotImages[i].enabled = true;
             itemSlotImages[i].sprite = worldSlotImage.sprite;
         }
     }
+
     public void RefreshItemUIOnly()
     {
         if (currentChess == null) return;
