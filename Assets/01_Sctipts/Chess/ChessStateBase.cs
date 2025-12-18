@@ -61,7 +61,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
     protected float baseAttackInterval;
     protected float attackSpeedMultiplier = 1f;
-    protected float attackTimer;
+    public float attackTimer; // protected -> public으로 변경
     protected Animator animator;
     protected StateMachine stateMachine;
     public float AttackSpeedMultiplier => attackSpeedMultiplier;
@@ -132,6 +132,14 @@ public abstract class ChessStateBase : MonoBehaviour
     protected virtual void OnEnable()
     {
         currentShield = 0;
+        deathHandled = false; // 사망 플래그 리셋 (풀링 재활성화 시 부활 가능하게)
+
+        // 애니메이터 리셋 (Die 상태에서 빠져나오기)
+        if (animator != null)
+        {
+            animator.Rebind();
+            animator.Update(0f);
+        }
     }
 
     public virtual void SetBaseData(ChessStatData newData)
@@ -161,6 +169,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
         CurrentHP = MaxHP;
         CurrentMana = 0;
+        deathHandled = false; // 사망 플래그 리셋
 
         if (baseData.attackSpeed > 0f)
         {
@@ -168,7 +177,7 @@ public abstract class ChessStateBase : MonoBehaviour
             attackInterval = baseAttackInterval;
         }
 
-        attackTimer = attackInterval;
+        attackTimer = 0f; // attackInterval에서 0f로 변경 - 생성 시 즉시 공격 가능
     }
 
     //=====================================================
@@ -214,27 +223,50 @@ public abstract class ChessStateBase : MonoBehaviour
     public virtual void GainMana(int amount)
     {
         if (IsDead) return;
+        if (baseData == null) return;
+
+        //이미 풀마나면 또 쌓지 않음 (원하면 유지)
+        if (CurrentMana >= baseData.mana) return;
 
         CurrentMana += amount;
         if (CurrentMana >= baseData.mana)
         {
-            CurrentMana = 0;
-            CastSkill();
+            CurrentMana = baseData.mana;
+
+            if (TryCastSkillInternal())
+            {
+                CurrentMana = 0;
+            }
+            else
+            {
+                CurrentMana = baseData.mana;
+            }
         }
     }
-
-    protected virtual void CastSkill()
+    private bool TryCastSkillInternal()
     {
         var manager = GetComponent<SkillManager>();
         if (manager != null)
         {
-            manager.TryCastSkill();
-            return;
+            return manager.TryCastSkill();
         }
 
-        stateMachine?.SetSkill();
-        animator?.SetTrigger("UseSkill");
+
+        if (HasAnimParam("UseSkill"))
+        {
+            animator.ResetTrigger("UseSkill");
+            animator.SetTrigger("UseSkill");
+            return true;
+        }
+        return false;
     }
+
+
+    protected virtual void CastSkill()
+    {
+        TryCastSkillInternal();
+    }
+
 
     //=====================================================
     //                  사망 처리
@@ -253,8 +285,12 @@ public abstract class ChessStateBase : MonoBehaviour
             }
         }
 
-        stateMachine?.SetDie();
-        animator?.SetTrigger("Die");
+        if (HasAnimParam("Die"))
+        {
+            animator.ResetTrigger("Die");
+            animator.SetTrigger("Die");
+        }
+
     }
 
     //=====================================================
@@ -279,12 +315,24 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     public void SetAttackSpeedMultiplier(float multiplier)
     {
+        Debug.Log($"[{gameObject.name}] SetAttackSpeedMultiplier: {attackSpeedMultiplier} -> {multiplier}, attackTimer={attackTimer}");
+
         attackSpeedMultiplier = Mathf.Max(0.1f, multiplier);
 
         if (baseAttackInterval > 0f)
         {
+            float oldInterval = attackInterval;
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
+
+            // 타이머 비율 유지 (공속 변경 시 현재 진행도 보존)
+            if (oldInterval > 0f && attackTimer > 0f)
+            {
+                float progress = attackTimer / oldInterval;
+                attackTimer = attackInterval * progress;
+            }
         }
+
+        Debug.Log($"[{gameObject.name}] 결과: attackInterval={attackInterval}, attackTimer={attackTimer}");
     }
 
     //=====================================================

@@ -154,6 +154,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
         // 5) 스왑/배치
         SwapPiece();
+        if (targetGrid is FieldGrid)
+        {
+            (chess as Chess)?.SetOnField(true);
+        }
+        else if (targetGrid is BenchGrid)
+        {
+            (chess as Chess)?.SetOnField(false);
+        }
 
         if (shop != null)
             shop.ExitSellMode();
@@ -262,7 +270,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             targetNode.ChessPiece = chess;
         }
     }
-
+        
     // 그리드 업데이트
     private void UpdateGridAndNode()
     {

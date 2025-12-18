@@ -7,9 +7,9 @@ public class BenchGrid : GridDivideBase
     {
         if (piece == null) return;
         GridNode pos = FindEmptyNode();
-
         if (pos == null) return;
         pos.ChessPiece = piece;
         piece.SetPosition(pos.worldPosition);
+        piece.SetOnField(false); // 벤치에 있음을 표시
     }
 }

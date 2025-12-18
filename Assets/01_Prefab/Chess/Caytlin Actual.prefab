@@ -1785,10 +1785,11 @@ MonoBehaviour:
   attackInterval: 1
   manaOnHit: 1
   manaOnDamaged: 1
+  attackTimer: 0
   currentShield: 0
   rotateSpeed: 720
   team: 0
-  overrideState: 1
+  overrideState: 0
 --- !u!136 &692747092529099888
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -87,6 +87,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 625a6df8be5cc7d4d8f92cc1a715d1b3, type: 3}
       insertIndex: -1
       addedObject: {fileID: -405420092688271427}
+    - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 625a6df8be5cc7d4d8f92cc1a715d1b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3628056914601512754}
+    - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 625a6df8be5cc7d4d8f92cc1a715d1b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6468134934056075395}
   m_SourcePrefab: {fileID: 3150474306388093854, guid: 625a6df8be5cc7d4d8f92cc1a715d1b3, type: 3}
 --- !u!1 &946968737373124123 stripped
 GameObject:
@@ -107,12 +113,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseData: {fileID: 11400000, guid: 84f08f8c680fd4d409fecf1c96500a35, type: 2}
   attackInterval: 1
-  manaOnHit: 10
-  manaOnDamaged: 5
+  manaOnHit: 1
+  manaOnDamaged: 1
+  attackTimer: 0
   currentShield: 0
   rotateSpeed: 720
   team: 0
-  overrideState: 1
+  overrideState: 0
 --- !u!136 &6074200725743754902
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -161,6 +168,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3628056914601512754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946968737373124123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b584721ec7e5fa243ad7c13b03d13a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6468134934056075395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946968737373124123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd068ef15dfcfd469985aa54b878abe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  procEveryHits: 3
+  bonusDamageMultiplier: 1
+  flatBonusDamage: 20
+  procVfxPrefab: {fileID: 0}
 --- !u!4 &6412445723679559341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3970243614316841892, guid: 625a6df8be5cc7d4d8f92cc1a715d1b3, type: 3}

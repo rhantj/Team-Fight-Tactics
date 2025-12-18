@@ -22,29 +22,34 @@ public class SkillManager : MonoBehaviour
 
         SkillBase skill = GetComponent<SkillBase>();
         if (skill == null) return false;
+        if (chess != null)
+        {
+            var t = chess.CurrentTarget;
+            if (t == null || t.IsDead) return false;
+        }
 
         StartCoroutine(CastRoutine(skill));
         return true;
     }
 
+
     private IEnumerator CastRoutine(SkillBase skill)
     {
         IsCasting = true;
-
         if (chess != null) chess.overrideState = true;
-
-        sm?.SetSkill();
 
         if (HasAnimParam("UseSkill"))
             animator.SetTrigger("UseSkill");
 
-        // 스킬 실제 실행
         yield return skill.Execute(chess);
 
-        if (chess != null) chess.overrideState = false;
+        if (chess != null)
+        {
+            chess.overrideState = false;
+            //chess.attackTimer = 0f;  //이친구 키면 스킬모션 캔슬되고 평타나가용
+        }
 
-        sm?.SetBattle();
-
+        sm?.SetIdle();
         IsCasting = false;
     }
 

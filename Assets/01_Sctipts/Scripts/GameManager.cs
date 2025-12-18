@@ -164,6 +164,7 @@ public class GameManager : Singleton<GameManager>
         //연출시간.
         yield return new WaitForSeconds(lastBattleWin ? winResultTime : loseResultTime);
 
+        CleanupDeadUnits();
         //다음 라운드or게임 오버
         if (loseCount >= maxLoseCount)
         {
@@ -289,5 +290,45 @@ public class GameManager : Singleton<GameManager>
         battleCountdownCo = null;
     }
 
+    private void CleanupDeadUnits()
+    {
+        //적 유닛 정리
+        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        if (enemyGrid != null)
+        {
+            var enemies = enemyGrid.GetAllFieldUnits();
+            foreach (var unit in enemies)
+            {
+                var chess = unit.GetComponent<Chess>();
+                if (chess != null && chess.IsDead)
+                {
+                    var pooled = unit.GetComponentInParent<PooledObject>();
+                    if (pooled != null)
+                        pooled.ReturnToPool();
+                    else
+                        unit.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        //플레이어 유닛도 죽은 것 정리
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid != null)
+        {
+            var players = fieldGrid.GetAllFieldUnits();
+            foreach (var unit in players)
+            {
+                var chess = unit.GetComponent<Chess>();
+                if (chess != null && chess.IsDead)
+                {
+                    var pooled = unit.GetComponentInParent<PooledObject>();
+                    if (pooled != null)
+                        pooled.ReturnToPool();
+                    else
+                        unit.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
 
 }
