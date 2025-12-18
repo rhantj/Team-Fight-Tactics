@@ -48,6 +48,7 @@ MonoBehaviour:
   maxLoseCount: 3
   battleTime: 5
   preparationTime: 5
+  battleStartDelay: 5
   winResultTime: 2.5
   loseResultTime: 2
 --- !u!114 &7051718689527264412
@@ -1456,7 +1457,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &5684137783661422357
 MonoBehaviour:
