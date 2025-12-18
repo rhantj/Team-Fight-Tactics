@@ -149,6 +149,8 @@ public class Chess : ChessStateBase
         if (IsDead) return;
         if (!isInBattlePhase) return;
 
+        if (!isOnField) return; //필드에 없던애들은 못싸우게.
+
         if (currentTarget != null && !currentTarget.IsDead)
         {
             FaceTarget(currentTarget.transform); //항상 현재 타겟을 바라보게 회전
