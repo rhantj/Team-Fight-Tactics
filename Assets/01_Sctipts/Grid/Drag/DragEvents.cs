@@ -32,7 +32,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     private void Update()
     {
-        camRay = Camera.main.ScreenPointToRay(Input.mousePosition;);
+        camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         CalculateWorldPosition(camRay);
     }
 
