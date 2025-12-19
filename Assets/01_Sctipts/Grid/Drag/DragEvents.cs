@@ -1,11 +1,13 @@
+using System;
 using System.Reflection;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
+    [SerializeField] Transform shopPanel;
     [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
     [SerializeField] ChessStateBase chess;      // 잡고있는 기물
     [SerializeField] Vector3 chessFirstPos;     // 기물의 첫 위치
@@ -15,27 +17,23 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] GridDivideBase prevGrid;   // 전에 위치한 그리드
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
-    //[SerializeField] protected TextMeshProUGUI pieceCountText;
+
+    SellAreaDetector detector;
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
     public int playerLevel;
+
+    private void Awake()
+    {
+        detector = new SellAreaDetector(shopPanel);
+        detector.OnEnter += () => IsPointerOverSellArea = true;
+        detector.OnExit += () => IsPointerOverSellArea = false;
+    }
 
     private void Update()
     {
         camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         CalculateWorldPosition(camRay);
-    }
-
-    // 드래그 캔버스 위에 위치
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        IsPointerOverSellArea = false;
-    }
-
-    // 드래그 캔버스 밖에 위치
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        IsPointerOverSellArea = true;
     }
 
 
@@ -57,7 +55,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         prevGrid = FindGrid(chessFirstPos);
         
         if(prevGrid)
-            prevNode = prevGrid.GetNearGridNode(chessFirstPos);
+            prevNode = prevGrid.GetGridNode(chessFirstPos);
 
         if (prevNode != null && !prevNode.ChessPiece)
         {
@@ -177,7 +175,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     private void UpdateSynergy()
     {
-        FieldGrid fieldGrid = FindObjectOfType<FieldGrid>();
+        FieldGrid fieldGrid = grids[0] as FieldGrid;
         if (fieldGrid == null) return;
         if (SynergyManager.Instance == null) return;
         var fieldUnits = fieldGrid.GetAllFieldUnits();
@@ -292,7 +290,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             targetGrid = FindGrid(pos);
             if (targetGrid)
             {
-                targetNode = targetGrid.GetNearGridNode(pos);
+                targetNode = targetGrid.GetGridNode(pos);
                 _worldPos = targetNode.worldPosition;
             }
             else
@@ -318,26 +316,16 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 마우스 위치가 현재 어떤 그리드 위에 있는지
     GridDivideBase FindGrid(Vector3 pos)
     {
-        GridDivideBase grid = null;
-        float dist = float.PositiveInfinity;
-
-        if (grids.Length == 0) return null;
-
         foreach(var g in grids)
         {
             if (!g) continue;
-            if (g.IsPositionInGrid(pos))
+            if (g.GetGridNode(pos) != null)
             {
-                float closest = (pos - g.transform.position).sqrMagnitude;
-                if(closest < dist)
-                {
-                    dist = closest;
-                    grid = g;
-                }
+                return g;
             }
         }
 
-        return grid;
+        return null;
     }
 
     // 드래그 시 노드 위의 기물 정보 제거

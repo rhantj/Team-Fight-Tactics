@@ -46,7 +46,7 @@ public class GridDivideBase : MonoBehaviour
 #endif
     }
 
-    void Init()
+    public void Init()
     {
         gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
         nodeDiameter = nodeRadius * 2;
@@ -129,19 +129,9 @@ public class GridDivideBase : MonoBehaviour
         lr.SetPosition(0, start + offset);
         lr.SetPosition(1, end + offset);
     }
-    
-    // 위치가 그리드 안에 있는지 판단
-    public bool IsPositionInGrid(Vector3 pos)
-    {
-        var center = transform.position;
-        float halfx = gridWorldSize.x * 0.5f;
-        float halfy = gridWorldSize.y * 0.5f;
-
-        return pos.x >= center.x - halfx && pos.x <= center.x + halfx
-            && pos.z >= center.z - halfy && pos.z <= center.z + halfy;
-    }
 
     // 위치에서 가장 가까운 노드 반환
+    /*
     public GridNode GetNearGridNode(Vector3 pos)
     {
         GridNode res = null;
@@ -161,6 +151,20 @@ public class GridDivideBase : MonoBehaviour
         }
 
         return res;
+    }
+     */
+    public GridNode GetGridNode(Vector3 pos)
+    {
+        float x = pos.x - worldBottomLeft.x;
+        float z = pos.z - worldBottomLeft.z;
+
+        int nx = Mathf.FloorToInt(x / nodeDiameter);
+        int ny = Mathf.FloorToInt(z / nodeDiameter);
+
+        if (nx < 0 || ny < 0 || nx >= gridXCnt || ny >= gridYCnt)
+            return null;
+
+        return fieldGrid[ny, nx];
     }
 
     // 정수로 노드에 접근
