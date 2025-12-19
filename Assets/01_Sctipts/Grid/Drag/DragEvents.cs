@@ -1,11 +1,13 @@
+using System;
 using System.Reflection;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
+    [SerializeField] Transform shopPanel;
     [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
     [SerializeField] ChessStateBase chess;      // 잡고있는 기물
     [SerializeField] Vector3 chessFirstPos;     // 기물의 첫 위치
@@ -15,27 +17,23 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] GridDivideBase prevGrid;   // 전에 위치한 그리드
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
-    //[SerializeField] protected TextMeshProUGUI pieceCountText;
+
+    SellAreaDetector detector;
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
     public int playerLevel;
 
+    private void Awake()
+    {
+        detector = new SellAreaDetector(shopPanel);
+        detector.OnEnter += () => IsPointerOverSellArea = true;
+        detector.OnExit += () => IsPointerOverSellArea = false;
+    }
+
     private void Update()
     {
-        camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        camRay = Camera.main.ScreenPointToRay(Input.mousePosition;);
         CalculateWorldPosition(camRay);
-    }
-
-    // 드래그 캔버스 위에 위치
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        IsPointerOverSellArea = false;
-    }
-
-    // 드래그 캔버스 밖에 위치
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        IsPointerOverSellArea = true;
     }
 
 

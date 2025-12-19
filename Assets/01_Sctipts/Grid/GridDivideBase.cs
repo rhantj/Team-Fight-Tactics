@@ -46,7 +46,7 @@ public class GridDivideBase : MonoBehaviour
 #endif
     }
 
-    void Init()
+    public void Init()
     {
         gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
         nodeDiameter = nodeRadius * 2;
