@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
+  m_Name: Draven SO
+  m_EditorClassIdentifier: 
+  unitName: "\uB4DC\uB808\uC774\uBE10"
+  maxHP: 100
+  armor: 20
+  attackDamage: 20
+  attackSpeed: 1
+  mana: 15
+  attackRange: 40
+  moveSpeed: 10
+  starLevel: 1
+  cost: 1
+  traits: 02000000
+  icon: {fileID: 21300000, guid: b07cd0bcb1af9bb45a8a5824d7ee5541, type: 3}
+  prefab: {fileID: 7234582637776124808, guid: f21375d493a18ff41a3b7f75f06c125c, type: 3}
+  skillIcon: {fileID: 21300000, guid: e501ca9e8b77da846bb0fea4a220bf79, type: 3}
+  skillName: "\uB4DC\uB808\uC774\uBE10\uC758 \uB9AC\uADF8"
+  skillDescription: "\uB4DC\uB808\uC774\uBE10\uC758 \uB9AC\uADF8 : "
+  poolID: Draven
+  useBattleState: 0

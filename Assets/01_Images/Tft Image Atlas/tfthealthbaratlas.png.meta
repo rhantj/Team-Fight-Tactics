@@ -1,0 +1,2599 @@
+fileFormatVersion: 2
+guid: d2114067e0c01df468156d69e641ba88
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tfthealthbaratlas_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 481
+        width: 136
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f1264c98e6262248952a73aa6bbd00a
+      internalID: 2001210250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_1
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 497
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7700c2a43c195ec45ad382bf3bba9605
+      internalID: -1802972518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_2
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 478
+        width: 58
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c4bdc3a992f3184bb25b1e083e9ba16
+      internalID: -2097104280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_3
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 487
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fa059ec2fada334e82ad5029568f4ca
+      internalID: 372186163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_4
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 487
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8e16cdec43047d4db8c7aa1448cd566
+      internalID: 913691403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_5
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 489
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a49fccf7029b3f42ad1019a45f61b6a
+      internalID: 1241796409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_6
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 489
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd24f0a37a7e1a24f954ebfba2604165
+      internalID: 1199756527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_7
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 493
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b89c9b12f97afed4582a502f3a6a01b7
+      internalID: 1828881010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_8
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 485
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 850f76eb91434b842924c02b401b12ae
+      internalID: -902296969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_9
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 466
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a3d85b911285ea44864f58bfa1989f5
+      internalID: -179768310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_10
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 448
+        width: 136
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df813abdfd912c14a9eec7cf3b13f757
+      internalID: -440941065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_11
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 473
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4b37784d6c8d174f828f1a2186254e9
+      internalID: 409197003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_12
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 460
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff5996615a17e1a49b7b63116ba4cc55
+      internalID: -1142199283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_13
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 459
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c3e246f393e0de4f855f664037fcda6
+      internalID: -434782080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_14
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 460
+        width: 19
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08736912714440943a04e3f1dfd53b44
+      internalID: -834974699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_15
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 464
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2e80923b81096f4489daa83a3180827
+      internalID: 2062000313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_16
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 473
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0b66550ed9dbe14c89e5998b17c42ce
+      internalID: -759478330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_17
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 461
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f68b32098107ec42a48512cf9fdfa68
+      internalID: 313819345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_18
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 440
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f983e480767c01a42a91206c3b43182b
+      internalID: -1426389571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_19
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 447
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c583eabae16b0b7469529872ee786bfa
+      internalID: 1884256514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_20
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 449
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba509af916c380f478f4c9c73e563261
+      internalID: 967504350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_21
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 450
+        width: 10
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e40eed0315b3c74a9ea745387133681
+      internalID: 712055976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_22
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 434
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb3b2f72e7caf8e4cb386699d45012b7
+      internalID: 1108833337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_23
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 433
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82a4fcf5a26a2f142b4ab0cb54542bf3
+      internalID: 1595744045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_24
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 434
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf457a6518499764684d2e58f3d9c639
+      internalID: 356604572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_25
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 412
+        width: 136
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 104da16aa2096314a8c32b10c392051e
+      internalID: -1578271999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_26
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 437
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51c032a07484fba419c340329b020d33
+      internalID: 243093818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_27
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 430
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d01cd5c94af11c14388ecd56b741ab62
+      internalID: -1223434919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_28
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 417
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62925e9041a6eeb4380827fc504d14ea
+      internalID: 1696795640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_29
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 427
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57953d4fc16036e43b30d0e3736c7b1a
+      internalID: 1773934661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_30
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 425
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4796fc3134477e5448692ccc612b054f
+      internalID: -1267233051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_31
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 418
+        width: 28
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c2dd26c5a838d144819e41e856f35cc
+      internalID: -576726383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_32
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 415
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a7b7897e71c9ac4c98a812a7566da2f
+      internalID: 470766789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_33
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 414
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c00eda284750e7844960a03fc264854c
+      internalID: -1096829824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_34
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 413
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20e7d7864187b3746b275d235034142c
+      internalID: 763446021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_35
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 415
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d16b00b845fabfd46b7dbd1b963dda12
+      internalID: -1087582694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_36
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 412
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc683205f41f9334c8afddbd7626b3f4
+      internalID: 186552664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_37
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 416
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4474215e57e9894e96ef9c549a48aab
+      internalID: -286389878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_38
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 413
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90600b2b1b27aeb4d8bd831ffd53c366
+      internalID: 1296881402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_39
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 393
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e115acddb8f5680429490bdf66deda6b
+      internalID: 1063800985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_40
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 392
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e65c6c0181ffb0140a5cd7963e490bbe
+      internalID: -1660019331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_41
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 407
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40c32d1e9728acc4aa5ce96d7edc216a
+      internalID: 1718650240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_42
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 401
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1dfc4fad4bf65c743a426458047bc185
+      internalID: -723612802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_43
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 395
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efb205cd66fb5c748afc4f43a28c3f6c
+      internalID: -1201431518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_44
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 397
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d69ce9913057aff4ea1a8caae3dd9652
+      internalID: -1786803710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_45
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 395
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 539b233eccbefef4291349a29a895d6d
+      internalID: 1772807014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_46
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 398
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2862e83ff1a21584db67d2a8a1d99b07
+      internalID: 780869334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_47
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 395
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 812a305ab8006154f8b1223c7237b652
+      internalID: -839971041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_48
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 372
+        width: 111
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac95ed79109f1ea48a20ff4cd92dc238
+      internalID: -54613986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_49
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 389
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93b4322f630939745bc37f7126cc832b
+      internalID: -853949832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_50
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 370
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f7b6a83aaa4d9b4da7d8e31b217b92b
+      internalID: -1788691267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_51
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 381
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 906ed13a35b73b449869168b1fd54b26
+      internalID: 2080443594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_52
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 377
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd7c47845abfdc1478d39ff540e65c70
+      internalID: -1228418453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_53
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 380
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84648ce3dfc41b3408edc042652c19ff
+      internalID: 1877017035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_54
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 380
+        width: 19
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20e1fcd9710fddc439afa91b848308f9
+      internalID: -525189318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_55
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 380
+        width: 24
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e252b2c93ea51a42b5d23d219531324
+      internalID: -1483119129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_56
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 380
+        width: 12
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcd972a264f88b84590f367e99df31ca
+      internalID: -939680739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_57
+      rect:
+        serializedVersion: 2
+        x: 441
+        y: 364
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b1c83cd1ff812744b9c629623153fe5
+      internalID: -850409642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_58
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 362
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e1f9812932549d43b88c1b4e72097ed
+      internalID: 994673722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_59
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 365
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22c963d4b08d278468b48233c7f15d35
+      internalID: -1134531261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_60
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 367
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7eb7ba4f5413bc4d889ada2fbf6e3da
+      internalID: 495576843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_61
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 346
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5890785c11be8c64e8acda6525e06c69
+      internalID: 180479316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_62
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 343
+        width: 102
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc8b0c49d09e1ad4abc6f113a878d466
+      internalID: -462118890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_63
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 349
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d04c52e238905640b348fa067707070
+      internalID: 316438985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_64
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 335
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 378930fd9bed94549b38391dd3b20049
+      internalID: -1945631138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_65
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 336
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf4cc0d43e5d8f84ab891a132f43e398
+      internalID: -1979750036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_66
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 335
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c289408616dbec949bf7e0897ae2c353
+      internalID: 1852681767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_67
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 338
+        width: 85
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1848d0d91aed87f44a54ac2c36e648c3
+      internalID: -853681061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_68
+      rect:
+        serializedVersion: 2
+        x: 411
+        y: 324
+        width: 25
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8314b745045afb44bb81b1c15168f15
+      internalID: 1260367212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_69
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 323
+        width: 111
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a9e33b5069a2304c932df2efd007fe3
+      internalID: -624700242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_70
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 326
+        width: 85
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa56dfb78a275994eab8becf648343b5
+      internalID: 1369824890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_71
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 288
+        width: 136
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a7709e11a5562747844de8e9d8180bb
+      internalID: 2107690273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_72
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 304
+        width: 66
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82218e61427ade94db3e0681d9e2cd7f
+      internalID: 388330128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_73
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 314
+        width: 85
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffe1abf3e450e2045be3afe188b64c62
+      internalID: -2027971660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_74
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 288
+        width: 139
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ea7a5549accd8649abd253be5687319
+      internalID: -1102530305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_75
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 272
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c407e79ba8aa3f244a7246748af6547b
+      internalID: 683919642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_76
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 280
+        width: 88
+        height: 23
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47b10b0119a3b2c479e9e9a124a15be3
+      internalID: 811545068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_77
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 293
+        width: 62
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e72a9fcb26baddc4086438e79cce8a73
+      internalID: -624542227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_78
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 283
+        width: 62
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5fc712ed342bb644ba9961ac9f7427d
+      internalID: -104729306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_79
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 249
+        width: 108
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5459fdd6885f99641860bb3992c08f23
+      internalID: 546238797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_80
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 274
+        width: 136
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39e0556e2b8f7e46b14e7056412fcf1
+      internalID: -1702351910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_81
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 252
+        width: 88
+        height: 23
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -24.5, y: 6.5}
+        - {x: -30.5, y: 11.5}
+        - {x: -42.5, y: 1.5}
+        - {x: -42.5, y: -1.5}
+        - {x: -30.5, y: -11.5}
+        - {x: -24.5, y: -6.5}
+        - {x: 42.5, y: -6.5}
+        - {x: 42.5, y: 6.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2ba7341ee25fe942a5fb6ed2164f1fe
+      internalID: 1263935866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_82
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 273
+        width: 62
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f79efd07f882d642ac2b302f0713799
+      internalID: 790966681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_83
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 258
+        width: 137
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5823e9d0c8a3d0d4190cebaaedc9bda9
+      internalID: 952392134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_84
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 222
+        width: 192
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc58f14f8bf877745ad3a6da1d8c05bc
+      internalID: -1581309652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_85
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 222
+        width: 88
+        height: 23
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9be0366cbd2bb4d48ba031c6e68714d7
+      internalID: 2075251048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_86
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 219
+        width: 81
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb5c00f424740794ead08125945ae112
+      internalID: 908212401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_87
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 212
+        width: 94
+        height: 29
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 999d8c5add4e8514e8ae93a0fc62388f
+      internalID: -1728054159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_88
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 171
+        width: 192
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 047a6a5125a03024580f4b06862a31fa
+      internalID: -121918133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_89
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 184
+        width: 93
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a456752b02e01524090b98c4170ad675
+      internalID: 2100561299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_90
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 189
+        width: 134
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3cd5490bdddcb8488fda1aaa40b279e
+      internalID: -1188838221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_91
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 142
+        width: 99
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e241854403c0dc74e80ace5d12f5be1c
+      internalID: -171384319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_92
+      rect:
+        serializedVersion: 2
+        x: 379
+        y: 168
+        width: 133
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bc9926afdef0e64784fee8cf67352b7
+      internalID: -476163700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_93
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 144
+        width: 151
+        height: 23
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71eb6dc14c8c0f945ab67bdae7cfea60
+      internalID: 422708656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_94
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 137
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e646517f95c3ff4a92cc208b38299d8
+      internalID: 1581157418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_95
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 153
+        width: 177
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b7b406d7ebc5604780b57d6ab310ff7
+      internalID: 1552169094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_96
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 98
+        width: 151
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b979523a5f5c5249afbb96f42c90b20
+      internalID: -866319043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_97
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 107
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63237d976aed5764cbeacd72667d4b73
+      internalID: -316599854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_98
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 103
+        width: 102
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe76666be1d08ad4ca6a4ed48ff6e698
+      internalID: -2099122103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_99
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 94
+        width: 181
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56ee8c1fc7266714992cbf07ec022d63
+      internalID: 1206068590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_100
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 80
+        width: 168
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20be92840f1e880438accd7c4ad1283b
+      internalID: 710269129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_101
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 58
+        width: 146
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 695df65e38bee294ab62e59af95a57e4
+      internalID: 1030107768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_102
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 159
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c4c0592be367b341ababc9cfd9c454c
+      internalID: 1146254697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_103
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 67
+        width: 143
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 868c3eb515c7aa14dab22e863390e5a1
+      internalID: 292185211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_104
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 49
+        width: 143
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 262376af78be72f41928c37861009722
+      internalID: 1006468286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_105
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 3
+        width: 161
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 577d16d0f0e85704996740305660e72f
+      internalID: -594925546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_106
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 41
+        width: 64
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a1456d5bd26b0546bdd555b29c1dc28
+      internalID: 139878175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_107
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 34
+        width: 90
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fc052332f964d14a8353e8047931416
+      internalID: 402397975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_108
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 27
+        width: 145
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ac62d9d090a27e4288fa7115fc03b38
+      internalID: 1569251391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_109
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 18
+        width: 92
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a24a138c320680043bfa0a402a71a3ee
+      internalID: 669027972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_110
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 10
+        width: 147
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c23d943e40129b48b54e285b89e4325
+      internalID: -15997488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tfthealthbaratlas_111
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 2
+        width: 66
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cba7236547c0804c935c108764eff19
+      internalID: -2144683005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 53cf8d751e1b02d4d89f11a25c78808d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tfthealthbaratlas_0: 2001210250
+      tfthealthbaratlas_1: -1802972518
+      tfthealthbaratlas_10: -440941065
+      tfthealthbaratlas_100: 710269129
+      tfthealthbaratlas_101: 1030107768
+      tfthealthbaratlas_102: 1146254697
+      tfthealthbaratlas_103: 292185211
+      tfthealthbaratlas_104: 1006468286
+      tfthealthbaratlas_105: -594925546
+      tfthealthbaratlas_106: 139878175
+      tfthealthbaratlas_107: 402397975
+      tfthealthbaratlas_108: 1569251391
+      tfthealthbaratlas_109: 669027972
+      tfthealthbaratlas_11: 409197003
+      tfthealthbaratlas_110: -15997488
+      tfthealthbaratlas_111: -2144683005
+      tfthealthbaratlas_12: -1142199283
+      tfthealthbaratlas_13: -434782080
+      tfthealthbaratlas_14: -834974699
+      tfthealthbaratlas_15: 2062000313
+      tfthealthbaratlas_16: -759478330
+      tfthealthbaratlas_17: 313819345
+      tfthealthbaratlas_18: -1426389571
+      tfthealthbaratlas_19: 1884256514
+      tfthealthbaratlas_2: -2097104280
+      tfthealthbaratlas_20: 967504350
+      tfthealthbaratlas_21: 712055976
+      tfthealthbaratlas_22: 1108833337
+      tfthealthbaratlas_23: 1595744045
+      tfthealthbaratlas_24: 356604572
+      tfthealthbaratlas_25: -1578271999
+      tfthealthbaratlas_26: 243093818
+      tfthealthbaratlas_27: -1223434919
+      tfthealthbaratlas_28: 1696795640
+      tfthealthbaratlas_29: 1773934661
+      tfthealthbaratlas_3: 372186163
+      tfthealthbaratlas_30: -1267233051
+      tfthealthbaratlas_31: -576726383
+      tfthealthbaratlas_32: 470766789
+      tfthealthbaratlas_33: -1096829824
+      tfthealthbaratlas_34: 763446021
+      tfthealthbaratlas_35: -1087582694
+      tfthealthbaratlas_36: 186552664
+      tfthealthbaratlas_37: -286389878
+      tfthealthbaratlas_38: 1296881402
+      tfthealthbaratlas_39: 1063800985
+      tfthealthbaratlas_4: 913691403
+      tfthealthbaratlas_40: -1660019331
+      tfthealthbaratlas_41: 1718650240
+      tfthealthbaratlas_42: -723612802
+      tfthealthbaratlas_43: -1201431518
+      tfthealthbaratlas_44: -1786803710
+      tfthealthbaratlas_45: 1772807014
+      tfthealthbaratlas_46: 780869334
+      tfthealthbaratlas_47: -839971041
+      tfthealthbaratlas_48: -54613986
+      tfthealthbaratlas_49: -853949832
+      tfthealthbaratlas_5: 1241796409
+      tfthealthbaratlas_50: -1788691267
+      tfthealthbaratlas_51: 2080443594
+      tfthealthbaratlas_52: -1228418453
+      tfthealthbaratlas_53: 1877017035
+      tfthealthbaratlas_54: -525189318
+      tfthealthbaratlas_55: -1483119129
+      tfthealthbaratlas_56: -939680739
+      tfthealthbaratlas_57: -850409642
+      tfthealthbaratlas_58: 994673722
+      tfthealthbaratlas_59: -1134531261
+      tfthealthbaratlas_6: 1199756527
+      tfthealthbaratlas_60: 495576843
+      tfthealthbaratlas_61: 180479316
+      tfthealthbaratlas_62: -462118890
+      tfthealthbaratlas_63: 316438985
+      tfthealthbaratlas_64: -1945631138
+      tfthealthbaratlas_65: -1979750036
+      tfthealthbaratlas_66: 1852681767
+      tfthealthbaratlas_67: -853681061
+      tfthealthbaratlas_68: 1260367212
+      tfthealthbaratlas_69: -624700242
+      tfthealthbaratlas_7: 1828881010
+      tfthealthbaratlas_70: 1369824890
+      tfthealthbaratlas_71: 2107690273
+      tfthealthbaratlas_72: 388330128
+      tfthealthbaratlas_73: -2027971660
+      tfthealthbaratlas_74: -1102530305
+      tfthealthbaratlas_75: 683919642
+      tfthealthbaratlas_76: 811545068
+      tfthealthbaratlas_77: -624542227
+      tfthealthbaratlas_78: -104729306
+      tfthealthbaratlas_79: 546238797
+      tfthealthbaratlas_8: -902296969
+      tfthealthbaratlas_80: -1702351910
+      tfthealthbaratlas_81: 1263935866
+      tfthealthbaratlas_82: 790966681
+      tfthealthbaratlas_83: 952392134
+      tfthealthbaratlas_84: -1581309652
+      tfthealthbaratlas_85: 2075251048
+      tfthealthbaratlas_86: 908212401
+      tfthealthbaratlas_87: -1728054159
+      tfthealthbaratlas_88: -121918133
+      tfthealthbaratlas_89: 2100561299
+      tfthealthbaratlas_9: -179768310
+      tfthealthbaratlas_90: -1188838221
+      tfthealthbaratlas_91: -171384319
+      tfthealthbaratlas_92: -476163700
+      tfthealthbaratlas_93: 422708656
+      tfthealthbaratlas_94: 1581157418
+      tfthealthbaratlas_95: 1552169094
+      tfthealthbaratlas_96: -866319043
+      tfthealthbaratlas_97: -316599854
+      tfthealthbaratlas_98: -2099122103
+      tfthealthbaratlas_99: 1206068590
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

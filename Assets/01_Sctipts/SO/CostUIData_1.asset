@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b6b18d9f51bdb4991f1ff787b90c46, type: 3}
+  m_Name: CostUIData_1
+  m_EditorClassIdentifier: 
+  costInfos:
+  - cost: 1
+    frameSprite: {fileID: -499130992, guid: e6f996b88fa68a542a84fbb706a32516, type: 3}
+    backgroundColor: {r: 0.2901961, g: 0.2901961, b: 0.2901961, a: 1}
+    infoFrameSprite: {fileID: 1957408725, guid: 550ded8573cbb754db63768f553bf234, type: 3}
+  - cost: 2
+    frameSprite: {fileID: 991876896, guid: e6f996b88fa68a542a84fbb706a32516, type: 3}
+    backgroundColor: {r: 0.24705882, g: 0.6862745, b: 0.24705882, a: 1}
+    infoFrameSprite: {fileID: 169103849, guid: 550ded8573cbb754db63768f553bf234, type: 3}
+  - cost: 3
+    frameSprite: {fileID: -143493583, guid: e6f996b88fa68a542a84fbb706a32516, type: 3}
+    backgroundColor: {r: 0.11764706, g: 0.22745098, b: 0.5411765, a: 1}
+    infoFrameSprite: {fileID: -1603701471, guid: 550ded8573cbb754db63768f553bf234, type: 3}

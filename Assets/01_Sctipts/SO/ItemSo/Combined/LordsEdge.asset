@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc87e3c2ad8b7114f9d53b5b73b749c9, type: 3}
+  m_Name: LordsEdge
+  m_EditorClassIdentifier: 
+  itemName: LordsEdge
+  icon: {fileID: 21300000, guid: 2deb252128ca045448f26c3c3ab96ea9, type: 3}
+  itemType: 1
+  addAttack: 55
+  addDefense: 0
+  addHp: 0
+  addMp: 0
+  addAttackSpeed: 0
+  combineA: {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
+  combineB: {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
+  infoUIPrefab: {fileID: 5100092075670143971, guid: f0fedcb85c6e4d543a5f029f5a6557aa, type: 3}
+  recipeUIPrefab: {fileID: 5100092075670143971, guid: f0fedcb85c6e4d543a5f029f5a6557aa, type: 3}

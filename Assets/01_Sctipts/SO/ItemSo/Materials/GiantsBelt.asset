@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc87e3c2ad8b7114f9d53b5b73b749c9, type: 3}
+  m_Name: GiantsBelt
+  m_EditorClassIdentifier: 
+  itemName: GiantsBelt
+  icon: {fileID: 21300000, guid: 255fce004add3b3458e7dad95dfe0e0f, type: 3}
+  itemType: 0
+  addAttack: 0
+  addDefense: 0
+  addHp: 150
+  addMp: 0
+  addAttackSpeed: 0
+  combineA: {fileID: 0}
+  combineB: {fileID: 0}
+  infoUIPrefab: {fileID: 5298649959854093883, guid: 5c693a328652b734794c60f6bda60504, type: 3}
+  recipeUIPrefab: {fileID: 4503111695001400937, guid: b3a03350227c70b49809d6987b15543a, type: 3}

@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ItemSlotManager : MonoBehaviour
+{
+    public static ItemSlotManager Instance { get; private set; }
+    [SerializeField] private ItemSlot[] slots;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    //==============================
+    //빈 슬롯 갯수 체크
+    //==============================
+    public int EmptySlotCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (var slot in slots)
+            {
+                if (slot.IsEmpty)
+                    count++;
+            }
+            return count;
+        }
+    }
+    //==============================
+    //아이템 추가(기물 판매 시 반환)
+    //==============================
+    public bool AddItem(ItemData data)
+    {
+        foreach(var slot in slots)
+        {
+            if(slot.IsEmpty)
+            {
+                slot.SetItem(data);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void ClearAllSlots()
+    {
+        foreach (var slot in slots)
+        {
+            slot.ClearSlot();
+        }
+    }
+
+}

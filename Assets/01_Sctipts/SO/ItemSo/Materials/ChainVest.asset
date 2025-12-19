@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc87e3c2ad8b7114f9d53b5b73b749c9, type: 3}
+  m_Name: ChainVest
+  m_EditorClassIdentifier: 
+  itemName: ChainVest
+  icon: {fileID: 21300000, guid: 499d0fdb5fd280a4b9bfc7ecd6aaa5f0, type: 3}
+  itemType: 0
+  addAttack: 0
+  addDefense: 20
+  addHp: 0
+  addMp: 0
+  addAttackSpeed: 0
+  combineA: {fileID: 0}
+  combineB: {fileID: 0}
+  infoUIPrefab: {fileID: 8075537485398700015, guid: fa837fe2338b8ce44bd7c02db10161de, type: 3}
+  recipeUIPrefab: {fileID: 7188138152546404791, guid: 6d2a6b3392517e4488cf913f90fda1f3, type: 3}
