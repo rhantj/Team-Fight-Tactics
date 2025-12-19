@@ -11,5 +11,14 @@ public class Enemy : Chess
     private void Start()
     {
         transform.rotation = Quaternion.Euler(Vector3.up * 180f);
+
+        var statusUI = GetComponentInChildren<ChessStatusUI>(); //12.19 add Kim
+        if (statusUI != null)
+        {
+            statusUI.Bind(this);
+        }
+        else
+        {
+        }
     }
 }
