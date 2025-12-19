@@ -57,16 +57,10 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
         ChessInfoUI.Instance.ShowInfo(chess);
 
-        chessFirstPos = _worldPos;
+        chessFirstPos = chess.transform.position;
         prevGrid = FindGrid(chessFirstPos);
-        
-        if(prevGrid)
-            prevNode = prevGrid.GetGridNode(chessFirstPos);
+        prevNode = prevGrid?.GetGridNode(chessFirstPos);
 
-        if (prevNode != null && !prevNode.ChessPiece)
-        {
-            prevNode.ChessPiece = chess;
-        }
 
         ShopManager shop = ShopManager.Instance;
         if (shop != null)
@@ -97,109 +91,93 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
+
         if (!chess) return;
 
-        var shop = ShopManager.Instance;
+        ShopManager shop = ShopManager.Instance;
+        GridDivideBase field = grids[0];
 
-        // 그리드 밖이면 롤백
-        if (targetGrid == null || targetNode == null)
-        {
-            RollbackToPrev();
-            CleanupAfterDrag(shop);
-            return;
-        }
-
-        // 판매면 판매 처리 (배치 로직 건드리지 말고)
+        // 1) 판매 영역이면: 배치 로직 절대 타지 않게 완전 분기
         if (IsPointerOverSellArea)
         {
-            TrySellPiece();
-            CleanupAfterDrag(shop);
+            // 판매 시도 (성공 여부 반환)
+            bool sold = TrySellFromDrag(shop);
+
+            // 판매 성공: 끝
+            if (sold)
+            {
+                chess = null;
+                if (shop != null) shop.ExitSellMode();
+                HideLines();
+                shop.UpdateCountUI(field);
+                return;
+            }
+
+            // 판매 실패: 원래 자리 복구 후 끝
+            RestoreToPrevNode();
+            chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
+            shop.UpdateCountUI(field);
             return;
         }
 
-        // ✅ 배치/스왑은 이걸로만 처리
-        bool ok = ForcePlaceOrSwap(prevNode, targetNode, chess);
-        if (!ok)
+        // 2) 필드 밖(유효 드랍 불가) 처리
+        if (OutofGrid())
         {
-            RollbackToPrev();
-            CleanupAfterDrag(shop);
+            chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
+            shop.UpdateCountUI(field);
             return;
         }
 
-        // ✅ 최후 안전장치: 같은 위치에 다른 말이 남아있으면 정리
-        FixOverlapAtNode(targetNode, chess);
+        bool wasOnField = prevGrid is FieldGrid;
+        bool nowOnBench = targetGrid is BenchGrid;
+        if (wasOnField && nowOnBench)
+        {
+            chess.SetSynergyBonusStats(0, 0, 0);
+        }
+
+        // 3) 원래자리 그대로면 복구 처리 후 종료
+        if (OnFirstNode())
+        {
+            chess = null;
+            if (shop != null) shop.ExitSellMode();
+            HideLines();
+            shop.UpdateCountUI(field);
+            return;
+        }
+
+        // 4) 정상 배치/스왑 확정 직전에만 이전 노드에서 제거
+        ClearAllNodeChess(chess);
+
+        // 5) 스왑/배치
+        SwapPiece();
+        if (targetGrid is FieldGrid)
+        {
+            (chess as Chess)?.SetOnField(true);
+        }
+        else if (targetGrid is BenchGrid)
+        {
+            (chess as Chess)?.SetOnField(false);
+        }
+
+        if (shop != null)
+            shop.ExitSellMode();
 
         UpdateGridAndNode();
         UpdateSynergy();
 
-        chess = null;
-        CleanupLines();
-        if (shop != null) shop.ExitSellMode();
-    }
 
-    void RollbackToPrev()
-    {
-        if (prevNode != null)
+        if (prevNode != null && !prevNode.ChessPiece)
         {
             prevNode.ChessPiece = chess;
-            chess.SetPosition(prevNode.worldPosition);
-        }
-        else
-        {
-            chess.SetPosition(chessFirstPos);
-        }
-    }
-
-    void FixOverlapAtNode(GridNode node, ChessStateBase keeper)
-    {
-        // 같은 칸 위치에 있는 ChessStateBase를 찾아서,
-        // keeper가 아닌 애가 있으면 prevNode로 돌려보냄
-        var hits = Physics.OverlapSphere(node.worldPosition + Vector3.up * 0.5f, 0.2f);
-        foreach (var h in hits)
-        {
-            var other = h.GetComponentInParent<ChessStateBase>();
-            if (other != null && other != keeper)
-            {
-                // 다른 말이 같은 칸에 남아있으면 강제로 한 칸 밀어냄
-                // 1순위: other가 점유한 노드를 찾아서 그걸 다시 세팅
-                RestoreOtherToNearestNode(other);
-            }
-        }
-    }
-
-    void RestoreOtherToNearestNode(ChessStateBase other)
-    {
-        // 겹침 상황이니까, 가장 가까운 그리드/노드를 다시 찾아 넣어줌
-        foreach (var g in grids)
-        {
-            if (g == null) continue;
-            if (g.GetGridNode(other.transform.position) == null) continue;
-
-            var n = g.GetGridNode(other.transform.position); // (핫픽스니까 기존 함수 사용)
-            if (n != null && n.ChessPiece == null)
-            {
-                n.ChessPiece = other;
-                other.SetPosition(n.worldPosition);
-                return;
-            }
         }
 
-        // 못 찾으면 그냥 현재 위치 유지(최악 방지용)
-    }
-
-
-    void CleanupAfterDrag(ShopManager shop)
-    {
-        if (shop != null) shop.ExitSellMode();
         chess = null;
-        CleanupLines();
-    }
-
-    void CleanupLines()
-    {
-        foreach (var g in grids)
-            if (g != null && g.lineParent != null)
-                g.lineParent.gameObject.SetActive(false);
+        HideLines();
+        shop.UpdateCountUI(field);
     }
 
 
@@ -288,6 +266,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
             chess.SetPosition(to);
             other.SetPosition(from);
+
+            ClearAllNodeChess(other);
 
             targetNode.ChessPiece = chess;
             prevNode.ChessPiece = other;
@@ -437,32 +417,5 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             if (g != null && g.lineParent != null)
                 g.lineParent.gameObject.SetActive(false);
         }
-    }
-
-    bool ForcePlaceOrSwap(GridNode from, GridNode to, ChessStateBase move)
-    {
-        if(move == null) return false;
-
-        var other = to.ChessPiece;
-
-        if(other == null || other == move)
-        {
-            to.ChessPiece = move;
-            move.SetPosition(to.worldPosition);
-            return true;
-        }
-
-        if (from == null) return false;
-
-        to.ChessPiece = move;
-        from.ChessPiece = other;
-
-        Vector3 toPos = to.worldPosition;
-        Vector3 fromPos = from.worldPosition;
-
-        move.SetPosition(toPos);
-        other.SetPosition(fromPos);
-
-        return true;
     }
 }
