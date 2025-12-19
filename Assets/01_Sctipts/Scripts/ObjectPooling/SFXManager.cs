@@ -43,6 +43,23 @@ public class SFXManager : MonoBehaviour, ISoundable
     {
         if (!clipDic.ContainsKey(name)) return;
 
+        // =========================
+        // BGM 처리 추가 12-19 Won Add
+        // =========================
+        if (spatialBlend < 0.9f)
+        {
+            // 이전 BGM이 있으면 반드시 정지
+            if (currentBGMSource != null)
+            {
+                currentBGMSource.Stop();
+
+                // 풀 오브젝트라면 반환
+                var pooled = currentBGMSource.GetComponent<PooledObject>();
+                if (pooled != null)
+                    pooled.ReturnToPool();
+            }
+        }
+
         var obj = PoolManager.Instance.Spawn("SFX Object");
         if (spatialBlend >= 0.9f) usingSound.Add(obj);
         obj.transform.position = pos;
