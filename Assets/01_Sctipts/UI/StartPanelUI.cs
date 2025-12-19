@@ -43,9 +43,12 @@ public class StartPanelUI : MonoBehaviour
     {
         Close();
 
-        // 나중에 씬매니저 생기면 추가적으로 수정할 것
-        // GameManager.Instance?.StartGame();
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGameFromMainMenu();
+        }
     }
+
 
     /// <summary>
     /// 옵션 버튼 (미구현, 일단은 게임의 간단한 설명과 팀원을 밝힘)

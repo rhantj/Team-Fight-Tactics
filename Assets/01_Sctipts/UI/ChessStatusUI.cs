@@ -19,14 +19,28 @@ public class ChessStatusUI : MonoBehaviour
 
     [Header("Star Frame")]
     [SerializeField] private Image frameImage;             // 성급 프레임 이미지
-
     [Tooltip("Index 0 = 1성, 1 = 2성, 2 = 3성")]
     [SerializeField] private Sprite[] starFrameSprites;    // 성급별 프레임 스프라이트
 
-    private void Update()
+    [Header("Position")]
+    [SerializeField] private float heightOffset = 2f;      // Inspector에서 조정 가능한 높이 오프셋
+
+    private void LateUpdate()
     {
         if (targetChess == null || targetChess.IsDead)
             return;
+
+        Vector3 worldPos = targetChess.transform.position;
+        worldPos.y += heightOffset;
+
+        if (targetChess.name.Contains("Baron") || targetChess.name.Contains("Enemy"))
+        {
+            Debug.Log($"[Baron HP] Target Pos: {targetChess.transform.position}, " +
+                      $"UI Pos: {worldPos}, heightOffset: {heightOffset}, " +
+                      $"Canvas RenderMode: {GetComponentInParent<Canvas>()?.renderMode}");
+        }
+
+        transform.position = worldPos;
 
         UpdateHP();
         UpdateMana();
@@ -36,31 +50,25 @@ public class ChessStatusUI : MonoBehaviour
     private void UpdateHP()
     {
         if (hpFillImage == null) return;
-
         int maxHP = targetChess.MaxHP;
         if (maxHP <= 0) return;
-
         hpFillImage.fillAmount = (float)targetChess.CurrentHP / maxHP;
     }
 
     private void UpdateMana()
     {
         if (manaFillImage == null) return;
-
         int maxMana = targetChess.BaseData.mana;
         if (maxMana <= 0) return;
-
         manaFillImage.fillAmount = (float)targetChess.CurrentMana / maxMana;
     }
 
     private void UpdateStarFrame()
     {
         if (frameImage == null) return;
-
         int starLevel = targetChess.StarLevel;
         if (starLevel <= 0 || starLevel > starFrameSprites.Length)
             return;
-
         frameImage.sprite = starFrameSprites[starLevel - 1];
     }
 
@@ -71,6 +79,8 @@ public class ChessStatusUI : MonoBehaviour
     public void Bind(ChessStateBase chess)
     {
         targetChess = chess;
+
+        Debug.Log($"[ChessStatusUI] Bind: {chess.name}, Canvas Parent: {transform.parent?.name ?? "ROOT"}");
 
         UpdateHP();
         UpdateMana();

@@ -43,4 +43,13 @@ public class ItemSlotManager : MonoBehaviour
         }
         return false;
     }
+
+    public void ClearAllSlots()
+    {
+        foreach (var slot in slots)
+        {
+            slot.ClearSlot();
+        }
+    }
+
 }

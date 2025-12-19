@@ -100,12 +100,15 @@ public class SettingsUI : MonoBehaviour
     //메인 메뉴로 돌아가는 함수
     public void OnClickReturnToMainMenu()
     {
-        //시간 흐름 복구
-        Time.timeScale = 1f;
-        //메인 메뉴 씬 로드
-        //아직 만들어 두지 않아서 이런식으로 구성 예정
-        //UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("[SettingsUI] GameManager.Instance is null");
+            return;
+        }
+
+        GameManager.Instance.ReturnToMainMenu();
     }
+
 
     //사운드 재생 래퍼(Wrapper) 함수
     public static void PlaySFX(string clipName, Vector3 pos, float volume = 1f, float spatialBlend = 0f)

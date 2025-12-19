@@ -1,5 +1,6 @@
-using System;
+ï»¿using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -7,18 +8,18 @@ using UnityEngine.EventSystems;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField] GridDivideBase[] grids;    // ¾î¶² ±×¸®µå ÀÎÁö
-    [SerializeField] ChessStateBase chess;      // Àâ°íÀÖ´Â ±â¹°
-    [SerializeField] Vector3 chessFirstPos;     // ±â¹°ÀÇ Ã¹ À§Ä¡
-    GridNode targetNode;                        // ¿Å±â°íÀÚ ÇÏ´Â ³ëµå
-    [SerializeField] GridDivideBase targetGrid; // ¿Å±â°íÀÚ ÇÏ´Â ±×¸®µå
-    GridNode prevNode;                          // Àü¿¡ À§Ä¡ÇÑ ³ëµå
-    [SerializeField] GridDivideBase prevGrid;   // Àü¿¡ À§Ä¡ÇÑ ±×¸®µå
-    [SerializeField] Vector3 _worldPos;         // ¸¶¿ì½º À§Ä¡¸¦ ¿ùµå À§Ä¡·Î ¹Ù²Û °ª
-    [SerializeField] Ray camRay;                // ·¹ÀÌ
+    [SerializeField] GridDivideBase[] grids;    // ì–´ë–¤ ê·¸ë¦¬ë“œ ì¸ì§€
+    [SerializeField] ChessStateBase chess;      // ì¡ê³ ìˆëŠ” ê¸°ë¬¼
+    [SerializeField] Vector3 chessFirstPos;     // ê¸°ë¬¼ì˜ ì²« ìœ„ì¹˜
+    GridNode targetNode;                        // ì˜®ê¸°ê³ ì í•˜ëŠ” ë…¸ë“œ
+    [SerializeField] GridDivideBase targetGrid; // ì˜®ê¸°ê³ ì í•˜ëŠ” ê·¸ë¦¬ë“œ
+    GridNode prevNode;                          // ì „ì— ìœ„ì¹˜í•œ ë…¸ë“œ
+    [SerializeField] GridDivideBase prevGrid;   // ì „ì— ìœ„ì¹˜í•œ ê·¸ë¦¬ë“œ
+    [SerializeField] Vector3 _worldPos;         // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ì›”ë“œ ìœ„ì¹˜ë¡œ ë°”ê¾¼ ê°’
+    [SerializeField] Ray camRay;                // ë ˆì´
 
     RectZone sellzone = new RectZone { minX = 310, maxX = 1610, minY = 0, maxY = 210 };
-    public bool IsPointerOverSellArea = false;  // »óÁ¡ ÆÇ¸Å¿ë 
+    public bool IsPointerOverSellArea = false;  // ìƒì  íŒë§¤ìš© 
     public bool CanDrag = false;
     public int playerLevel;
 
@@ -36,7 +37,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
 
 
-    // µå·¡±× ½ÃÀÛ½Ã
+    // ë“œë˜ê·¸ ì‹œì‘ì‹œ
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (GameManager.Instance)
@@ -56,16 +57,10 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
         ChessInfoUI.Instance.ShowInfo(chess);
 
-        chessFirstPos = _worldPos;
+        chessFirstPos = chess.transform.position;
         prevGrid = FindGrid(chessFirstPos);
-        
-        if(prevGrid)
-            prevNode = prevGrid.GetGridNode(chessFirstPos);
+        prevNode = prevGrid?.GetGridNode(chessFirstPos);
 
-        if (prevNode != null && !prevNode.ChessPiece)
-        {
-            prevNode.ChessPiece = chess;
-        }
 
         ShopManager shop = ShopManager.Instance;
         if (shop != null)
@@ -85,7 +80,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
-    // µå·¡±× Áß
+    // ë“œë˜ê·¸ ì¤‘
     public void OnDrag(PointerEventData eventData)
     {
 
@@ -93,7 +88,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         chess.SetPosition(_worldPos);
     }
 
-    // µå·¡±× Á¾·á
+    // ë“œë˜ê·¸ ì¢…ë£Œ
     public void OnEndDrag(PointerEventData eventData)
     {
 
@@ -102,13 +97,13 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         ShopManager shop = ShopManager.Instance;
         GridDivideBase field = grids[0];
 
-        // 1) ÆÇ¸Å ¿µ¿ªÀÌ¸é: ¹èÄ¡ ·ÎÁ÷ Àı´ë Å¸Áö ¾Ê°Ô ¿ÏÀü ºĞ±â
+        // 1) íŒë§¤ ì˜ì—­ì´ë©´: ë°°ì¹˜ ë¡œì§ ì ˆëŒ€ íƒ€ì§€ ì•Šê²Œ ì™„ì „ ë¶„ê¸°
         if (IsPointerOverSellArea)
         {
-            // ÆÇ¸Å ½Ãµµ (¼º°ø ¿©ºÎ ¹İÈ¯)
+            // íŒë§¤ ì‹œë„ (ì„±ê³µ ì—¬ë¶€ ë°˜í™˜)
             bool sold = TrySellFromDrag(shop);
 
-            // ÆÇ¸Å ¼º°ø: ³¡
+            // íŒë§¤ ì„±ê³µ: ë
             if (sold)
             {
                 chess = null;
@@ -118,7 +113,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
                 return;
             }
 
-            // ÆÇ¸Å ½ÇÆĞ: ¿ø·¡ ÀÚ¸® º¹±¸ ÈÄ ³¡
+            // íŒë§¤ ì‹¤íŒ¨: ì›ë˜ ìë¦¬ ë³µêµ¬ í›„ ë
             RestoreToPrevNode();
             chess = null;
             if (shop != null) shop.ExitSellMode();
@@ -127,7 +122,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             return;
         }
 
-        // 2) ÇÊµå ¹Û(À¯È¿ µå¶ø ºÒ°¡) Ã³¸®
+        // 2) í•„ë“œ ë°–(ìœ íš¨ ë“œë ë¶ˆê°€) ì²˜ë¦¬
         if (OutofGrid())
         {
             chess = null;
@@ -144,7 +139,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess.SetSynergyBonusStats(0, 0, 0);
         }
 
-        // 3) ¿ø·¡ÀÚ¸® ±×´ë·Î¸é º¹±¸ Ã³¸® ÈÄ Á¾·á
+        // 3) ì›ë˜ìë¦¬ ê·¸ëŒ€ë¡œë©´ ë³µêµ¬ ì²˜ë¦¬ í›„ ì¢…ë£Œ
         if (OnFirstNode())
         {
             chess = null;
@@ -154,10 +149,10 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             return;
         }
 
-        // 4) Á¤»ó ¹èÄ¡/½º¿Ò È®Á¤ Á÷Àü¿¡¸¸ ÀÌÀü ³ëµå¿¡¼­ Á¦°Å
+        // 4) ì •ìƒ ë°°ì¹˜/ìŠ¤ì™‘ í™•ì • ì§ì „ì—ë§Œ ì´ì „ ë…¸ë“œì—ì„œ ì œê±°
         ClearAllNodeChess(chess);
 
-        // 5) ½º¿Ò/¹èÄ¡
+        // 5) ìŠ¤ì™‘/ë°°ì¹˜
         SwapPiece();
         if (targetGrid is FieldGrid)
         {
@@ -174,6 +169,12 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         UpdateGridAndNode();
         UpdateSynergy();
 
+
+        if (prevNode != null && !prevNode.ChessPiece)
+        {
+            prevNode.ChessPiece = chess;
+        }
+
         chess = null;
         HideLines();
         shop.UpdateCountUI(field);
@@ -189,7 +190,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         SynergyManager.Instance.RecalculateSynergies(fieldUnits);
     }
 
-    // ±â¹°ÀÌ ÇÊµå ¹ÛÀ¸·Î ³ª°¬À» ‹š
+    // ê¸°ë¬¼ì´ í•„ë“œ ë°–ìœ¼ë¡œ ë‚˜ê°”ì„ ë–„
     private bool OutofGrid()
     {
         if (OutOfGridCondition())
@@ -211,23 +212,23 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
 
 
-    // ÇÊµå¿¡ µå¶ø °¡´ÉÇÑÁö ÆÇ´Ü
+    // í•„ë“œì— ë“œë ê°€ëŠ¥í•œì§€ íŒë‹¨
     bool CanDrop()
     {
-        // ÇÊµå ½Äº° ºÒ°¡
+        // í•„ë“œ ì‹ë³„ ë¶ˆê°€
         if (!targetGrid || targetNode == null) return false;
 
-        // ÆÇ¸Å ¿µ¿ª
+        // íŒë§¤ ì˜ì—­
         if (IsPointerOverSellArea) return true;
 
         bool targetField = targetGrid is FieldGrid;
         bool prevField = prevGrid is FieldGrid;
         bool enemyField = targetGrid is EnemyGrid;
 
-        // ÇÊµå ¹ÛÀÌ³ª º¥Ä¡
+        // í•„ë“œ ë°–ì´ë‚˜ ë²¤ì¹˜
         if (!targetField && !enemyField) return true;
 
-        // ÇÊµå-> ÇÊµå·Î ÀÌµ¿ °¡´É
+        // í•„ë“œ-> í•„ë“œë¡œ ì´ë™ ê°€ëŠ¥
         if (prevField && !enemyField) return true;
 
         int level = PlayerLevel();
@@ -239,7 +240,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         (targetGrid == null || targetNode == null || !CanDrop()) && 
         !IsPointerOverSellArea;
 
-    // ±â¹°ÀÌ Ã³À½ ³ëµå À§¿¡ ÀÖÀ» ¶§
+    // ê¸°ë¬¼ì´ ì²˜ìŒ ë…¸ë“œ ìœ„ì— ìˆì„ ë•Œ
     private bool OnFirstNode()
     {
         if (prevNode != null && targetNode == prevNode && targetGrid == prevGrid && !IsPointerOverSellArea)
@@ -253,7 +254,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return false;
     }
 
-    // ´Ù¸¥ ±â¹°ÀÌ ³ëµåÀ§¿¡ ÀÖ´Â °æ¿ì
+    // ë‹¤ë¥¸ ê¸°ë¬¼ì´ ë…¸ë“œìœ„ì— ìˆëŠ” ê²½ìš°
     private void SwapPiece()
     {
         if (!targetGrid) return;
@@ -266,6 +267,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess.SetPosition(to);
             other.SetPosition(from);
 
+            ClearAllNodeChess(other);
+
             targetNode.ChessPiece = chess;
             prevNode.ChessPiece = other;
         }
@@ -276,17 +279,17 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
         
-    // ±×¸®µå ¾÷µ¥ÀÌÆ®
+    // ê·¸ë¦¬ë“œ ì—…ë°ì´íŠ¸
     private void UpdateGridAndNode()
     {
         prevGrid = targetGrid;
         prevNode = targetNode;
     }
 
-    // ±â¹° ÆÇ¸Å
+    // ê¸°ë¬¼ íŒë§¤
   
 
-    // ¸¶¿ì½º À§Ä¡¸¦ ¿ùµå À§Ä¡·Î º¯È¯
+    // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ ì›”ë“œ ìœ„ì¹˜ë¡œ ë³€í™˜
     void CalculateWorldPosition(Ray ray)
     {
         var ground = new Plane(Vector3.up, Vector3.zero);
@@ -308,7 +311,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
-    // µå·¡±× ½Ã ¸¶¿ì½º Æ÷ÀÎÅÍ ¾Õ¿¡ ÀÖ´Â ±â¹° Àâ±â
+    // ë“œë˜ê·¸ ì‹œ ë§ˆìš°ìŠ¤ í¬ì¸í„° ì•ì— ìˆëŠ” ê¸°ë¬¼ ì¡ê¸°
     void CalculateWorldChess(Ray ray)
     {
         if(Physics.Raycast(ray, out var hit, 1000f))
@@ -320,7 +323,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         Chess = null;
     }
 
-    // ¸¶¿ì½º À§Ä¡°¡ ÇöÀç ¾î¶² ±×¸®µå À§¿¡ ÀÖ´ÂÁö
+    // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ê°€ í˜„ì¬ ì–´ë–¤ ê·¸ë¦¬ë“œ ìœ„ì— ìˆëŠ”ì§€
     GridDivideBase FindGrid(Vector3 pos)
     {
         foreach(var g in grids)
@@ -335,7 +338,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         return null;
     }
 
-    // µå·¡±× ½Ã ³ëµå À§ÀÇ ±â¹° Á¤º¸ Á¦°Å
+    // ë“œë˜ê·¸ ì‹œ ë…¸ë“œ ìœ„ì˜ ê¸°ë¬¼ ì •ë³´ ì œê±°
     void ClearAllNodeChess(ChessStateBase piece)
     {
         foreach(var g in grids)
@@ -344,14 +347,14 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         }
     }
 
-    // ±â¹° ÇÁ·ÎÆÛÆ¼
+    // ê¸°ë¬¼ í”„ë¡œí¼í‹°
     public ChessStateBase Chess
     {
         get { return chess; }
         set { chess = value; }
     }
 
-    // ÇÃ·¹ÀÌ¾î ·¹º§ °¡Á®¿À±â
+    // í”Œë ˆì´ì–´ ë ˆë²¨ ê°€ì ¸ì˜¤ê¸°
     int PlayerLevel()
     {
         FieldInfo field = typeof(ShopManager).GetField(
@@ -386,7 +389,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             ChessInfoUI.Instance.NotifyChessSold(chess);
         }
 
-        // ÆÇ¸Å ¼º°øÀÏ ¶§¸¸ ±×¸®µå/³ëµå¿¡¼­ Á¦°Å
+        // íŒë§¤ ì„±ê³µì¼ ë•Œë§Œ ê·¸ë¦¬ë“œ/ë…¸ë“œì—ì„œ ì œê±°
         ClearAllNodeChess(chess);
         UpdateSynergy();
         return true;

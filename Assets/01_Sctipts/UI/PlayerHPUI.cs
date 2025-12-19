@@ -50,6 +50,13 @@ public class PlayerHPUI : MonoBehaviour
         hpText.text = currentHP.ToString();
     }
 
+    public void ResetHP()
+    {
+        currentHP = maxHP;
+        UpdateHPUI();
+    }
+
+
     private void OnDisable()
     {
         // 이벤트 해제

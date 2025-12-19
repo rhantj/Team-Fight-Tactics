@@ -248,6 +248,254 @@ public class GameManager : Singleton<GameManager>
         gameState = GameState.GameOver;
     }
 
+    //게임 재시작 메서드 12-19 Won Add 아직 수정 덜함
+    public void RestartGame()
+    {
+        // ===== 라운드 관련 상태 초기화 =====
+        currentRound = 1;
+        loseCount = 0;
+
+        // 전투/라운드 관련 코루틴 중지
+        if (battleCountdownCo != null)
+        {
+            StopCoroutine(battleCountdownCo);
+            battleCountdownCo = null;
+        }
+
+        // GameManager에서 실행 중인 모든 코루틴 정지
+        StopAllCoroutines();
+
+        // 현재 게임 상태를 "완전히 종료된 상태"로 되돌림
+        gameState = GameState.Playing;
+        roundState = RoundState.Preparation;
+
+        // 필드 위 아군 기물 전부 풀로 반환
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid != null)
+        {
+            var fieldUnits = fieldGrid.GetAllFieldUnits();
+
+            foreach (var unit in fieldUnits)
+            {
+                if (unit == null) continue;
+
+                // 노드 참조 제거 (CountOfPiece 자동 감소)
+                fieldGrid.ClearChessPiece(unit);
+
+                // 풀 반환
+                var pooled = unit.GetComponentInParent<PooledObject>();
+                if (pooled != null)
+                    pooled.ReturnToPool();
+                else
+                    unit.gameObject.SetActive(false);
+            }
+        }
+
+        // 필드 위 적 기물 전부 풀로 반환
+        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        if (enemyGrid != null)
+        {
+            var enemyUnits = enemyGrid.GetAllFieldUnits();
+
+            foreach (var unit in enemyUnits)
+            {
+                if (unit == null) continue;
+
+                // Grid 노드 참조 제거 (CountOfPiece 감소)
+                enemyGrid.ClearChessPiece(unit);
+
+                // 필드 플래그 해제 (안 해도 되지만 안전)
+                if (unit is Chess chess)
+                {
+                    chess.SetOnField(false);
+                }
+
+                // 풀 반환
+                var pooled = unit.GetComponentInParent<PooledObject>();
+                if (pooled != null)
+                {
+                    pooled.ReturnToPool();
+                }
+                else
+                {
+                    unit.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        // 벤치 위 기물 전부 풀로 반환
+        var benchGrid = FindAnyObjectByType<BenchGrid>();
+        if (benchGrid != null)
+        {
+            foreach (var node in benchGrid.FieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                var unit = node.ChessPiece;
+
+                // 노드 참조 제거
+                node.ChessPiece = null;
+
+                // 벤치 상태 명시
+                if (unit is Chess chess)
+                {
+                    chess.SetOnField(false);
+                }
+
+                // 풀 반환
+                var pooled = unit.GetComponentInParent<PooledObject>();
+                if (pooled != null)
+                {
+                    pooled.ReturnToPool();
+                }
+                else
+                {
+                    unit.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        // 각 Grid(Field / Enemy / Bench)의 노드에 남아있는 ChessPiece 참조 제거
+        var allGrids = FindObjectsOfType<GridDivideBase>();
+        foreach (var grid in allGrids)
+        {
+            foreach (var node in grid.FieldGrid)
+            {
+                node.ChessPiece = null;
+            }
+        }
+
+        // Grid의 CountOfPiece 값 초기화
+        foreach (var grid in allGrids)
+        {
+            while (grid.CountOfPiece > 0)
+            {
+                grid.DecreasePieceCount();
+            }
+        }
+
+        // 시너지 매니저 내부 상태 초기화 (현재 활성 시너지 제거)
+        if (SynergyManager.Instance != null)
+        {
+            SynergyManager.Instance.ResetAll();
+        }
+
+        // 상점 레벨 / 경험치 / 확률 / 리롤 상태 초기값으로 복구
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.ResetShopProgress();
+        }
+
+        // 상점 기물 목록 초기화
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.RefreshShop();
+        }
+
+        // 플레이어 골드 초기값으로 복구
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.ResetGold();
+        }
+
+
+        // 아이템 인벤토리 비우기
+        if (ItemSlotManager.Instance != null)
+        {
+            ItemSlotManager.Instance.ClearAllSlots();
+        }
+
+        // 아이템 관련 UI 초기화
+        var allItemUIs = FindObjectsOfType<ChessItemUI>();
+        foreach (var itemUI in allItemUIs)
+        {
+            itemUI.ClearAll();
+        }
+
+        // SettingsUI 닫기
+        var settingsUI = FindAnyObjectByType<SettingsUI>(
+            FindObjectsInactive.Include
+        );
+
+        if (settingsUI != null)
+        {
+            settingsUI.ToggleSettingsUI();
+        }
+
+        // 기물정보UI 닫기
+        if (ChessInfoUI.Instance != null)
+        {
+            ChessInfoUI.Instance.Hide();
+        }
+
+        // 플레이어 HP 초기화
+        var playerHPUI = FindAnyObjectByType<PlayerHPUI>(
+            FindObjectsInactive.Include
+        );
+
+        if (playerHPUI != null)
+        {
+            playerHPUI.ResetHP();
+        }
+
+        // 라운드 완성되면 라운드 UI랑 연동 잘되는지 체크
+        // 재시작후 일부 기물이 합성하거나 구매할때 사라지는 버그가 있음
+
+    }
+
+    public void ReturnToMainMenu()
+    {
+        // 항상 안전하게 복구
+        Time.timeScale = 1f;
+
+        // 게임 플레이 상태 완전 초기화
+        RestartGame();
+
+        // 메인 메뉴(StartPanel) 표시 (비활성 포함 탐색)
+        var startPanel = FindAnyObjectByType<StartPanelUI>(
+            FindObjectsInactive.Include
+        );
+
+        if (startPanel != null)
+        {
+            startPanel.Open();
+        }
+        else
+        {
+            Debug.LogError("[ReturnToMainMenu] StartPanelUI not found");
+        }
+
+        // 인트로 BGM 재생
+        SoundSystem.SoundPlayer?.PlaySound(
+            "BGM3",
+            Vector3.zero,
+            1f,
+            0f
+        );
+    }
+
+
+    public void StartGameFromMainMenu()
+    {
+        gameState = GameState.Playing;
+        roundState = RoundState.Preparation;
+
+        if (ShopManager.Instance != null)
+        {
+            ShopManager.Instance.RefreshShop();
+        }
+
+        // 라운드 시작
+        StartRound();
+
+        SoundSystem.SoundPlayer?.PlaySound(
+            "BGM1",
+            Vector3.zero,
+            1f,
+            0f
+        );
+    }
+
     //라운드 상태 변경 메서드
     private void SetRoundState(RoundState newState)
     {
