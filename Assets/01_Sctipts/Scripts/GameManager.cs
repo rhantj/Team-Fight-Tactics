@@ -83,8 +83,6 @@ public class GameManager : Singleton<GameManager>
         loseCount = 0;
 
         //player.Initialize(); //골드/레벨/상점기물확률 초기화
-
-        StartRound();
     }
 
     //라운드 시작
