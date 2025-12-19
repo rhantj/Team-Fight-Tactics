@@ -69,6 +69,7 @@ public class TimeUI : MonoBehaviour
         timerBar.fillAmount = time / maxTime;
     }
 
+
     private void UpdateBattleTimerUI(float time)
     {
         if (time < 0) time = 0;
