@@ -687,5 +687,40 @@ public class ShopManager : Singleton<ShopManager>
         }
     }
 
+    /// <summary>
+    /// 게임 재시작 시 상점 진행도 초기화
+    /// - 레벨 / 경험치
+    /// - 등장 확률
+    /// - 잠금 상태
+    /// - 관련 UI 전부 갱신
+    /// </summary>
+    public void ResetShopProgress()
+    {
+        // 레벨 / 경험치 초기값
+        playerLevel = 1;
+        playerExp = 0;
+
+        // 잠금 해제
+        isLocked = false;
+        if (lockIconImage != null)
+            lockIconImage.sprite = defaultUnlockedSprite;
+
+        // UI 갱신
+        UpdateLevelUI();
+        UpdateExpUI();
+        UpdateCostRateUI();
+        UpdateCountUI(null);
+    }
+
+    /// <summary>
+    /// 게임 재시작 시 플레이어 골드 초기화
+    /// </summary>
+    public void ResetGold()
+    {
+        currentGold = 100; // 시작 골드
+        UpdateGoldUI();
+    }
+
+
     public int CurrentGold { get { return currentGold; } }
 }

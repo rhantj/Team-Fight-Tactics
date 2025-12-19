@@ -180,4 +180,22 @@ public class SynergyManager : MonoBehaviour
         return result;
     }
 
+    public void ResetAll()
+    {
+        // 내부 시너지 데이터 초기화
+        activeSynergies.Clear();
+        currentCounts.Clear();
+
+        // 모든 기물의 시너지 보너스 제거
+        foreach (var unit in FindObjectsOfType<ChessStateBase>())
+        {
+            unit.ResetSynergyStats();
+        }
+
+        // 시너지 UI 전부 제거
+        synergyUIController?.ClearAll();
+    }
+
+
+
 }
