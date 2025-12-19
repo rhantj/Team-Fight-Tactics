@@ -17,6 +17,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
 
+    RectZone sellzone = new RectZone { minX = 310, maxX = 1610, minY = 0, maxY = 210 };
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
     public int playerLevel;
@@ -25,6 +26,13 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         CalculateWorldPosition(camRay);
+        CalculatePointerPosition();
+    }
+
+    void CalculatePointerPosition()
+    {
+        bool isInside = sellzone.IsInside(Input.mousePosition);
+        IsPointerOverSellArea = isInside;
     }
 
 
@@ -40,6 +48,12 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         CalculateWorldChess(camRay);
         if (!chess) return;
 
+        Chess chessComponent = chess as Chess;
+        if (chessComponent != null && chessComponent.team == Team.Enemy)
+        {
+            chess = null;
+            return;
+        }
         ChessInfoUI.Instance.ShowInfo(chess);
 
         chessFirstPos = _worldPos;
