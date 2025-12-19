@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    [SerializeField] Transform shopPanel;
     [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
     [SerializeField] ChessStateBase chess;      // 잡고있는 기물
     [SerializeField] Vector3 chessFirstPos;     // 기물의 첫 위치
@@ -18,17 +17,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     [SerializeField] Vector3 _worldPos;         // 마우스 위치를 월드 위치로 바꾼 값
     [SerializeField] Ray camRay;                // 레이
 
-    SellAreaDetector detector;
     public bool IsPointerOverSellArea = false;  // 상점 판매용 
     public bool CanDrag = false;
     public int playerLevel;
-
-    private void Awake()
-    {
-        detector = new SellAreaDetector(shopPanel);
-        detector.OnEnter += () => IsPointerOverSellArea = true;
-        detector.OnExit += () => IsPointerOverSellArea = false;
-    }
 
     private void Update()
     {
@@ -83,6 +74,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 중
     public void OnDrag(PointerEventData eventData)
     {
+
         if (!chess) return;
         chess.SetPosition(_worldPos);
     }
@@ -90,6 +82,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
+
         if (!chess) return;
 
         ShopManager shop = ShopManager.Instance;

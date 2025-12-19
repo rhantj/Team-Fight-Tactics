@@ -570,6 +570,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+--- !u!224 &1349101855 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8506749301818303883, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+  m_PrefabInstance: {fileID: 29986925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1527590023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -622,6 +627,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8572600295957526203, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: shopPanel
+      value: 
+      objectReference: {fileID: 1349101855}
     - target: {fileID: 8572600295957526203, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
       propertyPath: playerLevel
       value: 4
