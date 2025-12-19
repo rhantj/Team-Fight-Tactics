@@ -36,7 +36,13 @@ public class EnemyGrid : GridDivideBase
             var pos = node.worldPosition;
             var obj = Instantiate(enemyPF);
 
-            obj.GetComponent<Enemy>().SetPosition(pos);
+            //obj.GetComponent<Enemy>().SetPosition(pos);
+            //===== add Kim 12.19
+            var enemy = obj.GetComponent<Enemy>();
+            enemy.SetPosition(pos);
+            enemy.SetOnField(true);
+            //=====
+
             node.ChessPiece = obj.GetComponent<Enemy>(); //12.12 add Kim
 
         }
