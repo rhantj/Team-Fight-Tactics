@@ -57,7 +57,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         prevGrid = FindGrid(chessFirstPos);
         
         if(prevGrid)
-            prevNode = prevGrid.GetNearGridNode(chessFirstPos);
+            prevNode = prevGrid.GetGridNode(chessFirstPos);
 
         if (prevNode != null && !prevNode.ChessPiece)
         {
@@ -177,7 +177,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
     private void UpdateSynergy()
     {
-        FieldGrid fieldGrid = FindObjectOfType<FieldGrid>();
+        FieldGrid fieldGrid = grids[0] as FieldGrid;
         if (fieldGrid == null) return;
         if (SynergyManager.Instance == null) return;
         var fieldUnits = fieldGrid.GetAllFieldUnits();
@@ -292,7 +292,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             targetGrid = FindGrid(pos);
             if (targetGrid)
             {
-                targetNode = targetGrid.GetNearGridNode(pos);
+                targetNode = targetGrid.GetGridNode(pos);
                 _worldPos = targetNode.worldPosition;
             }
             else
@@ -318,26 +318,16 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 마우스 위치가 현재 어떤 그리드 위에 있는지
     GridDivideBase FindGrid(Vector3 pos)
     {
-        GridDivideBase grid = null;
-        float dist = float.PositiveInfinity;
-
-        if (grids.Length == 0) return null;
-
         foreach(var g in grids)
         {
             if (!g) continue;
-            if (g.IsPositionInGrid(pos))
+            if (g.GetGridNode(pos) != null)
             {
-                float closest = (pos - g.transform.position).sqrMagnitude;
-                if(closest < dist)
-                {
-                    dist = closest;
-                    grid = g;
-                }
+                return g;
             }
         }
 
-        return grid;
+        return null;
     }
 
     // 드래그 시 노드 위의 기물 정보 제거
