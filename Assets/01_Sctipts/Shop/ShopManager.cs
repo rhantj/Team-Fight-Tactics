@@ -376,6 +376,7 @@ public class ShopManager : Singleton<ShopManager>
         }
 
         chess.SetBaseData(data); //25.12.08 Add Kim
+        chess.SetOnField(false); //25.12.18 Add kim
 
 
         // 4) BenchGrid Ã£±â

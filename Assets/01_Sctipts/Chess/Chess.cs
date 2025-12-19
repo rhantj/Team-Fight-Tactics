@@ -32,6 +32,7 @@ public class Chess : ChessStateBase
     public float AttackRange => (baseData != null && baseData.attackRange > 0f) ? baseData.attackRange : 1.8f; //사거리
     public float MoveSpeed => (baseData != null) ? baseData.moveSpeed : 0f;
     public Chess CurrentTarget => currentTarget; //바이 E 스킬때문에 넣었어요 12.17 add Kim
+    private bool isOnField = false; // 필드에 배치되어 있는지 여부  // 12.17 add Kim
 
 
     //=====================================================
@@ -40,21 +41,19 @@ public class Chess : ChessStateBase
     protected override void Awake()
     {
         base.Awake();
-
-        //if (GameManager.Instance != null)
-        //{
-        //    GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
-        //}
+        overrideState = false; // 초기화
     }
     private void Start()
     {
         GetComponentInChildren<ChessStatusUI>()?.Bind(this);
-        TryRegisterGameManager(); //라운드 이벤트 구독
+        TryRegisterGameManager();
+        overrideState = false; // 명시적으로 false 설정
     }
     protected override void OnEnable()
     {
         base.OnEnable();
-        TryRegisterGameManager(); //풀링 재활성화할때 구독끊기는거 방지용으로 재등록하게했습니다
+        TryRegisterGameManager();
+        overrideState = false; // 풀링 재활성화 시에도 false로 초기화
     }
 
     private void OnDestroy()
@@ -72,6 +71,8 @@ public class Chess : ChessStateBase
         {
             GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged; //해제
             GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged; //등록
+
+            HandleRoundStateChanged(GameManager.Instance.roundState);
         }
     }
     //=====================================================
@@ -105,6 +106,17 @@ public class Chess : ChessStateBase
     private void EnterBattlePhase()
     {
         isInBattlePhase = true; //Update가 돌 수있도록 플래그
+        overrideState = false; // 전투 시작 시 강제로 false (어디선가 true로 설정한 경우 대비)
+        attackTimer = 0f; // 전투 시작 시 즉시 평타 가능하도록 0으로 설정
+
+        Debug.Log($"[{gameObject.name}] EnterBattlePhase - overrideState={overrideState}, attackTimer={attackTimer}");
+
+        if (animator != null)
+        {
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("UseSkill");
+            animator.ResetTrigger("ToIdle");
+        }
 
         ////Battle 상태가 필요한 유닛만 전환시킵니다
         //if (baseData != null && baseData.useBattleState)
@@ -128,9 +140,16 @@ public class Chess : ChessStateBase
     //=====================================================
     private void Update()
     {
-        if (overrideState) return;              
-        if (IsDead) return;                     
-        if (!isInBattlePhase) return;           
+        if (overrideState)
+        {
+            Debug.LogWarning($"[{gameObject.name}] overrideState=true, Update 중단 (StackTrace 확인)");
+            Debug.LogWarning(System.Environment.StackTrace);
+            return;
+        }
+        if (IsDead) return;
+        if (!isInBattlePhase) return;
+
+        if (!isOnField) return; //필드에 없던애들은 못싸우게.
 
         if (currentTarget != null && !currentTarget.IsDead)
         {
@@ -145,22 +164,20 @@ public class Chess : ChessStateBase
             {
                 stateMachine?.SetMove();         //사거리 밖이면 이동 상태 유지
                 MoveTowards(currentTarget.transform.position); //타겟 방향으로 계속 접근
-                                                              
+
             }
             else
             {
-                if (baseData != null && baseData.useBattleState)
-                {
-                    stateMachine?.SetBattle();   //사거리 안이면 전투 상태로 
-                }
+                //if (baseData != null && baseData.useBattleState)
+                stateMachine?.SetIdle();   //사거리 안이면 전투 상태로 
             }
 
-            attackTimer -= Time.deltaTime;    
+            attackTimer -= Time.deltaTime;
 
             if (attackTimer <= 0f && dist <= AttackRange)
             {
                 attackTimer = attackInterval;    //다음 공격을 위해 쿨타임 초기화
-                AttackOnce();                    
+                AttackOnce();
             }
         }
     }
@@ -190,7 +207,7 @@ public class Chess : ChessStateBase
         if (target == null) return;
 
         Vector3 dir = target.position - transform.position;
-        dir.y = 0f; 
+        dir.y = 0f;
 
         if (dir.sqrMagnitude < 0.0001f) return;
 
@@ -210,24 +227,17 @@ public class Chess : ChessStateBase
     private void AttackOnce()
     {
         if (currentTarget == null || currentTarget.IsDead) return;
-        if (Vector3.Distance(transform.position, currentTarget.transform.position) > AttackRange) return; //사거리 밖이면 공격 
-        Debug.Log($"[{name}]Attack once,Interval ={attackInterval}");
-        if (currentTarget == null || currentTarget.IsDead) return; //유효한지 체크
+        if (Vector3.Distance(transform.position, currentTarget.transform.position) > AttackRange) return;
 
-
-        if (animator != null)
-        {
-            //int index = UnityEngine.Random.Range(0, 2);
-            //animator.SetInteger("AttackIndex", index);
-            animator.SetTrigger("Attack");
-        }
+        animator?.ResetTrigger("Attack");
+        animator?.SetTrigger("Attack");
 
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
         InvokeOnHitEffects(currentTarget);
-
-        GainMana(manaOnHit); //마나획득
+        GainMana(manaOnHit);
     }
+
 
     private void InvokeOnHitEffects(Chess target)
     {
@@ -266,7 +276,7 @@ public class Chess : ChessStateBase
 
 
         StarLevel = Mathf.Min(StarLevel + 1, 3);
-        float hpMultiplier = 1.5f; 
+        float hpMultiplier = 1.5f;
         CurrentHP = Mathf.RoundToInt(baseData.maxHP * Mathf.Pow(hpMultiplier, StarLevel - 1));
         CurrentMana = 0; //조합후 마나 초기화
 
@@ -298,20 +308,20 @@ public class Chess : ChessStateBase
         stateMachine?.SetIdle(); // 애니 트리거가 없으면 로직이라도 Idle로 복귀
     }
 
-
-
     public void ForceBattle()
     {
         //overrideState = false;
         //animator?.SetInteger("State", 2);
-        stateMachine?.SetBattle();
+        animator?.ResetTrigger("Attack");
+        animator?.SetTrigger("Attack");
+
     }
 
     public void ForceVictory()
     {
-        overrideState = true;      
-        animator?.ResetTrigger("Attack"); 
-        animator?.SetTrigger("Victory");  
+        overrideState = true;
+        animator?.ResetTrigger("Attack");
+        animator?.SetTrigger("Victory");
     }
 
     // =============== 기즈모 =============== //
@@ -319,7 +329,7 @@ public class Chess : ChessStateBase
     {
         if (baseData == null)
         {
-            Gizmos.color = Color.red;                 
+            Gizmos.color = Color.red;
             Gizmos.DrawWireCube(transform.position, Vector3.one * 0.3f);
             return;
         }
@@ -327,11 +337,12 @@ public class Chess : ChessStateBase
         Gizmos.color = Color.green;                   //사거리 표시
         Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
-
-
-
-
-
-
+    //=====================================================
+    //                  필드 배치 관리
+    //=====================================================
+    public void SetOnField(bool onField)
+    {
+        isOnField = onField;
+    }
 
 }

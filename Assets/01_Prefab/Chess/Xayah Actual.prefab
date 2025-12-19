@@ -1681,6 +1681,9 @@ GameObject:
   - component: {fileID: -5893183216020479998}
   - component: {fileID: 3766256279864990407}
   - component: {fileID: -4139392111788031141}
+  - component: {fileID: -5590121251480359594}
+  - component: {fileID: -290106480949136990}
+  - component: {fileID: 4099470669970844275}
   m_Layer: 0
   m_Name: Xayah Actual
   m_TagString: Untagged
@@ -1741,12 +1744,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseData: {fileID: 11400000, guid: d574b913048b43b4597010dffac0b6e1, type: 2}
   attackInterval: 1
-  manaOnHit: 10
-  manaOnDamaged: 5
+  manaOnHit: 1
+  manaOnDamaged: 1
+  attackTimer: 0
   currentShield: 0
   rotateSpeed: 720
   team: 0
-  overrideState: 1
+  overrideState: 0
 --- !u!114 &-5893183216020479998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1793,6 +1797,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5590121251480359594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128248724202302188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c6a477abc560854c81685738c211754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-290106480949136990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128248724202302188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61180e216c21dc643ac16465745be6fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windUpTime: 0.1
+  duration: 4
+  attackSpeedMultiplier: 1.3
+  bonusDamageMultiplier: 0.4
+  flatBonusDamage: 10
+  castVfxPrefab: {fileID: 0}
+  buffVfxPrefab: {fileID: 0}
+  hitVfxPrefab: {fileID: 0}
+--- !u!114 &4099470669970844275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128248724202302188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b584721ec7e5fa243ad7c13b03d13a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3243565911846364497

@@ -87,6 +87,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 5a2258b65d4018442a735575f9cce66c, type: 3}
       insertIndex: -1
       addedObject: {fileID: -125395690618546137}
+    - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 5a2258b65d4018442a735575f9cce66c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 897927849344960759}
+    - targetCorrespondingSourceObject: {fileID: 2107409826236812522, guid: 5a2258b65d4018442a735575f9cce66c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2290209533307404200}
   m_SourcePrefab: {fileID: 3150474306388093854, guid: 5a2258b65d4018442a735575f9cce66c, type: 3}
 --- !u!1 &4353279158087605177 stripped
 GameObject:
@@ -130,12 +136,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseData: {fileID: 11400000, guid: 1d55005f8ae734f438e0b07f5ebfdd8a, type: 2}
   attackInterval: 1
-  manaOnHit: 10
-  manaOnDamaged: 5
+  manaOnHit: 1
+  manaOnDamaged: 1
+  attackTimer: 0
   currentShield: 0
   rotateSpeed: 720
   team: 0
-  overrideState: 1
+  overrideState: 0
 --- !u!114 &2848922320785179981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +166,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &897927849344960759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353279158087605177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646a323b331a68c48b382593d4a19589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 2
+  tickInterval: 0.25
+  radius: 2
+  damageMultiplier: 0.6
+  spinVfxPrefab: {fileID: 0}
+  hitVfxPrefab: {fileID: 0}
+--- !u!114 &-2290209533307404200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353279158087605177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b584721ec7e5fa243ad7c13b03d13a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &4769427367372578770 stripped
