@@ -9,6 +9,10 @@ public class StartPanelUI : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button optionButton;
+    [SerializeField] private Button exitButton;
+
+    [Header("Option Panel")]
+    [SerializeField] private GameObject optionPanel;
 
     private void Awake()
     {
@@ -16,12 +20,19 @@ public class StartPanelUI : MonoBehaviour
         if (startPanel == null)
             startPanel = gameObject;
 
+        // 시작 시 옵션 패널은 꺼둠
+        if (optionPanel != null)
+            optionPanel.SetActive(false);
+
         // 버튼 이벤트 연결
         if (startButton != null)
             startButton.onClick.AddListener(OnClickStart);
 
         if (optionButton != null)
             optionButton.onClick.AddListener(OnClickOption);
+
+        if (exitButton != null)
+            exitButton.onClick.AddListener(OnClickExit);
     }
 
     /// <summary>
@@ -32,16 +43,32 @@ public class StartPanelUI : MonoBehaviour
     {
         Close();
 
-        // 나중에 연결할 자리
+        // 나중에 씬매니저 생기면 추가적으로 수정할 것
         // GameManager.Instance?.StartGame();
     }
 
     /// <summary>
-    /// 옵션 버튼 (미구현)
+    /// 옵션 버튼 (미구현, 일단은 게임의 간단한 설명과 팀원을 밝힘)
     /// </summary>
     private void OnClickOption()
     {
-        Debug.Log("[StartPanel] Option button clicked (TODO)");
+        if (optionPanel == null)
+        {
+            Debug.Log("[StartPanelUI] OptionPanel is not assigned.");
+            return;
+        }
+
+        bool isActive = optionPanel.activeSelf;
+        optionPanel.SetActive(!isActive);
+    }
+
+    /// <summary>
+    /// 게임 종료 버튼
+    /// </summary>
+    private void OnClickExit()
+    {
+        Debug.Log("[StartPanel] Exit button clicked");
+        Application.Quit();
     }
 
     public void Open()
