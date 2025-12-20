@@ -179,8 +179,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         HideLines();
         shop.UpdateCountUI(field);
     }
-
-
     private void UpdateSynergy()
     {
         FieldGrid fieldGrid = grids[0] as FieldGrid;
@@ -203,7 +201,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             else
             {
                 chess.SetPosition(chessFirstPos);
-                //prevNode.ChessPiece = chess;
             }
 
             return true;
@@ -285,9 +282,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         prevGrid = targetGrid;
         prevNode = targetNode;
     }
-
-    // 기물 판매
-  
 
     // 마우스 위치를 월드 위치로 변환
     void CalculateWorldPosition(Ray ray)
