@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public static class ItemFactory
+{
+    public static ItemBase Create(ItemData data)
+    {
+        if(data.itemType == ItemType.Combined)
+        {
+            if(data.itemName == "Fimbulwinter")
+            {
+                return new FimbulWinter(data);
+            }
+        }
+
+        return new PassiveItem(data);
+    }
+}

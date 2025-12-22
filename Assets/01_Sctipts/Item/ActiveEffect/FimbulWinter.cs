@@ -34,12 +34,20 @@ public class FimbulWinter : ItemBase
         }
         base.OnUnequip();
     }
-
+    // =========================
+    // 효과 1 : 전투 시작 시 마나 +20
+    // =========================
     private void HandleBattleStart()
     {
-        owner.GainMana(20);
-    }
+        owner.GainMana(5);
 
+        Debug.Log(
+       $"[Fimbulwinter] BattleStart | {owner.name} 마나 +5 (현재 마나: {owner.CurrentMana})"
+   );
+    }
+    // =========================
+    // 효과 2 : HP 40% 이하 최초 도달 시
+    // =========================
     private void HandleHPChanged(int currentHP, int maxHP)
     {
         if (hpTriggered) return;

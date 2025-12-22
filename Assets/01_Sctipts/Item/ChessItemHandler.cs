@@ -25,6 +25,8 @@ public class ChessItemHandler : MonoBehaviour
     // 아이템 스탯을 적용할 대상 기물
     private ChessStateBase chess;
 
+    private List<ItemBase> runtimeItems = new List<ItemBase>();    
+
     private void Awake()
     {
         // 같은 오브젝트에 있는 ChessStateBase 참조
@@ -35,14 +37,19 @@ public class ChessItemHandler : MonoBehaviour
     public bool CanEquip => equippedItems.Count < MAX_ITEM_COUNT;
 
     // 아이템 장착 처리
-    public bool EquipItem(ItemData item)
+    public bool EquipItem(ItemData itemData)
     {
         // 장착 가능 여부, 아이템 유효성, 기물 참조 체크
-        if (!CanEquip || item == null || chess == null)
+        if (!CanEquip || itemData == null || chess == null)
             return false;
 
+        ItemBase itemInstance = ItemFactory.Create(itemData);
+
+        itemInstance.OnEquip(chess);
+
         // 아이템 추가
-        equippedItems.Add(item);
+        runtimeItems.Add(itemInstance);
+        equippedItems.Add(itemData);
 
         // 아이템 변경에 따른 스탯 재계산
         RecalculateItemStats();
@@ -52,7 +59,13 @@ public class ChessItemHandler : MonoBehaviour
     // 모든 아이템 제거
     public void ClearItems()
     {
+        foreach(var item in runtimeItems)
+        {
+            item.OnUnequip();
+        }
+
         // 장착 목록 초기화
+        runtimeItems.Clear();
         equippedItems.Clear();
 
         // 아이템 제거 후 스탯 재계산

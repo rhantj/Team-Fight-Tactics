@@ -189,6 +189,8 @@ public class GameManager : Singleton<GameManager>
                 var chess = unit.GetComponent<Chess>();
                 if (chess == null) continue;
                 UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+
+                chess.NotifyBattleStart();
             }
         }
 
@@ -199,6 +201,8 @@ public class GameManager : Singleton<GameManager>
                 var chess = unit.GetComponent<Chess>(); 
                 if (chess == null) continue;
                 UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+
+                chess.NotifyBattleStart();
             }
         }
 
