@@ -215,7 +215,8 @@ public abstract class ChessStateBase : MonoBehaviour
         if (IsDead) return;
         if (attacker != null) lastAttacker = attacker;
 
-        int finalDamage = Mathf.Max(1, amount - Armor);
+        float damageMultiplier = 100f / (100f + Armor);
+        int finalDamage = Mathf.Max(1, Mathf.RoundToInt(amount * damageMultiplier));
 
         if (currentShield > 0)
         {
