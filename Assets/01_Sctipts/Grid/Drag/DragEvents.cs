@@ -40,6 +40,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (GameManager.Instance)
         {
             CanDrag = GameManager.Instance.roundState == RoundState.Preparation;
@@ -55,7 +57,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             return;
         }
-        ChessInfoUI.Instance.ShowInfo(chess);
 
         chessFirstPos = chess.transform.position;
         prevGrid = FindGrid(chessFirstPos);
@@ -83,7 +84,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 중
     public void OnDrag(PointerEventData eventData)
     {
-
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (!chess) return;
         chess.SetPosition(_worldPos);
     }
@@ -91,7 +93,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
-
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (!chess) return;
 
         ShopManager shop = ShopManager.Instance;
