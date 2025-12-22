@@ -2759,6 +2759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4827776889380003241}
   - component: {fileID: 2835549521968201879}
+  - component: {fileID: 3423087789480859876}
   m_Layer: 0
   m_Name: BGMStarter
   m_TagString: Untagged
@@ -2796,6 +2797,22 @@ MonoBehaviour:
   startPanel: {fileID: 8583237805192755359}
   introBGMKey: BGM3
   gameBGMKey: BGM1
+--- !u!114 &3423087789480859876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3756058387852061081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b77558370547b44a7f6d0123f2b1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chessLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  toggleOnSameChess: 1
 --- !u!1 &3793425618809285423
 GameObject:
   m_ObjectHideFlags: 0
