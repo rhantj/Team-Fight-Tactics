@@ -7,10 +7,10 @@ public class SteraksGage : ItemBase
 {
     private bool triggered;
 
-    // 수치 (나중에 ItemData나 Config로 뺄 수 있음)
-    private const float HP_THRESHOLD = 0.6f;   // 50%
-    private const float SHIELD_RATIO = 0.4f;   // 최대 체력 30%
-    private const float SHIELD_DURATION = 4f;  // 5초
+
+    private const float HP_THRESHOLD = 0.6f;   
+    private const float SHIELD_RATIO = 0.4f;   
+    private const float SHIELD_DURATION = 4f;  
 
     public SteraksGage(ItemData data) : base(data)
     {

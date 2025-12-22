@@ -16,6 +16,10 @@ public static class ItemFactory
             {
                 return new SteraksGage(data);
             }
+            if (data.itemName == "GuardianAngel")
+            {
+                return new GuardianAngel(data);
+            }
         }
 
         return new PassiveItem(data);
