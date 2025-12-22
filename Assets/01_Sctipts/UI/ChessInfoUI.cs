@@ -170,7 +170,8 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     ///   * 초록색 = 실제 HP
     ///   * 하얀색 = 실드
     ///   * 실드는 항상 오른쪽부터 차오르며,
-    ///     HP + Shield 합이 MaxHP를 초과하면 HP 영역을 덮어쓴다.
+    ///     HP + Shield 합이 MaxHP를 초과하면
+    ///     (HP + Shield) 기준 비율로 실드를 표시한다.
     /// </summary>
     private void UpdateHPUI()
     {
@@ -183,30 +184,64 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         // 텍스트는 HP + Shield 합산값으로 표시
         hpText.text = $"{currentHP + currentShield} / {maxHP}";
 
-        // 실드로 인해 실제로 표현 가능한 HP 영역 계산
-        int visibleHP = Mathf.Max(0, maxHP - currentShield);
-        int hpBarValue = Mathf.Min(currentHP, visibleHP);
+        // ===========================
+        // HP Bar (항상 MaxHP 기준)
+        // ===========================
+        float hpRatio = Mathf.Clamp01((float)currentHP / maxHP);
+        float hpWidth = hpBarMaxWidth * hpRatio;
 
-        float hpWidth = hpBarMaxWidth * ((float)hpBarValue / maxHP);
-        float shieldWidth = hpBarMaxWidth * Mathf.Min(1f, (float)currentShield / maxHP);
-
-        // HP Bar (항상 왼쪽 기준)
         hpFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpWidth);
         hpFill.anchoredPosition = Vector2.zero;
 
-        // Shield Bar (항상 오른쪽 기준)
-        if (currentShield > 0)
+        // 실드 없으면 종료
+        if (currentShield <= 0)
         {
-            shieldFill.gameObject.SetActive(true);
-            shieldFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, shieldWidth);
+            shieldFill.gameObject.SetActive(false);
+            return;
+        }
+
+        shieldFill.gameObject.SetActive(true);
+
+        // ===========================
+        // CASE 1
+        // CurrentHP + Shield <= MaxHP
+        // ===========================
+        if (currentHP + currentShield <= maxHP)
+        {
+            float shieldRatio = (float)currentShield / maxHP;
+            float shieldWidth = hpBarMaxWidth * shieldRatio;
+
+            shieldFill.SetSizeWithCurrentAnchors(
+                RectTransform.Axis.Horizontal,
+                shieldWidth
+            );
+
+            // HP 오른쪽에 붙여서 표시
+            shieldFill.anchoredPosition =
+                new Vector2(hpWidth, 0f);
+        }
+        // ===========================
+        // CASE 2
+        // CurrentHP + Shield > MaxHP
+        // ===========================
+        else
+        {
+            // (HP + Shield) 기준으로 Shield 비율 계산
+            float total = currentHP + currentShield;
+            float shieldRatio = currentShield / total;
+            float shieldWidth = hpBarMaxWidth * shieldRatio;
+
+            shieldFill.SetSizeWithCurrentAnchors(
+                RectTransform.Axis.Horizontal,
+                shieldWidth
+            );
+
+            // 오른쪽부터 차오르게 배치
             shieldFill.anchoredPosition =
                 new Vector2(hpBarMaxWidth - shieldWidth, 0f);
         }
-        else
-        {
-            shieldFill.gameObject.SetActive(false);
-        }
     }
+
 
     /// <summary>
     /// 현재 기물의 마나 정보를 UI에 반영한다.

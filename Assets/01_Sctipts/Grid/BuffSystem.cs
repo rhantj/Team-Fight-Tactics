@@ -5,7 +5,7 @@ public class BuffSystem : MonoBehaviour
 {
     [SerializeField] FieldGrid field;
     [SerializeField] float buffMultiplier = 1.2f;
-    public List<IBuffApply> buffApply = new();
+    List<IBuffApply> buffApply = new();
     bool lazy;
 
     private void Awake()

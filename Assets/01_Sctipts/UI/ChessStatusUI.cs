@@ -53,14 +53,11 @@ public class ChessStatusUI : MonoBehaviour
         int maxHp = targetChess.MaxHP;
         if (maxHp <= 0) return;
 
-        // 비율 계산
+        // HP 비율 (항상 MaxHP 기준)
         float hpRatio = Mathf.Clamp01((float)hp / maxHp);
-        float shieldRatio = Mathf.Clamp01((float)shield / maxHp);
-
-        // HP Fill
         hpFillImage.fillAmount = hpRatio;
 
-        // Shield가 없으면 숨김
+        // Shield 없으면 종료
         if (shield <= 0)
         {
             shieldFillImage.gameObject.SetActive(false);
@@ -68,7 +65,6 @@ public class ChessStatusUI : MonoBehaviour
         }
 
         shieldFillImage.gameObject.SetActive(true);
-        shieldFillImage.fillAmount = shieldRatio;
 
         RectTransform shieldRT = shieldFillImage.rectTransform;
 
@@ -78,28 +74,38 @@ public class ChessStatusUI : MonoBehaviour
         // ===========================
         // CASE 1
         // CurrentHP + Shield <= MaxHP
-        // 초록색 오른쪽에 붙여서 표시
         // ===========================
         if (hp + shield <= maxHp)
         {
-            shieldFillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+            // MaxHP 기준 비율
+            float shieldRatio = (float)shield / maxHp;
 
+            shieldFillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+            shieldFillImage.fillAmount = shieldRatio;
+
+            // HP 오른쪽에 붙임
             float hpWidth = hpFillImage.rectTransform.rect.width * hpRatio;
             shieldRT.anchoredPosition = new Vector2(hpWidth, originalY);
         }
         // ===========================
         // CASE 2
         // CurrentHP + Shield > MaxHP
-        // 쉴드는 오른쪽부터 덮음
         // ===========================
         else
         {
-            shieldFillImage.fillOrigin = (int)Image.OriginHorizontal.Right;
+            // 변경 부분
+            // (HP + Shield) 를 기준으로 Shield 비율 계산
+            float total = hp + shield;
+            float shieldRatio = shield / total;
 
-            // 위치는 프레임 기준 그대로 (Y 유지)
+            shieldFillImage.fillOrigin = (int)Image.OriginHorizontal.Right;
+            shieldFillImage.fillAmount = shieldRatio;
+
+            // 프레임 기준, 오른쪽부터 덮음 (Y 유지)
             shieldRT.anchoredPosition = new Vector2(0f, originalY);
         }
     }
+
 
 
     private void UpdateMana()
