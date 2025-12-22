@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class FieldGrid : GridDivideBase
 {
@@ -51,5 +49,33 @@ public class FieldGrid : GridDivideBase
                     unit.gameObject.SetActive(false);
             }
         }
+    }
+
+    // 행에 있는 기물들 반환
+    public List<ChessStateBase> GetRowUnits(int y)
+    {
+        var tmp  = new List<ChessStateBase>();
+
+        for (int x = 0; x < gridXCnt; ++x)
+        {
+            var node = fieldGrid[y, x];
+            tmp.Add(node.ChessPiece);
+        }
+
+        return tmp;
+    }
+
+    // 열에 있는 기물들 반환
+    public List<ChessStateBase> GetColumnUnits(int x)
+    {
+        var tmp = new List<ChessStateBase>();
+
+        for (int y = 0; y < gridYCnt; ++y)
+        {
+            var node = fieldGrid[y, x];
+            tmp.Add(node.ChessPiece);
+        }
+
+        return tmp;
     }
 }

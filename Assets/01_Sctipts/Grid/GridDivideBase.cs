@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -18,6 +19,7 @@ public class GridDivideBase : MonoBehaviour
     public List<int> unitPerLevel = new();           // 레벨 당 유닛 제한 수
 
     public int CountOfPiece { get; private set; }
+    public event Action<GridDivideBase, GridNode, ChessStateBase, ChessStateBase> OnGridChessPieceChanged;
 
     private void Awake()
     {
@@ -76,6 +78,7 @@ public class GridDivideBase : MonoBehaviour
 
                 var num = y * gridXCnt + x;
                 var node = new GridNode(this,worldPoint,x,y,num);
+                node.OnChessPieceChanged += NodeChessPieceChanged;
 
                 fieldGrid[y, x] = node;
                 nodePerInt.Add(num, node);
@@ -84,6 +87,11 @@ public class GridDivideBase : MonoBehaviour
 
         if (!linePF) return;
         DrawLine();
+    }
+
+    private void NodeChessPieceChanged(GridNode node, ChessStateBase before, ChessStateBase after)
+    {
+        OnGridChessPieceChanged?.Invoke(this, node, before, after);
     }
 
     // 노드별 라인 생성

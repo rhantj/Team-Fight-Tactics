@@ -30,6 +30,11 @@ public abstract class ChessStateBase : MonoBehaviour
     protected int bonusAttack_Item;
     protected int bonusArmor_Item;
 
+    // 글로벌 버프 보너스
+    protected int bonusMaxHP_Buff;
+    protected int bonusAttack_Buff;
+    protected int bonusArmor_Buff;
+
     // ================== 최종 스탯 계산 ==================
     public int MaxHP =>
         (baseData != null ? baseData.maxHP : 0)
@@ -173,7 +178,11 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttack_Item = 0;
         bonusArmor_Item = 0;
 
-        CurrentHP = MaxHP;
+        bonusMaxHP_Buff = 0;
+        bonusAttack_Buff = 0;
+        bonusArmor_Buff = 0;
+
+    CurrentHP = MaxHP;
         CurrentMana = 0;
         deathHandled = false; // 사망 플래그 리셋
 
@@ -381,6 +390,17 @@ public abstract class ChessStateBase : MonoBehaviour
         CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
     }
 
+    // 12-22 ko
+    // 글로벌 버프 적용
+    public void GlobalBuffApply(float multiplier)
+    {
+        bonusAttack_Buff = AttackDamage + (int)(AttackDamage * (multiplier - 1f));
+        bonusArmor_Buff = Armor + (int)(Armor * (multiplier - 1f));
+        bonusMaxHP_Buff = MaxHP + (int)(MaxHP * (multiplier - 1f));
+
+        CurrentHP = Mathf.RoundToInt(CurrentHP * multiplier);
+    }
+
     //=====================================================
     //                  시너지 리셋 (기존 API 유지)
     //=====================================================
@@ -390,6 +410,17 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttack_Synergy = 0;
         bonusArmor_Synergy = 0;
         bonusMaxHP_Synergy = 0;
+    }
+
+    // 12-22 ko
+    // 글로벌 버프 초기화
+    public void ClearAllBuffs()
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+        bonusAttack_Buff = 0;
+        bonusArmor_Buff = 0;
+        bonusMaxHP_Buff = 0;
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
     }
 
     //=====================================================
@@ -430,5 +461,4 @@ public abstract class ChessStateBase : MonoBehaviour
 
         return false;
     }
-
 }

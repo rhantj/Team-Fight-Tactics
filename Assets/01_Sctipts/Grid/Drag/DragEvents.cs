@@ -1,12 +1,8 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using TMPro;
-using UnityEditor;
+﻿using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
     [SerializeField] ChessStateBase chess;      // 잡고있는 기물
