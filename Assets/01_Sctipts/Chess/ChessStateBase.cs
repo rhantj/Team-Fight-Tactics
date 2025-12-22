@@ -45,6 +45,12 @@ public abstract class ChessStateBase : MonoBehaviour
         (baseData != null ? baseData.armor : 0)
         + bonusArmor_Synergy
         + bonusArmor_Item;
+    //=====================================================
+    //                  전투 이벤트 addtoKwon
+    //=====================================================
+    public event System.Action OnBattleStart;
+    public event System.Action<int, int> OnHPChanged;
+
 
     //=====================================================
     //                  전투 / 마나 설정
@@ -179,7 +185,13 @@ public abstract class ChessStateBase : MonoBehaviour
 
         attackTimer = 0f; // attackInterval에서 0f로 변경 - 생성 시 즉시 공격 가능
     }
-
+    //=====================================================
+    //                  전투 시작 알림 25/12/22 add to Kwon
+    //=====================================================
+    public void NotifyBattleStart()
+    {
+        OnBattleStart?.Invoke();
+    }
     //=====================================================
     //                  Kill Tracking
     //=====================================================
@@ -207,6 +219,8 @@ public abstract class ChessStateBase : MonoBehaviour
         {
             CurrentHP -= finalDamage;
             if (CurrentHP < 0) CurrentHP = 0;
+
+            OnHPChanged?.Invoke(CurrentHP, MaxHP);
         }
 
         GainMana(manaOnDamaged);
