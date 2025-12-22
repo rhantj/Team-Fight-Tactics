@@ -77,7 +77,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         gameState = GameState.Playing;
-        roundState = RoundState.None;
+        roundState = RoundState.None; 
 
         currentRound = 1;
         loseCount = 0;
