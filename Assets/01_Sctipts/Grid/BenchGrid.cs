@@ -12,4 +12,25 @@ public class BenchGrid : GridDivideBase
         piece.SetPosition(pos.worldPosition);
         piece.SetOnField(false); // 벤치에 있음을 표시
     }
+
+    public void ResetAllNode()
+    {
+        if (fieldGrid != null)
+        {
+            foreach (var node in fieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                // 노드 참조 제거 (CountOfPiece 자동 감소)
+                ClearChessPiece(node.ChessPiece);
+
+                // 풀 반환
+                var pooled = node.ChessPiece.GetComponentInParent<PooledObject>();
+                if (pooled != null)
+                    pooled.ReturnToPool();
+                else
+                    node.ChessPiece.gameObject.SetActive(false);
+            }
+        }
+    }
 }

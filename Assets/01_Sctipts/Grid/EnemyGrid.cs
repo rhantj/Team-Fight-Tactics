@@ -19,6 +19,29 @@ public class EnemyGrid : GridDivideBase
         return result;
     }
 
+    public void ResetAllNode()
+    {
+        if (fieldGrid != null)
+        {
+            var fieldUnits = GetAllFieldUnits();
+
+            foreach (var unit in fieldUnits)
+            {
+                if (unit == null) continue;
+
+                // 노드 참조 제거 (CountOfPiece 자동 감소)
+                ClearChessPiece(unit);
+
+                // 풀 반환
+                var pooled = unit.GetComponentInParent<PooledObject>();
+                if (pooled != null)
+                    pooled.ReturnToPool();
+                else
+                    unit.gameObject.SetActive(false);
+            }
+        }
+    }
+
     #region - TEST FIELD -
     [SerializeField] GameObject enemyPF;
     [SerializeField] int startNode = 0;
