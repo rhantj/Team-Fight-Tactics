@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class ChessStateBase : MonoBehaviour
@@ -39,17 +40,20 @@ public abstract class ChessStateBase : MonoBehaviour
     public int MaxHP =>
         (baseData != null ? baseData.maxHP : 0)
         + bonusMaxHP_Synergy
-        + bonusMaxHP_Item;
+        + bonusMaxHP_Item
+        + bonusMaxHP_Buff;
 
     public int AttackDamage =>
         (baseData != null ? baseData.attackDamage : 0)
         + bonusAttack_Synergy
-        + bonusAttack_Item;
+        + bonusAttack_Item
+        + bonusAttack_Buff;
 
     public int Armor =>
         (baseData != null ? baseData.armor : 0)
         + bonusArmor_Synergy
-        + bonusArmor_Item;
+        + bonusArmor_Item
+        + bonusArmor_Buff;
     //=====================================================
     //                  전투 이벤트 addtoKwon
     //=====================================================
@@ -215,7 +219,8 @@ public abstract class ChessStateBase : MonoBehaviour
         if (IsDead) return;
         if (attacker != null) lastAttacker = attacker;
 
-        int finalDamage = Mathf.Max(1, amount - Armor);
+        float damageMultiplier = 100f / (100f + Armor);
+        int finalDamage = Mathf.Max(1, Mathf.RoundToInt(amount * damageMultiplier));
 
         if (currentShield > 0)
         {
@@ -399,11 +404,14 @@ public abstract class ChessStateBase : MonoBehaviour
     // 글로벌 버프 적용
     public void GlobalBuffApply(float multiplier)
     {
-        bonusAttack_Buff = AttackDamage + (int)(AttackDamage * (multiplier - 1f));
-        bonusArmor_Buff = Armor + (int)(Armor * (multiplier - 1f));
-        bonusMaxHP_Buff = MaxHP + (int)(MaxHP * (multiplier - 1f));
+        if (baseData.traits.Contains(TraitType.Melee))
+        {
+            bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
+            bonusArmor_Buff = (int)(Armor * (multiplier - 1f));
+            bonusMaxHP_Buff = (int)(MaxHP * (multiplier - 1f));
 
-        CurrentHP = Mathf.RoundToInt(CurrentHP * multiplier);
+            CurrentHP = MaxHP;
+        }
     }
 
     //=====================================================
@@ -421,11 +429,12 @@ public abstract class ChessStateBase : MonoBehaviour
     // 글로벌 버프 초기화
     public void ClearAllBuffs()
     {
-        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+        SetAttackSpeedMultiplier(1f);
         bonusAttack_Buff = 0;
         bonusArmor_Buff = 0;
         bonusMaxHP_Buff = 0;
-        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+
+        CurrentHP = MaxHP;
     }
 
     //=====================================================

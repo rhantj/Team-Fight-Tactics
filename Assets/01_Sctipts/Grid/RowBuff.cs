@@ -7,7 +7,7 @@ public class RowBuff : MonoBehaviour, IBuffApply
     public void ApplyBuffs(FieldGrid field, float buffMultiplier)
     {
         var chess = field.GetRowUnits(rowY);
-        if(chess.Count == 0) return;
+        if(chess.Count <= 0) return;
 
         foreach (var piece in chess)
         {
