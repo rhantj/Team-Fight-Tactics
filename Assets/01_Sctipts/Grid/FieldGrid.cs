@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Search;
 
 public class FieldGrid : GridDivideBase
 {
@@ -59,7 +60,8 @@ public class FieldGrid : GridDivideBase
         for (int x = 0; x < gridXCnt; ++x)
         {
             var node = fieldGrid[y, x];
-            tmp.Add(node.ChessPiece);
+            if (node.ChessPiece != null)
+                tmp.Add(node.ChessPiece);
         }
 
         return tmp;
