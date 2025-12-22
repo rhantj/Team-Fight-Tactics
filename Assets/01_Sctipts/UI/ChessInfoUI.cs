@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// 선택된 기물(Chess)의 상세 정보를 화면에 표시하는 UI 매니저.
@@ -58,7 +59,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [SerializeField] private TraitIconDatabase traitIconDB;
 
     [Header("Item Slots (Info UI)")]
-    [SerializeField] private Image[] itemSlotImages; // 하얀 네모 3칸
+    [SerializeField] private ChessInfoItemSlot[] itemSlots;
 
     [Header("Item Slot Sprites")]
     [SerializeField] private Sprite emptyItemSlotSprite;
@@ -272,50 +273,40 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     }
 
     /// <summary>
-    /// 기물 프리팹 하위의 World Space ItemSlot UI를 탐색하여
-    /// 장착된 아이템 아이콘을 정보 UI 슬롯에 반영한다.
-    /// 빈 슬롯은 항상 표시되며, 아이콘만 유무에 따라 갱신된다.
+    /// 기물에 장착된 아이템 데이터를 기준으로
+    /// 기물 정보 UI의 아이템 슬롯을 갱신한다.
+    /// 
+    /// - ChessItemHandler의 EquippedItems를 기준으로 동작
+    /// - 슬롯은 항상 존재하며, 아이템 유무만 갱신
+    /// - 마우스 오버 / 우클릭 툴팁은 ChessInfoItemSlot에서 처리
     /// </summary>
     private void SyncItemSlotsFromWorldUI(ChessStateBase chess)
     {
         Debug.Log("[ChessInfoUI] SyncItemSlotsFromWorldUI CALLED");
 
-        if (chess == null || itemSlotImages == null)
+        if (chess == null || itemSlots == null)
             return;
 
-        // 슬롯은 항상 보이게 초기화 (빈 슬롯 상태)
-        for (int i = 0; i < itemSlotImages.Length; i++)
+        // 1. 모든 슬롯 초기화
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            itemSlotImages[i].enabled = true;   // 슬롯은 항상 표시
-            itemSlotImages[i].sprite = emptyItemSlotSprite;    // 아이콘 빈 슬롯이미지로 교체
+            itemSlots[i].Clear();
         }
 
-        // ChessStatusUI 탐색
-        var statusUI = chess.GetComponentInChildren<ChessStatusUI>();
-        if (statusUI == null)
+        // 2. ChessItemHandler에서 실제 장착 아이템 데이터 가져오기
+        ChessItemHandler itemHandler = chess.GetComponent<ChessItemHandler>();
+        if (itemHandler == null)
             return;
 
-        // ItemSlotGroup 탐색
-        Transform itemSlotGroup =
-            statusUI.transform.Find("Canvas(World Space)/ItemSlotGroup");
+        IReadOnlyList<ItemData> equippedItems = itemHandler.EquippedItems;
 
-        if (itemSlotGroup == null)
-            return;
-
-        // Slot1 ~ Slot3 순서대로 아이템 아이콘 반영
-        for (int i = 0; i < itemSlotImages.Length; i++)
+        // 3. 장착된 아이템을 슬롯에 순서대로 반영
+        for (int i = 0; i < equippedItems.Count && i < itemSlots.Length; i++)
         {
-            Transform slot = itemSlotGroup.Find($"Slot{i + 1}");
-            if (slot == null || !slot.gameObject.activeSelf)
-                continue;
-
-            Image worldSlotImage = slot.GetComponent<Image>();
-            if (worldSlotImage == null || worldSlotImage.sprite == null)
-                continue;
-
-            itemSlotImages[i].sprite = worldSlotImage.sprite;
+            itemSlots[i].SetItem(equippedItems[i]);
         }
     }
+
 
     public void RefreshItemUIOnly()
     {
