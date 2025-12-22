@@ -43,9 +43,13 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Cost UI Data")]
     [SerializeField] private CostUIData costUIData;
 
-    [Header("HP / Mana UI")]
-    [SerializeField] private Image hpFillImage;
+    [Header("HP / Shield UI")]
+    [SerializeField] private RectTransform hpFill;          // 실제 체력(초록색) 바
+    [SerializeField] private RectTransform shieldFill;      // 실드(하얀색) 바
+    [SerializeField] private float hpBarMaxWidth = 200f;    // HPBar 전체 길이 (Inspector에서 설정)
     [SerializeField] private TMP_Text hpText;
+
+    [Header("Mana UI")]
     [SerializeField] private Image manaFillImage;
     [SerializeField] private TMP_Text manaText;
 
@@ -160,16 +164,48 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
 
     /// <summary>
     /// 현재 기물의 체력 정보를 UI에 반영한다.
+    ///
+    /// - 실드가 없는 경우: 일반적인 HP Bar 표시
+    /// - 실드가 있는 경우:
+    ///   * 초록색 = 실제 HP
+    ///   * 하얀색 = 실드
+    ///   * 실드는 항상 오른쪽부터 차오르며,
+    ///     HP + Shield 합이 MaxHP를 초과하면 HP 영역을 덮어쓴다.
     /// </summary>
     private void UpdateHPUI()
     {
         if (currentChess == null) return;
 
         int currentHP = currentChess.CurrentHP;
+        int currentShield = currentChess.CurrentShield;
         int maxHP = currentChess.MaxHP;
 
-        hpFillImage.fillAmount = (float)currentHP / maxHP;
-        hpText.text = $"{currentHP} / {maxHP}";
+        // 텍스트는 HP + Shield 합산값으로 표시
+        hpText.text = $"{currentHP + currentShield} / {maxHP}";
+
+        // 실드로 인해 실제로 표현 가능한 HP 영역 계산
+        int visibleHP = Mathf.Max(0, maxHP - currentShield);
+        int hpBarValue = Mathf.Min(currentHP, visibleHP);
+
+        float hpWidth = hpBarMaxWidth * ((float)hpBarValue / maxHP);
+        float shieldWidth = hpBarMaxWidth * Mathf.Min(1f, (float)currentShield / maxHP);
+
+        // HP Bar (항상 왼쪽 기준)
+        hpFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, hpWidth);
+        hpFill.anchoredPosition = Vector2.zero;
+
+        // Shield Bar (항상 오른쪽 기준)
+        if (currentShield > 0)
+        {
+            shieldFill.gameObject.SetActive(true);
+            shieldFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, shieldWidth);
+            shieldFill.anchoredPosition =
+                new Vector2(hpBarMaxWidth - shieldWidth, 0f);
+        }
+        else
+        {
+            shieldFill.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

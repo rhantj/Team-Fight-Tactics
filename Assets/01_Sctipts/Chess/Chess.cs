@@ -142,8 +142,6 @@ public class Chess : ChessStateBase
     {
         if (overrideState)
         {
-            Debug.LogWarning($"[{gameObject.name}] overrideState=true, Update 중단 (StackTrace 확인)");
-            Debug.LogWarning(System.Environment.StackTrace);
             return;
         }
         if (IsDead) return;
