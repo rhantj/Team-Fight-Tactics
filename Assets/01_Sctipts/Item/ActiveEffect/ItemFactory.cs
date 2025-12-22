@@ -12,6 +12,10 @@ public static class ItemFactory
             {
                 return new FimbulWinter(data);
             }
+            if (data.itemName == "SteraksGage")
+            {
+                return new SteraksGage(data);
+            }
         }
 
         return new PassiveItem(data);

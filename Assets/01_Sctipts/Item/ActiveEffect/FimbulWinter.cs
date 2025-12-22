@@ -40,10 +40,6 @@ public class FimbulWinter : ItemBase
     private void HandleBattleStart()
     {
         owner.GainMana(5);
-
-        Debug.Log(
-       $"[Fimbulwinter] BattleStart | {owner.name} 마나 +5 (현재 마나: {owner.CurrentMana})"
-   );
     }
     // =========================
     // 효과 2 : HP 40% 이하 최초 도달 시
