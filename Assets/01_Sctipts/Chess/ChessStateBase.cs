@@ -381,14 +381,19 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void SetItemBonusStats(int attack, int armor, int hp)
     {
-        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
-
+        // 1. 아이템 보너스 적용
         bonusAttack_Item = attack;
         bonusArmor_Item = armor;
         bonusMaxHP_Item = hp;
 
-        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        // 2. 아이템이 주는 HP만큼 즉시 회복
+        CurrentHP += hp;
+
+        // 3. MaxHP 초과 방지
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
     }
+
 
     // 12-22 ko
     // 글로벌 버프 적용
