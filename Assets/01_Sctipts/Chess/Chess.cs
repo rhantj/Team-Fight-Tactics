@@ -246,6 +246,9 @@ public class Chess : ChessStateBase
         // 데미지 / 온힛 / 마나 (기존 유지)
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
+
+        NotifyBasicAttackHit();
+
         InvokeOnHitEffects(currentTarget);
         GainMana(manaOnHit);
 
