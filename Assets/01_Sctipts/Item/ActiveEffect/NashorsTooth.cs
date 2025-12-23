@@ -14,14 +14,14 @@ public class NashorsTooth : ItemBase
     {
         base.OnEquip(chess);
 
-        //owner.OnBasicAttackHit += HandleBasicAttackHit;
+        owner.OnBasicAttackHit += HandleBasicAttackHit;
     }
 
     public override void OnUnequip()
     {
         if(owner != null)
         {
-            //owner.OnBasicAttackHit -= HandleBasicAttackHit;
+            owner.OnBasicAttackHit -= HandleBasicAttackHit;
         }
         base.OnUnequip();
     }
