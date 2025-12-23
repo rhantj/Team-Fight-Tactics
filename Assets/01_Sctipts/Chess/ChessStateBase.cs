@@ -406,11 +406,15 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         if (baseData.traits.Contains(TraitType.Melee))
         {
-            bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
-            bonusArmor_Buff = (int)(Armor * (multiplier - 1f));
-            bonusMaxHP_Buff = (int)(MaxHP * (multiplier - 1f));
+            int atk = (int)(AttackDamage * (multiplier - 1f));
+            int armor = (int)(Armor * (multiplier - 1f));
+            int hp = (int)(MaxHP * (multiplier - 1f));
 
-            CurrentHP = MaxHP;
+            bonusAttack_Buff = atk;
+            bonusArmor_Buff = armor;
+            bonusMaxHP_Buff = hp;
+
+            CurrentHP += hp;
         }
     }
 
