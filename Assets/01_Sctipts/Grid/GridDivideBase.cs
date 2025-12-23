@@ -54,7 +54,8 @@ public class GridDivideBase : MonoBehaviour
 
     public void Init()
     {
-        gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
+        if (gridWorldSize == Vector2.zero)
+            gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
         nodeDiameter = nodeRadius * 2;
         gridXCnt = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridYCnt = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);

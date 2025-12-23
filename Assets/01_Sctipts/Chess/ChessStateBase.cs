@@ -10,6 +10,7 @@ public abstract class ChessStateBase : MonoBehaviour
     [Header("ÅÛÇÃ¸´")]
     [SerializeField]
     protected ChessStatData baseData;
+    protected SkillManager skillManager;
     public ChessStatData BaseData => baseData;
 
     public int CurrentHP { get; protected set; }
@@ -158,6 +159,7 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         stateMachine = GetComponent<StateMachine>();
+        skillManager = GetComponent<SkillManager>();
         InitFromSO();
     }
 
@@ -293,9 +295,8 @@ public abstract class ChessStateBase : MonoBehaviour
 
     private bool TryCastSkillInternal()
     {
-        var manager = GetComponent<SkillManager>();
-        if (manager != null)
-            return manager.TryCastSkill();
+        if (skillManager != null)
+            return skillManager.TryCastSkill();
 
         if (HasAnimParam("UseSkill"))
         {
