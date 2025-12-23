@@ -65,25 +65,13 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         panel.SetActive(false);
     }
 
-    //=====================================================
-    //                EVENT BINDING
-    //=====================================================
-    private void OnEnable()
+    private void Update()
     {
+        // 마나는 이벤트가 없으므로, 패널이 열려 있을 때만 실시간 동기화
+        if (!panel.activeSelf) return;
         if (currentChess == null) return;
 
-        currentChess.OnHPChanged += OnHPChanged;
-        currentChess.OnBattleStart += RefreshAllUI;
-        currentChess.OnStatChanged += RefreshAllUI;
-    }
-
-    private void OnDisable()
-    {
-        if (currentChess == null) return;
-
-        currentChess.OnHPChanged -= OnHPChanged;
-        currentChess.OnBattleStart -= RefreshAllUI;
-        currentChess.OnStatChanged -= RefreshAllUI;
+        UpdateManaUI();
     }
 
     //=====================================================
@@ -97,7 +85,10 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
             return;
         }
 
+        UnbindEvents();
         currentChess = chess;
+        BindEvents();
+
         ChessStatData data = chess.BaseData;
 
         iconImage.sprite = data.icon;
@@ -117,16 +108,38 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
         CreateSynergyUI(chess);
         SyncItemSlotsFromWorldUI(chess);
 
-        panel.SetActive(true); // 여기서 OnEnable 호출됨
+        panel.SetActive(true);
         RefreshAllUI();
     }
 
     public void Hide()
     {
-        panel.SetActive(false); // 여기서 OnDisable 호출됨
+        UnbindEvents();
+        panel.SetActive(false);
         currentChess = null;
         ClearSynergyUI();
         SkillTooltipUI.Instance?.Hide();
+    }
+
+    //=====================================================
+    //                EVENT BINDING
+    //=====================================================
+    private void BindEvents()
+    {
+        if (currentChess == null) return;
+
+        currentChess.OnHPChanged += OnHPChanged;
+        currentChess.OnBattleStart += RefreshAllUI;
+        currentChess.OnStatChanged += RefreshAllUI;
+    }
+
+    private void UnbindEvents()
+    {
+        if (currentChess == null) return;
+
+        currentChess.OnHPChanged -= OnHPChanged;
+        currentChess.OnBattleStart -= RefreshAllUI;
+        currentChess.OnStatChanged -= RefreshAllUI;
     }
 
     //=====================================================
@@ -170,19 +183,9 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
 
         shieldFill.gameObject.SetActive(true);
 
-        if (hp + shield <= max)
-        {
-            float shieldWidth = hpBarMaxWidth * ((float)shield / max);
-            shieldFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, shieldWidth);
-            shieldFill.anchoredPosition = new Vector2(hpWidth, 0f);
-        }
-        else
-        {
-            float total = hp + shield;
-            float shieldWidth = hpBarMaxWidth * (shield / total);
-            shieldFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, shieldWidth);
-            shieldFill.anchoredPosition = new Vector2(hpBarMaxWidth - shieldWidth, 0f);
-        }
+        float shieldWidth = hpBarMaxWidth * ((float)shield / max);
+        shieldFill.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, shieldWidth);
+        shieldFill.anchoredPosition = new Vector2(hpWidth, 0f);
     }
 
     private void UpdateManaUI()
