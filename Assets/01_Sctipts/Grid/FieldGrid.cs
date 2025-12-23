@@ -75,7 +75,8 @@ public class FieldGrid : GridDivideBase
         for (int y = 0; y < gridYCnt; ++y)
         {
             var node = fieldGrid[y, x];
-            tmp.Add(node.ChessPiece);
+            if (node.ChessPiece != null)
+                tmp.Add(node.ChessPiece);
         }
 
         return tmp;
