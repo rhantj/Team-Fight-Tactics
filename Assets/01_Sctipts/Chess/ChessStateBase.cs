@@ -320,6 +320,12 @@ public abstract class ChessStateBase : MonoBehaviour
         if (!IsDead || deathHandled) return;
         deathHandled = true;
 
+        var statusUI = GetComponentInChildren<ChessStatusUI>();
+        if (statusUI != null)
+        {
+            statusUI.ForceRefreshHP();
+        }
+
         if (lastAttacker != null && lastAttacker != (this as Chess))
         {
             var effects = lastAttacker.GetComponents<IOnKillEffect>();
