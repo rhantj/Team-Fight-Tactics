@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -31,10 +32,13 @@ public class GridDivideBase : MonoBehaviour
         InitUnitLimits();
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    }
 
+    private void OnDrawGizmos()
+    {
         if (fieldGrid == null) return;
 #if UNITY_EDITOR
         foreach (var n in fieldGrid)

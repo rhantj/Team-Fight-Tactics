@@ -131,9 +131,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 887830559228788258, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 887830559228788258, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 887830559228788258, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2017294418664178539, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_Name
       value: WonPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185623794008321502, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185623794008321502, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185623794008321502, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396875468097877728, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396875468097877728, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2396875468097877728, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2443175726672885907, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_AnchorMax.y
@@ -199,6 +235,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4219078461864785182, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219078461864785182, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4219078461864785182, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5073281905688968296, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -226,6 +274,18 @@ PrefabInstance:
     - target: {fileID: 7718864701219279507, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_RaycastTarget
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778666156709711853, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778666156709711853, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778666156709711853, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9193204427710918084, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_AnchorMax.y
@@ -278,7 +338,7 @@ Transform:
   m_GameObject: {fileID: 350192146}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.427958, y: 16.622496, z: -25.378729}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305,7 +365,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350192146}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c6f2ce3b2c910446b5283adeafaf5d4, type: 3}
   m_Name: 
