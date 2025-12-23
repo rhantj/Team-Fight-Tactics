@@ -11,6 +11,13 @@ public class GlobalLineBuffSystem : MonoBehaviour
 
     public BuffLine CurrentType { get; private set; } = BuffLine.Row;
 
+    private void Start()
+    {
+        AddRequest(BuffLine.Row, 0, 1.3f);
+        AddRequest(BuffLine.Row, 3, 1.3f);
+        ApplyRequestNow();
+    }
+
     private void OnEnable()
     {
         if(field)
@@ -56,35 +63,28 @@ public class GlobalLineBuffSystem : MonoBehaviour
                 field.GetColumnUnits(request.idx);
 
             foreach(var chess in piecies)
-            {
                 chess.GlobalBuffApply(request.multiplier);
-            }
         }
     }
 
     public void SetTypeToRow() => CurrentType = BuffLine.Row;
     public void SetTypeToColumn() => CurrentType = BuffLine.Column;
 
-    public void AddBuffByNode(GridNode node)
+    public void AddRequest(BuffLine type, int idx, float multiplier = -1f)
     {
-        if (node == null) return;
+        if (multiplier <= 0f)
+            multiplier = defaultMultiplier;
+        selectedBuffs.Add(new BuffRequest(type, idx, multiplier));
+    }
 
-        int index = (CurrentType == BuffLine.Row) ? node.Y : node.X;
-        AddOrToggle(CurrentType, index, defaultMultiplier);
+    public void ClearRequests()
+    {
+        selectedBuffs.Clear();
         dirty = true;
     }
 
-    public void AddOrToggle(BuffLine type, int index, float multiplier)
+    public void ApplyRequestNow()
     {
-        // 같은 라인 다시 누르면 토글(제거)되게
-        for (int i = 0; i < selectedBuffs.Count; i++)
-        {
-            if (selectedBuffs[i].type == type && selectedBuffs[i].idx == index)
-            {
-                selectedBuffs.RemoveAt(i);
-                return;
-            }
-        }
-        selectedBuffs.Add(new BuffRequest(type, index, multiplier));
+        dirty = true;
     }
 }
