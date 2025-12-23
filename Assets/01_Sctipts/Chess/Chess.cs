@@ -149,7 +149,7 @@ public class Chess : ChessStateBase
 
         if (!isOnField) return; //필드에 없던애들은 못싸우게.
 
-        if (currentTarget != null && !currentTarget.IsDead)
+        if (currentTarget != null && !currentTarget.IsDead && currentTarget.IsTargetable)
         {
             FaceTarget(currentTarget.transform); //항상 현재 타겟을 바라보게 회전
 
@@ -177,6 +177,10 @@ public class Chess : ChessStateBase
                 attackTimer = attackInterval;    //다음 공격을 위해 쿨타임 초기화
                 AttackOnce();
             }
+        }
+        else
+        {
+            currentTarget = null;
         }
     }
 

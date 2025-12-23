@@ -17,6 +17,8 @@ public abstract class ChessStateBase : MonoBehaviour
     public int StarLevel { get; protected set; }
     public bool IsDead => CurrentHP <= 0;
 
+    public bool IsTargetable { get; private set; } = true;
+
     //=====================================================
     //          보너스 스탯 (시너지 / 아이템 분리)
     //=====================================================
@@ -478,5 +480,10 @@ public abstract class ChessStateBase : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SetTargetable(bool value)
+    {
+        IsTargetable = value;
     }
 }
