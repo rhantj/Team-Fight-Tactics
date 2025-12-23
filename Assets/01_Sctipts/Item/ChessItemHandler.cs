@@ -75,22 +75,33 @@ public class ChessItemHandler : MonoBehaviour
     // 장착된 아이템들의 스탯을 다시 계산
     private void RecalculateItemStats()
     {
-        // 기물 참조가 없으면 처리하지 않음
         if (chess == null) return;
 
         int bonusHp = 0;
         int bonusAtk = 0;
         int bonusArmor = 0;
+        float attackSpeedMultiplier = 1f;
 
-        // 장착된 모든 아이템의 스탯을 합산
         foreach (var item in equippedItems)
         {
             bonusHp += item.addHp;
             bonusAtk += item.addAttack;
             bonusArmor += item.addDefense;
+
+            // 공속 누적 (퍼센트 → 배수)
+            if (item.addAttackSpeed != 0)
+            {
+                attackSpeedMultiplier *= 1f + item.addAttackSpeed * 0.01f;
+            }
         }
 
-        // 합산된 아이템 보너스 스탯을 기물에 전달
-        chess.SetItemBonusStats(bonusAtk, bonusArmor, bonusHp);
+        // 공속까지 함께 전달
+        chess.SetItemBonusStats(
+            bonusAtk,
+            bonusArmor,
+            bonusHp,
+            attackSpeedMultiplier
+        );
     }
+
 }
