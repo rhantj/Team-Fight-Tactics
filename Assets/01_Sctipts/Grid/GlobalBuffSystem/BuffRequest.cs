@@ -4,7 +4,6 @@ public enum BuffLine
     Column
 }
 
-[System.Serializable]
 public struct BuffRequest
 {
     public BuffLine type;
