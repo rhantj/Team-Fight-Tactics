@@ -24,6 +24,14 @@ public static class ItemFactory
             {
                 return new NashorsTooth(data);
             }
+            if (data.itemName == "SpearOfShojin")
+            {
+                return new SpearOfShojin(data);
+            }
+            if (data.itemName == "GiantSlayer")
+            {
+                return new GiantSlayer(data);
+            }
         }
 
         return new PassiveItem(data);

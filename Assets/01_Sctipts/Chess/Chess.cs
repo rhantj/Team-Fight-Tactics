@@ -38,6 +38,7 @@ public class Chess : ChessStateBase
     private const string AtkSpeedParam = "AtkAnimSpeed";
     [SerializeField] private float atkSpeedBase = 1f;
 
+    public ChessStateBase LastAttackTarget { get; private set; } //마지막공격 대상 추적 필드
     //=====================================================
     //                  초기화
     //=====================================================
@@ -246,7 +247,9 @@ public class Chess : ChessStateBase
         // 데미지 / 온힛 / 마나 (기존 유지)
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
-
+        //공격 대상 캐싱
+        LastAttackTarget = currentTarget;
+        //기본공격 적중 이벤트
         NotifyBasicAttackHit();
 
         InvokeOnHitEffects(currentTarget);
