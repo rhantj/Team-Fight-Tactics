@@ -230,8 +230,12 @@ public class Chess : ChessStateBase
     {
         if (currentTarget == null || currentTarget.IsDead) return;
         if (Vector3.Distance(transform.position, currentTarget.transform.position) > AttackRange) return;
-
-        animator?.ResetTrigger("Attack");
+        Debug.Log($"[ATK] {name} t={Time.time:F2} interval={attackInterval:F3} AS={AttackSpeed:F2}");
+        if (animator != null)
+        {
+            var st = animator.GetCurrentAnimatorStateInfo(0);
+        }
+        //animator?.ResetTrigger("Attack");
         animator?.SetTrigger("Attack");
 
         int damage = GetAttackDamage();
