@@ -55,6 +55,8 @@ public class ShopSlot : MonoBehaviour
         shopManager = manager;
         CurrentData = data;
 
+        bgImage.enabled = true;
+
         // 시너지 아이콘 먼저 초기화
         ClearSynergyIcons();
 
@@ -85,11 +87,17 @@ public class ShopSlot : MonoBehaviour
             Color bg = info.backgroundColor;
             bg.a = 1f;
             bgImage.color = bg;
+
+            // ShopSlotHoverEffect 기준색 캡처
+            bgImage.GetComponent<ShopSlotHoverEffect>()?.CaptureBaseColor();
         }
         else
         {
             bgImage.color = Color.white;
+
+            bgImage.GetComponent<ShopSlotHoverEffect>()?.CaptureBaseColor();
         }
+
 
         // ======================
         //   시너지 아이콘 생성
@@ -132,6 +140,13 @@ public class ShopSlot : MonoBehaviour
 
         // 배경 투명화
         bgImage.color = new Color(1, 1, 1, 0);
+
+        var button = GetComponent<Button>();
+        if (button != null)
+        {
+            button.interactable = false;
+        }
+        bgImage.enabled = false;
 
         // 시너지 아이콘 제거
         ClearSynergyIcons();
