@@ -20,6 +20,10 @@ public static class ItemFactory
             {
                 return new GuardianAngel(data);
             }
+            if (data.itemName == "NashorsTooth")
+            {
+                return new NashorsTooth(data);
+            }
         }
 
         return new PassiveItem(data);
