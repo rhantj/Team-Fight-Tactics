@@ -19,6 +19,10 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public bool IsTargetable { get; private set; } = true;
 
+    public float BaseAttackSpeed => baseData.attackSpeed;
+    public float FinalAttackSpeed => baseData.attackSpeed * attackSpeedMultiplier;
+
+
     //=====================================================
     //          보너스 스탯 (시너지 / 아이템 분리)
     //=====================================================
@@ -364,6 +368,9 @@ public abstract class ChessStateBase : MonoBehaviour
         {
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
         }
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
+
     }
 
     // ================================
@@ -376,6 +383,11 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttackSpeed_Synergy = Mathf.Max(0.1f, multiplier);
         RecalculateAttackSpeed();
         OnStatChanged?.Invoke();
+
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+        {
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
+        }
     }
 
 

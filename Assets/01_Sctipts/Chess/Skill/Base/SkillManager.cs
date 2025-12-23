@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
+
+    private const string SkillSpeedParam = "SkillAnimSpeed"; 
+    [SerializeField] private float skillSpeedBase = 1f;
+
     private Chess chess;
     private Animator animator;
     private StateMachine sm;
@@ -50,6 +54,11 @@ public class SkillManager : MonoBehaviour
         if (animator != null)
             animator.ResetTrigger("Attack");
 
+
+        ApplySkillAnimSpeed();
+         
+
+
         if (HasAnimParam("UseSkill"))
             animator.SetTrigger("UseSkill");
 
@@ -82,6 +91,8 @@ public class SkillManager : MonoBehaviour
     {
         if (!isRepeatCasting || currentSkill == null)
         {
+            if (animator != null && HasAnimParam("SkillAnimSpeed"))
+                animator.SetFloat("SkillAnimSpeed", 1f);
             //종료
             if (chess != null) chess.overrideState = false;
             sm?.SetIdle();
@@ -93,6 +104,8 @@ public class SkillManager : MonoBehaviour
 
         if (remainingRepeats > 0)
         {
+            ApplySkillAnimSpeed();
+
             //다음 사이클 다시 트리거
             if (animator != null)
                 animator.SetTrigger("UseSkill");
@@ -105,9 +118,31 @@ public class SkillManager : MonoBehaviour
         isRepeatCasting = false;
         currentSkill = null;
 
+        if (animator != null && HasAnimParam("SkillAnimSpeed"))
+            animator.SetFloat("SkillAnimSpeed", 1f);
+
         if (chess != null) chess.overrideState = false;
         sm?.SetIdle();
         IsCasting = false;
+    }
+
+    private void ApplySkillAnimSpeed()
+    {
+        if (animator == null) return;
+        if (!HasAnimParam("SkillAnimSpeed")) return;
+
+        float speed = 1f;
+
+        if (chess != null)
+        {
+            float denom = Mathf.Max(0.01f, skillSpeedBase);
+            speed = chess.FinalAttackSpeed / denom; 
+        }
+
+        animator.SetFloat("SkillAnimSpeed", speed);
+
+
+
     }
 
 }
