@@ -33,7 +33,7 @@ public class GarenSkill_E : SkillBase
     {
         repeatCount = 3;       
         repeatInterval = 0f;
-        //endByAnimEvent = false;
+        endByAnimEvent = false;
         //blockUpdateWhileCasting = false;
     }
     public override IEnumerator Execute(ChessStateBase caster)
