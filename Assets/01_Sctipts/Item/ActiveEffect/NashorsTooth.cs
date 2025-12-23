@@ -10,21 +10,21 @@ public class NashorsTooth : ItemBase
     {
     }
 
-    public override void OnEquip(ChessStateBase chess)
-    {
-        base.OnEquip(chess);
+    //public override void OnEquip(ChessStateBase chess)
+    //{
+    //    base.OnEquip(chess);
 
-        owner.OnBasicAttackHit += HandleBasicAttackHit;
-    }
+    //    owner.OnBasicAttackHit += HandleBasicAttackHit;
+    //}
 
-    public override void OnUnequip()
-    {
-        if(owner != null)
-        {
-            owner.OnBasicAttackHit -= HandleBasicAttackHit;
-        }
-        base.OnUnequip();
-    }
+    //public override void OnUnequip()
+    //{
+    //    if(owner != null)
+    //    {
+    //        owner.OnBasicAttackHit -= HandleBasicAttackHit;
+    //    }
+    //    base.OnUnequip();
+    //}
 
     //기본공격 적중 시
     private void HandleBasicAttackHit()
