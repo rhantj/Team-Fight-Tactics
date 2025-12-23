@@ -70,7 +70,7 @@ public abstract class ChessStateBase : MonoBehaviour
     public event System.Action OnBattleStart;
     public event System.Action<int, int> OnHPChanged;
     public event System.Action OnStatChanged;
-
+    public event System.Action OnBasicAttackHit;
     //=====================================================
     //                  전투 / 마나 설정
     //=====================================================
@@ -513,5 +513,11 @@ public abstract class ChessStateBase : MonoBehaviour
     public void SetTargetable(bool value)
     {
         IsTargetable = value;
+    }
+
+    //공격 적중 알림용 메서드
+    protected void NotifyBasicAttackHit()
+    {
+        OnBasicAttackHit?.Invoke();
     }
 }
