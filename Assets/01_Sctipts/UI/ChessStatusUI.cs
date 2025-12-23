@@ -48,7 +48,7 @@ public class ChessStatusUI : MonoBehaviour
     {
         if (targetChess == null) return;
 
-        int hp = targetChess.CurrentHP;
+        int hp = Mathf.Max(0, targetChess.CurrentHP);
         int shield = targetChess.CurrentShield;
         int maxHp = targetChess.MaxHP;
         if (maxHp <= 0) return;
@@ -137,4 +137,11 @@ public class ChessStatusUI : MonoBehaviour
         UpdateMana();
         UpdateStarFrame();
     }
+
+    // 강제 HP 갱신용
+    public void ForceRefreshHP()
+    {
+        UpdateHP();
+    }
+
 }
