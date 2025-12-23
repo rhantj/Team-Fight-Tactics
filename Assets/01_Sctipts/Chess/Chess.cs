@@ -33,7 +33,10 @@ public class Chess : ChessStateBase
     public float MoveSpeed => (baseData != null) ? baseData.moveSpeed : 0f;
     public Chess CurrentTarget => currentTarget; //바이 E 스킬때문에 넣었어요 12.17 add Kim
     private bool isOnField = false; // 필드에 배치되어 있는지 여부  // 12.17 add Kim
-
+    private float lastAttackAnimTime = -999f;
+    [SerializeField] private float attackAnimMinInterval = 0.15f;
+    private const string AtkSpeedParam = "AtkAnimSpeed";
+    [SerializeField] private float atkSpeedBase = 1f;
 
     //=====================================================
     //                  초기화
@@ -113,10 +116,11 @@ public class Chess : ChessStateBase
 
         if (animator != null)
         {
-            animator.ResetTrigger("Attack");
-            animator.ResetTrigger("UseSkill");
-            animator.ResetTrigger("ToIdle");
+            if (HasAnimParam("Attack")) animator.ResetTrigger("Attack");
+            if (HasAnimParam("UseSkill")) animator.ResetTrigger("UseSkill");
+            if (HasAnimParam("ToIdle")) animator.ResetTrigger("ToIdle");
         }
+
 
         ////Battle 상태가 필요한 유닛만 전환시킵니다
         //if (baseData != null && baseData.useBattleState)
@@ -148,7 +152,7 @@ public class Chess : ChessStateBase
         if (!isInBattlePhase) return;
 
         if (!isOnField) return; //필드에 없던애들은 못싸우게.
-
+        ApplyAtkAnimSpeed();
         if (currentTarget != null && !currentTarget.IsDead && currentTarget.IsTargetable)
         {
             FaceTarget(currentTarget.transform); //항상 현재 타겟을 바라보게 회전
@@ -203,7 +207,15 @@ public class Chess : ChessStateBase
     //=====================================================
     //                  전투 관련
     //=====================================================
+    private void ApplyAtkAnimSpeed()
+    {
+        if (animator == null) return;
+        if (!HasAnimParam(AtkSpeedParam)) return;
 
+        float denom = Mathf.Max(0.01f, atkSpeedBase);
+        float speed = AttackSpeed / denom;     
+        animator.SetFloat(AtkSpeedParam, speed);
+    }
     private void FaceTarget(Transform target)
     {
         if (target == null) return;
@@ -230,19 +242,33 @@ public class Chess : ChessStateBase
     {
         if (currentTarget == null || currentTarget.IsDead) return;
         if (Vector3.Distance(transform.position, currentTarget.transform.position) > AttackRange) return;
-        Debug.Log($"[ATK] {name} t={Time.time:F2} interval={attackInterval:F3} AS={AttackSpeed:F2}");
-        if (animator != null)
-        {
-            var st = animator.GetCurrentAnimatorStateInfo(0);
-        }
-        //animator?.ResetTrigger("Attack");
-        animator?.SetTrigger("Attack");
 
+        // 데미지 / 온힛 / 마나 (기존 유지)
         int damage = GetAttackDamage();
         currentTarget.TakeDamage(damage, this);
         InvokeOnHitEffects(currentTarget);
         GainMana(manaOnHit);
+
+        if (animator == null) return;
+
+        //트리거 난사금지
+        float minInterval = Mathf.Min(0.15f, attackInterval * 0.9f);
+        if (Time.time - lastAttackAnimTime < minInterval) return;
+
+        var st = animator.GetCurrentAnimatorStateInfo(0);
+        float n = st.normalizedTime % 1f;
+
+        bool isAttackState = st.IsName("Attack");
+
+        //히트 프레임 이후면 재트리거 허용 0.3~0.5동적 조절 ㄱㄱ
+        const float retriggerGate = 0.35f;
+        if (isAttackState && n < retriggerGate) return;
+
+        animator.ResetTrigger("Attack"); //없어도되긴함
+        animator.SetTrigger("Attack");
+        lastAttackAnimTime = Time.time;
     }
+
 
 
     private void InvokeOnHitEffects(Chess target)
