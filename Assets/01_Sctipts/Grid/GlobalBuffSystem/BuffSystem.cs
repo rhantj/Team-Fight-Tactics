@@ -49,7 +49,8 @@ public class BuffSystem : MonoBehaviour
             }
         }
 
-        foreach(var ba in buffApply)
-            ba.ApplyBuffs(field, buffMultiplier);
+        int n = 1;
+        foreach (var ba in buffApply)
+            ba.ApplyBuffs(field, n, buffMultiplier);
     }
 }

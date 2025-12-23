@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class RowBuff : MonoBehaviour, IBuffApply
 {
-    int rowY = 2;
-
-    public void ApplyBuffs(FieldGrid field, float buffMultiplier)
+    public void ApplyBuffs(FieldGrid field, int row, float buffMultiplier)
     {
-        var chess = field.GetRowUnits(rowY);
+        var chess = field.GetRowUnits(row);
         if(chess.Count <= 0) return;
 
         foreach (var piece in chess)

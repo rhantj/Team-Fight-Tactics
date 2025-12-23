@@ -418,7 +418,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void GlobalBuffApply(float multiplier)
     {
-        if (baseData.traits.Contains(TraitType.Melee))
+        if (true)//(baseData.traits.Contains(TraitType.Melee))
         {
             bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
             bonusArmor_Buff = (int)(Armor * (multiplier - 1f));
