@@ -36,6 +36,10 @@ public static class ItemFactory
             {
                 return new TitansResolve(data);
             }
+            if (data.itemName == "VoidStaff")
+            {
+                return new VoidStaff(data);
+            }
         }
 
         return new PassiveItem(data);

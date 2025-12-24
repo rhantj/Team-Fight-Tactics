@@ -423,6 +423,7 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttackSpeed_Synergy = attackSpeed;
 
         CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        
         RecalculateAttackSpeed();
         OnStatChanged?.Invoke();
     }

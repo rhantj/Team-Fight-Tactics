@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 8097198856566714150}
   - component: {fileID: 7451308519491676322}
   - component: {fileID: 3100225043495344127}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Baron_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,6 +524,11 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  approachRatio: 0.85
+  slotSpacing: 0.65
+  occupyRadius: 0.35
+  sideStep: 0.7
+  sideTries: 3
 --- !u!136 &3100225043495344127
 CapsuleCollider:
   m_ObjectHideFlags: 0
