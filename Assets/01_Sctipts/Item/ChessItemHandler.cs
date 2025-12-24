@@ -81,12 +81,16 @@ public class ChessItemHandler : MonoBehaviour
         int bonusAtk = 0;
         int bonusArmor = 0;
         float attackSpeedMultiplier = 1f;
+        float hpPercent = 0f; //워모그 용 
 
         foreach (var item in equippedItems)
         {
             bonusHp += item.addHp;
             bonusAtk += item.addAttack;
             bonusArmor += item.addDefense;
+
+            //HP%
+            hpPercent += item.addHpPercent;
 
             // 공속 누적 (퍼센트 → 배수)
             if (item.addAttackSpeed != 0)
@@ -102,6 +106,9 @@ public class ChessItemHandler : MonoBehaviour
             bonusHp,
             attackSpeedMultiplier
         );
+
+        //HP%는 별도로 전달
+        chess.SetItemHpPercentBonus(hpPercent);
     }
 
 }
