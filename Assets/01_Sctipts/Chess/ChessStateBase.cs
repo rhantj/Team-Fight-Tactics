@@ -560,4 +560,21 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         OnHPChanged?.Invoke(CurrentHP, MaxHP);
     }
+
+    //∞Ì¡§µ©
+    public void TakeTrueDamage(int damage)
+    {
+        if (IsDead) return;
+
+        CurrentHP -= damage;
+        if (CurrentHP < 0)
+            CurrentHP = 0;
+
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
 }

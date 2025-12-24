@@ -40,6 +40,10 @@ public static class ItemFactory
             {
                 return new VoidStaff(data);
             }
+            if (data.itemName == "RedBuffItem")
+            {
+                return new RedBuff(data);
+            }
         }
 
         return new PassiveItem(data);
