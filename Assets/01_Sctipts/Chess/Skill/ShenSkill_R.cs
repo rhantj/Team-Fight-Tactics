@@ -58,6 +58,9 @@ public class ShenSkill_R : SkillBase
 
         if (castVfxPrefab != null)
             Object.Instantiate(castVfxPrefab, shen.transform.position, Quaternion.identity);
+        
+        //쉔 R스킬 효과음 추가
+        SettingsUI.PlaySFX("Shen_R_Use",shen.transform.position,1f,1f);
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);

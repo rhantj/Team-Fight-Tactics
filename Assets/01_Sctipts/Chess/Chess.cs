@@ -98,8 +98,11 @@ public class Chess : ChessStateBase
         {
             case RoundState.Preparation:
                 overrideState = false;
-                if (!IsDead && animator != null && HasAnimParam("ToIdle"))
-                    animator.SetTrigger("ToIdle");
+                if (!IsDead && animator != null)
+                {
+                    if (HasAnimParam("ToIdle"))
+                        animator.SetTrigger("ToIdle");
+                }
                 ExitBattlePhase();
                 break;
 

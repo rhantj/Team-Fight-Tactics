@@ -38,6 +38,9 @@ public class SionSkill_W : SkillBase
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        //사이온 W스킬 효과음
+        SettingsUI.PlaySFX("Sion_WSkillSound",sion.transform.position,1f,1f);
+
         int shield = Mathf.Max(1, Mathf.RoundToInt(sion.MaxHP * shieldHpMultiplier) + shieldFlat);
         sion.AddShield(shield, shieldDuration);
 
