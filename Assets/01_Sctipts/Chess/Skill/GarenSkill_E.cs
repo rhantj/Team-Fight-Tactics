@@ -55,6 +55,9 @@ public class GarenSkill_E : SkillBase
             spinVfx = Object.Instantiate(spinVfxPrefab, garen.transform.position, Quaternion.identity, garen.transform);
         }
 
+        // 가렌 스킬 효과음 추가
+        SettingsUI.PlaySFX("Garen E", garen.transform.position, 1f, 1f);
+
         float elapsed = 0f;
         float tickTimer = 0f;
 

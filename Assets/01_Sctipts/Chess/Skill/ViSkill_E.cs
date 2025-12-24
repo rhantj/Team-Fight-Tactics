@@ -52,6 +52,9 @@ public class ViSkill_E : SkillBase
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        //바이 E스킬 사운드 추가
+        SettingsUI.PlaySFX("Vi_E_Hit",vi.transform.position,1f,1f);
+
         //방향
         Vector3 dir = (mainTarget.transform.position - vi.transform.position);
         dir.y = 0f;

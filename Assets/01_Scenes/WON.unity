@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 1010666459333077837, guid: c537f3fbc91c9ed41926e4110adda7ef, type: 3}
     - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
       propertyPath: preloadSFX.Array.size
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
       propertyPath: preloadSFX.Array.data[1]
@@ -317,6 +317,34 @@ PrefabInstance:
       propertyPath: preloadSFX.Array.data[11]
       value: 
       objectReference: {fileID: 8300000, guid: 6e083fd4c306ace4d83411afd710f08f, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: b0d90e087cf90cb40b381d261a876b0d, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9d66af548db6c494c893639539a86d0b, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[14]
+      value: 
+      objectReference: {fileID: 8300000, guid: a839884c418c97d4f93f88d0766596b1, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[15]
+      value: 
+      objectReference: {fileID: 8300000, guid: c94ed12f7aba8654081fad8ea21583a4, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[16]
+      value: 
+      objectReference: {fileID: 8300000, guid: aaff85923db555b4ab6e5879b0ad7206, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[17]
+      value: 
+      objectReference: {fileID: 8300000, guid: b7f71e554d2d56e45acf7be51d7920e7, type: 3}
+    - target: {fileID: 8407042129552980743, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
+      propertyPath: preloadSFX.Array.data[18]
+      value: 
+      objectReference: {fileID: 8300000, guid: b7f71e554d2d56e45acf7be51d7920e7, type: 3}
     - target: {fileID: 8572600295957526203, guid: 1b61916237c9b104f86895380bf99f36, type: 3}
       propertyPath: playerLevel
       value: 4
