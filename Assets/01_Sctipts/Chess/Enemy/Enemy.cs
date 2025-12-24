@@ -9,7 +9,8 @@ public class Enemy : Chess
     {
         base.Awake();
         team = Team.Enemy;
-
+        if (baseData != null)
+            baseData = Instantiate(baseData); //복사본쓰께끔햇어요
         statPerRound = CSVReader.BuildStatPerRound("Baron_Stats");
     }
     private void Start()
@@ -31,13 +32,16 @@ public class Enemy : Chess
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.Instance.OnRoundStarted += SetStats;
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnRoundStarted += SetStats;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnRoundStarted -= SetStats;
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnRoundStarted -= SetStats;
     }
+
 
     public void SetStats(int round)
     {
@@ -46,5 +50,7 @@ public class Enemy : Chess
         baseData.attackDamage = (int)statPerRound["attackDamage"][round - 1];
         baseData.attackSpeed = statPerRound["attackSpeed"][round - 1];
         baseData.mana = (int)statPerRound["mana"][round - 1];
+
+        InitFromSO();
     }
 }

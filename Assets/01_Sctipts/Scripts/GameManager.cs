@@ -88,6 +88,8 @@ public class GameManager : Singleton<GameManager>
     //라운드 시작
     private void StartRound()
     {
+        ResetPlayerUnitsForNewRound();
+        ResetEnemyUnitsForNewRound();
         UnitCountManager.Instance.Clear();
 
         SetRoundState(RoundState.Preparation);
@@ -542,41 +544,93 @@ public class GameManager : Singleton<GameManager>
 
     private void CleanupDeadUnits()
     {
-        //적 유닛 정리
+        //적 유닛
         var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
-            var enemies = enemyGrid.GetAllFieldUnits();
-            foreach (var unit in enemies)
+            foreach (var unit in enemyGrid.GetAllFieldUnits())
             {
                 var chess = unit.GetComponent<Chess>();
                 if (chess != null && chess.IsDead)
                 {
-                    var pooled = unit.GetComponentInParent<PooledObject>();
-                    if (pooled != null)
-                        pooled.ReturnToPool();
-                    else
-                        unit.gameObject.SetActive(false);
+                    unit.gameObject.SetActive(false); 
                 }
             }
         }
 
-        //플레이어 유닛도 죽은 것 정리
+        //플레이어 
         var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
-            var players = fieldGrid.GetAllFieldUnits();
-            foreach (var unit in players)
+            foreach (var unit in fieldGrid.GetAllFieldUnits())
             {
                 var chess = unit.GetComponent<Chess>();
                 if (chess != null && chess.IsDead)
                 {
-                    var pooled = unit.GetComponentInParent<PooledObject>();
-                    if (pooled != null)
-                        pooled.ReturnToPool();
-                    else
-                        unit.gameObject.SetActive(false);
+                    unit.gameObject.SetActive(false);  
                 }
+            }
+        }
+    }
+
+
+    private void ResetEnemyUnitsForNewRound()
+    {
+        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        if (enemyGrid == null) return;
+
+        foreach (var node in enemyGrid.FieldGrid)
+        {
+            if (node.ChessPiece == null) continue;
+
+            var chess = node.ChessPiece.GetComponent<Chess>();
+            if (chess == null) continue;
+
+            if (!chess.gameObject.activeSelf)
+                chess.gameObject.SetActive(true);
+
+            chess.SetPosition(node.worldPosition);
+            chess.SetOnField(true);
+            chess.ResetForNewRound_Chess();
+        }
+    }
+    private void ResetPlayerUnitsForNewRound()
+    {
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid != null)
+        {
+            foreach (var node in fieldGrid.FieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                var chess = node.ChessPiece.GetComponent<Chess>();
+                if (chess == null) continue;
+
+                if (!chess.gameObject.activeSelf)
+                    chess.gameObject.SetActive(true);
+
+                chess.SetPosition(node.worldPosition);
+                chess.SetOnField(true);
+                chess.ResetForNewRound_Chess();
+            }
+        }
+
+        var benchGrid = FindAnyObjectByType<BenchGrid>();
+        if (benchGrid != null)
+        {
+            foreach (var node in benchGrid.FieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                var chess = node.ChessPiece.GetComponent<Chess>();
+                if (chess == null) continue;
+
+                if (!chess.gameObject.activeSelf)
+                    chess.gameObject.SetActive(true);
+
+                chess.SetPosition(node.worldPosition);
+                chess.SetOnField(false);
+                chess.ResetForNewRound_Chess();
             }
         }
     }

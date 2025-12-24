@@ -9,7 +9,7 @@ public class SkillManager : MonoBehaviour
     private Chess chess;
     private Animator animator;
     private StateMachine sm;
-
+    private SkillBase skill;
     private SkillBase currentSkill;
     private int remainingRepeats;
     private bool isRepeatCasting;
@@ -23,13 +23,14 @@ public class SkillManager : MonoBehaviour
         chess = GetComponent<Chess>();
         animator = GetComponent<Animator>();
         sm = GetComponent<StateMachine>();
+        skill = GetComponent<SkillBase>();
     }
 
     public bool TryCastSkill()
     {
         if (IsCasting) return false;
 
-        SkillBase skill = GetComponent<SkillBase>();
+        //SkillBase skill = GetComponent<SkillBase>();
         if (skill == null) return false;
 
         if (chess != null)
@@ -74,6 +75,7 @@ public class SkillManager : MonoBehaviour
             yield break;
         }
 
+
         // 기존 스킬 (애니 이벤트 기반)
         isTimeBasedCasting = false;
 
@@ -87,6 +89,10 @@ public class SkillManager : MonoBehaviour
             animator.SetTrigger("UseSkill");
 
         yield return skill.Execute(chess);
+    }
+    private void OnDisable()
+    {
+        if (IsCasting) ForceStopCasting();
     }
 
     // 모션딜레이 타이밍 잡기 위해서 애니메이션 이벤트 하나 추가했습니다.
@@ -163,4 +169,27 @@ public class SkillManager : MonoBehaviour
         }
         return false;
     }
+    public void ForceStopCasting()
+    {
+        StopAllCoroutines();
+
+        if (animator != null)
+        {
+            if (HasAnimParam("UseSkill")) animator.ResetTrigger("UseSkill");
+            if (HasAnimParam("Attack")) animator.ResetTrigger("Attack");    
+        }
+
+        isRepeatCasting = false;
+        currentSkill = null;
+        isTimeBasedCasting = false;
+
+        if (animator != null && HasAnimParam(SkillSpeedParam))
+            animator.SetFloat(SkillSpeedParam, 1f);
+
+        if (chess != null) chess.overrideState = false;
+        sm?.SetIdle();
+        IsCasting = false;
+    }
+
+
 }

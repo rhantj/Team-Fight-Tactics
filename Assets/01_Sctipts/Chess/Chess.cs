@@ -97,13 +97,10 @@ public class Chess : ChessStateBase
         switch (newState)
         {
             case RoundState.Preparation:
-                overrideState = false; //결과,연출로 강제 상태였다면 정상적으로 복귀
-                if (animator != null)
-                {
-                    if (HasAnimParam("ToIdle"))
-                        animator.SetTrigger("ToIdle"); //Animator있을때만
-                }
-                ExitBattlePhase(); //타겟타이머 초기화시키고 Idle로 복귀시킵니다.
+                overrideState = false;
+                if (!IsDead && animator != null && HasAnimParam("ToIdle"))
+                    animator.SetTrigger("ToIdle");
+                ExitBattlePhase();
                 break;
 
             case RoundState.Battle:
@@ -146,6 +143,7 @@ public class Chess : ChessStateBase
         attackTimer = attackInterval; //공격타이머 초기화
 
         if (overrideState) return; //외부연출중이라면 덮어쓰기 방지.
+        if (IsDead) return;  
         stateMachine?.SetIdle(); //기본상태복귀
     }
 
@@ -162,7 +160,7 @@ public class Chess : ChessStateBase
         if (!isInBattlePhase) return;
 
         if (!isOnField) return; //필드에 없던애들은 못싸우게.
-        ApplyAtkAnimSpeed();
+        //ApplyAtkAnimSpeed();
         if (currentTarget != null && !currentTarget.IsDead && currentTarget.IsTargetable)
         {
             FaceTarget(currentTarget.transform); //항상 현재 타겟을 바라보게 회전
@@ -181,7 +179,6 @@ public class Chess : ChessStateBase
             }
 
             stateMachine?.SetIdle();   //사거리 안이면 전투 상태로 
-            attackTimer -= Time.deltaTime;
 
             if (attackTimer <= 0f && dist <= AttackRange)
             {
@@ -364,8 +361,14 @@ public class Chess : ChessStateBase
         animator.SetTrigger("Attack");
         lastAttackAnimTime = Time.time;
     }
+    public void ResetForNewRound_Chess()
+    {
+        ResetForNewRound();      
+        currentTarget = null;  
+        overrideState = false;
 
-
+        stateMachine?.SetIdle();
+    }
 
     private void InvokeOnHitEffects(Chess target)
     {
@@ -378,13 +381,13 @@ public class Chess : ChessStateBase
 
     private int GetAttackDamage()
     {
-        int baseDamage = baseData.attackDamage;
-        return baseDamage * Mathf.Max(1, StarLevel);
+        //int baseDamage = baseData.attackDamage;
+        return AttackDamage * Mathf.Max(1, StarLevel);
     }
 
     protected override void Die()
     {
-        if (!IsDead) return;
+        if (!IsDead || deathHandled) return; //가드 추가했습니다. kim add 12.24
 
         base.Die();
         OnDead?.Invoke(this);
