@@ -27,7 +27,7 @@ public class GridDivideBase : MonoBehaviour
         Init();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         InitUnitLimits();
     }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 /// <summary>
 /// 상점 슬롯 1칸의 UI 및 상호작용을 담당하는 컴포넌트.
@@ -32,6 +33,18 @@ public class ShopSlot : MonoBehaviour
     [SerializeField] private Material defaultMaterial;
     [SerializeField] private Material grayscaleMaterial;
 
+    [Header("Star Hint UI")]
+    [SerializeField] private GameObject starHintRoot;
+    [SerializeField] private Image twoStarImage;
+    [SerializeField] private Image threeStarImage;
+
+    [Header("Border Frame UI")]
+    [SerializeField] private Image borderFrameImage;
+    [SerializeField] private Sprite silverBorderSprite;
+    [SerializeField] private Sprite goldBorderSprite;
+
+
+
     /// <summary>
     /// 현재 슬롯에 표시 중인 유닛 데이터.
     /// null일 경우 빈 슬롯 상태를 의미한다.
@@ -49,6 +62,8 @@ public class ShopSlot : MonoBehaviour
     /// 구매 요청을 위임하기 위해 사용된다.
     /// </summary>
     private ShopManager shopManager;
+
+    private Tween starTween;
 
     /// <summary>
     /// 슬롯 초기화
@@ -107,6 +122,8 @@ public class ShopSlot : MonoBehaviour
         //   시너지 아이콘 생성
         // ======================
         GenerateSynergyIcons(data);
+
+        ResetStarHint();
     }
 
     /// <summary>
@@ -154,6 +171,8 @@ public class ShopSlot : MonoBehaviour
 
         // 시너지 아이콘 제거
         ClearSynergyIcons();
+
+        ResetStarHint();
     }
 
     // ===============================
@@ -232,5 +251,102 @@ public class ShopSlot : MonoBehaviour
             ? defaultMaterial
             : grayscaleMaterial;
     }
+
+    public void SetStarHint(bool canMake2Star, bool canMake3Star)
+    {
+        if (starHintRoot == null)
+            return;
+
+        // 연출 초기화
+        starTween?.Kill();
+        starTween = null;
+
+        if (!canMake2Star && !canMake3Star)
+        {
+            starHintRoot.SetActive(false);
+            return;
+        }
+
+        starHintRoot.SetActive(true);
+
+        if (canMake3Star)
+        {
+            threeStarImage.gameObject.SetActive(true);
+            twoStarImage.gameObject.SetActive(false);
+
+            PlayStarBlink(threeStarImage);
+
+            if (borderFrameImage != null)
+            {
+                borderFrameImage.sprite = goldBorderSprite;
+                borderFrameImage.gameObject.SetActive(true);
+            }
+        }
+        else if (canMake2Star)
+        {
+            twoStarImage.gameObject.SetActive(true);
+            threeStarImage.gameObject.SetActive(false);
+
+            PlayStarBlink(twoStarImage);
+
+            if (borderFrameImage != null)
+            {
+                borderFrameImage.sprite = silverBorderSprite;
+                borderFrameImage.gameObject.SetActive(true);
+            }
+        }
+    }
+
+
+
+    private void ResetStarHint()
+    {
+        starTween?.Kill();
+        starTween = null;
+
+        if (starHintRoot != null)
+            starHintRoot.SetActive(false);
+
+        if (twoStarImage != null)
+            twoStarImage.gameObject.SetActive(false);
+
+        if (threeStarImage != null)
+            threeStarImage.gameObject.SetActive(false);
+
+        if (borderFrameImage != null)
+            borderFrameImage.gameObject.SetActive(false);
+    }
+
+
+    // 별표시 효과연출용 메서드
+    private void PlayStarBlink(Image target)
+    {
+        if (target == null)
+            return;
+
+        // 혹시 기존 트윈이 남아있으면 제거
+        starTween?.Kill();
+
+        target.transform.localScale = Vector3.one;
+        Color c = target.color;
+        c.a = 1f;
+        target.color = c;
+
+        // 스케일 + 알파 동시 반복
+        starTween = DOTween.Sequence()
+            .Join(
+                target.transform.DOScale(1.1f, 0.6f)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+            )
+            .Join(
+                target.DOFade(0.6f, 0.6f)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+            );
+    }
+
+
+
 
 }

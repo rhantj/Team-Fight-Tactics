@@ -181,8 +181,6 @@ public class ChessCombineManager : MonoBehaviour
         }
     }
 
-
-
     private void HandleDead(Chess deadChess)
     {
         if (deadChess == null)
@@ -197,5 +195,56 @@ public class ChessCombineManager : MonoBehaviour
         if (data == null) return;
         completedUnits.Remove(data);
     }
+
+    // 특정 유닛의 1성 환산 개수 계산 메서드
+    public int GetOneStarEquivalentCount(ChessStatData data)
+    {
+        if (data == null) return 0;
+
+        int count = 0;
+
+        foreach (var pair in chessGroups)
+        {
+            foreach (var chess in pair.Value)
+            {
+                if (chess == null) continue;
+                if (chess.BaseData != data) continue;
+
+                switch (chess.StarLevel)
+                {
+                    case 1: count += 1; break;
+                    case 2: count += 3; break;
+                    case 3: count += 9; break;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    // 2성 가능 여부
+    public bool CanMake2Star(ChessStatData data)
+    {
+        int oneStarCount = GetOneStarEquivalentCount(data);
+
+        // 3성 조건(8)은 제외
+        if (oneStarCount == 8)
+            return false;
+
+        // 다음 1개를 샀을 때 3의 배수가 되는 경우
+        return oneStarCount % 3 == 2;
+    }
+
+
+    // 3성 가능 여부
+    public bool CanMake3Star(ChessStatData data)
+    {
+        int oneStarCount = GetOneStarEquivalentCount(data);
+
+        // 정확히 8개일 때만
+        return oneStarCount == 8;
+    }
+
+
 
 }

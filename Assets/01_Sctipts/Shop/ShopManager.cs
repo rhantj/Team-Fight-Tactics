@@ -277,7 +277,9 @@ public class ShopManager : Singleton<ShopManager>
 
             // 3) 상태 표현 위임
             slots[i].SetAffordable(canBuy);
+
         }
+        RefreshStarHints();
     }
 
 
@@ -429,6 +431,8 @@ public class ShopManager : Singleton<ShopManager>
         unitBuyCount[data]++;
 
         ChessCombineManager.Instance?.Register(chess); //25.12.08 Add KIM
+
+        RefreshStarHints();
     }
 
     /// <summary>
@@ -484,6 +488,8 @@ public class ShopManager : Singleton<ShopManager>
         // 3. 풀로 반환
         // ===============================
         PoolManager.Instance.Despawn(data.poolID, obj);
+
+        RefreshStarHints();
     }
 
     //12/17 Add Kwon - 아이템 회수 메서드
@@ -733,6 +739,7 @@ public class ShopManager : Singleton<ShopManager>
 
 
     public int CurrentGold { get { return currentGold; } }
+
     private void RefreshAffordableStates()
     {
         foreach (var slot in slots)
@@ -743,5 +750,27 @@ public class ShopManager : Singleton<ShopManager>
             slot.SetAffordable(canBuy);
         }
     }
+
+    private void RefreshStarHints()
+    {
+        if (ChessCombineManager.Instance == null)
+            return;
+
+        foreach (var slot in slots)
+        {
+            if (slot.CurrentData == null)
+                continue;
+
+            var data = slot.CurrentData;
+
+            bool canMake2Star = ChessCombineManager.Instance.CanMake2Star(data);
+            bool canMake3Star = ChessCombineManager.Instance.CanMake3Star(data);
+
+            slot.SetStarHint(canMake2Star, canMake3Star);
+        }
+    }
+
+
+
 
 }
