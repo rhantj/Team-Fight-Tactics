@@ -54,17 +54,14 @@ public class CSVReader
 
         foreach (var row in raw)
         {
-            // 첫 번째 컬럼("" 키)에 스탯 이름이 들어 있음
             string statName = row[""].ToString();
 
             var values = new List<float>();
 
             foreach (var kvp in row)
             {
-                // "" 키는 스탯 이름이므로 제외
                 if (kvp.Key == "") continue;
 
-                // 숫자만 리스트에 추가
                 values.Add(System.Convert.ToSingle(kvp.Value));
             }
 

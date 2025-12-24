@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGrid : GridDivideBase, IPrepare
+public class EnemyGrid : GridDivideBase//, IPrepare
 {
     [SerializeField] GameObject enemyPF;
-    [SerializeField] int startNode = 0;
+    [SerializeField] int startNode = 10;
     public List<ChessStateBase> allFieldUnits = new();
 
     protected override void OnEnable()
@@ -13,30 +13,30 @@ public class EnemyGrid : GridDivideBase, IPrepare
         base.OnEnable();
         SpawnEnemy();
 
-        GameManager.Instance.OnRoundEnded += PrepareChessPieces;
+        //GameManager.Instance.OnRoundEnded += PrepareChessPieces;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
+        //GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
     }
 
-    public void PrepareChessPieces(int arg1, bool arg2)
-    {
-        allFieldUnits.Clear();
-        allFieldUnits = GetAllFieldUnits();
+    //public void PrepareChessPieces(int arg1, bool arg2)
+    //{
+    //    allFieldUnits.Clear();
+    //    allFieldUnits = GetAllFieldUnits();
 
-        foreach (var node in FieldGrid)
-        {
-            var piece = node.ChessPiece;
-            if (piece)
-            {
-                piece.InitOnPrepare();
-                piece.SetPosition(node.worldPosition);
-                piece.gameObject.SetActive(true);
-            }
-        }
-    }
+    //    foreach (var node in FieldGrid)
+    //    {
+    //        var piece = node.ChessPiece;
+    //        if (piece)
+    //        {
+    //            piece.InitOnPrepare();
+    //            piece.SetPosition(node.worldPosition);
+    //            piece.gameObject.SetActive(true);
+    //        }
+    //    }
+    //}
 
     // 필드 위의 전체 기물 리스트
     public List<ChessStateBase> GetAllFieldUnits()
