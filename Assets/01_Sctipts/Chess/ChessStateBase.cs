@@ -279,7 +279,8 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         if (IsDead) return;
         if (baseData == null) return;
-
+        if (skillManager != null && skillManager.IsCasting)
+            return;
         if (CurrentMana >= baseData.mana) return;
 
         CurrentMana += amount;
