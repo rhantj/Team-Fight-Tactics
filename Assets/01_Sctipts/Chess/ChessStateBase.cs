@@ -22,6 +22,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public float BaseAttackSpeed => baseData.attackSpeed;
     public float FinalAttackSpeed => baseData.attackSpeed * attackSpeedMultiplier;
+    private bool deadEventFired = false;
 
 
     //=====================================================
@@ -239,7 +240,7 @@ public abstract class ChessStateBase : MonoBehaviour
     //                  Kill Tracking
     //=====================================================
     protected Chess lastAttacker;
-    private bool deathHandled = false;
+    protected bool deathHandled = false;
 
     //=====================================================
     //                  전투 / 피격
@@ -323,10 +324,13 @@ public abstract class ChessStateBase : MonoBehaviour
     //=====================================================
     //                  사망 처리
     //=====================================================
+
     protected virtual void Die()
     {
         if (!IsDead || deathHandled) return;
         deathHandled = true;
+
+        stateMachine?.Lock();
 
         var statusUI = GetComponentInChildren<ChessStatusUI>();
         if (statusUI != null)
@@ -526,5 +530,34 @@ public abstract class ChessStateBase : MonoBehaviour
     protected void NotifyBasicAttackHit()
     {
         OnBasicAttackHit?.Invoke();
+    }
+
+    //초기화 관련
+
+    public virtual void ResetForNewRound()
+    {
+        stateMachine?.Unlock();
+        //스킬 캐스팅 중이면 강제 종료
+        skillManager?.ForceStopCasting();
+
+        //전투중 임시 버프(전투버프) 제거 + 공속 재계산 + HP 최대치로
+        ClearAllBuffs();
+
+        //마나/실드/타겟팅 관련 초기화
+        CurrentMana = 0;
+        ClearShield();
+        lastAttacker = null;
+        deathHandled = false;
+        SetTargetable(true);
+
+        //공격 타이머는 다음 라운드에서 바로 때리게 하려면 0,
+        //“조금 텀” 주려면 attackInterval
+        attackTimer = 0f;
+
+        NotifyHPChanged();
+    }
+    protected void NotifyHPChanged()
+    {
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
     }
 }
