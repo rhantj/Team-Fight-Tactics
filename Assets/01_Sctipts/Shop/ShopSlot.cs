@@ -28,6 +28,10 @@ public class ShopSlot : MonoBehaviour
     [Header("Trait Icon Database")]
     [SerializeField] private TraitIconDatabase traitIconDB;  // 시너지 아이콘 데이터베이스
 
+    [Header("Materials")]
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material grayscaleMaterial;
+
     /// <summary>
     /// 현재 슬롯에 표시 중인 유닛 데이터.
     /// null일 경우 빈 슬롯 상태를 의미한다.
@@ -220,4 +224,13 @@ public class ShopSlot : MonoBehaviour
 
         }
     }
+
+
+    public void SetAffordable(bool canBuy)
+    {
+        portraitImage.material = canBuy
+            ? defaultMaterial
+            : grayscaleMaterial;
+    }
+
 }
