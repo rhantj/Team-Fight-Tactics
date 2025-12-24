@@ -922,6 +922,7 @@ GameObject:
   - component: {fileID: 2204416426562397172}
   - component: {fileID: -9057966412086887930}
   - component: {fileID: 8894415034427157422}
+  - component: {fileID: 2879091544594855701}
   m_Layer: 7
   m_Name: Jarvan Actual
   m_TagString: Untagged
@@ -1080,6 +1081,19 @@ MonoBehaviour:
   flatBonusDamage: 0
   flagPrefab: {fileID: 0}
   hitVfxPrefab: {fileID: 0}
+--- !u!114 &2879091544594855701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833920127434609807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: 
 --- !u!1 &3877300690438695348
 GameObject:
   m_ObjectHideFlags: 0

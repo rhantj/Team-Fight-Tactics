@@ -274,6 +274,7 @@ GameObject:
   - component: {fileID: -405420092688271427}
   - component: {fileID: -3628056914601512754}
   - component: {fileID: 6468134934056075395}
+  - component: {fileID: -37031213778816391}
   m_Layer: 7
   m_Name: Vayne Actual
   m_TagString: Untagged
@@ -425,6 +426,19 @@ MonoBehaviour:
   bonusDamageMultiplier: 1
   flatBonusDamage: 20
   procVfxPrefab: {fileID: 0}
+--- !u!114 &-37031213778816391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946968737373124123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: 
 --- !u!1 &1031833388176531091
 GameObject:
   m_ObjectHideFlags: 0

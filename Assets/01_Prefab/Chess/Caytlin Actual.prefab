@@ -3738,6 +3738,7 @@ GameObject:
   - component: {fileID: -8893953906735629354}
   - component: {fileID: 3421599710000995682}
   - component: {fileID: 6589392853334098191}
+  - component: {fileID: 6119352315348811375}
   m_Layer: 7
   m_Name: Caytlin Actual
   m_TagString: Untagged
@@ -3895,6 +3896,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74130bf1d9ba4ad448e254f9f44d1294, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6119352315348811375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5493344572489471872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: Caitlyn_BaseAttackSound
 --- !u!1 &5499877839059685607
 GameObject:
   m_ObjectHideFlags: 0

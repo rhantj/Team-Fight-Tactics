@@ -40,8 +40,8 @@ public class ChessSelectionHandler : MonoBehaviour
             return;
 
         // Enemy 기물은 선택 불가
-        if (chess.team == Team.Enemy)
-            return;
+        //if (chess.team == Team.Enemy)
+        //    return;
 
         // 같은 기물 재선택 처리
         if (currentSelected == chess)

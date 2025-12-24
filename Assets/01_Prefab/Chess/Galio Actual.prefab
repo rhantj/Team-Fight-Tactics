@@ -1057,6 +1057,7 @@ GameObject:
   - component: {fileID: -1614757880465944243}
   - component: {fileID: 137150125323285372}
   - component: {fileID: -3334210507382433953}
+  - component: {fileID: 6644039873597115207}
   m_Layer: 7
   m_Name: Galio Actual
   m_TagString: Untagged
@@ -1218,6 +1219,19 @@ MonoBehaviour:
   channelVfxPrefab: {fileID: 0}
   blastVfxPrefab: {fileID: 0}
   shieldVfxPrefab: {fileID: 0}
+--- !u!114 &6644039873597115207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393764385007708275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: 
 --- !u!1 &3420743924208388985
 GameObject:
   m_ObjectHideFlags: 0
