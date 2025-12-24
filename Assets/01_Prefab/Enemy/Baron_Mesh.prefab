@@ -513,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4a561623d2686419a9d8a327a694d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseData: {fileID: 11400000, guid: 1e7fcb0f29c6978449a281cffd80602a, type: 2}
+  baseData: {fileID: 11400000, guid: 29db89257e10572449fc3f034d08d35f, type: 2}
   attackInterval: 1
   manaOnHit: 10
   manaOnDamaged: 5
@@ -522,6 +522,8 @@ MonoBehaviour:
   rotateSpeed: 720
   team: 1
   overrideState: 0
+  attackAnimMinInterval: 0.15
+  atkSpeedBase: 1
 --- !u!136 &3100225043495344127
 CapsuleCollider:
   m_ObjectHideFlags: 0

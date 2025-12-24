@@ -364,17 +364,7 @@ public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHand
         if (shop == null) shop = FindObjectOfType<ShopManager>();
         if (!shop) return false;
 
-        FieldInfo baseDataField = typeof(ChessStateBase).GetField(
-            "baseData", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
-        if (chessData == null)
-        {
-            Debug.LogError("[TrySellFromDrag] chessData is null");
-            return false;
-        }
-
-        bool sold = shop.TrySellUnit(chessData, chess.gameObject);
+        bool sold = shop.TrySellUnit(chess.BaseData, chess.gameObject);
         if (!sold) return false;
 
         if (ChessInfoUI.Instance != null)
