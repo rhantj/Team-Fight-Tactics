@@ -2,8 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGrid : GridDivideBase
+public class EnemyGrid : GridDivideBase, IPrepare
 {
+    [SerializeField] GameObject enemyPF;
+    [SerializeField] int startNode = 0;
+    public List<ChessStateBase> allFieldUnits = new();
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        SpawnEnemy();
+
+        GameManager.Instance.OnRoundReward += PrepareChessPieces;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.OnRoundReward -= PrepareChessPieces;
+    }
+
+    public void PrepareChessPieces(int arg1, bool arg2)
+    {
+        allFieldUnits.Clear();
+        allFieldUnits = GetAllFieldUnits();
+
+        foreach (var node in FieldGrid)
+        {
+            var piece = node.ChessPiece;
+            if (piece)
+            {
+                piece.InitOnPrepare();
+                piece.SetPosition(node.worldPosition);
+                piece.gameObject.SetActive(true);
+            }
+        }
+    }
+
     // 필드 위의 전체 기물 리스트
     public List<ChessStateBase> GetAllFieldUnits()
     {
@@ -42,15 +76,6 @@ public class EnemyGrid : GridDivideBase
         }
     }
 
-    #region - TEST FIELD -
-    [SerializeField] GameObject enemyPF;
-    [SerializeField] int startNode = 0;
-    private void OnEnable()
-    {
-        SpawnEnemy();
-    }
-
-
     void SpawnEnemy()
     {
         for (int i = startNode; i < startNode + 1; ++i)
@@ -66,9 +91,8 @@ public class EnemyGrid : GridDivideBase
             enemy.SetOnField(true);
             //=====
 
-            node.ChessPiece = obj.GetComponent<Enemy>(); //12.12 add Kim
+            node.ChessPiece = enemy; //12.12 add Kim
 
         }
     }
-    #endregion
 }

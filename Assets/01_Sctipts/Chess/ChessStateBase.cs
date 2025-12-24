@@ -221,6 +221,12 @@ public abstract class ChessStateBase : MonoBehaviour
         OnStatChanged?.Invoke();
     }
 
+    public void InitOnPrepare()
+    {
+        CurrentHP = MaxHP;
+        CurrentMana = 0;
+    }
+
     //=====================================================
     //                  전투 시작 알림
     //=====================================================
