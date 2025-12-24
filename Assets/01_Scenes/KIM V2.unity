@@ -332,8 +332,24 @@ PrefabInstance:
       value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: synergyConfigs.Array.data[0].thresholds.Array.data[1].attackSpeedMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: synergyConfigs.Array.data[0].thresholds.Array.data[2].attackSpeedMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[0].attackSpeedMultiplier
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[1].attackSpeedMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: synergyConfigs.Array.data[1].thresholds.Array.data[2].attackSpeedMultiplier
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 9171059333148037451, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: synergyConfigs.Array.data[2].thresholds.Array.data[0].attackSpeedMultiplier

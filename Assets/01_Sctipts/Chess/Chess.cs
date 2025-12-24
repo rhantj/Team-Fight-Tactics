@@ -34,10 +34,19 @@ public class Chess : ChessStateBase
     public Chess CurrentTarget => currentTarget; //바이 E 스킬때문에 넣었어요 12.17 add Kim
     private bool isOnField = false; // 필드에 배치되어 있는지 여부  // 12.17 add Kim
     private float lastAttackAnimTime = -999f;
+
     [SerializeField] private float attackAnimMinInterval = 0.15f;
     private const string AtkSpeedParam = "AtkAnimSpeed";
     [SerializeField] private float atkSpeedBase = 1f;
 
+    //타겟 쫓을때의 간격관련
+    [SerializeField] private float approachRatio = 0.85f;
+    [SerializeField] private float slotSpacing = 0.65f; //기물 간격
+
+    [Header("배치간격")]
+    [SerializeField] private float occupyRadius = 0.35f;   // 이 반경 안에 아군이 있으면 "자리 점유"로 판단
+    [SerializeField] private float sideStep = 0.7f;        // 옆으로 비키는 간격
+    [SerializeField] private int sideTries = 3;
     public ChessStateBase LastAttackTarget { get; private set; } //마지막공격 대상 추적 필드
     //=====================================================
     //                  초기화
@@ -162,19 +171,16 @@ public class Chess : ChessStateBase
                 transform.position,
                 currentTarget.transform.position
             );
-
+            attackTimer -= Time.deltaTime;
             if (dist > AttackRange)
             {
+                Vector3 goal = GetApproachPoint(currentTarget);
                 stateMachine?.SetMove();         //사거리 밖이면 이동 상태 유지
-                MoveTowards(currentTarget.transform.position); //타겟 방향으로 계속 접근
-
-            }
-            else
-            {
-                //if (baseData != null && baseData.useBattleState)
-                stateMachine?.SetIdle();   //사거리 안이면 전투 상태로 
+                MoveTowards(goal); //타겟 방향으로 계속 접근
+                return;
             }
 
+            stateMachine?.SetIdle();   //사거리 안이면 전투 상태로 
             attackTimer -= Time.deltaTime;
 
             if (attackTimer <= 0f && dist <= AttackRange)
@@ -186,6 +192,7 @@ public class Chess : ChessStateBase
         else
         {
             currentTarget = null;
+            stateMachine?.SetIdle();
         }
     }
 
@@ -193,6 +200,33 @@ public class Chess : ChessStateBase
     //=====================================================
     //                  이동 관련
     //=====================================================
+
+    private bool IsAllyOccupying(Vector3 point)
+    {
+        var allies = (team == Team.Player)
+            ? UnitCountManager.Instance.playerUnits
+            : UnitCountManager.Instance.enemyUnits;
+
+        Vector3 p = point; p.y = 0f;
+
+        float r2 = occupyRadius * occupyRadius;
+
+        for (int i = 0; i < allies.Count; i++)
+        {
+            var a = allies[i];
+            if (a == null || a == this) continue;
+            if (a.IsDead) continue;
+            if (!a.isOnField) continue;
+
+            Vector3 ap = a.transform.position; ap.y = 0f;
+
+            if ((ap - p).sqrMagnitude <= r2)
+                return true;
+        }
+
+        return false;
+    }
+
     private void MoveTowards(Vector3 targetPos)
     {
         // y 고정이 필요한 프로젝트면 targetPos.y도 고정
@@ -204,6 +238,62 @@ public class Chess : ChessStateBase
             MoveSpeed * Time.deltaTime
         );
     }
+
+    private Vector3 GetApproachPoint(Chess target)
+    {
+        Vector3 myPos = transform.position;
+        Vector3 tPos = target.transform.position;
+        myPos.y = 0f; tPos.y = 0f;
+
+        Vector3 toTarget = (tPos - myPos);
+        Vector3 dir = toTarget.sqrMagnitude > 0.0001f ? toTarget.normalized : transform.forward;
+        dir.y = 0f;
+
+        Vector3 basePoint = tPos - dir * (AttackRange * approachRatio);
+
+        var list = (team == Team.Player) ? UnitCountManager.Instance.playerUnits : UnitCountManager.Instance.enemyUnits;
+
+        int count = 0;
+        int myIndex = 0;
+        int myId = GetInstanceID();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var u = list[i];
+            if (u == null || u.IsDead) continue;
+            if (u.CurrentTarget != target) continue;
+
+            count++;
+            if (u.GetInstanceID() < myId) myIndex++;
+        }
+
+        Vector3 right = Vector3.Cross(Vector3.up, dir).normalized;
+
+        if (count > 1)
+        {
+            float center = (count - 1) * 0.5f;
+            float offset = (myIndex - center) * slotSpacing;
+            basePoint += right * offset;
+        }
+
+        Vector3 candidate = basePoint;
+
+        if (IsAllyOccupying(candidate))
+        {
+            for (int i = 1; i <= sideTries; i++)
+            {
+                Vector3 left = basePoint - right * (sideStep * i);
+                if (!IsAllyOccupying(left)) { candidate = left; break; }
+
+                Vector3 rgt = basePoint + right * (sideStep * i);
+                if (!IsAllyOccupying(rgt)) { candidate = rgt; break; }
+            }
+        }
+
+        candidate.y = transform.position.y;
+        return candidate;
+    }
+
 
     //=====================================================
     //                  전투 관련

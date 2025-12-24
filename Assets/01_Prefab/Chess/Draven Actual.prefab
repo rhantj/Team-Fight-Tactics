@@ -1489,6 +1489,11 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  approachRatio: 0.85
+  slotSpacing: 0.65
+  occupyRadius: 3
+  sideStep: 3
+  sideTries: 3
 --- !u!114 &7011568924533576246
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1124,6 +1124,13 @@ MonoBehaviour:
   rotateSpeed: 720
   team: 0
   overrideState: 0
+  attackAnimMinInterval: 0.15
+  atkSpeedBase: 1
+  approachRatio: 0.85
+  slotSpacing: 0.65
+  occupyRadius: 3
+  sideStep: 3
+  sideTries: 3
 --- !u!136 &6095995299993732501
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1184,6 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b584721ec7e5fa243ad7c13b03d13a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillSpeedBase: 1
 --- !u!114 &-3334210507382433953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1196,6 +1204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b28fae8defc34f4a95c793c1fad94ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endByAnimEvent: 1
+  blockUpdateWhileCasting: 1
+  repeatCount: 1
+  repeatInterval: 0
   channelTime: 1
   radius: 2.5
   damageMultiplier: 1
