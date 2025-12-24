@@ -488,9 +488,7 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void OnDieAnimationEnd()
     {
-        var pooled = GetComponentInParent<PooledObject>();
-        if (pooled != null) pooled.ReturnToPool();
-        else gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public float AttackSpeed

@@ -32,6 +32,10 @@ public static class ItemFactory
             {
                 return new GiantSlayer(data);
             }
+            if (data.itemName == "TitansResolve")
+            {
+                return new TitansResolve(data);
+            }
         }
 
         return new PassiveItem(data);
