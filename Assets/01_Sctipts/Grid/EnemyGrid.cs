@@ -13,12 +13,12 @@ public class EnemyGrid : GridDivideBase, IPrepare
         base.OnEnable();
         SpawnEnemy();
 
-        GameManager.Instance.OnRoundReward += PrepareChessPieces;
+        GameManager.Instance.OnRoundEnded += PrepareChessPieces;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnRoundReward -= PrepareChessPieces;
+        GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
     }
 
     public void PrepareChessPieces(int arg1, bool arg2)

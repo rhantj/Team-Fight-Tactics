@@ -8,12 +8,12 @@ public class FieldGrid : GridDivideBase, IPrepare
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.Instance.OnRoundReward += PrepareChessPieces;
+        GameManager.Instance.OnRoundEnded += PrepareChessPieces;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.OnRoundReward -= PrepareChessPieces;
+        GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
     }
 
     public void PrepareChessPieces(int arg1, bool arg2)
@@ -73,11 +73,11 @@ public class FieldGrid : GridDivideBase, IPrepare
                 ClearChessPiece(unit);
 
                 // Ç® ¹ÝÈ¯
-                var pooled = unit.GetComponentInParent<PooledObject>();
-                if (pooled != null)
-                    pooled.ReturnToPool();
-                else
-                    unit.gameObject.SetActive(false);
+                //var pooled = unit.GetComponentInParent<PooledObject>();
+                //if (pooled != null)
+                //    pooled.ReturnToPool();
+                //else
+                unit.gameObject.SetActive(false);
             }
         }
     }
