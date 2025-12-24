@@ -1047,6 +1047,7 @@ GameObject:
   - component: {fileID: -7176806260895662655}
   - component: {fileID: -2505725154672900435}
   - component: {fileID: 6896969570076098828}
+  - component: {fileID: -1887461704326980341}
   m_Layer: 7
   m_Name: Saion Actual
   m_TagString: Untagged
@@ -1203,6 +1204,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSpeedBase: 1
+--- !u!114 &-1887461704326980341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584358409752814710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: 
 --- !u!1 &4022982593565600715
 GameObject:
   m_ObjectHideFlags: 0

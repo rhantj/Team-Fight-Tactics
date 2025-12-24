@@ -1397,6 +1397,7 @@ GameObject:
   - component: {fileID: 2198458926960645385}
   - component: {fileID: -931428695407493546}
   - component: {fileID: 1463171730936642731}
+  - component: {fileID: 6419604468738987396}
   m_Layer: 7
   m_Name: Draven Actual
   m_TagString: Untagged
@@ -1572,6 +1573,19 @@ MonoBehaviour:
   bonus_1Star: 10
   bonus_2Star: 25
   bonus_3Star: 40
+--- !u!114 &6419604468738987396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4725810849064639337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicAttackSfxName: Darius
 --- !u!1 &4819117814282417121
 GameObject:
   m_ObjectHideFlags: 0
