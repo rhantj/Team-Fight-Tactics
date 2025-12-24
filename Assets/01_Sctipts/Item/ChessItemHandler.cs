@@ -88,6 +88,7 @@ public class ChessItemHandler : MonoBehaviour
             bonusAtk += item.addAttack;
             bonusArmor += item.addDefense;
 
+
             // 공속 누적 (퍼센트 → 배수)
             if (item.addAttackSpeed != 0)
             {
@@ -102,6 +103,7 @@ public class ChessItemHandler : MonoBehaviour
             bonusHp,
             attackSpeedMultiplier
         );
+
     }
 
 }
