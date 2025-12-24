@@ -544,7 +544,7 @@ public class GameManager : Singleton<GameManager>
 
     private void CleanupDeadUnits()
     {
-        //Рћ РЏДж
+        // Рћ РЏДж
         var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
