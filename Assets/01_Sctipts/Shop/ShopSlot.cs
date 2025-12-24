@@ -257,23 +257,31 @@ public class ShopSlot : MonoBehaviour
         if (starHintRoot == null)
             return;
 
-        // 연출 초기화
+        // ====== [1] 항상 초기화 ======
         starTween?.Kill();
         starTween = null;
 
-        if (!canMake2Star && !canMake3Star)
-        {
-            starHintRoot.SetActive(false);
-            return;
-        }
+        starHintRoot.SetActive(false);
 
+        if (twoStarImage != null)
+            twoStarImage.gameObject.SetActive(false);
+
+        if (threeStarImage != null)
+            threeStarImage.gameObject.SetActive(false);
+
+        if (borderFrameImage != null)
+            borderFrameImage.gameObject.SetActive(false);
+
+        // ====== [2] 조건 없으면 여기서 종료 ======
+        if (!canMake2Star && !canMake3Star)
+            return;
+
+        // ====== [3] 다시 켜기 ======
         starHintRoot.SetActive(true);
 
         if (canMake3Star)
         {
             threeStarImage.gameObject.SetActive(true);
-            twoStarImage.gameObject.SetActive(false);
-
             PlayStarBlink(threeStarImage);
 
             if (borderFrameImage != null)
@@ -285,8 +293,6 @@ public class ShopSlot : MonoBehaviour
         else if (canMake2Star)
         {
             twoStarImage.gameObject.SetActive(true);
-            threeStarImage.gameObject.SetActive(false);
-
             PlayStarBlink(twoStarImage);
 
             if (borderFrameImage != null)
@@ -296,6 +302,7 @@ public class ShopSlot : MonoBehaviour
             }
         }
     }
+
 
 
 
