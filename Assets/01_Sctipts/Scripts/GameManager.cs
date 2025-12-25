@@ -41,8 +41,8 @@ public class GameManager : Singleton<GameManager>
     private int loseCount = 0;
 
     [Header("Round Info")]
-    //[SerializeField] private int startingRound = 1; //시작 라운드
-    //[SerializeField] private int maxRound = 5; //마지막 라운드
+    [SerializeField] private int startingRound = 1; //시작 라운드
+    [SerializeField] private int maxRound = 5; //마지막 라운드
     [SerializeField] private int maxLoseCount = 3;  //게임 종료 패배 횟수
     public float battleTime = 30f; // 전투시간
     public float preparationTime = 60f; // 준비시간
@@ -53,6 +53,7 @@ public class GameManager : Singleton<GameManager>
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
     public event Action<int, bool> OnRoundReward; //정산때 보상이벤트 추가 12-16 Won Add
+    public event Action OnGameOver;
 
     [SerializeField] private float battleStartDelay = 5f; //12.12 add Kim
     [SerializeField] private float winResultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
@@ -61,6 +62,11 @@ public class GameManager : Singleton<GameManager>
     public event Action<float> OnTimerMaxTimeChanged; //12.18 add Kim
     private Coroutine battleCountdownCo; //12.18 add Kim
     private bool isReady = false;
+
+    // 필드에 스냅샷 저장소 추가
+    private List<EndGameUnitSnapshot> lastBattleUnits = new();
+    public IReadOnlyList<EndGameUnitSnapshot> LastBattleUnits => lastBattleUnits;
+
     //참조
     /*
     public Player player;
@@ -161,12 +167,19 @@ public class GameManager : Singleton<GameManager>
         // 정산(보상) 타이밍 알림
         OnRoundReward?.Invoke(currentRound, lastBattleWin);
 
-        //연출시간.
+        // 연출시간.
         yield return new WaitForSeconds(lastBattleWin ? winResultTime : loseResultTime);
 
         CleanupDeadUnits();
-        //다음 라운드or게임 오버
+        // 다음 라운드or게임 오버
         if (loseCount >= maxLoseCount)
+        {
+            EndGame();
+            yield break;
+        }
+
+        // 현재라운드가 최대 라운드라면 종료
+        if (currentRound >= maxRound)
         {
             EndGame();
             yield break;
@@ -222,6 +235,9 @@ public class GameManager : Singleton<GameManager>
     private void EndRound(bool win)
     {
         lastBattleWin = win;
+
+        SaveLastBattleUnits();
+
         OnRoundEnded?.Invoke(currentRound, win);
 
         if (!win) loseCount++;
@@ -250,11 +266,15 @@ public class GameManager : Singleton<GameManager>
     private void EndGame()
     {
         gameState = GameState.GameOver;
+        OnGameOver?.Invoke();
     }
 
     //게임 재시작 메서드 12-19 Won Add 아직 수정 덜함
     public void RestartGame()
     {
+        // 마지막 라운드 전투 기물정보 초기화
+        lastBattleUnits.Clear();
+
         // ===== 라운드 관련 상태 초기화 =====
         currentRound = 1;
         loseCount = 0;
@@ -442,8 +462,13 @@ public class GameManager : Singleton<GameManager>
             playerHPUI.ResetHP();
         }
 
-        // 라운드 완성되면 라운드 UI랑 연동 잘되는지 체크
-        // 재시작후 일부 기물이 합성하거나 구매할때 사라지는 버그가 있음
+        // 라운드UI 초기화
+        var roundUI = FindAnyObjectByType<RoundPrograssUI>();
+        if (roundUI != null)
+        {
+            roundUI.ResetUI();
+        }
+
 
     }
 
@@ -499,6 +524,7 @@ public class GameManager : Singleton<GameManager>
             0f
         );
     }
+
 
     //라운드 상태 변경 메서드
     private void SetRoundState(RoundState newState)
@@ -634,5 +660,29 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
+    // 마지막전투기물들을 저장하는 메서드
+    private void SaveLastBattleUnits()
+    {
+        lastBattleUnits.Clear();
+
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid == null) return;
+
+        foreach (var unit in fieldGrid.GetAllFieldUnits())
+        {
+            var chess = unit.GetComponent<Chess>();
+            if (chess == null) continue;
+            if (chess.team != Team.Player) continue;
+
+            lastBattleUnits.Add(new EndGameUnitSnapshot
+            {
+                portrait = chess.BaseData.icon,   // ← 너 프로젝트 기준
+                starLevel = chess.StarLevel,
+                unitName = chess.BaseData.unitName
+            });
+        }
+    }
+
 
 }
