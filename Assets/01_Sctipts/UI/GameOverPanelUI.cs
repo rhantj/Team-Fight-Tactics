@@ -35,14 +35,6 @@ public class GameOverPanelUI : MonoBehaviour
             exitButton.onClick.AddListener(OnClickExit);
     }
 
-    // 게임종료 이벤트 구독
-    private void Start()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameOver += Show;
-    }
-
-
     // ==============================
     // Public API
     // ==============================
@@ -70,27 +62,35 @@ public class GameOverPanelUI : MonoBehaviour
     {
         ClearPortraits();
 
-        if (GameManager.Instance == null)
-            return;
-
-        var snapshots = GameManager.Instance.LastBattleUnits;
-        foreach (var data in snapshots)
+        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid == null)
         {
-            CreatePortrait(data);
+            Debug.LogWarning("[GameOverPanelUI] FieldGrid not found.");
+            return;
+        }
+
+        var fieldUnits = fieldGrid.GetAllFieldUnits();
+        foreach (var unit in fieldUnits)
+        {
+            var chess = unit.GetComponent<Chess>();
+            if (chess == null) continue;
+
+            CreatePortrait(chess);
         }
     }
 
-
-    private void CreatePortrait(EndGameUnitSnapshot data)
+    private void CreatePortrait(Chess chess)
     {
         var portrait = Instantiate(chessPortraitPrefab, chessPortraitList);
-
-        portrait.sprite = data.portrait;
         portrait.gameObject.SetActive(true);
+
+        // 여기서 마지막 라운드 필드 위에 배치된 애들 정보만 가져와서
+        // 초상화 배치하기
+        
+        
 
         spawnedPortraits.Add(portrait);
     }
-
 
     private void ClearPortraits()
     {
@@ -109,28 +109,18 @@ public class GameOverPanelUI : MonoBehaviour
     private void OnClickRetry()
     {
         Hide();
-        if (GameManager.Instance == null)
-            return;
-
-        GameManager.Instance.RestartGame();
-        GameManager.Instance.StartGameFromMainMenu();
+        GameManager.Instance?.StartGame();
     }
 
     private void OnClickMainMenu()
     {
         Hide();
-        GameManager.Instance?.ReturnToMainMenu();
+        // 메인메뉴로 가는 로직 추가하기
+        // 게임매니저에서 만들면 좋을듯
     }
 
     private void OnClickExit()
     {
         Application.Quit();
-    }
-
-    // 게임종료 이벤트 구독 해제
-    private void OnDestroy()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnGameOver -= Show;
     }
 }

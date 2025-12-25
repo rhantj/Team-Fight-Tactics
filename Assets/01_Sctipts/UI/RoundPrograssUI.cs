@@ -42,11 +42,4 @@ public class RoundPrograssUI : MonoBehaviour
             win ? RoundIconState.Win : RoundIconState.Lose
         );
     }
-
-    // 공개 초기화 메서드
-    public void ResetUI()
-    {
-        InitIcons();
-    }
-
 }
