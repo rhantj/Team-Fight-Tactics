@@ -37,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     public GameState gameState { get; private set; }
     public RoundState roundState { get; private set; }
     public int currentRound { get; private set; }
+    public int LastReachedRound => currentRound;
 
     private int loseCount = 0;
 
@@ -688,7 +689,7 @@ public class GameManager : Singleton<GameManager>
 
             lastBattleUnits.Add(new EndGameUnitSnapshot
             {
-                portrait = chess.BaseData.icon,
+                portrait = chess.BaseData.gameOverPortrait,
                 starLevel = chess.StarLevel,
                 unitName = chess.BaseData.unitName
             });

@@ -18,10 +18,16 @@ MonoBehaviour:
   attackDamage: 25
   attackSpeed: 10
   mana: 3
+  attackRange: 1.8
+  moveSpeed: 3.5
   starLevel: 1
   cost: 1
   traits: 02000000
   icon: {fileID: 0}
   prefab: {fileID: 0}
+  skillIcon: {fileID: 0}
   skillName: Korea Nori
   skillDescription: Yummy
+  poolID: 
+  useBattleState: 0
+  gameOverPortrait: {fileID: 21300000, guid: e913f2fbd22053e41a8c60d58a0d1a0f, type: 3}
