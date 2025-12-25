@@ -1,36 +1,19 @@
 using System.Collections.Generic;
 
-public class FieldGrid : GridDivideBase //, IPrepare
+public class FieldGrid : GridDivideBase
 {
     public List<ChessStateBase> allFieldUnits = new();
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        //GameManager.Instance.OnRoundEnded += PrepareChessPieces;
+        StaticRegistry<FieldGrid>.Add(this);
     }
 
     private void OnDisable()
     {
-        //GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
+        StaticRegistry<FieldGrid>.Remove(this);
     }
-
-    //public void PrepareChessPieces(int arg1, bool arg2)
-    //{
-    //    allFieldUnits.Clear();
-    //    allFieldUnits = GetAllFieldUnits();
-
-    //    foreach (var node in FieldGrid)
-    //    {
-    //        var piece = node.ChessPiece;
-    //        if (piece)
-    //        {
-    //            piece.InitOnPrepare();
-    //            piece.SetPosition(node.worldPosition);
-    //            piece.gameObject.SetActive(true);
-    //        }
-    //    }
-    //}
 
     // 필드 위의 전체 기물 리스트
     public List<ChessStateBase> GetAllFieldUnits()

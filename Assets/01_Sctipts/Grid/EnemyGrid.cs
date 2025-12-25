@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyGrid : GridDivideBase//, IPrepare
+public class EnemyGrid : GridDivideBase
 {
     [SerializeField] GameObject enemyPF;
     [SerializeField] int startNode = 10;
@@ -13,30 +13,13 @@ public class EnemyGrid : GridDivideBase//, IPrepare
         base.OnEnable();
         SpawnEnemy();
 
-        //GameManager.Instance.OnRoundEnded += PrepareChessPieces;
+        StaticRegistry<EnemyGrid>.Add(this);
     }
 
     private void OnDisable()
     {
-        //GameManager.Instance.OnRoundEnded -= PrepareChessPieces;
+        StaticRegistry<EnemyGrid>.Remove(this);
     }
-
-    //public void PrepareChessPieces(int arg1, bool arg2)
-    //{
-    //    allFieldUnits.Clear();
-    //    allFieldUnits = GetAllFieldUnits();
-
-    //    foreach (var node in FieldGrid)
-    //    {
-    //        var piece = node.ChessPiece;
-    //        if (piece)
-    //        {
-    //            piece.InitOnPrepare();
-    //            piece.SetPosition(node.worldPosition);
-    //            piece.gameObject.SetActive(true);
-    //        }
-    //    }
-    //}
 
     // 필드 위의 전체 기물 리스트
     public List<ChessStateBase> GetAllFieldUnits()

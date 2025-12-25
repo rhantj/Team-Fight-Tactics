@@ -2,6 +2,17 @@ using UnityEngine;
 
 public class BenchGrid : GridDivideBase
 {
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        StaticRegistry<BenchGrid>.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        StaticRegistry<BenchGrid>.Remove(this);
+    }
+
     // 벤치 필드 위에 기물 세팅
     public void SetChessOnBenchNode(Chess piece)
     {

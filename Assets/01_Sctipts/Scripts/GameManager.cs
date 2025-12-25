@@ -70,6 +70,9 @@ public class GameManager : Singleton<GameManager>
     public IReadOnlyList<EndGameUnitSnapshot> LastBattleUnits => lastBattleUnits;
 
     //참조
+    FieldGrid fieldGrid;
+    EnemyGrid enemyGrid;
+    BenchGrid benchGrid;
     /*
     public Player player;
     public BattleSystem battleSystem;
@@ -81,6 +84,9 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         StartGame();
+        fieldGrid = StaticRegistry<FieldGrid>.Find();
+        enemyGrid = StaticRegistry<EnemyGrid>.Find();
+        benchGrid = StaticRegistry<BenchGrid>.Find();
     }
     public void StartGame()
     {
@@ -205,8 +211,8 @@ public class GameManager : Singleton<GameManager>
     {
         UnitCountManager.Instance.Clear();
 
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
 
         if (fieldGrid != null)
         {
@@ -255,7 +261,7 @@ public class GameManager : Singleton<GameManager>
 
         if (win)
         {
-            var fieldGrid = FindAnyObjectByType<FieldGrid>();
+            //var fieldGrid = FindAnyObjectByType<FieldGrid>();
             if (fieldGrid != null)
             {
                 var units = fieldGrid.GetAllFieldUnits();
@@ -306,7 +312,7 @@ public class GameManager : Singleton<GameManager>
         roundState = RoundState.Preparation;
 
         // 필드 위 아군 기물 전부 풀로 반환
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
             var fieldUnits = fieldGrid.GetAllFieldUnits();
@@ -328,7 +334,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 필드 위 적 기물 전부 풀로 반환
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
             var enemyUnits = enemyGrid.GetAllFieldUnits();
@@ -360,7 +366,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 벤치 위 기물 전부 풀로 반환
-        var benchGrid = FindAnyObjectByType<BenchGrid>();
+        //var benchGrid = FindAnyObjectByType<BenchGrid>();
         if (benchGrid != null)
         {
             foreach (var node in benchGrid.FieldGrid)
@@ -583,7 +589,7 @@ public class GameManager : Singleton<GameManager>
     private void CleanupDeadUnits()
     {
         // 적 유닛
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
             foreach (var unit in enemyGrid.GetAllFieldUnits())
@@ -597,7 +603,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         //플레이어 
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
             foreach (var unit in fieldGrid.GetAllFieldUnits())
@@ -614,7 +620,7 @@ public class GameManager : Singleton<GameManager>
 
     private void ResetEnemyUnitsForNewRound()
     {
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        //var enemyGrid = StaticRegistry<EnemyGrid>.Find();
         if (enemyGrid == null) return;
 
         foreach (var node in enemyGrid.FieldGrid)
@@ -634,7 +640,7 @@ public class GameManager : Singleton<GameManager>
     }
     private void ResetPlayerUnitsForNewRound()
     {
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var fieldGrid = StaticRegistry<FieldGrid>.Find();
         if (fieldGrid != null)
         {
             foreach (var node in fieldGrid.FieldGrid)
@@ -653,7 +659,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        var benchGrid = FindAnyObjectByType<BenchGrid>();
+        //var benchGrid = StaticRegistry<BenchGrid>.Find();
         if (benchGrid != null)
         {
             foreach (var node in benchGrid.FieldGrid)
@@ -678,7 +684,7 @@ public class GameManager : Singleton<GameManager>
     {
         lastBattleUnits.Clear();
 
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid == null) return;
 
         foreach (var unit in fieldGrid.GetAllFieldUnits())

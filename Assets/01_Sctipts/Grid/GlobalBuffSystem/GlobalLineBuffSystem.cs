@@ -67,9 +67,6 @@ public class GlobalLineBuffSystem : MonoBehaviour
         }
     }
 
-    public void SetTypeToRow() => CurrentType = BuffLine.Row;
-    public void SetTypeToColumn() => CurrentType = BuffLine.Column;
-
     public void AddRequest(BuffLine type, int idx, float multiplier = -1f)
     {
         if (multiplier <= 0f)
