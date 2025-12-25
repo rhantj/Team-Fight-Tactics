@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,6 +25,8 @@ public abstract class ChessStateBase : MonoBehaviour
     public float FinalAttackSpeed => baseData.attackSpeed * attackSpeedMultiplier;
     private bool deadEventFired = false;
 
+    
+
 
     //=====================================================
     //          보너스 스탯 (시너지 / 아이템 분리)
@@ -40,6 +43,7 @@ public abstract class ChessStateBase : MonoBehaviour
     protected int bonusAttack_Item;
     protected int bonusArmor_Item;
     protected float bonusAttackSpeed_Item = 1f;
+    protected float damageReduction; // 덤불조끼 피해감소 변수
 
     // 글로벌 버프 보너스
     protected int bonusMaxHP_Buff;
@@ -47,12 +51,23 @@ public abstract class ChessStateBase : MonoBehaviour
     protected int bonusArmor_Buff;
     protected float bonusAttackSpeed_Buff = 1f;
 
+    protected float bonusMaxHP_Percent;
+
     // ================== 최종 스탯 계산 ==================
-    public int MaxHP =>
-        (baseData != null ? baseData.maxHP : 0)
-        + bonusMaxHP_Synergy
-        + bonusMaxHP_Item
-        + bonusMaxHP_Buff;
+
+    public int FlatMaxHP =>
+    (baseData != null ? baseData.maxHP : 0)
+  + bonusMaxHP_Synergy
+  + bonusMaxHP_Item;
+
+    public int MaxHP
+    {
+        get
+        {
+            float percentMultiplier = 1f + bonusMaxHP_Percent;
+            return Mathf.RoundToInt(FlatMaxHP * percentMultiplier);
+        }
+    }
 
     public int AttackDamage =>
         (baseData != null ? baseData.attackDamage : 0)
@@ -73,6 +88,7 @@ public abstract class ChessStateBase : MonoBehaviour
     public event System.Action<int, int> OnHPChanged;
     public event System.Action OnStatChanged;
     public event System.Action OnBasicAttackHit;
+    public event Action<Chess> OnDamagedByBasicAttack;
     //=====================================================
     //                  전투 / 마나 설정
     //=====================================================
@@ -207,6 +223,8 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusArmor_Buff = 0;
         bonusAttackSpeed_Buff = 1f;
 
+        bonusMaxHP_Percent = 0f;
+
         CurrentHP = MaxHP;
         CurrentMana = 0;
         deathHandled = false;
@@ -256,6 +274,11 @@ public abstract class ChessStateBase : MonoBehaviour
             Mathf.RoundToInt(amount * damageMultiplier)
         );
 
+        if(damageReduction >0f)
+        {
+            finalDamage = Mathf.RoundToInt(finalDamage * (1f - damageReduction));
+        }
+
         if (currentShield > 0)
         {
             int absorbed = Mathf.Min(currentShield, finalDamage);
@@ -269,6 +292,12 @@ public abstract class ChessStateBase : MonoBehaviour
             if (CurrentHP < 0) CurrentHP = 0;
 
             OnHPChanged?.Invoke(CurrentHP, MaxHP);
+
+            //기본 공격 피격 이벤트
+            if(attacker != null)
+            {
+                OnDamagedByBasicAttack?.Invoke(attacker);
+            }
         }
 
         GainMana(manaOnDamaged);
@@ -461,7 +490,26 @@ public abstract class ChessStateBase : MonoBehaviour
             OnStatChanged?.Invoke();
         }
     }
+    
+    //뎀감 Setter
+    public void AddDamageReduction(float value)
+    {
+        damageReduction += value;
+    }
+    public void AddMaxHpBuff(int deltaHp)
+    {
+        // 현재 HP 비율 유지
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
 
+        bonusMaxHP_Buff += deltaHp;
+
+        // 현재 HP는 비율 유지 (MaxHP 변화에 따라 자연스러운 유지)
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP) CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
     //=====================================================
     //                  리셋
     //=====================================================
@@ -482,6 +530,8 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusArmor_Buff = 0;
         bonusMaxHP_Buff = 0;
         bonusAttackSpeed_Buff = 1f;
+
+        bonusMaxHP_Percent = 0f;
 
         CurrentHP = MaxHP;
         RecalculateAttackSpeed();
@@ -576,5 +626,34 @@ public abstract class ChessStateBase : MonoBehaviour
         {
             Die();
         }
+    }
+    //퍼센트 체력 적용 / 해제 API
+    public void AddMaxHpPercent(float percent)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusMaxHP_Percent += percent;
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
+    public void RemoveMaxHpPercent(float percent)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusMaxHP_Percent -= percent;
+        bonusMaxHP_Percent = Mathf.Max(0f, bonusMaxHP_Percent);
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
     }
 }

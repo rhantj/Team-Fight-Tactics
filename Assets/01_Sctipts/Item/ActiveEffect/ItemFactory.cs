@@ -44,6 +44,14 @@ public static class ItemFactory
             {
                 return new RedBuff(data);
             }
+            if (data.itemName == "BrambleVest")
+            {
+                return new BrambleVest(data);
+            }
+            if (data.itemName == "WarmogsArmor")
+            {
+                return new WarmogsArmor(data);
+            }
         }
 
         return new PassiveItem(data);
