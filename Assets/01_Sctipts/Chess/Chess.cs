@@ -39,6 +39,11 @@ public class Chess : ChessStateBase
     private const string AtkSpeedParam = "AtkAnimSpeed";
     [SerializeField] private float atkSpeedBase = 1f;
 
+    [SerializeField] private string attackStateName = "Attack"; // Animator State 이름
+    private int attackStateHash;
+    private float attackClipLen = 0.5f; // 못 찾으면 fallback
+
+
     //타겟 쫓을때의 간격관련
     [SerializeField] private float approachRatio = 0.85f;
     [SerializeField] private float slotSpacing = 0.65f; //기물 간격
@@ -55,6 +60,9 @@ public class Chess : ChessStateBase
     {
         base.Awake();
         overrideState = false; // 초기화
+
+        CacheAttackAnimData();
+        OnStatChanged += ApplyAtkAnimSpeed;
     }
     private void Start()
     {
@@ -67,6 +75,9 @@ public class Chess : ChessStateBase
         base.OnEnable();
         TryRegisterGameManager();
         overrideState = false; // 풀링 재활성화 시에도 false로 초기화
+
+        CacheAttackAnimData();
+        ApplyAtkAnimSpeed();
     }
 
     private void OnDestroy()
@@ -304,9 +315,44 @@ public class Chess : ChessStateBase
         if (!HasAnimParam(AtkSpeedParam)) return;
 
         float denom = Mathf.Max(0.01f, atkSpeedBase);
-        float speed = AttackSpeed / denom;     
+        float speed = AttackSpeed / denom;
+        //animator.SetFloat(AtkSpeedParam, speed);
+
+        float interval = Mathf.Max(0.01f, attackInterval);
+        float clip = Mathf.Max(0.01f, attackClipLen);
+        float required = clip / interval;
+
+        speed = Mathf.Max(speed, required);
+
+        //필요하면 상한조절하면됩니다.
+        speed = Mathf.Clamp(speed, 0.1f, 20f);
+
         animator.SetFloat(AtkSpeedParam, speed);
+
     }
+
+    private void CacheAttackAnimData()
+    {
+        attackStateHash = Animator.StringToHash(attackStateName);
+        attackClipLen = 0.5f;
+
+        if (animator == null) return;
+        var ctrl = animator.runtimeAnimatorController;
+        if (ctrl == null) return;
+
+        var clips = ctrl.animationClips;
+        for (int i = 0; i < clips.Length; i++)
+        {
+            var c = clips[i];
+            if (c != null && c.name == attackStateName)
+            {
+                attackClipLen = c.length;
+                break;
+            }
+        }
+    }
+
+
     private void FaceTarget(Transform target)
     {
         if (target == null) return;
@@ -347,22 +393,35 @@ public class Chess : ChessStateBase
 
         if (animator == null) return;
 
-        //트리거 난사금지
-        float minInterval = Mathf.Min(0.15f, attackInterval * 0.9f);
-        if (Time.time - lastAttackAnimTime < minInterval) return;
+        ////트리거 난사금지
+        //float minInterval = Mathf.Min(0.15f, attackInterval * 0.9f);
+        //if (Time.time - lastAttackAnimTime < minInterval) return;
 
-        var st = animator.GetCurrentAnimatorStateInfo(0);
-        float n = st.normalizedTime % 1f;
+        //var st = animator.GetCurrentAnimatorStateInfo(0);
+        //float n = st.normalizedTime % 1f;
 
-        bool isAttackState = st.IsName("Attack");
+        //bool isAttackState = st.IsName("Attack");
 
-        //히트 프레임 이후면 재트리거 허용 0.3~0.5동적 조절 ㄱㄱ
-        const float retriggerGate = 0.35f;
-        if (isAttackState && n < retriggerGate) return;
+        ////히트 프레임 이후면 재트리거 허용 0.3~0.5동적 조절 ㄱㄱ
+        //const float retriggerGate = 0.35f;
+        //if (isAttackState && n < retriggerGate) return;
 
-        animator.ResetTrigger("Attack"); //없어도되긴함
-        animator.SetTrigger("Attack");
+        //animator.ResetTrigger("Attack"); //없어도되긴함
+        //animator.SetTrigger("Attack");
+        //lastAttackAnimTime = Time.time;
+
+
+        if (animator == null) return;
+
+        // 공속 변화(시너지/아이템 등) 반영 + "안 끝나는 애니" 자동 보정
+        ApplyAtkAnimSpeed();
+
+        //Trigger가 아니라, 매 공격마다 "0프레임부터 강제 재생"
+        if (attackStateHash == 0) attackStateHash = Animator.StringToHash(attackStateName);
+        animator.Play(attackStateHash, 0, 0f);
+
         lastAttackAnimTime = Time.time;
+
     }
     public void ResetForNewRound_Chess()
     {
