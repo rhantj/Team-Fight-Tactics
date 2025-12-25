@@ -478,17 +478,19 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void GlobalBuffApply(float multiplier)
     {
-        if (true)//(baseData.traits.Contains(TraitType.Melee))
+        if (baseData.traits.Contains(TraitType.Melee))
         {
-            bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
             bonusArmor_Buff = (int)(Armor * (multiplier - 1f));
             bonusMaxHP_Buff = (int)(MaxHP * (multiplier - 1f));
-            bonusAttackSpeed_Buff *= multiplier;
-
-            CurrentHP += bonusMaxHP_Buff;
-            RecalculateAttackSpeed();
-            OnStatChanged?.Invoke();
         }
+        else if (baseData.traits.Contains(TraitType.Ranged))
+        {
+            bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
+            bonusAttackSpeed_Buff *= multiplier;
+        }
+        CurrentHP += bonusMaxHP_Buff;
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
     }
     
     //µ©°¨ Setter

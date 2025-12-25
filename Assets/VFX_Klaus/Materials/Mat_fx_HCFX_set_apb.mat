@@ -35,6 +35,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_fx_HCFX_set_apb
   m_Shader: {fileID: -6465566751694194690, guid: 2280f576a6e24d848ab42f9114ad2b47, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _DOUBLESIDED_ON
@@ -50,6 +52,7 @@ Material:
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - MOTIONVECTORS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -100,7 +103,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Boolean_52F3CBA5: 0
-    - Boolean_BB495B7B: 1
+    - Boolean_BB495B7B: 0
     - Vector1_53729B24: 1
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
