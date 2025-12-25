@@ -22,11 +22,6 @@ public class BGMStarter : MonoBehaviour
         // StartPanel 활성 상태 변화 감지
         UpdateBGM();
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log($"Over UI? {UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()}");
-        }
-
     }
 
     private void UpdateBGM()

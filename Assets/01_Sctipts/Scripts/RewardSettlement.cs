@@ -10,13 +10,11 @@ public class RewardSettlement: MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnRoundReward += Rewards;
-        GameManager.Instance.OnRoundReward += GoldnExpReward;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnRoundEnded -= Rewards;
-        GameManager.Instance.OnRoundEnded -= GoldnExpReward;
     }
 
     private void Rewards(int currentRound, bool lastBattleWin)

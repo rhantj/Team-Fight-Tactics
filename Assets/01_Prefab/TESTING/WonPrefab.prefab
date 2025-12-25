@@ -1548,7 +1548,6 @@ GameObject:
   - component: {fileID: 2833297349589527377}
   - component: {fileID: 3228609911801981127}
   - component: {fileID: 3372279538592883862}
-  - component: {fileID: 1756641240148847924}
   m_Layer: 5
   m_Name: Canvas(StartPanel, EndPanel)
   m_TagString: Untagged
@@ -1641,24 +1640,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
 --- !u!114 &3372279538592883862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1930513241878397041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ca33c7a61a23e2479e13d5a02fb7786, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelRoot: {fileID: 7049667189961127483}
-  chessPortraitList: {fileID: 5941550224804445176}
-  chessPortraitPrefab: {fileID: 4909297751812130806, guid: 3c101853cb2f0e843a8a456256749c25, type: 3}
-  retryButton: {fileID: 7623559204451984772}
-  mainMenuButton: {fileID: 1353033975272901184}
-  exitButton: {fileID: 2412959983070991008}
---- !u!114 &1756641240148847924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
