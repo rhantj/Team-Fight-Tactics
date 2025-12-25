@@ -677,7 +677,7 @@ public class GameManager : Singleton<GameManager>
 
             lastBattleUnits.Add(new EndGameUnitSnapshot
             {
-                portrait = chess.BaseData.icon,   // ← 너 프로젝트 기준
+                portrait = chess.BaseData.icon,
                 starLevel = chess.StarLevel,
                 unitName = chess.BaseData.unitName
             });
