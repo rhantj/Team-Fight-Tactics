@@ -37,6 +37,7 @@ public class GameManager : Singleton<GameManager>
     public GameState gameState { get; private set; }
     public RoundState roundState { get; private set; }
     public int currentRound { get; private set; }
+    public int LastReachedRound => currentRound;
 
     private int loseCount = 0;
 
@@ -62,6 +63,7 @@ public class GameManager : Singleton<GameManager>
     public event Action<float> OnTimerMaxTimeChanged; //12.18 add Kim
     private Coroutine battleCountdownCo; //12.18 add Kim
     private bool isReady = false;
+    private Coroutine roundRoutineCo;
 
     // 필드에 스냅샷 저장소 추가
     private List<EndGameUnitSnapshot> lastBattleUnits = new();
@@ -94,6 +96,13 @@ public class GameManager : Singleton<GameManager>
     //라운드 시작
     private void StartRound()
     {
+        // 기존 라운드 코루틴이 살아있다면 종료
+        if (roundRoutineCo != null)
+        {
+            StopCoroutine(roundRoutineCo);
+            roundRoutineCo = null;
+        }
+
         ResetPlayerUnitsForNewRound();
         ResetEnemyUnitsForNewRound();
         UnitCountManager.Instance.Clear();
@@ -102,8 +111,10 @@ public class GameManager : Singleton<GameManager>
 
         OnRoundStarted?.Invoke(currentRound);
 
-        StartCoroutine(RoundRoutine());
+        // 새 라운드 코루틴은 하나만 실행
+        roundRoutineCo = StartCoroutine(RoundRoutine());
     }
+
 
     //라운드 흐름 코루틴
     private IEnumerator RoundRoutine()
@@ -265,6 +276,7 @@ public class GameManager : Singleton<GameManager>
     //게임 종료 메서드
     private void EndGame()
     {
+        Debug.Log($"[CHECK] EndGame CALLED | frame={Time.frameCount}");
         gameState = GameState.GameOver;
         OnGameOver?.Invoke();
     }
@@ -677,7 +689,7 @@ public class GameManager : Singleton<GameManager>
 
             lastBattleUnits.Add(new EndGameUnitSnapshot
             {
-                portrait = chess.BaseData.icon,
+                portrait = chess.BaseData.gameOverPortrait,
                 starLevel = chess.StarLevel,
                 unitName = chess.BaseData.unitName
             });

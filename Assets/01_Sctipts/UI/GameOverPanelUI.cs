@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameOverPanelUI : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class GameOverPanelUI : MonoBehaviour
     [SerializeField] private Button retryButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button exitButton;
+
+    [Header("Round Info")]
+    [SerializeField] private TMP_Text survivedRoundText;
+
 
     private readonly List<Image> spawnedPortraits = new();
 
@@ -54,6 +59,7 @@ public class GameOverPanelUI : MonoBehaviour
     {
         panelRoot.SetActive(true);
         RefreshChessPortraits();
+        RefreshRoundText();
     }
 
     public void Hide()
@@ -101,6 +107,22 @@ public class GameOverPanelUI : MonoBehaviour
         }
         spawnedPortraits.Clear();
     }
+
+    private void RefreshRoundText()
+    {
+        if (survivedRoundText == null)
+            return;
+
+        if (GameManager.Instance == null)
+            return;
+
+        int round = GameManager.Instance.LastReachedRound;
+
+        survivedRoundText.text = $"{round} 라운드까지 생존!!";
+        // 또는
+        // survivedRoundText.text = $"{round} 라운드까지 생존";
+    }
+
 
     // ==============================
     // Button Callbacks

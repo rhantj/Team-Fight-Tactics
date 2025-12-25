@@ -54,5 +54,9 @@ public class ChessStatData : ScriptableObject
     [Header("서브스테이트머신 설정")]
     [Tooltip("서브스테이트머신으로 전이될지를 정합니다.")]
     public bool useBattleState = false;
+    //=====================================================
+    [Header("종료 패널 전용 비주얼")]
+    public Sprite gameOverPortrait;
+
 
 }

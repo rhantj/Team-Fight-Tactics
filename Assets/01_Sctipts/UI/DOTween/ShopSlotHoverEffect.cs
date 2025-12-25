@@ -64,8 +64,7 @@ public class ShopSlotHoverEffect : MonoBehaviour,
     // Hover
     // =========================
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("HOVER ENTER BG");
+    { 
         if (targetImage == null) return;
 
         targetImage.DOKill();
