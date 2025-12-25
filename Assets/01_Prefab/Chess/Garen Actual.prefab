@@ -1077,6 +1077,7 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 3
@@ -1127,8 +1128,8 @@ MonoBehaviour:
   tickInterval: 0.25
   radius: 2
   damageMultiplier: 0.6
-  spinVfxPrefab: {fileID: 0}
-  hitVfxPrefab: {fileID: 0}
+  spinVfxPrefab: {fileID: 1405116446760944943, guid: 2dd7cce54cc54684bbf475b7e61db48c, type: 3}
+  hitVfxPrefab: {fileID: 1405116446760944943, guid: 2dd7cce54cc54684bbf475b7e61db48c, type: 3}
   isSpinningBool: IsSpinning
 --- !u!114 &-2290209533307404200
 MonoBehaviour:
