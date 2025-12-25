@@ -60,6 +60,8 @@ public class GalioSkill_W : SkillBase
         {
             channelVfx = Object.Instantiate(channelVfxPrefab, galio.transform.position, Quaternion.identity, galio.transform);
         }
+        // 갈리오 스킬 효과음 추가
+        SettingsUI.PlaySFX("Galio W",galio.transform.position,1f,1f);
 
         if (channelTime > 0f)
             yield return new WaitForSeconds(channelTime);

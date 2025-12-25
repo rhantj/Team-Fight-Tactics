@@ -140,7 +140,7 @@ public class TargetManager : MonoBehaviour
 
         foreach (var enemy in enemyList)
         {
-            if (enemy == null || enemy.IsDead) continue;
+            if (enemy == null || enemy.IsDead||!enemy.IsTargetable) continue;
             float dist = Vector3.Distance(attacker.transform.position, enemy.transform.position);
             if (dist < nearestDist)
             {

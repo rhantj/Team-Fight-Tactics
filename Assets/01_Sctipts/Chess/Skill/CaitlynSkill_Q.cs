@@ -35,6 +35,10 @@ public class CaitlynSkill_Q : SkillBase
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        // 테스트용 케이틀린 효과음
+        SettingsUI.PlaySFX("Caitlyn_QSkillSound",caster.transform.position,1f,1f);
+
+
         // 투사체(연출용)
         if (projectilePrefab != null && firePoint != null)
             Object.Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);

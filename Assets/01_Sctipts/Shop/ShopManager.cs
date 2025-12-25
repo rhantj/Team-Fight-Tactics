@@ -154,6 +154,7 @@ public class ShopManager : Singleton<ShopManager>
 
         currentGold -= amount;
         UpdateGoldUI();
+        RefreshAffordableStates();
         return true;
     }
 
@@ -164,6 +165,7 @@ public class ShopManager : Singleton<ShopManager>
     {
         currentGold += amount;
         UpdateGoldUI();
+        RefreshAffordableStates();
     }
 
     // ================================================================
@@ -267,9 +269,19 @@ public class ShopManager : Singleton<ShopManager>
             int cost = GetRandomCostByLevel(playerLevel);
             ChessStatData unit = GetRandomUnitByCost(cost);
 
+            // 1) 슬롯 초기화
             slots[i].Init(unit, costUIData, i, this);
+
+            // 2) 구매 가능 여부 판단 (null 안전 처리)
+            bool canBuy = unit != null && currentGold >= unit.cost;
+
+            // 3) 상태 표현 위임
+            slots[i].SetAffordable(canBuy);
+
         }
+        RefreshStarHints();
     }
+
 
     /// <summary>
     /// 지정된 코스트 범위 내에서 실제 등장 가능한 유닛을 랜덤으로 선택합니다.
@@ -419,6 +431,8 @@ public class ShopManager : Singleton<ShopManager>
         unitBuyCount[data]++;
 
         ChessCombineManager.Instance?.Register(chess); //25.12.08 Add KIM
+
+        RefreshStarHints();
     }
 
     /// <summary>
@@ -474,6 +488,8 @@ public class ShopManager : Singleton<ShopManager>
         // 3. 풀로 반환
         // ===============================
         PoolManager.Instance.Despawn(data.poolID, obj);
+
+        RefreshStarHints();
     }
 
     //12/17 Add Kwon - 아이템 회수 메서드
@@ -723,4 +739,38 @@ public class ShopManager : Singleton<ShopManager>
 
 
     public int CurrentGold { get { return currentGold; } }
+
+    private void RefreshAffordableStates()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.CurrentData == null) continue;
+
+            bool canBuy = currentGold >= slot.CurrentData.cost;
+            slot.SetAffordable(canBuy);
+        }
+    }
+
+    private void RefreshStarHints()
+    {
+        if (ChessCombineManager.Instance == null)
+            return;
+
+        foreach (var slot in slots)
+        {
+            if (slot.CurrentData == null)
+                continue;
+
+            var data = slot.CurrentData;
+
+            bool canMake2Star = ChessCombineManager.Instance.CanMake2Star(data);
+            bool canMake3Star = ChessCombineManager.Instance.CanMake3Star(data);
+
+            slot.SetStarHint(canMake2Star, canMake3Star);
+        }
+    }
+
+
+
+
 }
