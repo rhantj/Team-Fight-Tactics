@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class ShenSkill_R : SkillBase
 {
@@ -56,8 +57,9 @@ public class ShenSkill_R : SkillBase
         Chess target = FindLowestHpRatioAlly(shen, allies, searchRadius, includeSelf);
         if (target == null) yield break;
 
+        var pos = transform.position + Vector3.up * 3f;
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, shen.transform.position, Quaternion.identity);
+            Object.Instantiate(castVfxPrefab, pos, Quaternion.identity);
         
         //쉔 R스킬 효과음 추가
         SettingsUI.PlaySFX("Shen_R_Use",shen.transform.position,1f,1f);
@@ -70,10 +72,16 @@ public class ShenSkill_R : SkillBase
 
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, target.transform.position, Quaternion.identity, target.transform);
+            GameObject vfx = Object.Instantiate(shieldVfxPrefab, target.transform.position + Vector3.up * 3f, Quaternion.identity);
 
-            if (shieldDuration > 0f)
-                Object.Destroy(vfx, shieldDuration);
+            float elapsed = shieldDuration;
+            while (elapsed > 0f)
+            {
+                elapsed -= Time.deltaTime;
+                vfx.transform.position = pos;
+                yield return null;
+            }
+            Object.Destroy(vfx, shieldDuration);
         }
     }
 

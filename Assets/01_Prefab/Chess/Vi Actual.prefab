@@ -2251,6 +2251,8 @@ MonoBehaviour:
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!136 &4378142926161583872
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2320,8 +2322,8 @@ MonoBehaviour:
   splashDamageMultiplier: 0.8
   coneRange: 3
   coneAngle: 90
-  castVfxPrefab: {fileID: 0}
-  hitVfxPrefab: {fileID: 0}
+  castVfxPrefab: {fileID: 3558206369194626607, guid: 898f5d1fd628fe84d9c61d748894a899, type: 3}
+  hitVfxPrefab: {fileID: 2803403803262308569, guid: ebb8aafa1f5669b4dbae1bd94495215a, type: 3}
 --- !u!114 &3490288044992863030
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -344,11 +344,16 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
+  useAlternateAttack: 0
+  attackStateName2: Attack2
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!136 &6074200725743754902
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -425,7 +430,7 @@ MonoBehaviour:
   procEveryHits: 3
   bonusDamageMultiplier: 1
   flatBonusDamage: 20
-  procVfxPrefab: {fileID: 0}
+  procVfxPrefab: {fileID: 9197921778859346998, guid: 997b515cf158b5b429888d331178f939, type: 3}
 --- !u!114 &-37031213778816391
 MonoBehaviour:
   m_ObjectHideFlags: 0

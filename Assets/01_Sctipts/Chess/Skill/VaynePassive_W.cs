@@ -18,6 +18,7 @@ public class VaynePassive_W : MonoBehaviour, IOnHitEffect
     [Header("VFX ")]
     [SerializeField, Tooltip("3타 발동 시  VFX")]
     private GameObject procVfxPrefab;
+    Vector3 offset = Vector3.up * 3f;
 
     //=====================================================
     //                  Runtime
@@ -46,7 +47,7 @@ public class VaynePassive_W : MonoBehaviour, IOnHitEffect
             target.TakeDamage(bonus, attacker); //일단 단순하게 추가피해..
 
             if (procVfxPrefab != null)
-                Object.Instantiate(procVfxPrefab, target.transform.position, Quaternion.identity);
+                Object.Instantiate(procVfxPrefab, target.transform.position + offset, Quaternion.identity);
         }
     }
 }
