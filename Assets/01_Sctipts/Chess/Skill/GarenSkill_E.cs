@@ -52,7 +52,7 @@ public class GarenSkill_E : SkillBase
         GameObject spinVfx = null;
         if (spinVfxPrefab != null)
         {
-            spinVfx = PoolManager.Instance.Spawn("GarenSpin");
+            spinVfx = PoolManager.Instance.Spawn("GarenSpinHit");
             spinVfx.transform.SetPositionAndRotation(garen.transform.position, Quaternion.identity);
         }
 
@@ -84,7 +84,7 @@ public class GarenSkill_E : SkillBase
 
                     if (hitVfxPrefab != null)
                     {
-                        var hitVfx = PoolManager.Instance.Spawn("GarenHit");
+                        var hitVfx = PoolManager.Instance.Spawn("GarenSpinHit");
                         hitVfx.transform.SetPositionAndRotation(target.transform.position, Quaternion.identity);
                     }
                 }
