@@ -267,6 +267,16 @@ public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHand
 
             targetNode.ChessPiece = chess;
             prevNode.ChessPiece = other;
+            if (other is Chess otherChess)
+            {
+                if (prevGrid is FieldGrid) otherChess.SetOnField(true);
+                else if (prevGrid is BenchGrid) otherChess.SetOnField(false);
+            }
+
+            if (prevGrid is BenchGrid)
+            {
+                other.SetSynergyBonusStats(0, 0, 0);
+            }
         }
         else
         {
