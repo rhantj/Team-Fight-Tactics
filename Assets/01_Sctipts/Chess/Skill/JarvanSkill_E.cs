@@ -48,6 +48,8 @@ public class JarvanSkill_E : SkillBase
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        SettingsUI.PlaySFX("Jarvan_E",Vector3.zero, 1f,1f);
+
         List<Chess> enemies = (jarvan.team == Team.Player)
             ? UnitCountManager.Instance.enemyUnits
             : UnitCountManager.Instance.playerUnits;

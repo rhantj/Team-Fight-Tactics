@@ -4316,8 +4316,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10032,8 +10032,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4599710072709814593}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: initialBGMVolume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.size
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[0].key
@@ -10060,28 +10064,44 @@ PrefabInstance:
       value: BGM9
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[6].key
+      value: BGM10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[7].key
+      value: BGM11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[0].displayName
-      value: BGM1
+      value: BasicTheme
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[1].displayName
-      value: BGM5
+      value: Jungle
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[2].displayName
-      value: BGM6
+      value: FreeJPOP1
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[3].displayName
-      value: BGM7
+      value: FreeJPOP2
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[4].displayName
-      value: BGM8
+      value: FreeJPOP3
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[5].displayName
-      value: BGM9
+      value: Fantasy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[6].displayName
+      value: Silhouette
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[7].displayName
+      value: Some Like It Hot
       objectReference: {fileID: 0}
     - target: {fileID: 4133657470640333485, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_fontAsset

@@ -40,6 +40,9 @@ public class DravenPassive_P : MonoBehaviour, IOnHitEffect
 
         stacks -= cashouts * stacksPerCashout;
 
+        // 드레이븐 패시브 효과음 추가
+        SettingsUI.PlaySFX("Draven_Passive", Vector3.zero, 1f, 1f);
+
         int goldPer = GetGoldPerCashout(attacker.StarLevel);
         int gain = cashouts * goldPer;
 
