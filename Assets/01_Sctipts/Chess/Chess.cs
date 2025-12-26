@@ -668,24 +668,40 @@ public class Chess : ChessStateBase
 
         isInBattlePhase = false;
         currentTarget = null;
-
         overrideState = true;
 
         if (animator == null) return;
-
         if (HasAnimParam("Attack")) animator.ResetTrigger("Attack");
         if (HasAnimParam("UseSkill")) animator.ResetTrigger("UseSkill");
         if (HasAnimParam("ToIdle")) animator.ResetTrigger("ToIdle");
         if (HasAnimParam("Victory")) animator.ResetTrigger("Victory");
 
-        int h1 = Animator.StringToHash(victoryStateName);             
-        int h2 = Animator.StringToHash("Base Layer." + victoryStateName); 
+        int hShort = Animator.StringToHash(victoryStateName);        
+        int hBase = Animator.StringToHash("Base Layer." + victoryStateName);
 
-        if (animator.HasState(0, h1)) animator.Play(h1, 0, 0f);
-        else if (animator.HasState(0, h2)) animator.Play(h2, 0, 0f);
-        else if (HasAnimParam("Victory")) animator.SetTrigger("Victory"); 
-        else Debug.LogWarning($"[{name}] Victory state/param not found.");
+        for (int layer = 0; layer < animator.layerCount; layer++)
+        {
+            if (animator.HasState(layer, hShort))
+            {
+                animator.CrossFadeInFixedTime(hShort, 0.05f, layer, 0f);
+                return;
+            }
+            if (animator.HasState(layer, hBase))
+            {
+                animator.CrossFadeInFixedTime(hBase, 0.05f, layer, 0f);
+                return;
+            }
+        }
+
+        if (HasAnimParam("Victory"))
+        {
+            animator.SetTrigger("Victory");
+            return;
+        }
+
+        Debug.LogWarning($"[{name}] Victory state/param not found. Check Animator state name/layer/parameter.");
     }
+
 
 
 
