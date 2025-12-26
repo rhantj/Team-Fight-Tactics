@@ -47,7 +47,10 @@ public class VaynePassive_W : MonoBehaviour, IOnHitEffect
             target.TakeDamage(bonus, attacker); //일단 단순하게 추가피해..
 
             if (procVfxPrefab != null)
-                Object.Instantiate(procVfxPrefab, target.transform.position + offset, Quaternion.identity);
+            {
+                var hitVfx = PoolManager.Instance.Spawn("VayneHit");
+                hitVfx.transform.SetPositionAndRotation(target.transform.position + offset, Quaternion.identity);
+            }
         }
     }
 }

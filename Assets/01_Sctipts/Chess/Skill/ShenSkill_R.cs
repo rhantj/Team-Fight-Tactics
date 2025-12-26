@@ -59,7 +59,10 @@ public class ShenSkill_R : SkillBase
 
         var pos = transform.position + Vector3.up * 3f;
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, pos, Quaternion.identity);
+        {
+            var castVfx = PoolManager.Instance.Spawn("ShenCast");
+            castVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        }
         
         //쉔 R스킬 효과음 추가
         SettingsUI.PlaySFX("Shen_R_Use",shen.transform.position,1f,1f);
@@ -72,16 +75,19 @@ public class ShenSkill_R : SkillBase
 
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, target.transform.position + Vector3.up * 3f, Quaternion.identity);
+            var shieldVfx = PoolManager.Instance.Spawn("ShenShield");
+            shieldVfx.transform.SetPositionAndRotation(target.transform.position + Vector3.up * 3f, Quaternion.identity);
 
             float elapsed = shieldDuration;
             while (elapsed > 0f)
             {
                 elapsed -= Time.deltaTime;
-                vfx.transform.position = pos;
+                shieldVfx.transform.position = pos;
                 yield return null;
             }
-            Object.Destroy(vfx, shieldDuration);
+
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 
