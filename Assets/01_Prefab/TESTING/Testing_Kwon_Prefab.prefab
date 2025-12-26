@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6c2a7746c48440a9bdc91abfff476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingRound: 1
+  maxRound: 5
   maxLoseCount: 3
   battleTime: 30
   preparationTime: 5
@@ -319,6 +321,125 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 1
     preloadCount: 10
+  - id: CaitlynCast
+    prefab:
+      m_AssetGUID: e6eb729988ef2f349a24b0b4ae8fea47
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: CaitlynProjectile
+    prefab:
+      m_AssetGUID: f9f412af9cbae3047acd0d634dbc4356
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 2
+  - id: GalioChannel
+    prefab:
+      m_AssetGUID: 106e80406f0206648b7ccaf2a3d6d010
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GalioBlast
+    prefab:
+      m_AssetGUID: 594dbf2e6d47af1448c23c5bc4b3df45
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GalioShield
+    prefab:
+      m_AssetGUID: 7bc7a473621637646bade3a7f128574e
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GarenSpinHit
+    prefab:
+      m_AssetGUID: 2dd7cce54cc54684bbf475b7e61db48c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: JarvanHit
+    prefab:
+      m_AssetGUID: c559f037d1f6f3c48b259cab6ef9bdbc
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: SionShield
+    prefab:
+      m_AssetGUID: 48ce2b63a11c2f44dbc5ae55d03d9a27
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: JarvanFlag
+    prefab:
+      m_AssetGUID: d632561de57d9f24194eff48e0dc8687
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 2
+  - id: ShenCast
+    prefab:
+      m_AssetGUID: fed7c97a88174e245b699436089f8291
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ShenShield
+    prefab:
+      m_AssetGUID: 5ce6cc67dc61e344b97619ac6f58b70b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: VayneHit
+    prefab:
+      m_AssetGUID: 997b515cf158b5b429888d331178f939
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ViCast
+    prefab:
+      m_AssetGUID: 898f5d1fd628fe84d9c61d748894a899
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ViHit
+    prefab:
+      m_AssetGUID: ebb8aafa1f5669b4dbae1bd94495215a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahCast
+    prefab:
+      m_AssetGUID: 922870f9504e6b0438e21b87a73fe631
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahBuff
+    prefab:
+      m_AssetGUID: da28829cce8256a4d82e1b8e4c5d8c3c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahHit
+    prefab:
+      m_AssetGUID: 0777bc22e9e6ace47a89e97740ea56e9
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
 --- !u!1 &690265722023642297
 GameObject:
   m_ObjectHideFlags: 0
