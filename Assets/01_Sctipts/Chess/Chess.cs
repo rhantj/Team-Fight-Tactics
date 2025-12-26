@@ -178,7 +178,6 @@ public class Chess : ChessStateBase
         overrideState = false; // 전투 시작 시 강제로 false (어디선가 true로 설정한 경우 대비)
         attackTimer = 0f; // 전투 시작 시 즉시 평타 가능하도록 0으로 설정
 
-        Debug.Log($"[{gameObject.name}] EnterBattlePhase - overrideState={overrideState}, attackTimer={attackTimer}");
 
         if (animator != null)
         {
@@ -478,12 +477,8 @@ public class Chess : ChessStateBase
 
         if (animator == null) return;
 
-        // 공속 변화(시너지/아이템 등) 반영 + "안 끝나는 애니" 자동 보정
         ApplyAtkAnimSpeed();
 
-        //Trigger가 아니라, 매 공격마다 "0프레임부터 강제 재생"
-        Debug.Log($"[{name}] useAlt={useAlternateAttack}, nextAlt={nextAttackIsAlt}, hash1={attackStateHash}, hash2={attackStateHash2}");
-        Debug.Log($"[{name}] HasState1={animator.HasState(0, attackStateHash)}, HasState2={animator.HasState(0, attackStateHash2)}");
 
         int hashToPlay = attackStateHash;
 
@@ -554,10 +549,7 @@ public class Chess : ChessStateBase
         {
             animator.Play(deathStateHash, 0, 0f);
         }
-        else
-        {
-            Debug.LogWarning($"[{name}] Death state '{deathStateName}' not found in controller.");
-        }
+        
 
         OnDead?.Invoke(this);
 
@@ -570,8 +562,6 @@ public class Chess : ChessStateBase
             deathVanishCo = null;
         }
         deathVanishCo = StartCoroutine(DeathVanishRoutine());
-        Debug.Log($"[{name}] Ctrl={animator.runtimeAnimatorController.name}");
-        Debug.Log($"[{name}] HasDeathState={animator.HasState(0, Animator.StringToHash(deathStateName))}, HasVictoryState={animator.HasState(0, Animator.StringToHash(victoryStateName))}");
 
     }
 
@@ -699,7 +689,6 @@ public class Chess : ChessStateBase
             return;
         }
 
-        Debug.LogWarning($"[{name}] Victory state/param not found. Check Animator state name/layer/parameter.");
     }
 
 
