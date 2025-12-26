@@ -62,7 +62,14 @@ public class Chess : ChessStateBase
     [SerializeField] private int sideTries = 3;
     public ChessStateBase LastAttackTarget { get; private set; } //마지막공격 대상 추적 필드
 
-    private bool isDying = false; // 죽는 연출 중(사라지기 전)
+    private bool isDying = false; //죽는 연출
+    private Coroutine deathVanishCo;
+
+
+    [SerializeField] private string deathStateName = "Death";
+    [SerializeField] private string victoryStateName = "Victory";
+    private int deathStateHash;
+    private int victoryStateHash;
 
     //=====================================================
     //                  초기화
@@ -91,6 +98,25 @@ public class Chess : ChessStateBase
         nextAttackIsAlt = false;
 
         CacheAttackAnimData();
+        if (deathVanishCo != null)
+        {
+            StopCoroutine(deathVanishCo);
+            deathVanishCo = null;
+        }
+        StopAllCoroutines();
+        isDying = false;
+        deathHandled = false; 
+        overrideState = false;
+        nextAttackIsAlt = false;
+
+        if (animator != null)
+        {
+            if (HasAnimParam("Attack")) animator.ResetTrigger("Attack");
+            if (HasAnimParam("ToIdle")) animator.ResetTrigger("ToIdle");
+            if (HasAnimParam("UseSkill")) animator.ResetTrigger("UseSkill");
+            if (HasAnimParam("Victory")) animator.ResetTrigger("Victory");
+
+        }
         ApplyAtkAnimSpeed();
     }
 
@@ -365,6 +391,9 @@ public class Chess : ChessStateBase
     {
         attackStateHash = Animator.StringToHash(attackStateName);
         attackStateHash2 = Animator.StringToHash(attackStateName2);
+        deathStateHash = Animator.StringToHash(deathStateName);
+        victoryStateHash = Animator.StringToHash(victoryStateName);
+
 
         attackClipLen = 0.5f;
         attackClipLen2 = 0.5f;
@@ -481,10 +510,19 @@ public class Chess : ChessStateBase
     }
     public void ResetForNewRound_Chess()
     {
-        ResetForNewRound();      
-        currentTarget = null;  
+        ResetForNewRound();
+        isDying = false;
+        deathHandled = false;
         overrideState = false;
+        nextAttackIsAlt = false;
 
+        if (deathVanishCo != null)
+        {
+            StopCoroutine(deathVanishCo);
+            deathVanishCo = null;
+        }
+
+        currentTarget = null;
         stateMachine?.SetIdle();
     }
 
@@ -512,13 +550,29 @@ public class Chess : ChessStateBase
         overrideState = true;
 
         base.Die();
+        if (animator != null && animator.HasState(0, deathStateHash))
+        {
+            animator.Play(deathStateHash, 0, 0f);
+        }
+        else
+        {
+            Debug.LogWarning($"[{name}] Death state '{deathStateName}' not found in controller.");
+        }
 
         OnDead?.Invoke(this);
 
         currentTarget = null;
         attackTimer = 999f;
 
-        StartCoroutine(DeathVanishRoutine());
+        if (deathVanishCo != null)
+        {
+            StopCoroutine(deathVanishCo);
+            deathVanishCo = null;
+        }
+        deathVanishCo = StartCoroutine(DeathVanishRoutine());
+        Debug.Log($"[{name}] Ctrl={animator.runtimeAnimatorController.name}");
+        Debug.Log($"[{name}] HasDeathState={animator.HasState(0, Animator.StringToHash(deathStateName))}, HasVictoryState={animator.HasState(0, Animator.StringToHash(victoryStateName))}");
+
     }
 
 
@@ -558,9 +612,31 @@ public class Chess : ChessStateBase
     //=====================================================
     private IEnumerator DeathVanishRoutine()
     {
-        float wait = 1.0f;
+        if (animator == null || !animator.HasState(0, deathStateHash))
+        {
+            yield return new WaitForSeconds(1.0f);
+            gameObject.SetActive(false);
+            yield break;
+        }
+        yield return null;
+        float timeout = 6.0f; 
+        float t = 0f;
 
-        yield return new WaitForSeconds(wait);
+        while (t < timeout)
+        {
+            var st = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (st.shortNameHash != deathStateHash && !st.IsName(deathStateName))
+                break;
+
+            if (st.normalizedTime >= 1f)
+                break;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.05f);
         gameObject.SetActive(false);
     }
 
@@ -590,10 +666,29 @@ public class Chess : ChessStateBase
     {
         if (IsDead || isDying) return;
 
+        isInBattlePhase = false;
+        currentTarget = null;
+
         overrideState = true;
-        animator?.ResetTrigger("Attack");
-        animator?.SetTrigger("Victory");
+
+        if (animator == null) return;
+
+        if (HasAnimParam("Attack")) animator.ResetTrigger("Attack");
+        if (HasAnimParam("UseSkill")) animator.ResetTrigger("UseSkill");
+        if (HasAnimParam("ToIdle")) animator.ResetTrigger("ToIdle");
+        if (HasAnimParam("Victory")) animator.ResetTrigger("Victory");
+
+        int h1 = Animator.StringToHash(victoryStateName);             
+        int h2 = Animator.StringToHash("Base Layer." + victoryStateName); 
+
+        if (animator.HasState(0, h1)) animator.Play(h1, 0, 0f);
+        else if (animator.HasState(0, h2)) animator.Play(h2, 0, 0f);
+        else if (HasAnimParam("Victory")) animator.SetTrigger("Victory"); 
+        else Debug.LogWarning($"[{name}] Victory state/param not found.");
     }
+
+
+
 
     // =============== 기즈모 =============== //
     private void OnDrawGizmosSelected()
