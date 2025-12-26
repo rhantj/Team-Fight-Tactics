@@ -24,8 +24,8 @@ public class TraitIconEntry
 /// ShopSlot, 시너지 UI 등에서 TraitType을 기반으로
 /// 아이콘과 텍스트를 조회하는 용도로 사용된다.
 /// </summary>
-[CreateAssetMenu(fileName = "TraitIconDatabase", menuName = "TFT/Trait Icon Database")]
-public class TraitIconDatabase : ScriptableObject
+[CreateAssetMenu(fileName = "TraitIconDataBase", menuName = "TFT/Trait Icon Database")]
+public class TraitIconDataBase : ScriptableObject
 {
     public TraitIconEntry[] entries;
 

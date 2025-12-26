@@ -15,7 +15,7 @@ public class SynergyUIController : MonoBehaviour
 
     [Header("Databases")]
     [SerializeField] private TraitSynergyIconDatabase synergyIconDB;
-    [SerializeField] private TraitIconDatabase traitIconDB; // 이름 표시용
+    [SerializeField] private TraitIconDataBase traitIconDB; // 이름 표시용
 
     [Header("Tooltip Data")]
     [SerializeField] private TraitTooltipData[] tooltipDatas;
