@@ -49,6 +49,9 @@ public class XayahSkill_W : SkillBase
         if (castVfxPrefab != null)
             Object.Instantiate(castVfxPrefab, xayah.transform.position + offset, Quaternion.identity);
 
+        // 자야 스킬 효과음 추가
+        SettingsUI.PlaySFX("Xayah_W", Vector3.zero, 1f, 1f);
+
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
