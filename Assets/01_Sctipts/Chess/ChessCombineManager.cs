@@ -55,6 +55,7 @@ public class ChessCombineManager : MonoBehaviour
             list = new List<Chess>();
             chessGroups[key] = list;
         }
+        if (list.Contains(chess)) return;
 
         if (!list.Contains(chess))
         {
@@ -102,53 +103,55 @@ public class ChessCombineManager : MonoBehaviour
         if (!chessGroups.TryGetValue(key, out var list))
             return;
 
-        while (list.Count >= 3) //3개이상이라면 반복합성
+        while (list.Count >= 3)
         {
-            Chess main = list[0];
-            Chess material1 = list[1];
-            Chess material2 = list[2];
-
-            //ID비교입니다.
-            string mainID = !string.IsNullOrEmpty(main.BaseData.poolID)
-                ? main.BaseData.poolID
-                : main.BaseData.unitName;
-            string mat1ID = !string.IsNullOrEmpty(material1.BaseData.poolID)
-                ? material1.BaseData.poolID
-                : material1.BaseData.unitName;
-            string mat2ID = !string.IsNullOrEmpty(material2.BaseData.poolID)
-                ? material2.BaseData.poolID
-                : material2.BaseData.unitName;
-
-            if (mainID != mat1ID || mainID != mat2ID)
+            Chess main = null;
+            for (int i = 0; i < list.Count; i++)
             {
-                break;
+                if (IsPlacedOn(mainField, list[i]))
+                {
+                    main = list[i];
+                    break;
+                }
+            }
+            if (main == null) main = list[0];
+
+            // 나머지 2개는 재료로
+            Chess material1 = null;
+            Chess material2 = null;
+            for (int i = 0; i < list.Count; i++)
+            {
+                var c = list[i];
+                if (c == main) continue;
+
+                if (material1 == null) material1 = c;
+                else { material2 = c; break; }
             }
 
-            if (main.StarLevel != material1.StarLevel ||
-                main.StarLevel != material2.StarLevel)
-            {
-                break;
-            }
+            if (material1 == null || material2 == null) break;
 
-            if (main.StarLevel >= 3)
-                break;
+            string mainID = !string.IsNullOrEmpty(main.BaseData.poolID) ? main.BaseData.poolID : main.BaseData.unitName;
+            string mat1ID = !string.IsNullOrEmpty(material1.BaseData.poolID) ? material1.BaseData.poolID : material1.BaseData.unitName;
+            string mat2ID = !string.IsNullOrEmpty(material2.BaseData.poolID) ? material2.BaseData.poolID : material2.BaseData.unitName;
 
-            main.CombineWith(material1, material2); //본체 승급,재료 비활성화
+            if (mainID != mat1ID || mainID != mat2ID) break;
+            if (main.StarLevel != material1.StarLevel || main.StarLevel != material2.StarLevel) break;
+            if (main.StarLevel >= 3) break;
+
+            main.CombineWith(material1, material2);
 
             list.Remove(main);
             list.Remove(material1);
             list.Remove(material2);
 
-            if (list.Count == 0)
-            {
-                chessGroups.Remove(key);
-            }
+            if (list.Count == 0) chessGroups.Remove(key);
 
-            Register(main);//승급후 재등록을 통해서 추가합성이 가능하게.
+            Register(main);
 
             if (!chessGroups.TryGetValue(key, out list))
                 break;
         }
+
     }
 
     // =========================
@@ -245,6 +248,16 @@ public class ChessCombineManager : MonoBehaviour
         return oneStarCount == 8;
     }
 
+    private bool IsPlacedOn(GridDivideBase grid, Chess chess)
+    {
+        if (grid == null || chess == null) return false;
+
+        foreach (var n in grid.FieldGrid)
+            if (n.ChessPiece == chess)
+                return true;
+
+        return false;
+    }
 
 
 }

@@ -656,6 +656,8 @@ public class GameManager : Singleton<GameManager>
                 chess.SetPosition(node.worldPosition);
                 chess.SetOnField(true);
                 chess.ResetForNewRound_Chess();
+
+                ChessCombineManager.Instance?.Register(chess);
             }
         }
 
@@ -675,6 +677,8 @@ public class GameManager : Singleton<GameManager>
                 chess.SetPosition(node.worldPosition);
                 chess.SetOnField(false);
                 chess.ResetForNewRound_Chess();
+
+                ChessCombineManager.Instance?.Register(chess);
             }
         }
     }
