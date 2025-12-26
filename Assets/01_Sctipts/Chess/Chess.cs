@@ -533,7 +533,8 @@ public class Chess : ChessStateBase
     private int GetAttackDamage()
     {
         //int baseDamage = baseData.attackDamage;
-        return AttackDamage * Mathf.Max(1, StarLevel);
+        //return AttackDamage * Mathf.Max(1, StarLevel);
+        return AttackDamage;
     }
 
     protected override void Die()
@@ -574,23 +575,28 @@ public class Chess : ChessStateBase
     {
         if (material1 == null || material2 == null) return;
 
-        if (material1.baseData != baseData || material2.baseData != baseData)
-            return; //동일 유닛끼리만 조합이 되게.
-        if (StarLevel >= 3)
-            return; //3성이상은 조합안되게
+        //if (material1.baseData != baseData || material2.baseData != baseData)
+        //    return;
+        string idA = !string.IsNullOrEmpty(baseData.poolID) ? baseData.poolID : baseData.unitName;
+        string id1 = !string.IsNullOrEmpty(material1.baseData.poolID) ? material1.baseData.poolID : material1.baseData.unitName;
+        string id2 = !string.IsNullOrEmpty(material2.baseData.poolID) ? material2.baseData.poolID : material2.baseData.unitName;
 
+        if (StarLevel >= 3) return;
 
         StarLevel = Mathf.Min(StarLevel + 1, 3);
-        float hpMultiplier = 1.5f;
-        CurrentHP = Mathf.RoundToInt(baseData.maxHP * Mathf.Pow(hpMultiplier, StarLevel - 1));
-        CurrentMana = 0; //조합후 마나 초기화
 
-        //재료 소모쪽.
+        CurrentHP = MaxHP;   
+        CurrentMana = 0;
+
         ConsumeMaterial(material1);
         ConsumeMaterial(material2);
 
+        NotifyStatChanged();
+        NotifyHPChanged();
+
         Debug.Log($"조합됨 ({StarLevel}성)");
     }
+
 
     private void ConsumeMaterial(Chess material)
     {

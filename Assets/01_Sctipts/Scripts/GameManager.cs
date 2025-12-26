@@ -80,7 +80,14 @@ public class GameManager : Singleton<GameManager>
     */
 
     //게임 시작
+    [Header("등급 관련.")]
+    [SerializeField] private float starStepMultiplier = 1.5f;
 
+    public float GetStarMultiplier(int starLevel)
+    {
+        int lv = Mathf.Max(1, starLevel);
+        return Mathf.Pow(starStepMultiplier, lv - 1);
+    }
     private void Start()
     {
         StartGame();

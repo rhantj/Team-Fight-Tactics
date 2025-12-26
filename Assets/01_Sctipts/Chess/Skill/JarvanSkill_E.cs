@@ -28,6 +28,11 @@ public class JarvanSkill_E : SkillBase
     [SerializeField, Tooltip("히트 이펙트")]
     private GameObject hitVfxPrefab;
 
+    private void Awake()
+    {
+        endByAnimEvent = false; 
+    }
+
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess jarvan = caster as Chess;
