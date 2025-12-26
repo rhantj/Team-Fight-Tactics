@@ -52,7 +52,7 @@ public static class ItemFactory
             {
                 return new WarmogsArmor(data);
             }
-            if(data.itemName == "SunFireCape")
+            if(data.itemName == "SunfireCape")
             {
                 return new SunFireCape(data);
             }

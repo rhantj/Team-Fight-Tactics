@@ -68,7 +68,6 @@ public class SunFireCapeDebuff : MonoBehaviour
         // 방어력 무시 고정 피해
         chess.TakeTrueDamage(damage);
 
-        Debug.Log($"[SunfireBurn] {chess.name} -{damage} HP");
     }
 
     // =========================
