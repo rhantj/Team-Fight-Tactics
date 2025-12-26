@@ -2,6 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class GameBGMData
+{
+    public string key;          // 실제 재생 키 (preloadSFX 이름)
+    public string displayName;  // UI에 보여줄 이름
+}
+
 /// <summary>
 /// 게임 내 설정(옵션) UI를 담당하는 컨트롤러.
 ///
@@ -20,6 +27,9 @@ public class SettingsUI : MonoBehaviour
     public static float BGMVolume = 1f; //0~1
     public static float SFXVolume = 1f; //0~1
 
+    // 현재 선택된 게임 BGM Key
+    public static string SelectedGameBGMKey = "BGM1";
+
     [Header("UI Panel")]
     [SerializeField] private GameObject settingsPanel;
 
@@ -31,6 +41,19 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private TMP_Text bgmValueText;
     [SerializeField] private TMP_Text sfxValueText;
 
+    // ==============================
+    // Game BGM Select UI
+    // ==============================
+
+    [Header("Game BGM Select")]
+    [SerializeField] private TMP_Text currentBGMText;      // 현재 선택된 BGM 이름 표시
+    [SerializeField] private Button currentBGMButton;     // 클릭 시 목록 토글
+    [SerializeField] private GameObject bgmListPanel;      // BGM 목록 패널
+    [SerializeField] private Button bgmButtonPrefab;       // BGM 선택 버튼 프리팹
+    [SerializeField] private Transform bgmButtonParent;    // 버튼 생성 부모
+
+    [SerializeField] private GameBGMData[] gameBGMs;       // 선택 가능한 BGM 목록
+
     //설정창 열리는 불변수
     private bool isOpen = false;
 
@@ -39,6 +62,10 @@ public class SettingsUI : MonoBehaviour
         //여기서 설정창 꺼두고
         settingsPanel.SetActive(false);
 
+        // BGM 리스트 패널도 기본 비활성화
+        if (bgmListPanel != null)
+            bgmListPanel.SetActive(false);
+
         //UI 초기화(0~100 기준으로)
         bgmSlider.value = BGMVolume * 100f;
         sfxSlider.value = SFXVolume * 100f;
@@ -46,13 +73,15 @@ public class SettingsUI : MonoBehaviour
         //볼륨 텍스트도 설정
         bgmValueText.text = ((int)bgmSlider.value).ToString();
         sfxValueText.text = ((int)sfxSlider.value).ToString();
+
+        // BGM 초기 세팅
+        InitializeGameBGM();
     }
 
-    
     void Update()
     {
         //ESC 누르면 설정창 토글
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleSettingsUI();
         }
@@ -67,6 +96,7 @@ public class SettingsUI : MonoBehaviour
         //설정창 열리면 시간 멈추기
         Time.timeScale = isOpen ? 0f : 1f;
     }
+
     //배경음 조절 함수
     public void OnChangeBGM(float value)
     {
@@ -87,12 +117,11 @@ public class SettingsUI : MonoBehaviour
     }
 
     //설정창 닫는 함수
-    public void OnClickClose() 
+    public void OnClickClose()
     {
         Debug.Log("CLOSE CLICKED");
         ToggleSettingsUI();
     }
-       
 
     //게임 종료 함수
     public void OnClickExitGame() => Application.Quit();
@@ -109,6 +138,68 @@ public class SettingsUI : MonoBehaviour
         GameManager.Instance.ReturnToMainMenu();
     }
 
+    // ==============================
+    // Game BGM Logic
+    // ==============================
+
+    // 초기 Game BGM 세팅
+    private void InitializeGameBGM()
+    {
+        if (gameBGMs == null || gameBGMs.Length == 0)
+            return;
+
+        // 기본값 보정
+        SelectedGameBGMKey = gameBGMs[0].key;
+        currentBGMText.text = gameBGMs[0].displayName;
+
+        CreateBGMButtons();
+    }
+
+    // 현재 BGM 버튼 클릭 → 목록 토글
+    public void OnClickCurrentBGM()
+    {
+        if (bgmListPanel == null)
+            return;
+
+        bgmListPanel.SetActive(!bgmListPanel.activeSelf);
+    }
+
+    // BGM 선택 버튼 생성
+    private void CreateBGMButtons()
+    {
+        foreach (Transform child in bgmButtonParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var bgm in gameBGMs)
+        {
+            var btn = Instantiate(bgmButtonPrefab, bgmButtonParent);
+            btn.GetComponentInChildren<TMP_Text>().text = bgm.displayName;
+
+            btn.onClick.AddListener(() =>
+            {
+                SelectGameBGM(bgm);
+            });
+        }
+    }
+
+    // BGM 선택 시 즉시 교체
+    private void SelectGameBGM(GameBGMData bgm)
+    {
+        SelectedGameBGMKey = bgm.key;
+        currentBGMText.text = bgm.displayName;
+
+        // 기존 BGM 중단 + 새 BGM 즉시 재생
+        PlayBGM(SelectedGameBGMKey, 0.5f);
+
+        if (bgmListPanel != null)
+            bgmListPanel.SetActive(false);
+    }
+
+    // ==============================
+    // Sound Wrapper
+    // ==============================
 
     //사운드 재생 래퍼(Wrapper) 함수
     public static void PlaySFX(string clipName, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
@@ -126,7 +217,7 @@ public class SettingsUI : MonoBehaviour
     }
 
     // BGM을 실제로 한번 재생시키는 코드
-    // 브금예시 : SettingsUI.PlayBGM("BackgroundMusic", pos); 
+    // 브금예시 : SettingsUI.PlayBGM("BackgroundMusic", pos);
     // SFX예시 : SettingsUI.PlaySFX("Darius_AttackSound", pos);
     // 현재 SFXManager.PlaySound는 전역 볼륨 정보를 사용하지 않기 때문에
     // 전역 볼륨 기능을 넣으려면 재생 전 volume x SFXVolume 또는 BGMVolume 계산이 필요하다.
