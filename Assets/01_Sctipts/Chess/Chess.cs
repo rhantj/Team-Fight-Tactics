@@ -87,6 +87,9 @@ public class Chess : ChessStateBase
         TryRegisterGameManager();
         overrideState = false; // 풀링 재활성화 시에도 false로 초기화
 
+        isDying = false;       
+        nextAttackIsAlt = false;
+
         CacheAttackAnimData();
         ApplyAtkAnimSpeed();
     }
@@ -138,7 +141,7 @@ public class Chess : ChessStateBase
                 break;
 
             case RoundState.Result:
-                ExitBattlePhase(); //타겟제거 및 복귀
+                ExitBattlePhaseLogicOnly(); //타겟제거 및 복귀
                 break;
         }
     }
@@ -176,6 +179,12 @@ public class Chess : ChessStateBase
         if (IsDead || isDying) return;
         stateMachine?.SetIdle();
 
+    }
+    private void ExitBattlePhaseLogicOnly()
+    {
+        isInBattlePhase = false;
+        currentTarget = null;
+        attackTimer = attackInterval;
     }
 
     //=====================================================
@@ -496,18 +505,22 @@ public class Chess : ChessStateBase
 
     protected override void Die()
     {
-        if (IsDead || deathHandled) return;
+        if (deathHandled) return;
+        deathHandled = true;
 
-        isDying = true;        
-        overrideState = true;  
+        isDying = true;
+        overrideState = true;
 
         base.Die();
+
         OnDead?.Invoke(this);
+
         currentTarget = null;
         attackTimer = 999f;
 
         StartCoroutine(DeathVanishRoutine());
     }
+
 
 
     //=====================================================
