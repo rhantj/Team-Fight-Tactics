@@ -52,31 +52,38 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private Button bgmButtonPrefab;       // BGM 선택 버튼 프리팹
     [SerializeField] private Transform bgmButtonParent;    // 버튼 생성 부모
 
+    [Header("BGM List")]
     [SerializeField] private GameBGMData[] gameBGMs;       // 선택 가능한 BGM 목록
+
+    [Header("Initial Volume")]
+    [SerializeField, Range(0f, 1f)]
+    private float initialBGMVolume = 0.5f;
 
     //설정창 열리는 불변수
     private bool isOpen = false;
 
     void Start()
     {
-        //여기서 설정창 꺼두고
+        // 여기서 설정창 꺼두고
         settingsPanel.SetActive(false);
 
-        // BGM 리스트 패널도 기본 비활성화
-        if (bgmListPanel != null)
-            bgmListPanel.SetActive(false);
+        // 전역 볼륨 초기화
+        BGMVolume = initialBGMVolume;
 
-        //UI 초기화(0~100 기준으로)
+        // UI 초기화
         bgmSlider.value = BGMVolume * 100f;
         sfxSlider.value = SFXVolume * 100f;
 
-        //볼륨 텍스트도 설정
         bgmValueText.text = ((int)bgmSlider.value).ToString();
         sfxValueText.text = ((int)sfxSlider.value).ToString();
+
+        // 실제 사운드에도 반영
+        SoundSystem.SoundPlayer?.SetBGMVolume(BGMVolume);
 
         // BGM 초기 세팅
         InitializeGameBGM();
     }
+
 
     void Update()
     {

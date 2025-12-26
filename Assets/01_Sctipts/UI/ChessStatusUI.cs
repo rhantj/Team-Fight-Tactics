@@ -32,7 +32,7 @@ public class ChessStatusUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (targetChess == null || targetChess.IsDead)
+        if (targetChess == null)
             return;
 
         Vector3 worldPos = targetChess.transform.position;

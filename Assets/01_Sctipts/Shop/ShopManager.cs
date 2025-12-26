@@ -75,6 +75,17 @@ public class ShopManager : Singleton<ShopManager>
     private Sprite defaultUnlockedSprite;
 
     // ================================================================
+    // Level Limit
+    // ================================================================
+    private int maxLevel;
+
+    /// <summary>
+    /// 현재 최대 레벨 도달 여부
+    /// </summary>
+    public bool IsMaxLevel => playerLevel >= maxLevel;
+
+
+    // ================================================================
     // 초기화
     // ================================================================
     protected override void Awake()
@@ -101,6 +112,17 @@ public class ShopManager : Singleton<ShopManager>
         foreach(var data in levelDataTable.levels)
         {
             unitPerLevel.Add(data.boardUnitLimit);
+        }
+        
+        // Max Level 계산
+        if (levelDataTable != null && levelDataTable.levels.Length > 0)
+        {
+            maxLevel = levelDataTable.levels[levelDataTable.levels.Length - 1].level;
+        }
+        else
+        {
+            Debug.LogError("[ShopManager] LevelDataTable is invalid");
+            maxLevel = 1;
         }
     }
 
@@ -177,6 +199,15 @@ public class ShopManager : Singleton<ShopManager>
     /// </summary>
     public void BuyExp()
     {
+        // ===============================
+        // Max Level 도달 시 무시
+        // ===============================
+        if (IsMaxLevel)
+        {
+            Debug.Log("[ShopManager] Max Level reached. BuyExp ignored.");
+            return;
+        }
+
         if (!TrySpendGold(4))
             return;
 
@@ -185,15 +216,28 @@ public class ShopManager : Singleton<ShopManager>
 
     public void AddExp(int exp)
     {
+        // ===============================
+        // Max Level 도달 시 EXP 무시
+        // ===============================
+        if (IsMaxLevel)
+        {
+            return;
+        }
+
         playerExp += exp;
         UpdateExpUI();
         CheckLevelUp();
     }
+
     /// <summary>
     /// 현재 경험치를 기준으로 레벨업을 반복 검사합니다.
     /// </summary>
     private void CheckLevelUp()
     {
+        // 이미 Max Level이면 처리 중단
+        if (IsMaxLevel)
+            return;
+
         LevelData current = GetLevelData(playerLevel);
         if (current == null)
             return;
@@ -202,6 +246,18 @@ public class ShopManager : Singleton<ShopManager>
         {
             playerExp -= current.requiredExp;
             playerLevel++;
+
+            // Max Level 도달 시 정리
+            if (playerLevel >= maxLevel)
+            {
+                playerLevel = maxLevel;
+                playerExp = 0;
+                UpdateLevelUI();
+                UpdateExpUI();
+                UpdateCostRateUI();
+                UpdateCountUI(null);
+                return;
+            }
 
             UpdateLevelUI();
             UpdateExpUI();
@@ -228,9 +284,16 @@ public class ShopManager : Singleton<ShopManager>
     /// 현재 플레이어 경험치UI를 갱신합니다.
     /// 현재 레벨의 요구 경험치(LevelData)를 기준으로
     /// EXP 진행 상황을 텍스트로 표시합니다.
+    /// 최고 레벨일때 상태 추가
     /// </summary>
     private void UpdateExpUI()
     {
+        if (IsMaxLevel)
+        {
+            expText.text = "EXP: MAX";
+            return;
+        }
+
         LevelData data = GetLevelData(playerLevel);
 
         if (data != null)

@@ -22,8 +22,6 @@ public class BGMStarter : MonoBehaviour
     [SerializeField] private string gameBGMKey = "BGM1";
     [SerializeField] private string gameOverBGMKey = "BGM_GameOver";
 
-    [SerializeField, Range(0f, 1f)]
-    private float defaultBGMVolume = 0.5f;
 
     private void Start()
     {
@@ -71,15 +69,15 @@ public class BGMStarter : MonoBehaviour
         switch (currentState)
         {
             case BGMState.Intro:
-                SettingsUI.PlayBGM(introBGMKey, defaultBGMVolume);
+                SettingsUI.PlayBGM(introBGMKey);
                 break;
 
             case BGMState.Game:
-                SettingsUI.PlayBGM(gameBGMKey, defaultBGMVolume);
+                SettingsUI.PlayBGM(gameBGMKey);
                 break;
 
             case BGMState.GameOver:
-                SettingsUI.PlayBGM(gameOverBGMKey, defaultBGMVolume);
+                SettingsUI.PlayBGM(gameOverBGMKey);
                 break;
         }
     }

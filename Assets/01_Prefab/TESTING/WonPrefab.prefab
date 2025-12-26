@@ -3081,7 +3081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7437901013249665012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3099,7 +3099,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -590}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7765871297052327849
 CanvasRenderer:
@@ -3583,7 +3583,6 @@ MonoBehaviour:
   introBGMKey: BGM6
   gameBGMKey: BGM1
   gameOverBGMKey: BGM7
-  defaultBGMVolume: 0.5
 --- !u!114 &3423087789480859876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10034,7 +10033,7 @@ PrefabInstance:
       objectReference: {fileID: 4599710072709814593}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[0].key
@@ -10042,23 +10041,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[1].key
-      value: BGM6
+      value: BGM5
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[2].key
+      value: BGM6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[3].key
       value: BGM7
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[4].key
+      value: BGM8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[5].key
+      value: BGM9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[0].displayName
-      value: BasicBGM
+      value: BGM1
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[1].displayName
-      value: OpeningBGM
+      value: BGM5
       objectReference: {fileID: 0}
     - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: gameBGMs.Array.data[2].displayName
-      value: EndingBGM
+      value: BGM6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[3].displayName
+      value: BGM7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[4].displayName
+      value: BGM8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111477721464289571, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: gameBGMs.Array.data[5].displayName
+      value: BGM9
       objectReference: {fileID: 0}
     - target: {fileID: 4133657470640333485, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_fontAsset
