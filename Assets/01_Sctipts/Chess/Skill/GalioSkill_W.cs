@@ -58,7 +58,8 @@ public class GalioSkill_W : SkillBase
         GameObject channelVfx = null;
         if (channelVfxPrefab != null)
         {
-            channelVfx = Object.Instantiate(channelVfxPrefab, pos, Quaternion.identity);
+            channelVfx = PoolManager.Instance.Spawn("GalioChannel");
+            channelVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
         }
         // 갈리오 스킬 효과음 추가
         SettingsUI.PlaySFX("Galio W",galio.transform.position,1f,1f);
@@ -67,11 +68,17 @@ public class GalioSkill_W : SkillBase
             yield return new WaitForSeconds(channelTime);
 
         if (channelVfx != null)
-            Object.Destroy(channelVfx);
+        {
+            var pooled = channelVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
+        }
 
         // VFX
         if (blastVfxPrefab != null)
-            Object.Instantiate(blastVfxPrefab, pos, Quaternion.identity);
+        {
+            var blastVfx = PoolManager.Instance.Spawn("GalioBlast");
+            blastVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        }
 
         //범위피해
         List<Chess> enemies = (galio.team == Team.Player)
@@ -97,16 +104,19 @@ public class GalioSkill_W : SkillBase
         //VFX
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, pos, Quaternion.identity);
+            var shieldVfx = PoolManager.Instance.Spawn("GalioShield");
+            shieldVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
 
             float elapsed = shieldDuration;
             while (elapsed > 0f)
             {
                 elapsed -= Time.deltaTime;
-                vfx.transform.position = transform.position + Vector3.up * 1.5f;
+                shieldVfx.transform.position = transform.position + Vector3.up * 1.5f;
                 yield return null;
             }
-            Object.Destroy(vfx, shieldDuration);
+            
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 }

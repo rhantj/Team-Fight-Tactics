@@ -48,7 +48,10 @@ public class ViSkill_E : SkillBase
 
         //캐스팅 VFX
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, vi.transform.position + offset, Quaternion.identity);
+        {
+            var castVfx = PoolManager.Instance.Spawn("ViCast");
+            castVfx.transform.SetPositionAndRotation(vi.transform.position + offset, Quaternion.identity);
+        }
 
         //모션 타이밍
         if (windUpTime > 0f)
@@ -68,7 +71,10 @@ public class ViSkill_E : SkillBase
         mainTarget.TakeDamage(mainDmg, vi);
 
         if (hitVfxPrefab != null)
-            Object.Instantiate(hitVfxPrefab, mainTarget.transform.position + offset, Quaternion.identity);
+        {
+            var hitVfx = PoolManager.Instance.Spawn("ViHit");
+            hitVfx.transform.SetPositionAndRotation(mainTarget.transform.position + offset, Quaternion.identity);
+        }
 
         //Cone Splash 
         float halfAngle = coneAngle * 0.5f;

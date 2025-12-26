@@ -47,16 +47,18 @@ public class SionSkill_W : SkillBase
         if (shieldVfxPrefab != null)
         {
             var pos = transform.position + Vector3.up * 3f;
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, pos, Quaternion.identity);
+            var shieldVfx = PoolManager.Instance.Spawn("SionShield");
+            shieldVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
 
             float elapsed = shieldDuration;
             while (elapsed > 0f)
             {
                 elapsed -= Time.deltaTime;
-                vfx.transform.position = pos;
+                shieldVfx.transform.position = pos;
                 yield return null;
             }
-            Object.Destroy(vfx, shieldDuration);
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 }
