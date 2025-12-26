@@ -10,7 +10,8 @@ public class VFXModule : MonoBehaviour
 
     private void Awake()
     {
-        if(TryGetComponent<PooledObject>(out var po))
+        ps = GetComponent<ParticleSystem>();
+        if (TryGetComponent<PooledObject>(out var po))
         {
             pooled = po;
         }

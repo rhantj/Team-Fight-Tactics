@@ -1127,6 +1127,7 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 3
@@ -1216,9 +1217,9 @@ MonoBehaviour:
   shieldHpMultiplier: 0.25
   shieldFlat: 50
   shieldDuration: 4
-  channelVfxPrefab: {fileID: 0}
-  blastVfxPrefab: {fileID: 0}
-  shieldVfxPrefab: {fileID: 0}
+  channelVfxPrefab: {fileID: 4040964385477513619, guid: 106e80406f0206648b7ccaf2a3d6d010, type: 3}
+  blastVfxPrefab: {fileID: 3894621978031112059, guid: 594dbf2e6d47af1448c23c5bc4b3df45, type: 3}
+  shieldVfxPrefab: {fileID: 5623835019506186275, guid: 7bc7a473621637646bade3a7f128574e, type: 3}
 --- !u!114 &6644039873597115207
 MonoBehaviour:
   m_ObjectHideFlags: 0

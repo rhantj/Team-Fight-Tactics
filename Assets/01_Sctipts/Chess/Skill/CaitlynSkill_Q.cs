@@ -17,7 +17,7 @@ public class CaitlynSkill_Q : SkillBase
     [Header("VFX")]
     [SerializeField] private GameObject castVfxPrefab;       // 캐스팅 이펙트
     [SerializeField] private GameObject projectilePrefab;    // 투사체(연출용)
-    [SerializeField] private Transform firePoint;            // 총구 위치
+    [SerializeField] private Transform firePoint;// 총구 위치
 
     public override IEnumerator Execute(ChessStateBase caster)
     {
