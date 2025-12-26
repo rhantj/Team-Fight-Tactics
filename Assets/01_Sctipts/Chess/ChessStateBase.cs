@@ -57,15 +57,16 @@ public abstract class ChessStateBase : MonoBehaviour
     // ================== 최종 스탯 계산 ==================
 
     public int FlatMaxHP =>
-    (baseData != null ? baseData.maxHP : 0)
-  + bonusMaxHP_Synergy
-  + bonusMaxHP_Item;
+    (baseData != null ? Mathf.RoundToInt(baseData.maxHP * StarMul) : 0)
+    + bonusMaxHP_Synergy
+    + bonusMaxHP_Item
+    + bonusMaxHP_Buff; 
 
     public int FlatAttack =>
-    (baseData != null ? baseData.attackDamage : 0)
-  + bonusAttack_Synergy
-  + bonusAttack_Item
-  + bonusAttack_Buff;
+        (baseData != null ? Mathf.RoundToInt(baseData.attackDamage * StarMul) : 0)
+        + bonusAttack_Synergy
+        + bonusAttack_Item
+        + bonusAttack_Buff;
 
     public int MaxHP
     {
@@ -86,10 +87,10 @@ public abstract class ChessStateBase : MonoBehaviour
     }
 
     public int Armor =>
-        (baseData != null ? baseData.armor : 0)
-        + bonusArmor_Synergy
-        + bonusArmor_Item
-        + bonusArmor_Buff;
+    (baseData != null ? Mathf.RoundToInt(baseData.armor * StarMul) : 0)
+    + bonusArmor_Synergy
+    + bonusArmor_Item
+    + bonusArmor_Buff;
 
     //=====================================================
     //                  전투 이벤트 addtoKwon
@@ -133,6 +134,16 @@ public abstract class ChessStateBase : MonoBehaviour
 
     private Coroutine shieldCoroutine;
     private int shieldVersion = 0;
+
+
+    //===================================
+    //성급 관련
+    //===================================
+
+    protected float StarMul =>
+        (GameManager.Instance != null)
+            ? GameManager.Instance.GetStarMultiplier(StarLevel)
+            : Mathf.Pow(1.5f, Mathf.Max(0, StarLevel - 1));
 
     //=====================================================
     //                  Shield API
@@ -255,6 +266,11 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         CurrentHP = MaxHP;
         CurrentMana = 0;
+    }
+
+    protected void NotifyStatChanged()
+    {
+        OnStatChanged?.Invoke();
     }
 
     //=====================================================
