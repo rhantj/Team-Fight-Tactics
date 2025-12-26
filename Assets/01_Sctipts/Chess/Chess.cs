@@ -43,7 +43,14 @@ public class Chess : ChessStateBase
     private int attackStateHash;
     private float attackClipLen = 0.5f; // 못 찾으면 fallback
 
+    //attack2용으로
+    [SerializeField] private bool useAlternateAttack = false; //원거리는 false, 근거리는 true
+    [SerializeField] private string attackStateName2 = "Attack2";
+    private int attackStateHash2;
+    private float attackClipLen2 = 0.5f;
+    private bool nextAttackIsAlt = false; // Attack -> Attack2 -> Attack ...
 
+    [Header("타겟 쫓을때")]
     //타겟 쫓을때의 간격관련
     [SerializeField] private float approachRatio = 0.85f;
     [SerializeField] private float slotSpacing = 0.65f; //기물 간격
@@ -319,7 +326,11 @@ public class Chess : ChessStateBase
         //animator.SetFloat(AtkSpeedParam, speed);
 
         float interval = Mathf.Max(0.01f, attackInterval);
-        float clip = Mathf.Max(0.01f, attackClipLen);
+        float clipLen = attackClipLen;
+        if (useAlternateAttack)
+            clipLen = Mathf.Max(attackClipLen, attackClipLen2);
+
+        float clip = Mathf.Max(0.01f, clipLen);
         float required = clip / interval;
 
         speed = Mathf.Max(speed, required);
@@ -334,7 +345,10 @@ public class Chess : ChessStateBase
     private void CacheAttackAnimData()
     {
         attackStateHash = Animator.StringToHash(attackStateName);
+        attackStateHash2 = Animator.StringToHash(attackStateName2);
+
         attackClipLen = 0.5f;
+        attackClipLen2 = 0.5f;
 
         if (animator == null) return;
         var ctrl = animator.runtimeAnimatorController;
@@ -344,13 +358,16 @@ public class Chess : ChessStateBase
         for (int i = 0; i < clips.Length; i++)
         {
             var c = clips[i];
-            if (c != null && c.name == attackStateName)
-            {
+            if (c == null) continue;
+
+            if (c.name == attackStateName)
                 attackClipLen = c.length;
-                break;
-            }
+
+            if (c.name == attackStateName2)
+                attackClipLen2 = c.length;
         }
     }
+
 
 
     private void FaceTarget(Transform target)
@@ -417,10 +434,30 @@ public class Chess : ChessStateBase
         ApplyAtkAnimSpeed();
 
         //Trigger가 아니라, 매 공격마다 "0프레임부터 강제 재생"
-        if (attackStateHash == 0) attackStateHash = Animator.StringToHash(attackStateName);
-        animator.Play(attackStateHash, 0, 0f);
+        Debug.Log($"[{name}] useAlt={useAlternateAttack}, nextAlt={nextAttackIsAlt}, hash1={attackStateHash}, hash2={attackStateHash2}");
+        Debug.Log($"[{name}] HasState1={animator.HasState(0, attackStateHash)}, HasState2={animator.HasState(0, attackStateHash2)}");
 
+        int hashToPlay = attackStateHash;
+
+        if (useAlternateAttack)
+        {
+            if (nextAttackIsAlt)
+                hashToPlay = attackStateHash2;
+            else
+                hashToPlay = attackStateHash;
+
+            nextAttackIsAlt = !nextAttackIsAlt;
+        }
+
+        if (hashToPlay == 0)
+        {
+            // 혹시 해시가 0이면(거의 없지만) 안전장치
+            hashToPlay = Animator.StringToHash(useAlternateAttack && nextAttackIsAlt ? attackStateName2 : attackStateName);
+        }
+
+        animator.Play(hashToPlay, 0, 0f);
         lastAttackAnimTime = Time.time;
+
 
     }
     public void ResetForNewRound_Chess()
