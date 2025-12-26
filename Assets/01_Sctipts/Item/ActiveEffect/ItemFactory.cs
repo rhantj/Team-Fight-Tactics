@@ -56,6 +56,10 @@ public static class ItemFactory
             {
                 return new SunFireCape(data);
             }
+            if (data.itemName == "BlueBuffItem")
+            {
+                return new BlueBuff(data);
+            }
         }
 
         return new PassiveItem(data);

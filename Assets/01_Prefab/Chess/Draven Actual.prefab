@@ -1491,7 +1491,11 @@ MonoBehaviour:
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
   attackStateName: Attack
+<<<<<<< HEAD
   useAlternateAttack: 1
+=======
+  useAlternateAttack: 0
+>>>>>>> 8ac120e353c1ef6440b1b9d0bc28a034fc698d03
   attackStateName2: Attack2
   approachRatio: 0.85
   slotSpacing: 0.65
@@ -1590,7 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ed53a412af42447bd005b92b46fd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicAttackSfxName: Darius_Normal_Hit1
+  basicAttackSfxName: Draven_Normal_Hit1
 --- !u!1 &4819117814282417121
 GameObject:
   m_ObjectHideFlags: 0
