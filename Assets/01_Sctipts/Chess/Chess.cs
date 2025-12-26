@@ -1,4 +1,5 @@
 using System;
+using System.Collections; //12.26 kim add
 using UnityEngine;
 
 /*
@@ -60,6 +61,9 @@ public class Chess : ChessStateBase
     [SerializeField] private float sideStep = 0.7f;        // 옆으로 비키는 간격
     [SerializeField] private int sideTries = 3;
     public ChessStateBase LastAttackTarget { get; private set; } //마지막공격 대상 추적 필드
+
+    private bool isDying = false; // 죽는 연출 중(사라지기 전)
+
     //=====================================================
     //                  초기화
     //=====================================================
@@ -115,6 +119,11 @@ public class Chess : ChessStateBase
         switch (newState)
         {
             case RoundState.Preparation:
+                if (IsDead || isDying)
+                {
+                    ExitBattlePhase();
+                    break;
+                }
                 overrideState = false;
                 if (!IsDead && animator != null)
                 {
@@ -164,8 +173,9 @@ public class Chess : ChessStateBase
         attackTimer = attackInterval; //공격타이머 초기화
 
         if (overrideState) return; //외부연출중이라면 덮어쓰기 방지.
-        if (IsDead) return;  
-        stateMachine?.SetIdle(); //기본상태복귀
+        if (IsDead || isDying) return;
+        stateMachine?.SetIdle();
+
     }
 
     //=====================================================
@@ -486,11 +496,19 @@ public class Chess : ChessStateBase
 
     protected override void Die()
     {
-        if (!IsDead || deathHandled) return; //가드 추가했습니다. kim add 12.24
+        if (IsDead || deathHandled) return;
+
+        isDying = true;        
+        overrideState = true;  
 
         base.Die();
         OnDead?.Invoke(this);
+        currentTarget = null;
+        attackTimer = 999f;
+
+        StartCoroutine(DeathVanishRoutine());
     }
+
 
     //=====================================================
     //                  조합 & 성급 상승
@@ -525,6 +543,14 @@ public class Chess : ChessStateBase
     //=====================================================
     //           게임 상태 따른 기물 State 변화
     //=====================================================
+    private IEnumerator DeathVanishRoutine()
+    {
+        float wait = 1.0f;
+
+        yield return new WaitForSeconds(wait);
+        gameObject.SetActive(false);
+    }
+
     public void ForceIdle()
     {
         overrideState = false;
@@ -549,6 +575,8 @@ public class Chess : ChessStateBase
 
     public void ForceVictory()
     {
+        if (IsDead || isDying) return;
+
         overrideState = true;
         animator?.ResetTrigger("Attack");
         animator?.SetTrigger("Victory");
