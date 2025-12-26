@@ -46,10 +46,17 @@ public class SionSkill_W : SkillBase
 
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, sion.transform.position, Quaternion.identity, sion.transform);
+            var pos = transform.position + Vector3.up * 3f;
+            GameObject vfx = Object.Instantiate(shieldVfxPrefab, pos, Quaternion.identity);
 
-            if (shieldDuration > 0f)
-                Object.Destroy(vfx, shieldDuration);
+            float elapsed = shieldDuration;
+            while (elapsed > 0f)
+            {
+                elapsed -= Time.deltaTime;
+                vfx.transform.position = pos;
+                yield return null;
+            }
+            Object.Destroy(vfx, shieldDuration);
         }
     }
 }

@@ -1924,6 +1924,8 @@ MonoBehaviour:
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!114 &2601599842656142964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1971,8 +1973,8 @@ MonoBehaviour:
   shieldHpMultiplier: 0.35
   shieldFlat: 80
   shieldDuration: 4
-  castVfxPrefab: {fileID: 0}
-  shieldVfxPrefab: {fileID: 0}
+  castVfxPrefab: {fileID: 1030975243857146575, guid: fed7c97a88174e245b699436089f8291, type: 3}
+  shieldVfxPrefab: {fileID: 4451188901321450200, guid: 5ce6cc67dc61e344b97619ac6f58b70b, type: 3}
 --- !u!114 &2330658479806288621
 MonoBehaviour:
   m_ObjectHideFlags: 0

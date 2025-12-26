@@ -1754,11 +1754,16 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
+  useAlternateAttack: 0
+  attackStateName2: Attack2
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!114 &-5893183216020479998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1840,9 +1845,9 @@ MonoBehaviour:
   attackSpeedMultiplier: 1.3
   bonusDamageMultiplier: 0.4
   flatBonusDamage: 10
-  castVfxPrefab: {fileID: 0}
-  buffVfxPrefab: {fileID: 0}
-  hitVfxPrefab: {fileID: 0}
+  castVfxPrefab: {fileID: 5346253966740756259, guid: 922870f9504e6b0438e21b87a73fe631, type: 3}
+  buffVfxPrefab: {fileID: 2817813146465231806, guid: da28829cce8256a4d82e1b8e4c5d8c3c, type: 3}
+  hitVfxPrefab: {fileID: 8393927888780647174, guid: 0777bc22e9e6ace47a89e97740ea56e9, type: 3}
 --- !u!114 &4099470669970844275
 MonoBehaviour:
   m_ObjectHideFlags: 0

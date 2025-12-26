@@ -39,13 +39,15 @@ public class XayahSkill_W : SkillBase
     [SerializeField, Tooltip("È÷Æ® VFX")]
     private GameObject hitVfxPrefab;
 
+    Vector3 offset = Vector3.up * 3f;
+
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess xayah = caster as Chess;
         if (xayah == null) yield break;
 
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, xayah.transform.position, Quaternion.identity);
+            Object.Instantiate(castVfxPrefab, xayah.transform.position + offset, Quaternion.identity);
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
