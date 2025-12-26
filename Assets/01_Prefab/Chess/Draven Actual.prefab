@@ -1490,11 +1490,16 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
+  useAlternateAttack: 1
+  attackStateName2: Attack2
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!114 &7011568924533576246
 MonoBehaviour:
   m_ObjectHideFlags: 0
