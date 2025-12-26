@@ -20,9 +20,13 @@ public class GameOverPanelUI : MonoBehaviour
     [Header("Round Info")]
     [SerializeField] private TMP_Text survivedRoundText;
 
+    [Header("Star Sprites")]
+    [SerializeField] private Sprite silverStarSprite;
+    [SerializeField] private Sprite goldStarSprite;
 
     private readonly List<Image> spawnedPortraits = new();
 
+    // 버튼 할당
     private void Awake()
     {
         if (panelRoot == null)
@@ -86,18 +90,39 @@ public class GameOverPanelUI : MonoBehaviour
         }
     }
 
-
+    // 초상화 생성
     private void CreatePortrait(EndGameUnitSnapshot data)
     {
         var portrait = Instantiate(chessPortraitPrefab, chessPortraitList);
-
         portrait.sprite = data.portrait;
         portrait.gameObject.SetActive(true);
+
+        // ★ StarImage는 기본적으로 꺼둔다
+        var starTf = portrait.transform.Find("StarImage");
+        if (starTf != null)
+        {
+            starTf.gameObject.SetActive(false);
+
+            // 2성 / 3성만 표시
+            if (data.starLevel >= 2)
+            {
+                var starImg = starTf.GetComponent<Image>();
+                if (starImg != null)
+                {
+                    starImg.sprite = data.starLevel == 3
+                        ? goldStarSprite
+                        : silverStarSprite;
+
+                    starTf.gameObject.SetActive(true);
+                }
+            }
+        }
 
         spawnedPortraits.Add(portrait);
     }
 
 
+    // 초상화 비우기
     private void ClearPortraits()
     {
         foreach (var img in spawnedPortraits)
