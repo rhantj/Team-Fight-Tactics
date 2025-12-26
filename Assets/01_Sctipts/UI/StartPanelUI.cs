@@ -57,7 +57,6 @@ public class StartPanelUI : MonoBehaviour
     {
         if (optionPanel == null)
         {
-            Debug.Log("[StartPanelUI] OptionPanel is not assigned.");
             return;
         }
 
@@ -70,7 +69,6 @@ public class StartPanelUI : MonoBehaviour
     /// </summary>
     private void OnClickExit()
     {
-        Debug.Log("[StartPanel] Exit button clicked");
         Application.Quit();
     }
 
