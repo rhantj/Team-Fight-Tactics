@@ -52,7 +52,8 @@ public class GarenSkill_E : SkillBase
         GameObject spinVfx = null;
         if (spinVfxPrefab != null)
         {
-            spinVfx = Object.Instantiate(spinVfxPrefab, garen.transform.position, Quaternion.identity, garen.transform);
+            spinVfx = PoolManager.Instance.Spawn("GarenSpin");
+            spinVfx.transform.SetPositionAndRotation(garen.transform.position, Quaternion.identity);
         }
 
         // 가렌 스킬 효과음 추가
@@ -82,7 +83,10 @@ public class GarenSkill_E : SkillBase
                     target.TakeDamage(dmg, garen);
 
                     if (hitVfxPrefab != null)
-                        Object.Instantiate(hitVfxPrefab, target.transform.position, Quaternion.identity);
+                    {
+                        var hitVfx = PoolManager.Instance.Spawn("GarenHit");
+                        hitVfx.transform.SetPositionAndRotation(target.transform.position, Quaternion.identity);
+                    }
                 }
             }
 
@@ -91,6 +95,10 @@ public class GarenSkill_E : SkillBase
         if (anim != null && !string.IsNullOrEmpty(isSpinningBool))
             anim.SetBool(isSpinningBool, false);
         if (spinVfx != null)
-            Object.Destroy(spinVfx);
+        {
+            var pooled = spinVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
+        }
+            
     }
 }
