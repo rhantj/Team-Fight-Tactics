@@ -37,7 +37,6 @@ public class ChessControllerManager : MonoBehaviour
                 case RoundState.Preparation:
                 case RoundState.Result:
                     chess.overrideState = true;
-                    chess.ForceIdle();
                     break;
 
                 case RoundState.Battle:
