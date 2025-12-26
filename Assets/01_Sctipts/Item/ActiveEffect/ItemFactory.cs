@@ -52,6 +52,10 @@ public static class ItemFactory
             {
                 return new WarmogsArmor(data);
             }
+            if(data.itemName == "SunFireCape")
+            {
+                return new SunFireCape(data);
+            }
         }
 
         return new PassiveItem(data);
