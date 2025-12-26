@@ -52,6 +52,7 @@ public abstract class ChessStateBase : MonoBehaviour
     protected float bonusAttackSpeed_Buff = 1f;
 
     protected float bonusMaxHP_Percent;
+    protected float bonusAttack_Percent;
 
     // ================== 최종 스탯 계산 ==================
 
@@ -59,6 +60,12 @@ public abstract class ChessStateBase : MonoBehaviour
     (baseData != null ? baseData.maxHP : 0)
   + bonusMaxHP_Synergy
   + bonusMaxHP_Item;
+
+    public int FlatAttack =>
+    (baseData != null ? baseData.attackDamage : 0)
+  + bonusAttack_Synergy
+  + bonusAttack_Item
+  + bonusAttack_Buff;
 
     public int MaxHP
     {
@@ -69,11 +76,14 @@ public abstract class ChessStateBase : MonoBehaviour
         }
     }
 
-    public int AttackDamage =>
-        (baseData != null ? baseData.attackDamage : 0)
-        + bonusAttack_Synergy
-        + bonusAttack_Item
-        + bonusAttack_Buff;
+    public int AttackDamage
+    {
+        get
+        {
+            float multiplier = 1f + bonusAttack_Percent;
+            return Mathf.RoundToInt(FlatAttack * multiplier);
+        }
+    }
 
     public int Armor =>
         (baseData != null ? baseData.armor : 0)
@@ -224,6 +234,7 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttackSpeed_Buff = 1f;
 
         bonusMaxHP_Percent = 0f;
+        bonusAttack_Percent = 0f;
 
         CurrentHP = MaxHP;
         CurrentMana = 0;
@@ -657,5 +668,18 @@ public abstract class ChessStateBase : MonoBehaviour
 
         OnStatChanged?.Invoke();
         OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
+    public void AddAttackPercent(float percent)
+    {
+        bonusAttack_Percent += percent;
+        OnStatChanged?.Invoke();
+    }
+
+    public void RemoveAttackPercent(float percent)
+    {
+        bonusAttack_Percent -= percent;
+        bonusAttack_Percent = Mathf.Max(0f, bonusAttack_Percent);
+        OnStatChanged?.Invoke();
     }
 }
