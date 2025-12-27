@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PooledObject))]
@@ -19,8 +18,14 @@ public class VFXModule : MonoBehaviour
 
     private void OnEnable()
     {
+        VFXManager.Register(gameObject);
         ps.Play();
         StartCoroutine(Co_Return());
+    }
+
+    private void OnDisable()
+    {
+        VFXManager.Unregister(gameObject);
     }
 
     IEnumerator Co_Return()
@@ -31,6 +36,7 @@ public class VFXModule : MonoBehaviour
             yield return null;
         }
 
+        VFXManager.Unregister(gameObject);
         pooled.ReturnToPool();
     }
 }
