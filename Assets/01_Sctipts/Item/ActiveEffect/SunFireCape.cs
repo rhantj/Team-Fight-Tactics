@@ -8,7 +8,7 @@ public class SunFireCape : ItemBase
     private const float BURN_RADIUS = 10.0f; // 불태우기 범위
     private const float BURN_DURATION = 10.0f; //불태우기 지속시간
     private const float BURN_INTERVAL = 2.0f; //불태우기 갱신 시간 
-    private const float BURN_DAMAGE_PERCENT = 0.05f; //불태우기 고정피해 데미지
+    private const float BURN_DAMAGE_PERCENT = 0.01f; //불태우기 고정피해 데미지
 
     private Coroutine burnRoutine;
 
@@ -21,6 +21,9 @@ public class SunFireCape : ItemBase
         base.OnEquip(chess);
 
         owner = chess;
+
+        owner.AddMaxHpPercent(BONUS_HP_PERCENT);
+
         chess.OnBattleStart += OnBattleStart;
     }
 
@@ -28,6 +31,8 @@ public class SunFireCape : ItemBase
     {
         if (owner != null)
         {
+            owner.RemoveMaxHpPercent(BONUS_HP_PERCENT);
+
             owner.OnBattleStart -= OnBattleStart;
 
             if (burnRoutine != null)
