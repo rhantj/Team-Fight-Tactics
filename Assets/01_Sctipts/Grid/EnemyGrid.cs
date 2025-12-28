@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyGrid : GridDivideBase
 {
-    [SerializeField] GameObject enemyPF;
-    [SerializeField] int startNode = 10;
+    [SerializeField] GameObject[] enemyPF;
+    int[] enemyIdxs;
+    int startNode = 10;
     public List<ChessStateBase> allFieldUnits = new();
 
     protected override void OnEnable()
@@ -61,21 +62,52 @@ public class EnemyGrid : GridDivideBase
 
     void SpawnEnemy()
     {
-        for (int i = startNode; i < startNode + 1; ++i)
+        EnemiesIndex();
+
+        for (int i = startNode; i < startNode + enemyIdxs.Length; ++i)
         {
             var node = nodePerInt[i];
             var pos = node.worldPosition;
-            var obj = Instantiate(enemyPF);
 
-            //obj.GetComponent<Enemy>().SetPosition(pos);
+            GameObject obj = null;
+            foreach (int idx in enemyIdxs)
+            {
+                obj = PoolManager.Instance.Spawn(enemyPF[enemyIdxs[idx]].name);
+            }
+
             //===== add Kim 12.19
             var enemy = obj.GetComponent<Enemy>();
             enemy.SetPosition(pos);
             enemy.SetOnField(true);
             //=====
 
-            node.ChessPiece = enemy; //12.12 add Kim
+            node.ChessPiece = enemy;//12.12 add Kim
+        }
+    }
 
+    void EnemiesIndex()
+    {
+        var round = GameManager.Instance.currentRound;
+        switch (round)
+        {
+            case 1:
+                enemyIdxs = new int[] { 0 };
+                break;
+            case 2:
+                enemyIdxs = new int[] { 1 };
+                break;
+            case 3:
+                enemyIdxs = new int[] { 2 };
+                break;
+            case 4:
+                enemyIdxs = new int[] { 0, 1, 2 };
+                break;
+            case 5:
+                enemyIdxs = new int[] { 2, 3, 2 };
+                break;
+            default:
+                enemyIdxs = new int[] { 0 };
+                break;
         }
     }
 }

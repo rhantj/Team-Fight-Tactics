@@ -19,8 +19,11 @@ public static class VFXManager
     {
         foreach(var vfx in vfxObjects)
         {
-            var pooled = vfx.GetComponent<PooledObject>();
-            pooled?.ReturnToPool();
+            if(vfx.TryGetComponent<VFXModule>(out var _))
+            {
+                var pooled = vfx.GetComponent<PooledObject>();
+                pooled?.ReturnToPool();
+            }
         }
 
         vfxObjects.Clear();
