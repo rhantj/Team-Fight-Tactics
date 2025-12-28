@@ -27,7 +27,7 @@ public class ShopSlot : MonoBehaviour
     [SerializeField] private GameObject synergyIconPrefab;   // 시너지 아이콘 프리팹
 
     [Header("Trait Icon Database")]
-    [SerializeField] private TraitIconDatabase traitIconDB;  // 시너지 아이콘 데이터베이스
+    [SerializeField] private TraitIconDataBase traitIconDB;  // 시너지 아이콘 데이터베이스
 
     [Header("Materials")]
     [SerializeField] private Material defaultMaterial;

@@ -51,7 +51,7 @@ public class ChessInfoUI : Singleton<ChessInfoUI>
     [Header("Synergy UI")]
     [SerializeField] private Transform synergyContainer;
     [SerializeField] private GameObject synergyIconPrefab;
-    [SerializeField] private TraitIconDatabase traitIconDB;
+    [SerializeField] private TraitIconDataBase traitIconDB;
 
     [Header("Item Slots")]
     [SerializeField] private ChessInfoItemSlot[] itemSlots;

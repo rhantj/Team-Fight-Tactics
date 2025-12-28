@@ -116,6 +116,7 @@ public class GameManager : Singleton<GameManager>
             roundRoutineCo = null;
         }
 
+        ClearAllVFX();
         ResetPlayerUnitsForNewRound();
         ResetEnemyUnitsForNewRound();
         UnitCountManager.Instance.Clear();
@@ -184,6 +185,8 @@ public class GameManager : Singleton<GameManager>
             yield return null;
         }
 
+        // 전투 후 VFX 정리
+        ClearAllVFX();
 
         //결과 계산
         SetRoundState(RoundState.Result);
@@ -461,14 +464,13 @@ public class GameManager : Singleton<GameManager>
             itemUI.ClearAll();
         }
 
-        // SettingsUI 닫기
+        // 켜있다면 SettingsUI 닫기
         var settingsUI = FindAnyObjectByType<SettingsUI>(
-            FindObjectsInactive.Include
-        );
+                           FindObjectsInactive.Include);
 
-        if (settingsUI != null)
+        if (settingsUI != null && settingsUI.gameObject.activeSelf)
         {
-            settingsUI.ToggleSettingsUI();
+             settingsUI.Hide();
         }
 
         // 기물정보UI 닫기
@@ -713,5 +715,5 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
+    private void ClearAllVFX() => VFXManager.ClearAllVFX();
 }

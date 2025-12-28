@@ -61,6 +61,7 @@ public class SettingsUI : MonoBehaviour
 
     //설정창 열리는 불변수
     private bool isOpen = false;
+    public bool IsOpen => isOpen;
 
     void Start()
     {
@@ -94,15 +95,36 @@ public class SettingsUI : MonoBehaviour
         }
     }
 
-    //설정창 토글 함수
+    // 기존의 토글함수는 입력 전용 래퍼메서드로만 유지
     public void ToggleSettingsUI()
     {
-        isOpen = !isOpen;
-        settingsPanel.SetActive(isOpen);
-
-        //설정창 열리면 시간 멈추기
-        Time.timeScale = isOpen ? 0f : 1f;
+        if (isOpen)
+            Hide();
+        else
+            Show();
     }
+
+
+    // 설정창 여닫는 함수 추가
+
+    public void Show()
+    {
+        if (isOpen) return;
+
+        isOpen = true;
+        settingsPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void Hide()
+    {
+        if (!isOpen) return;
+
+        isOpen = false;
+        settingsPanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
 
     //배경음 조절 함수
     public void OnChangeBGM(float value)

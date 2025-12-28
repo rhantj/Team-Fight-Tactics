@@ -515,8 +515,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseData: {fileID: 11400000, guid: 29db89257e10572449fc3f034d08d35f, type: 2}
   attackInterval: 1
-  manaOnHit: 10
-  manaOnDamaged: 5
+  manaOnHit: 0
+  manaOnDamaged: 0
   attackTimer: 0
   currentShield: 0
   rotateSpeed: 720
@@ -524,11 +524,16 @@ MonoBehaviour:
   overrideState: 0
   attackAnimMinInterval: 0.15
   atkSpeedBase: 1
+  attackStateName: Attack
+  useAlternateAttack: 0
+  attackStateName2: Attack2
   approachRatio: 0.85
   slotSpacing: 0.65
   occupyRadius: 0.35
   sideStep: 0.7
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!136 &3100225043495344127
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4566,6 +4571,10 @@ PrefabInstance:
     - target: {fileID: 4043130731012263817, guid: 589d4102bc09e9b4c90a36fc93913a53, type: 3}
       propertyPath: heightOffset
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043130731012263817, guid: 589d4102bc09e9b4c90a36fc93913a53, type: 3}
+      propertyPath: extraHeadOffset
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6646185054232704041, guid: 589d4102bc09e9b4c90a36fc93913a53, type: 3}
       propertyPath: m_LocalScale.x
