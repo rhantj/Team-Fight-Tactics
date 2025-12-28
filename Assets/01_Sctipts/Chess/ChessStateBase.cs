@@ -490,17 +490,21 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void SetItemBonusStats(int attack, int armor, int hp, float attackSpeed = 1f)
     {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
         bonusAttack_Item = attack;
         bonusArmor_Item = armor;
         bonusMaxHP_Item = hp;
         bonusAttackSpeed_Item *= attackSpeed;
 
-        CurrentHP += hp;
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+
         if (CurrentHP > MaxHP)
             CurrentHP = MaxHP;
 
         RecalculateAttackSpeed();
         OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
     }
 
     public void GlobalBuffApply(float multiplier)
