@@ -2218,8 +2218,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   synergyUIParent: {fileID: 2239968667389834882}
   synergyUIPrefab: {fileID: 8941908934793213159, guid: 22888c95735df8d4cbefc88fe20b5536, type: 3}
-  synergyIconDB: {fileID: 11400000, guid: dea058b4c9b57d344838d93fa3ae3012, type: 2}
-  traitIconDB: {fileID: 11400000, guid: c3ea8ebba893ce843bab005096e84aa6, type: 2}
+  synergyIconDB: {fileID: 11400000, guid: 250a2d1e02ac4d847913bdc4065b65aa, type: 2}
+  traitIconDB: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
   tooltipDatas:
   - {fileID: 11400000, guid: bd1cf732b912c6448bc9c3ce49fbe9e8, type: 2}
   - {fileID: 11400000, guid: ef2b6656ba8cd394d8f9e2a6c9d16918, type: 2}
@@ -8756,6 +8756,10 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
       propertyPath: starHintRoot
       value: 
       objectReference: {fileID: 8696902743782245327}
@@ -8967,6 +8971,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
     - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
       propertyPath: starHintRoot
       value: 
@@ -9180,6 +9188,10 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
       propertyPath: starHintRoot
       value: 
       objectReference: {fileID: 2484151891654660839}
@@ -9392,6 +9404,10 @@ PrefabInstance:
       value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
       propertyPath: starHintRoot
       value: 
       objectReference: {fileID: 2867888982088156306}
@@ -9603,6 +9619,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
     - target: {fileID: 8749727256830407468, guid: 4baba0f93b39ce34f9f3da71f3e4d1ef, type: 3}
       propertyPath: starHintRoot
       value: 
@@ -9956,6 +9976,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8792559065567361354}
     - target: {fileID: 2931533001010813426, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: traitIconDB
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f1c0cf7cb313c441975f0ca024fd7b8, type: 2}
+    - target: {fileID: 2931533001010813426, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: hpBarMaxWidth
       value: 283
       objectReference: {fileID: 0}
@@ -10140,8 +10164,12 @@ PrefabInstance:
       value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 4952708427249451779, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4952708427249451779, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -42
+      value: -17.7
       objectReference: {fileID: 0}
     - target: {fileID: 4952708427249451779, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_AnchoredPosition.y
