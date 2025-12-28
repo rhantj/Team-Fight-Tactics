@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b68ae8930cf88408bb2c49c6541452, type: 3}
   m_Name: Baron Round Testing
   m_EditorClassIdentifier: 
-  unitName: Dummy
+  unitName: Baron
   maxHP: 100
   armor: 15
   attackDamage: 20
@@ -23,10 +23,11 @@ MonoBehaviour:
   starLevel: 1
   cost: 1
   traits: 02000000
-  icon: {fileID: 21300000, guid: 250809e3c45799246a42b166ebe3cdc2, type: 3}
+  icon: {fileID: 21300000, guid: d7f3e7b9642b73b449236734604cb0da, type: 3}
   prefab: {fileID: 1010666459333077837, guid: c537f3fbc91c9ed41926e4110adda7ef, type: 3}
   skillIcon: {fileID: 21300000, guid: 233b6e0a85138ee43b5249613a0eb9f1, type: 3}
   skillName: Korea Nori
   skillDescription: Yummy
   poolID: 
   useBattleState: 0
+  gameOverPortrait: {fileID: 0}

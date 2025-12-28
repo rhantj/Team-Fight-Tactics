@@ -19,7 +19,16 @@ public class ChessStatusUI : MonoBehaviour
     [SerializeField] private Sprite[] starFrameSprites;
 
     [Header("Position")]
-    [SerializeField] private float heightOffset = 2f;
+    [SerializeField] private float extraHeadOffset = 0.3f; // 머리 위 여유 (기존 heightOffset 대체)
+
+    private Vector3 cachedLocalAnchor; 
+    private bool hasAnchor = false;
+
+    [SerializeField] private float followSmoothTime = 0.05f; 
+    private Vector3 followVel;
+
+    private Renderer[] cachedRenderers;
+    private Collider[] cachedColliders;
 
     private RectTransform hpRect;
     private RectTransform shieldRect;
@@ -32,17 +41,30 @@ public class ChessStatusUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (targetChess == null)
-            return;
+        if (targetChess == null) return;
 
-        Vector3 worldPos = targetChess.transform.position;
-        worldPos.y += heightOffset;
-        transform.position = worldPos;
+        Vector3 desired;
+
+        if (hasAnchor)
+        {   
+            desired = targetChess.transform.TransformPoint(cachedLocalAnchor);
+            desired += Vector3.up * extraHeadOffset;
+        }
+        else
+        {
+            desired = targetChess.transform.position + Vector3.up * 2f;
+        }
+
+        if (followSmoothTime <= 0f)
+            transform.position = desired;
+        else
+            transform.position = Vector3.SmoothDamp(transform.position, desired, ref followVel, followSmoothTime);
 
         UpdateHP();
         UpdateMana();
         UpdateStarFrame();
     }
+
 
     private void UpdateHP()
     {
@@ -133,6 +155,13 @@ public class ChessStatusUI : MonoBehaviour
     public void Bind(ChessStateBase chess)
     {
         targetChess = chess;
+
+        if (targetChess != null)
+        {
+            cachedRenderers = targetChess.GetComponentsInChildren<Renderer>(true);
+            cachedColliders = targetChess.GetComponentsInChildren<Collider>(true);
+            CacheAnchorFromBounds();
+        }
         UpdateHP();
         UpdateMana();
         UpdateStarFrame();
@@ -142,6 +171,41 @@ public class ChessStatusUI : MonoBehaviour
     public void ForceRefreshHP()
     {
         UpdateHP();
+    }
+
+
+    private void CacheAnchorFromBounds()
+    {
+        hasAnchor = false;
+        Transform t = targetChess.transform;
+
+        if (cachedRenderers != null && cachedRenderers.Length > 0)
+        {
+            Bounds b = cachedRenderers[0].bounds;
+            for (int i = 1; i < cachedRenderers.Length; i++)
+                b.Encapsulate(cachedRenderers[i].bounds);
+
+            Vector3 rootPos = t.position;
+            Vector3 topCenterWorld = new Vector3(rootPos.x, b.max.y, rootPos.z);
+
+            cachedLocalAnchor = t.InverseTransformPoint(topCenterWorld);
+            hasAnchor = true;
+            return;
+        }
+
+        if (cachedColliders != null && cachedColliders.Length > 0)
+        {
+            Bounds b = cachedColliders[0].bounds;
+            for (int i = 1; i < cachedColliders.Length; i++)
+                b.Encapsulate(cachedColliders[i].bounds);
+
+            Vector3 rootPos = t.position;
+            Vector3 topCenterWorld = new Vector3(rootPos.x, b.max.y, rootPos.z);
+
+            cachedLocalAnchor = t.InverseTransformPoint(topCenterWorld);
+            hasAnchor = true;
+            return;
+        }
     }
 
 }
