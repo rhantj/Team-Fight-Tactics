@@ -464,14 +464,13 @@ public class GameManager : Singleton<GameManager>
             itemUI.ClearAll();
         }
 
-        // SettingsUI ´Ý±â
+        // ÄÑÀÖ´Ù¸é SettingsUI ´Ý±â
         var settingsUI = FindAnyObjectByType<SettingsUI>(
-            FindObjectsInactive.Include
-        );
+                           FindObjectsInactive.Include);
 
-        if (settingsUI != null)
+        if (settingsUI != null && settingsUI.gameObject.activeSelf)
         {
-            settingsUI.ToggleSettingsUI();
+             settingsUI.Hide();
         }
 
         // ±â¹°Á¤º¸UI ´Ý±â
