@@ -62,6 +62,7 @@ public class EnemyGrid : GridDivideBase
 
     public void SpawnEnemy(int round)
     {
+        ResetAllNode();
         EnemiesIndex(round);
 
         foreach (int idx in enemyIdxs)
