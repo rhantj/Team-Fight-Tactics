@@ -38,6 +38,9 @@ public class ShopManager : Singleton<ShopManager>
     [Header("Player Gold")]
     [SerializeField] private int currentGold = 10;
 
+    [Header("InterestCrystal")]
+    [SerializeField] private InterestCrystalController interestCrystalController;
+
     /// <summary>
     /// 상점 슬롯 UI 배열
     /// slotContainer 하위의 ShopSlot을 자동으로 탐색하여 설정됩니다.
@@ -161,6 +164,7 @@ public class ShopManager : Singleton<ShopManager>
         if (currentGoldText != null)
             currentGoldText.text = currentGold.ToString();
 
+        interestCrystalController?.RefreshByGold(currentGold);
         UIActionButtonController.Instance?.Refresh();
     }
 
