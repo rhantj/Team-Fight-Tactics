@@ -12,14 +12,13 @@ public class EnemyGrid : GridDivideBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        SpawnEnemy();
 
         StaticRegistry<EnemyGrid>.Add(this);
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        StaticRegistry<EnemyGrid>.Remove(this);
+        SpawnEnemy();
     }
 
     // 필드 위의 전체 기물 리스트
@@ -72,7 +71,8 @@ public class EnemyGrid : GridDivideBase
             GameObject obj = null;
             foreach (int idx in enemyIdxs)
             {
-                obj = PoolManager.Instance.Spawn(enemyPF[enemyIdxs[idx]].name);
+                var objName = enemyPF[enemyIdxs[idx]].name;
+                obj = PoolManager.Instance.Spawn(objName);
             }
 
             //===== add Kim 12.19

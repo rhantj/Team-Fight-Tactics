@@ -236,8 +236,11 @@ MonoBehaviour:
   linePF: {fileID: 0}
   lineParent: {fileID: 0}
   unitPerLevel: 
-  enemyPF: {fileID: 1010666459333077837, guid: c537f3fbc91c9ed41926e4110adda7ef, type: 3}
-  startNode: 0
+  enemyPF:
+  - {fileID: 3664925074532964054, guid: d682ddba9dbf99e41975ef2ec0e2d293, type: 3}
+  - {fileID: 8019896001290334696, guid: 75330ca3a08013d49984fc212b57efa9, type: 3}
+  - {fileID: 8904665695036255949, guid: 1e465c33ec0253947a4e8e06d2c7a8fa, type: 3}
+  - {fileID: 1010666459333077837, guid: c537f3fbc91c9ed41926e4110adda7ef, type: 3}
   allFieldUnits: []
 --- !u!1 &2757022038433554735
 GameObject:

@@ -411,6 +411,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.size
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[28].id
+      value: Red_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[29].id
+      value: Blue_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[30].id
+      value: Shelly_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[31].id
+      value: Baron_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[28].preloadCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[29].preloadCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[30].preloadCount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[31].preloadCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[28].prefab.m_AssetGUID
+      value: d682ddba9dbf99e41975ef2ec0e2d293
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[29].prefab.m_AssetGUID
+      value: 75330ca3a08013d49984fc212b57efa9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[30].prefab.m_AssetGUID
+      value: 1e465c33ec0253947a4e8e06d2c7a8fa
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[31].prefab.m_AssetGUID
+      value: c537f3fbc91c9ed41926e4110adda7ef
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[28].prefab.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1634713458598283867, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

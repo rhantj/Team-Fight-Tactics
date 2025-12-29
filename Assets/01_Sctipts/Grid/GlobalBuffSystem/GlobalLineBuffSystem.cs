@@ -1,3 +1,4 @@
+using GLTFast.Schema;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,6 @@ public class GlobalLineBuffSystem : MonoBehaviour
 
     List<BuffRequest> selectedBuffs = new();
     bool dirty;
-
-    public BuffLine CurrentType { get; private set; } = BuffLine.Row;
 
     private void Start()
     {
@@ -38,22 +37,20 @@ public class GlobalLineBuffSystem : MonoBehaviour
         CalculateBuff();
     }
 
-    private void GridPieceChanged(GridDivideBase _, GridNode __, ChessStateBase ___, ChessStateBase ____)
+    private void GridPieceChanged(GridDivideBase grid, GridNode node, ChessStateBase prev, ChessStateBase curr)
     {
+        if(grid == field && prev is Chess prevChess && curr==null)
+        {
+            prevChess.ClearAllBuffs();
+        }
+
         dirty = true;
     }
 
     void CalculateBuff()
     {
-        if (field == null) return;
-
-        foreach(var node in field.FieldGrid)
-        {
-            if(node.ChessPiece is Chess c)
-            {
-                c.ClearAllBuffs();
-            }
-        }
+        if (!field) return;
+        ClearBuff();
 
         for (int i = 0; i < selectedBuffs.Count; ++i)
         {
@@ -64,6 +61,17 @@ public class GlobalLineBuffSystem : MonoBehaviour
 
             foreach(var chess in piecies)
                 chess.GlobalBuffApply(request.multiplier);
+        }
+    }
+
+    void ClearBuff()
+    {
+        foreach (var node in field.FieldGrid)
+        {
+            if (node.ChessPiece is Chess c)
+            {
+                c.ClearAllBuffs();
+            }
         }
     }
 
