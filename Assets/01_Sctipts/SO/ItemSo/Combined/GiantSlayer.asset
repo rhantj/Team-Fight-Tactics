@@ -15,11 +15,12 @@ MonoBehaviour:
   itemName: GiantSlayer
   icon: {fileID: 21300000, guid: a432a0873c1cf524199334d1ee44d93f, type: 3}
   itemType: 1
-  addAttack: 15
+  addAttack: 30
   addDefense: 0
   addHp: 0
   addMp: 0
   addAttackSpeed: 15
+  addHpPercent: 0
   combineA: {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
   combineB: {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
   infoUIPrefab: {fileID: 7814813657570520702, guid: d6cb71b767206b049b817b0b963d8351, type: 3}

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Blue
   m_EditorClassIdentifier: 
   unitName: Blue
-  maxHP: 140
-  armor: 20
-  attackDamage: 15
-  attackSpeed: 0.7
-  mana: 10
+  maxHP: 220
+  armor: 10
+  attackDamage: 18
+  attackSpeed: 0.9
+  mana: 999
   attackRange: 9
   moveSpeed: 5
   starLevel: 1
@@ -31,3 +31,4 @@ MonoBehaviour:
   poolID: 
   useBattleState: 0
   gameOverPortrait: {fileID: 0}
+  victoryVoice: {fileID: 0}
