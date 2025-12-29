@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Red
   maxHP: 120
-  armor: 15
-  attackDamage: 15
-  attackSpeed: 0.7
-  mana: 10
+  armor: 5
+  attackDamage: 10
+  attackSpeed: 0.8
+  mana: 999
   attackRange: 10
   moveSpeed: 5
   starLevel: 1
@@ -31,3 +31,4 @@ MonoBehaviour:
   poolID: 
   useBattleState: 0
   gameOverPortrait: {fileID: 0}
+  victoryVoice: {fileID: 0}
