@@ -231,12 +231,27 @@ public class SettingsUI : MonoBehaviour
     // ==============================
 
     //사운드 재생 래퍼(Wrapper) 함수
-    public static void PlaySFX(string clipName, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
+    public static void PlaySFX(string clipName, Vector3 pos, float volume = 1f, float spatialBlend = 1f)
     {
         // spatialBlend == 1 -> 효과음
         float finalVolume = volume * SFXVolume;
         SoundSystem.SoundPlayer.PlaySound(clipName, pos, finalVolume, spatialBlend);
     }
+    public static void PlaySFX(AudioClip clip, Vector3 pos, float volume = 1f, float spatialBlend = 1f)
+    {
+        if (clip == null || SoundSystem.SoundPlayer == null)
+            return;
+
+        float finalVolume = volume * SFXVolume;
+
+        SoundSystem.SoundPlayer.PlaySound(
+            clip,
+            pos,
+            finalVolume,
+            spatialBlend
+        );
+    }
+
 
     public static void PlayBGM(string clipName, float volume = 1f)
     {

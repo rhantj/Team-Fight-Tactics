@@ -39,7 +39,7 @@ public class SFXManager : MonoBehaviour, ISoundable
     }
 
     // 사운드 실행(클립이름, 위치, 볼륨, 2d/3d)
-    public void PlaySound(string name, Vector3 pos, float volume = 1f, float spatialBlend = 0f)
+    public void PlaySound(string name, Vector3 pos, float volume = 1f, float spatialBlend = 1f)
     {
         if (!clipDic.ContainsKey(name)) return;
 
@@ -66,6 +66,43 @@ public class SFXManager : MonoBehaviour, ISoundable
 
         var sfx = obj.GetComponent<SFXModule>();
         var clip = clipDic[name];
+        sfx.Play(clip, volume, spatialBlend);
+
+        // BGM 인 경우
+        if (spatialBlend < 0.9f)
+        {
+            currentBGMSource = obj.GetComponent<AudioSource>();
+        }
+    }
+
+    // 키 접근이 아닌 클립접근용 메서드 하나 추가
+    public void PlaySound(AudioClip clip, Vector3 pos, float volume = 1f, float spatialBlend = 1f)
+    {
+        if (clip == null) return;
+
+        // =========================
+        // BGM 처리 (기존 로직 재사용)
+        // =========================
+        if (spatialBlend < 0.9f)
+        {
+            if (currentBGMSource != null)
+            {
+                currentBGMSource.Stop();
+
+                var pooled = currentBGMSource.GetComponent<PooledObject>();
+                if (pooled != null)
+                    pooled.ReturnToPool();
+            }
+        }
+
+        var obj = PoolManager.Instance.Spawn("SFX Object");
+        if (spatialBlend >= 0.9f)
+            usingSound.Add(obj);
+
+        obj.transform.position = pos;
+
+        var sfx = obj.GetComponent<SFXModule>();
+
         sfx.Play(clip, volume, spatialBlend);
 
         // BGM 인 경우
