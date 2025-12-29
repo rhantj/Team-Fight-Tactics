@@ -1870,6 +1870,7 @@ GameObject:
   - component: {fileID: 1712980869544839259}
   - component: {fileID: 5362672779467306552}
   - component: {fileID: 2292058805105256988}
+  - component: {fileID: 4154230401017637771}
   m_Layer: 5
   m_Name: StartBattleButton
   m_TagString: Untagged
@@ -2026,6 +2027,25 @@ MonoBehaviour:
   duration: 0.05
   pressDuration: 0.07
   ease: 6
+--- !u!114 &4154230401017637771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203973068046152310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9057a06aafd5a8d4294d47d1578a14be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grayscaleTargets:
+  - {fileID: 951798485490286512}
+  grayscaleTexts: []
+  defaultMaterial: {fileID: 2100000, guid: f2263b4b8b694fe469ca4d09d2d3e085, type: 2}
+  grayscaleMaterial: {fileID: 2100000, guid: 9167836449db5f74e9f5f70281b21ae4, type: 2}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledTextColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1 &2217930042166134414
 GameObject:
   m_ObjectHideFlags: 0
@@ -2897,6 +2917,7 @@ GameObject:
   - component: {fileID: 7570456369469356893}
   - component: {fileID: 4427223030034734127}
   - component: {fileID: 4211507834979538575}
+  - component: {fileID: 2796407509337623228}
   m_Layer: 5
   m_Name: Canvas(ShopPanel)
   m_TagString: Untagged
@@ -2987,6 +3008,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2796407509337623228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3171641075730624561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b49fc76318dc84f96334a6713de4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expBuyButton: {fileID: 4784533964939812595}
+  rerollButton: {fileID: 8410331524944118774}
+  battleStartButton: {fileID: 4154230401017637771}
 --- !u!1 &3185413982074176853
 GameObject:
   m_ObjectHideFlags: 0
@@ -4873,6 +4909,7 @@ GameObject:
   - component: {fileID: 1997241352683037269}
   - component: {fileID: 1642571083592616608}
   - component: {fileID: 7751787513706854822}
+  - component: {fileID: 8410331524944118774}
   m_Layer: 5
   m_Name: RerollButton
   m_TagString: Untagged
@@ -5019,6 +5056,28 @@ MonoBehaviour:
   duration: 0.05
   pressDuration: 0.08
   ease: 6
+--- !u!114 &8410331524944118774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042616952815490875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9057a06aafd5a8d4294d47d1578a14be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grayscaleTargets:
+  - {fileID: 1997241352683037269}
+  - {fileID: 2407314182845467017}
+  grayscaleTexts:
+  - {fileID: 6622877385854069359}
+  - {fileID: 5860875281235402772}
+  defaultMaterial: {fileID: 2100000, guid: f2263b4b8b694fe469ca4d09d2d3e085, type: 2}
+  grayscaleMaterial: {fileID: 2100000, guid: 9167836449db5f74e9f5f70281b21ae4, type: 2}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledTextColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1 &5169743260417628908
 GameObject:
   m_ObjectHideFlags: 0
@@ -5520,6 +5579,7 @@ GameObject:
   - component: {fileID: 5065963399458359179}
   - component: {fileID: 7141724352882803198}
   - component: {fileID: 4950660133487121123}
+  - component: {fileID: 4784533964939812595}
   m_Layer: 5
   m_Name: BuyXPButton
   m_TagString: Untagged
@@ -5666,6 +5726,28 @@ MonoBehaviour:
   duration: 0.05
   pressDuration: 0.07
   ease: 6
+--- !u!114 &4784533964939812595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5647238379159546173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9057a06aafd5a8d4294d47d1578a14be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grayscaleTargets:
+  - {fileID: 5065963399458359179}
+  - {fileID: 3120817387487844491}
+  grayscaleTexts:
+  - {fileID: 8183057196596897345}
+  - {fileID: 2961203295536365602}
+  defaultMaterial: {fileID: 2100000, guid: f2263b4b8b694fe469ca4d09d2d3e085, type: 2}
+  grayscaleMaterial: {fileID: 2100000, guid: 9167836449db5f74e9f5f70281b21ae4, type: 2}
+  normalTextColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledTextColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1 &5868253571037188668
 GameObject:
   m_ObjectHideFlags: 0
@@ -10193,7 +10275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5504743418530320732, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_SortingOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5686462352943387090, guid: 5ed7096d91c03f14cb266619e72d0525, type: 3}
       propertyPath: m_AnchoredPosition.y

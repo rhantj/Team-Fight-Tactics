@@ -33,6 +33,9 @@ public class UIButtonHoverEffect : MonoBehaviour,
     [SerializeField] private float pressDuration = 0.07f;
     [SerializeField] private Ease ease = Ease.OutQuad;
 
+    private bool isDisabled = false;
+
+
     private void Awake()
     {
         if (targetImage == null)
@@ -51,6 +54,8 @@ public class UIButtonHoverEffect : MonoBehaviour,
     // =========================
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (isDisabled) return;
+
         targetImage?.DOKill();
         targetTransform?.DOKill();
 
@@ -63,6 +68,8 @@ public class UIButtonHoverEffect : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isDisabled) return;
+
         targetImage?.DOKill();
         targetTransform?.DOKill();
 
@@ -78,6 +85,8 @@ public class UIButtonHoverEffect : MonoBehaviour,
     // =========================
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (isDisabled) return;
+
         targetImage?.DOKill();
         targetTransform?.DOKill();
 
@@ -92,6 +101,8 @@ public class UIButtonHoverEffect : MonoBehaviour,
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (isDisabled) return;
+
         targetImage?.DOKill();
         targetTransform?.DOKill();
 
@@ -102,4 +113,21 @@ public class UIButtonHoverEffect : MonoBehaviour,
         targetTransform?.DOScale(hoverScale, pressDuration)
             .SetEase(Ease.OutBack);
     }
+
+    // 외부에서 상태를 제어할 메서드 추가
+    public void SetDisabled(bool disabled)
+    {
+        isDisabled = disabled;
+
+        if (disabled)
+        {
+            // 즉시 연출 종료 + 원래 상태로 복귀
+            targetImage?.DOKill();
+            targetTransform?.DOKill();
+
+            targetImage.color = normalColor;
+            targetTransform.localScale = normalScale;
+        }
+    }
+
 }

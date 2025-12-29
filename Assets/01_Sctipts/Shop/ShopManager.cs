@@ -160,6 +160,8 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (currentGoldText != null)
             currentGoldText.text = currentGold.ToString();
+
+        UIActionButtonController.Instance?.Refresh();
     }
 
     /// <summary>
@@ -170,13 +172,13 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (currentGold < amount)
         {
-            Debug.Log("골드 부족");
             return false;
         }
 
         currentGold -= amount;
         UpdateGoldUI();
         RefreshAffordableStates();
+
         return true;
     }
 
@@ -212,6 +214,8 @@ public class ShopManager : Singleton<ShopManager>
             return;
 
         AddExp(4);
+
+        UIActionButtonController.Instance?.Refresh();
     }
 
     public void AddExp(int exp)
@@ -234,9 +238,14 @@ public class ShopManager : Singleton<ShopManager>
     /// </summary>
     private void CheckLevelUp()
     {
-        // 이미 Max Level이면 처리 중단
+        bool stateChanged = false;
+
+        // 이미 Max Level이면 UI만 갱신
         if (IsMaxLevel)
+        {
+            UIActionButtonController.Instance?.Refresh();
             return;
+        }
 
         LevelData current = GetLevelData(playerLevel);
         if (current == null)
@@ -246,16 +255,20 @@ public class ShopManager : Singleton<ShopManager>
         {
             playerExp -= current.requiredExp;
             playerLevel++;
+            stateChanged = true;
 
             // Max Level 도달 시 정리
             if (playerLevel >= maxLevel)
             {
                 playerLevel = maxLevel;
                 playerExp = 0;
+
                 UpdateLevelUI();
                 UpdateExpUI();
                 UpdateCostRateUI();
                 UpdateCountUI(null);
+
+                UIActionButtonController.Instance?.Refresh(); 
                 return;
             }
 
@@ -268,7 +281,11 @@ public class ShopManager : Singleton<ShopManager>
             if (current == null)
                 break;
         }
+
+        if (stateChanged)
+            UIActionButtonController.Instance?.Refresh();
     }
+
 
     /// <summary>
     /// 현재 플레이어 레벨 UI를 갱신합니다.
@@ -812,6 +829,8 @@ public class ShopManager : Singleton<ShopManager>
             bool canBuy = currentGold >= slot.CurrentData.cost;
             slot.SetAffordable(canBuy);
         }
+
+        UIActionButtonController.Instance?.Refresh();
     }
 
     private void RefreshStarHints()
