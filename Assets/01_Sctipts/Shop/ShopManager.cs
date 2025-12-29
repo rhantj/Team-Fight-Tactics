@@ -215,6 +215,8 @@ public class ShopManager : Singleton<ShopManager>
 
         AddExp(4);
 
+        SettingsUI.PlaySFX("BuyXPButton", Vector3.zero, 1);
+
         UIActionButtonController.Instance?.Refresh();
     }
 
@@ -503,7 +505,7 @@ public class ShopManager : Singleton<ShopManager>
         // 8) 여기서야 구매 확정 → 슬롯 비우기
         slots[index].ClearSlot();
 
-        Debug.Log($"{data.unitName} 구매 완료 및 벤치 배치 성공!");
+        SettingsUI.PlaySFX("ShopSlot",chess.transform.position, 1f);
 
         if (!unitBuyCount.ContainsKey(data))
             unitBuyCount[data] = 0;
@@ -535,7 +537,7 @@ public class ShopManager : Singleton<ShopManager>
         int sellPrice = CalculateSellPrice(data, starLevel);
         AddGold(sellPrice);
 
-        Debug.Log($"{data.unitName} 판매 완료. +{sellPrice} Gold");
+        SettingsUI.PlaySFX("SellChess", obj.transform.position, 1f);
 
         // ===============================
         // 1. CombineManager 정리
@@ -706,6 +708,7 @@ public class ShopManager : Singleton<ShopManager>
         if (!TrySpendGold(2))
             return;
 
+        SettingsUI.PlaySFX("RerollButton", Vector3.zero, 1);
         RefreshShop();
     }
 

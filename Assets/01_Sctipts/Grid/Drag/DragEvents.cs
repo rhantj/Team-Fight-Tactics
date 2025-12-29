@@ -54,6 +54,8 @@ public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHand
             return;
         }
 
+        // 기물 드래그 효과음 추가
+        SettingsUI.PlaySFX("DragChess",chess.transform.position, 1f);
         chessFirstPos = chess.transform.position;
         prevGrid = FindGrid(chessFirstPos);
         prevNode = prevGrid?.GetGridNode(chessFirstPos);
