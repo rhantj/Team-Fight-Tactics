@@ -495,7 +495,7 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttack_Item = attack;
         bonusArmor_Item = armor;
         bonusMaxHP_Item = hp;
-        bonusAttackSpeed_Item *= attackSpeed;
+        bonusAttackSpeed_Item = attackSpeed;
 
         CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
 
