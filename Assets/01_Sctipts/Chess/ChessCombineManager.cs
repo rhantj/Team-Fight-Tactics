@@ -294,4 +294,25 @@ public class ChessCombineManager : MonoBehaviour
         ui?.SyncFromHandler();
     }
 
+    
+    // 게임 재시작용 초기화 메서드 12-29 Won Add 
+    
+    public void ResetAll()
+    {
+        // 등록된 기물 이벤트 해제
+        foreach (var pair in chessGroups)
+        {
+            foreach (var chess in pair.Value)
+            {
+                if (chess == null) continue;
+                chess.OnUsedAsMaterial -= HandleUsedAsMaterial;
+                chess.OnDead -= HandleDead;
+            }
+        }
+
+        chessGroups.Clear();
+        completedUnits.Clear();
+    }
+
+
 }
