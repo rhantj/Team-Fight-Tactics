@@ -70,4 +70,29 @@ public class CSVReader
 
         return result;
     }
+
+    public static StringFloatListDict BuildStatPerRoundSD(string file)
+    {
+        var raw = Read(file);
+        var result = new StringFloatListDict();
+
+        foreach (var row in raw)
+        {
+            string statName = row[""].ToString();
+
+            var wrapper = new FloatListWrapper();
+
+            foreach (var kvp in row)
+            {
+                if (kvp.Key == "") continue;
+
+                wrapper.values.Add(System.Convert.ToSingle(kvp.Value));
+            }
+
+            result[statName] = wrapper;
+        }
+
+        return result;
+    }
+
 }

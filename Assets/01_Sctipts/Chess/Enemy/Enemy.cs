@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy : Chess
 {
-    Dictionary<string, List<float>> statPerRound;
+    public StringFloatListDict statPerRound;
 
     protected override void Awake()
     {
@@ -14,7 +14,7 @@ public class Enemy : Chess
 
         string[] objName = gameObject.name.Split("(Clone)");
 
-        statPerRound = CSVReader.BuildStatPerRound(objName[0]);
+        statPerRound = CSVReader.BuildStatPerRoundSD(objName[0]);
     }
     private void Start()
     {
@@ -48,12 +48,19 @@ public class Enemy : Chess
 
     public void SetStats(int round)
     {
-        InitFromSO();
+        int idx = round - 1;
 
-        baseData.maxHP = (int)statPerRound["maxHp"][round - 1];
-        baseData.armor = (int)statPerRound["armor"][round - 1];
-        baseData.attackDamage = (int)statPerRound["attackDamage"][round - 1];
-        baseData.attackSpeed = statPerRound["attackSpeed"][round - 1];
-        baseData.mana = (int)statPerRound["mana"][round - 1];
+        //baseData.maxHP = (int)statPerRound["maxHp"][idx];
+        //baseData.armor = (int)statPerRound["armor"][idx];
+        //baseData.attackDamage = (int)statPerRound["attackDamage"][idx];
+        //baseData.attackSpeed = statPerRound["attackSpeed"][idx];
+        //baseData.mana = (int)statPerRound["mana"][idx];
+
+        baseData.maxHP = (int)statPerRound["maxHp"].values[idx];
+        baseData.armor = (int)statPerRound["armor"].values[idx];
+        baseData.attackDamage = (int)statPerRound["attackDamage"].values[idx];
+        baseData.attackSpeed = statPerRound["attackSpeed"].values[idx];
+        baseData.mana = (int)statPerRound["mana"].values[idx];
+        //InitFromSO();
     }
 }

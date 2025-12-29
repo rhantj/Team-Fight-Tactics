@@ -498,6 +498,25 @@ public class GameManager : Singleton<GameManager>
             roundUI.ResetUI();
         }
 
+        // ===== 적 정보(CSV 스탯) 재적용 =====
+        if (enemyGrid != null)
+        {
+            foreach (var unit in enemyGrid.GetAllFieldUnits())
+            {
+                var enemy = unit as Enemy;
+                if (enemy == null) continue;
+
+                enemy.SetStats(1);
+            }
+        }
+
+        // ===== 기물 합성 데이터 초기화 =====
+        if (ChessCombineManager.Instance != null)
+        {
+            ChessCombineManager.Instance.ResetAll();
+        }
+
+
 
     }
 
@@ -543,6 +562,10 @@ public class GameManager : Singleton<GameManager>
             ShopManager.Instance.RefreshShop();
         }
 
+        if (enemyGrid != null)
+        {
+            enemyGrid.SpawnEnemy(1);
+        }
         // 라운드 시작
         StartRound();
 
