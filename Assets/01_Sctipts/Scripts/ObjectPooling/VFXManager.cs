@@ -17,6 +17,7 @@ public static class VFXManager
 
     public static void ClearAllVFX()
     {
+        if (vfxObjects.Count <= 0) return;
         foreach(var vfx in vfxObjects)
         {
             if(vfx.TryGetComponent<VFXModule>(out var _))

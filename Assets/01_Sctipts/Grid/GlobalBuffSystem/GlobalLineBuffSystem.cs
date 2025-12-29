@@ -42,6 +42,7 @@ public class GlobalLineBuffSystem : MonoBehaviour
         if(grid == field && prev is Chess prevChess && curr==null)
         {
             prevChess.ClearAllBuffs();
+            prevChess.SetOnField(false);
         }
 
         dirty = true;

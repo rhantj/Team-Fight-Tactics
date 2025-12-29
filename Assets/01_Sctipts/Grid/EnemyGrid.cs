@@ -7,6 +7,7 @@ public class EnemyGrid : GridDivideBase
     [SerializeField] GameObject[] enemyPF;
     int[] enemyIdxs;
     int startNode = 10;
+    int offset = 2;
     public List<ChessStateBase> allFieldUnits = new();
 
     protected override void OnEnable()
@@ -18,7 +19,7 @@ public class EnemyGrid : GridDivideBase
 
     private void Start()
     {
-        SpawnEnemy();
+        SpawnEnemy(1);
     }
 
     // 필드 위의 전체 기물 리스트
@@ -59,21 +60,16 @@ public class EnemyGrid : GridDivideBase
         }
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy(int round)
     {
-        EnemiesIndex();
+        EnemiesIndex(round);
 
-        for (int i = startNode; i < startNode + enemyIdxs.Length; ++i)
+        foreach (int idx in enemyIdxs)
         {
-            var node = nodePerInt[i];
+            var node = nodePerInt[startNode];
             var pos = node.worldPosition;
-
-            GameObject obj = null;
-            foreach (int idx in enemyIdxs)
-            {
-                var objName = enemyPF[enemyIdxs[idx]].name;
-                obj = PoolManager.Instance.Spawn(objName);
-            }
+            var objName = enemyPF[idx].name;
+            var obj = PoolManager.Instance.Spawn(objName);
 
             //===== add Kim 12.19
             var enemy = obj.GetComponent<Enemy>();
@@ -82,12 +78,15 @@ public class EnemyGrid : GridDivideBase
             //=====
 
             node.ChessPiece = enemy;//12.12 add Kim
+
+            startNode += offset;
         }
+
+        startNode -= offset * enemyIdxs.Length;
     }
 
-    void EnemiesIndex()
+    void EnemiesIndex(int round)
     {
-        var round = GameManager.Instance.currentRound;
         switch (round)
         {
             case 1:
@@ -104,9 +103,6 @@ public class EnemyGrid : GridDivideBase
                 break;
             case 5:
                 enemyIdxs = new int[] { 2, 3, 2 };
-                break;
-            default:
-                enemyIdxs = new int[] { 0 };
                 break;
         }
     }

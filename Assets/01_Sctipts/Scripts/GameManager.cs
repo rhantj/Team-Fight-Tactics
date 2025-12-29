@@ -213,6 +213,8 @@ public class GameManager : Singleton<GameManager>
         }
 
         currentRound++;
+        StaticRegistry<EnemyGrid>.Find()?.SpawnEnemy(currentRound); //적 리스폰
+
         StartRound();
     }
 
