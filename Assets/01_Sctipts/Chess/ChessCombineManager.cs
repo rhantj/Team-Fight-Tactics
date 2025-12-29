@@ -138,6 +138,8 @@ public class ChessCombineManager : MonoBehaviour
             if (main.StarLevel != material1.StarLevel || main.StarLevel != material2.StarLevel) break;
             if (main.StarLevel >= 3) break;
 
+            TransferItemsToMain(main, material1, material2);
+
             main.CombineWith(material1, material2);
 
             list.Remove(main);
@@ -259,5 +261,37 @@ public class ChessCombineManager : MonoBehaviour
         return false;
     }
 
+    private void TransferItemsToMain(Chess main, Chess mat1, Chess mat2)
+    {
+        if(main == null || mat1 == null || mat2 == null) return;
+
+        var mainHandler = main.GetComponent<ChessItemHandler>();
+        var mat1Handler = mat1.GetComponent<ChessItemHandler>();
+        var mat2Handler = mat2.GetComponent<ChessItemHandler>();
+
+        if (mainHandler == null) return;
+
+        //세개의 기물의 아이템 종합
+        var merged = new List<ItemData>();
+
+        merged.AddRange(mainHandler.PopAllItemDatas());
+
+        if (mat1Handler != null) merged.AddRange(mat1Handler.PopAllItemDatas());
+        if (mat2Handler != null) merged.AddRange(mat2Handler.PopAllItemDatas());
+
+        //메인에 다시 장착
+        mainHandler.SetItemFromDatas(merged, out var overflow);
+
+        //overflow처리
+        if(overflow.Count >0)
+        {
+            Debug.LogWarning("Item OverFlow");
+        }
+
+        ChessInfoUI.Instance?.RefreshItemUIOnly();
+
+        var ui = main.GetComponentInChildren<ChessItemUI>();
+        ui?.SyncFromHandler();
+    }
 
 }

@@ -25,12 +25,72 @@ public class ChessItemHandler : MonoBehaviour
     // 아이템 스탯을 적용할 대상 기물
     private ChessStateBase chess;
 
-    private List<ItemBase> runtimeItems = new List<ItemBase>();    
+    private List<ItemBase> runtimeItems = new List<ItemBase>();
+
+    private ItemCombineManager combineManager;
 
     private void Awake()
     {
         // 같은 오브젝트에 있는 ChessStateBase 참조
         chess = GetComponent<ChessStateBase>();
+
+        combineManager = FindObjectOfType<ItemCombineManager>();
+    }
+    //합성용 : 현재 아이템 전부 추출
+    public List<ItemData> PopAllItemDatas()
+    {
+        var result = new List<ItemData>(equippedItems);
+        ClearItems(); // OnUnequip + 리스트 초기화 + 스탯 재계산
+        return result;
+    }
+
+    //합성용 : 데이터 리스트로 재 장착
+    public bool SetItemFromDatas(List<ItemData> items, out List<ItemData> overflow)
+    { 
+        overflow = new List<ItemData>();
+        if (items == null) return true;
+
+        ClearItems(); 
+
+        for(int i = 0; i<items.Count; i++)
+        {
+            var item = items[i];
+            if (item == null) continue;
+
+            if(!TryAddItemWithCombine(item))
+            {
+                overflow.Add(item);
+            }
+        }
+
+        return overflow.Count == 0;
+    }
+
+    //추가 + 자동으로 조합 메서드
+    private bool TryAddItemWithCombine(ItemData newItem)
+    {
+        if (newItem == null) return false;
+
+        //기존 아이템과 조합 시도
+        if(combineManager != null)
+        {
+            for(int i =0; i<equippedItems.Count; i++)
+            {
+                ItemData exist = equippedItems[i];
+
+                if(combineManager.TryCombine(exist, newItem, out ItemData combined))
+                {
+                    RemoveRuntimeItemAt(i);
+                    equippedItems.RemoveAt(i);
+
+                    return AddRuntimeItem(combined);
+                }
+            }
+        }
+
+        if(equippedItems.Count >= MAX_ITEM_COUNT) return false;
+
+        return AddRuntimeItem(newItem);
     }
 
     // 아이템을 더 장착할 수 있는지 여부
@@ -39,21 +99,36 @@ public class ChessItemHandler : MonoBehaviour
     // 아이템 장착 처리
     public bool EquipItem(ItemData itemData)
     {
-        // 장착 가능 여부, 아이템 유효성, 기물 참조 체크
-        if (!CanEquip || itemData == null || chess == null)
-            return false;
+        if (itemData == null) return false;
+        if (equippedItems.Count >= MAX_ITEM_COUNT) return false;
+        return AddRuntimeItem(itemData);
+    }
+
+    private bool AddRuntimeItem(ItemData itemData)
+    {
+        if(itemData == null || chess == null) return false;
 
         ItemBase itemInstance = ItemFactory.Create(itemData);
-
         itemInstance.OnEquip(chess);
 
-        // 아이템 추가
         runtimeItems.Add(itemInstance);
         equippedItems.Add(itemData);
 
-        // 아이템 변경에 따른 스탯 재계산
         RecalculateItemStats();
         return true;
+    }
+
+    private void RemoveRuntimeItemAt(int index)
+    {
+        if (index < 0 || index >= runtimeItems.Count) return;
+
+        var inst = runtimeItems[index];
+        if(inst != null)
+        {
+            inst.OnUnequip();
+        }
+
+        runtimeItems.RemoveAt(index);
     }
 
     // 모든 아이템 제거

@@ -148,4 +148,16 @@ public class ChessItemUI : MonoBehaviour
         equippedItems.Clear();
         RefreshUI();
     }
+
+    public void SyncFromHandler()
+    {
+        var handler = GetComponentInParent<ChessItemHandler>();
+
+        if (handler == null) return;
+
+        equippedItems.Clear();
+        equippedItems.AddRange(handler.EquippedItems);
+
+        RefreshUI();
+    }
 }
