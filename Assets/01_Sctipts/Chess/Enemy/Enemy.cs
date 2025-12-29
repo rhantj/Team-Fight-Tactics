@@ -48,12 +48,12 @@ public class Enemy : Chess
 
     public void SetStats(int round)
     {
+        InitFromSO();
+
         baseData.maxHP = (int)statPerRound["maxHp"][round - 1];
         baseData.armor = (int)statPerRound["armor"][round - 1];
         baseData.attackDamage = (int)statPerRound["attackDamage"][round - 1];
         baseData.attackSpeed = statPerRound["attackSpeed"][round - 1];
         baseData.mana = (int)statPerRound["mana"][round - 1];
-
-        InitFromSO();
     }
 }
