@@ -18,12 +18,12 @@ public static class VFXManager
     public static void ClearAllVFX()
     {
         if (vfxObjects.Count <= 0) return;
-        foreach(var vfx in vfxObjects)
+        for (int i = 0; i < vfxObjects.Count; ++i)
         {
-            if(vfx.TryGetComponent<VFXModule>(out var _))
+            if (vfxObjects[i].TryGetComponent<VFXModule>(out var vfx))
             {
                 var pooled = vfx.GetComponent<PooledObject>();
-                pooled?.ReturnToPool();
+                pooled.ReturnToPool();
             }
         }
 
