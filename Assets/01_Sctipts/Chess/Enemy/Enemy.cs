@@ -11,7 +11,10 @@ public class Enemy : Chess
         team = Team.Enemy;
         if (baseData != null)
             baseData = Instantiate(baseData); //복사본쓰께끔햇어요
-        statPerRound = CSVReader.BuildStatPerRound("Baron_Stats");
+
+        string[] objName = gameObject.name.Split("(Clone)");
+
+        statPerRound = CSVReader.BuildStatPerRound(objName[0]);
     }
     private void Start()
     {
