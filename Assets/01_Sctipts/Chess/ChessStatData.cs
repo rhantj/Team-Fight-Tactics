@@ -57,6 +57,8 @@ public class ChessStatData : ScriptableObject
     //=====================================================
     [Header("종료 패널 전용 비주얼")]
     public Sprite gameOverPortrait;
-
+    //=====================================================
+    [Header("승리시 대사")]
+    public AudioClip victoryVoice;
 
 }
