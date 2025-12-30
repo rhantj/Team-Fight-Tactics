@@ -31,10 +31,6 @@ public class RedbuffDebuff : MonoBehaviour
             StopCoroutine(routine);
 
         routine = StartCoroutine(BurnRoutine(duration));
-
-        Debug.Log(
-            $"[RedBuff] 불태우기 갱신 | {target.name} {burnDamagePerTick}/sec ({duration}s)"
-        );
     }
 
     private IEnumerator BurnRoutine(float duration)

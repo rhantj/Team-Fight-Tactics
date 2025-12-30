@@ -135,18 +135,6 @@ public class GameManager : Singleton<GameManager>
     {
         // 준비단계
         isReady = false;
-
-        //while (!isReady)
-        //{
-        //    yield return null;  
-        //}
-        //float t = battleStartDelay;
-        //while (t > 0f)
-        //{
-        //    OnPreparationTimerUpdated?.Invoke(t); // TimeUI가 여기로 받으면 됨
-        //    t -= Time.deltaTime;
-        //    yield return null;
-        //}
         while (!isReady)
             yield return null;
         StartBattle();
@@ -581,7 +569,6 @@ public class GameManager : Singleton<GameManager>
     //라운드 상태 변경 메서드
     private void SetRoundState(RoundState newState)
     {
-        Debug.Log($"RoundState => {newState}");
         roundState = newState;
         OnRoundStateChanged?.Invoke(newState);
     }

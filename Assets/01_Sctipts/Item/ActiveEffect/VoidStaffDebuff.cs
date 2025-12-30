@@ -6,7 +6,7 @@ public class VoidStaffDebuff : MonoBehaviour
 {
     private ChessStateBase target;
 
-    private int baseArmorSnapshot;   // ★ 최초 기준 방어력
+    private int baseArmorSnapshot;   //최초 기준 방어력
     private int reducedArmor;
     private Coroutine routine;
 
@@ -38,10 +38,6 @@ public class VoidStaffDebuff : MonoBehaviour
             StopCoroutine(routine);
 
         routine = StartCoroutine(ExpireAfter(duration));
-
-        Debug.Log(
-            $"[VoidStaff] 방어력 감소 갱신 | {target.name} -{reducedArmor} ({duration}s)"
-        );
     }
 
     private IEnumerator ExpireAfter(float duration)
