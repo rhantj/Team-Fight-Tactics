@@ -14,8 +14,6 @@ public class BattleStartButton : MonoBehaviour
     /// </summary>
     public void OnClickBattleStart()
     {
-        Debug.Log("Battle Start Button Clicked");
-
         UIActionButtonController.Instance
             ?.RequestBattleStartFromUI();
     }

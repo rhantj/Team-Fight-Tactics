@@ -25,13 +25,13 @@ public class ShopManager : Singleton<ShopManager>
     [SerializeField] private TMP_Text sellPriceText;
     [SerializeField] private TMP_Text pieceCountText;
 
-    [Header("Unit Data (임시)")]
+    [Header("Unit Data")]
     [SerializeField] private ChessStatData[] allUnits;
 
     [Header("Level Data Table")]
     [SerializeField] private LevelDataTable levelDataTable;
 
-    [Header("Player Info (임시)")]
+    [Header("Player Info")]
     [SerializeField] private int playerLevel = 1;
     [SerializeField] private int playerExp = 0;
 
@@ -124,7 +124,6 @@ public class ShopManager : Singleton<ShopManager>
         }
         else
         {
-            Debug.LogError("[ShopManager] LevelDataTable is invalid");
             maxLevel = 1;
         }
 
@@ -133,6 +132,7 @@ public class ShopManager : Singleton<ShopManager>
 
     private void Start()
     {
+        // UI 초기화 타이밍 충돌을 방지하기 위해 한 프레임 지연함!
         StartCoroutine(InitUI());
     }
 
@@ -207,12 +207,9 @@ public class ShopManager : Singleton<ShopManager>
     /// </summary>
     public void BuyExp()
     {
-        // ===============================
         // Max Level 도달 시 무시
-        // ===============================
         if (IsMaxLevel)
         {
-            Debug.Log("[ShopManager] Max Level reached. BuyExp ignored.");
             return;
         }
 
@@ -221,16 +218,14 @@ public class ShopManager : Singleton<ShopManager>
 
         AddExp(4);
 
-        SettingsUI.PlaySFX("BuyXPButton", Vector3.zero, 1);
+        SettingsUI.PlaySFX("BuyXPButton", Vector3.zero, 1f);
 
         UIActionButtonController.Instance?.Refresh();
     }
 
     public void AddExp(int exp)
     {
-        // ===============================
         // Max Level 도달 시 EXP 무시
-        // ===============================
         if (IsMaxLevel)
         {
             return;
@@ -348,7 +343,6 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (isLocked)
         {
-            Debug.Log("상점 잠금 상태. RefreshShop 실행되지 않음.");
             return;
         }
 
@@ -590,7 +584,6 @@ public class ShopManager : Singleton<ShopManager>
 
         if(ItemSlotManager.Instance== null)
         {
-            Debug.LogError("[TrySellUnit] ItemSlotManager.Instance is null");
             return false;
         }
 
@@ -606,8 +599,6 @@ public class ShopManager : Singleton<ShopManager>
         //외부 아이템 슬롯 여유 검사
         if (ItemSlotManager.Instance.EmptySlotCount < equippedCount)
         {
-            Debug.Log("남은 아이템 슬롯 부족.");
-
             if(ToastUI.Instance != null)
             {
                 ToastUI.Instance.Show("The unit cannot be sold due to insufficient item slots.", Color.yellow);
@@ -623,7 +614,6 @@ public class ShopManager : Singleton<ShopManager>
             bool ok = ItemSlotManager.Instance.AddItem(item);
             if (!ok)
             {
-                Debug.LogError("[TrySellUnit] EmptySlotCount는 충분했는데 AddItem 실패. 슬롯 상태/로직 확인 필요.");
                 return false;
             }
         }
@@ -829,6 +819,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public int CurrentGold { get { return currentGold; } }
 
+    // 현재 골드 변화시 슬롯 상태 갱신
     private void RefreshAffordableStates()
     {
         foreach (var slot in slots)
@@ -842,6 +833,7 @@ public class ShopManager : Singleton<ShopManager>
         UIActionButtonController.Instance?.Refresh();
     }
 
+    // 합성 가능 여부 힌트 표시
     private void RefreshStarHints()
     {
         if (ChessCombineManager.Instance == null)

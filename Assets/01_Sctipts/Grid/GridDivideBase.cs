@@ -32,6 +32,7 @@ public class GridDivideBase : MonoBehaviour
         InitUnitLimits();
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
@@ -40,7 +41,6 @@ public class GridDivideBase : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (fieldGrid == null) return;
-#if UNITY_EDITOR
         foreach (var n in fieldGrid)
         {
             Gizmos.color = n.ChessPiece ? Color.red : Color.green;
@@ -49,8 +49,9 @@ public class GridDivideBase : MonoBehaviour
             Handles.Label(n.worldPosition + Vector3.up * nodeDiameter, $"{n.NodeNumber}");
 
         }
-#endif
+
     }
+#endif
 
     public void Init()
     {
@@ -143,29 +144,6 @@ public class GridDivideBase : MonoBehaviour
         lr.SetPosition(1, end + offset);
     }
 
-    // 위치에서 가장 가까운 노드 반환
-    /*
-    public GridNode GetNearGridNode(Vector3 pos)
-    {
-        GridNode res = null;
-        float closest = float.PositiveInfinity;
-
-        foreach(var node in fieldGrid)
-        {
-            var nodePos = new Vector2(node.worldPosition.x, node.worldPosition.z);
-            var newPos = new Vector2(pos.x, pos.z);
-            float dist = (nodePos - newPos).sqrMagnitude;
-            
-            if(dist < closest)
-            {
-                closest = dist;
-                res = node;
-            }
-        }
-
-        return res;
-    }
-     */
     public GridNode GetGridNode(Vector3 pos)
     {
         float x = pos.x - worldBottomLeft.x;

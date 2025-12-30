@@ -66,7 +66,7 @@ public class ShopSlot : MonoBehaviour
     private Tween starTween;
 
     /// <summary>
-    /// 슬롯 초기화
+    /// 상점 갱신시 샵슬롯의 상태를 완성하는 메서드
     /// </summary>
     public void Init(ChessStatData data, CostUIData uiData, int index, ShopManager manager)
     {

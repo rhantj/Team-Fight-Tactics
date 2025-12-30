@@ -34,11 +34,8 @@ public class SkillTooltipTrigger : MonoBehaviour,
     /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("SkillIcon Pointer Enter");
-
         if (chessData == null)
         {
-            Debug.Log("ChessData is NULL");
             return;
         }
 

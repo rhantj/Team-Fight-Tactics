@@ -15,13 +15,19 @@ public class SellArea : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// </summary>
     public static bool IsPointerOverSellArea = false;
 
+    //판매 가능 상태 On
     public void OnPointerEnter(PointerEventData eventData)
     {
         IsPointerOverSellArea = true;
     }
 
+    //판매 가능 상태 Off
     public void OnPointerExit(PointerEventData eventData)
     {
         IsPointerOverSellArea = false;
     }
 }
+
+// DragEvents 등 다른 입력 처리 스크립트에서
+// 참조 연결 없이 즉시 접근할 수 있도록 static 상태로 유지했습니다.
+// 판매로직은 ShopManager에서 만든 메서드를 DragEvents에서 드래그 종료 시점에 호출하는 식으로 연동
