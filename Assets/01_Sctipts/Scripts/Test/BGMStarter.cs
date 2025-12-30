@@ -1,14 +1,19 @@
 using UnityEngine;
 
-
+/// <summary>
+/// BGMStarter는 GameState를 직접 참조하지 않고
+/// UI 패널 활성 상태를 기준으로 현재 게임 흐름을 판단한다.
+/// (프로젝트 규모와 구조에 맞춘 단순한 상태 감시 방식)
+/// </summary>
 public class BGMStarter : MonoBehaviour
 {
+    // BGM 전환시 중복 재생을 막기 위해 내부 상태Enum 추가
     private enum BGMState
     {
-        None,
-        Intro,
-        Game,
-        GameOver
+        None,    //0
+        Intro,   //1
+        Game,    //2
+        GameOver //3
     }
 
     private BGMState currentState = BGMState.None;
@@ -21,7 +26,7 @@ public class BGMStarter : MonoBehaviour
     [SerializeField] private string introBGMKey = "BGM_Intro";
     [SerializeField] private string gameBGMKey = "BGM1";
     [SerializeField] private string gameOverBGMKey = "BGM_GameOver";
-
+    // SFX매니저에 Preload되어있는 음악파일의 이름을 동일하게 적어두면 해당 음악 재생
 
     private void Start()
     {

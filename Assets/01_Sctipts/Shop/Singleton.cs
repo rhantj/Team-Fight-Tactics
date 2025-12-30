@@ -18,7 +18,7 @@ using UnityEngine;
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance; //필드
-    private static bool isQuitting;
+    private static bool isQuitting; //앱 종료중 인스턴스 접근 방지 위해 추가
     public static T Instance   //프로퍼티
     {
         get
@@ -51,4 +51,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnApplicationQuit()
+    {
+        isQuitting = true;
+    }
+
 }

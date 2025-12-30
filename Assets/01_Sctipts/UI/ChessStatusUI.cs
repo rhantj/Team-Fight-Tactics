@@ -65,7 +65,7 @@ public class ChessStatusUI : MonoBehaviour
         UpdateStarFrame();
     }
 
-
+    // 실드가 HP바와 같이 보이다보니 분기를 나눠 시각적으로 깨지지 않도록 처리
     private void UpdateHP()
     {
         if (targetChess == null) return;
@@ -152,6 +152,8 @@ public class ChessStatusUI : MonoBehaviour
         frameImage.sprite = starFrameSprites[starLevel - 1];
     }
 
+    // 초기화 진입점
+    // 기물 생성 또는 재사용 시 UI를 안전하게 초기화하기 위한 메서드
     public void Bind(ChessStateBase chess)
     {
         targetChess = chess;
@@ -173,7 +175,13 @@ public class ChessStatusUI : MonoBehaviour
         UpdateHP();
     }
 
-
+    /// <summary>
+    /// Renderer bounds -> 전체 캡슐화
+    /// 없다면 Collider bounds 사용
+    /// 모델의 실제 최고점 (b.max.y) 기준
+    /// Local Anchor로 캐싱
+    /// 캐릭터 크기가 달라도 자동 대응되도록 함
+    /// </summary>
     private void CacheAnchorFromBounds()
     {
         hasAnchor = false;
