@@ -242,7 +242,7 @@ public class GridDivideBase : MonoBehaviour
     {
         foreach(var node in fieldGrid)
         {
-            if(ReferenceEquals(node, piece))
+            if(node.ChessPiece == piece)
             {
                 node.ChessPiece = null;
             }
