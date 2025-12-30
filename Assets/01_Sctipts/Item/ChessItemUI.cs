@@ -32,15 +32,6 @@ public class ChessItemUI : MonoBehaviour
     {
         // 씬 내에서 ItemCombineManager 탐색
         combineManager = FindObjectOfType<ItemCombineManager>();
-
-        // 조합 매니저가 없을 경우 명확한 에러 로그 출력
-        if (combineManager == null)
-        {
-            Debug.LogError(
-                "[ChessItemUI] ItemCombineManager not found in scene. " +
-                "씬에 ItemCombineManager가 존재해야 합니다."
-            );
-        }
     }
 
     /// <summary>
@@ -60,7 +51,6 @@ public class ChessItemUI : MonoBehaviour
         var handler = GetComponentInParent<ChessItemHandler>();
         if (handler == null)
         {
-            Debug.LogError("[ChessItemUI] ChessItemHandler not found");
             return false;
         }
 

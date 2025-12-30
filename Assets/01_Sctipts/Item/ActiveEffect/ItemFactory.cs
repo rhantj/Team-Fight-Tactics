@@ -62,6 +62,6 @@ public static class ItemFactory
             }
         }
 
-        return new PassiveItem(data);
+        return new ItemBase(data);
     }
 }
