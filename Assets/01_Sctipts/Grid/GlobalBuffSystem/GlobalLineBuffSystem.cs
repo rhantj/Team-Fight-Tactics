@@ -1,4 +1,3 @@
-using GLTFast.Schema;
 using System.Collections.Generic;
 using UnityEngine;
 

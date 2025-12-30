@@ -30,17 +30,6 @@ public class FieldGrid : GridDivideBase
         return result;
     }
 
-    // 필드에 배치할 때
-    /*
-    public void SetChessOnFieldNode(Chess piece, GridNode node)
-    {
-        if (piece == null || node == null) return;
-        node.ChessPiece = piece;
-        piece.SetPosition(node.worldPosition);
-        piece.SetOnField(true); // 필드에 있음을 표시
-    }
-     */
-
     public void ResetAllNode()
     {
         if (fieldGrid != null)

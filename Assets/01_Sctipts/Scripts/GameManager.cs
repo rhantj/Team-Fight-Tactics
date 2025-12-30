@@ -238,7 +238,7 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        Debug.Log($"[StartBattle] Player={UnitCountManager.Instance.GetPlayerAliveCount()}, Enemy={UnitCountManager.Instance.GetEnemyAliveCount()}");
+        //Debug.Log($"[StartBattle] Player={UnitCountManager.Instance.GetPlayerAliveCount()}, Enemy={UnitCountManager.Instance.GetEnemyAliveCount()}");
 
         SetRoundState(RoundState.Battle);
     }
@@ -282,7 +282,7 @@ public class GameManager : Singleton<GameManager>
     //게임 종료 메서드
     private void EndGame()
     {
-        Debug.Log($"[CHECK] EndGame CALLED | frame={Time.frameCount}");
+        //Debug.Log($"[CHECK] EndGame CALLED | frame={Time.frameCount}");
         gameState = GameState.GameOver;
         OnGameOver?.Invoke();
     }
@@ -527,7 +527,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            Debug.LogError("[ReturnToMainMenu] StartPanelUI not found");
+            //Debug.LogError("[ReturnToMainMenu] StartPanelUI not found");
         }
 
         // 인트로 BGM 재생
