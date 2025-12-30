@@ -781,11 +781,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2064925202295567818, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: preparationTime
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2064925202295567818, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: battleStartDelay
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2355842474745154481, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: m_AnchorMax.y
@@ -967,7 +967,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7051718689527264412, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+    - {fileID: 8875306052246359380, guid: de67abd2e2ae52846a73860433480e49, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
