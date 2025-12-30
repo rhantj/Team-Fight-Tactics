@@ -89,6 +89,9 @@ public class ItemDrag : MonoBehaviour
                 {
                     targetSlot.SetItem(combined);
                     originSlot.ClearSlot();
+
+                    ItemSlotManager.Instance.SortSlots();
+
                     return;
                 }
 
@@ -100,9 +103,11 @@ public class ItemDrag : MonoBehaviour
         if (TryAttachItemToChess(eventData.position))
         {
             originSlot.ClearSlot();
+
+            ItemSlotManager.Instance.SortSlots();
+
             return;
         }
-        
     }
 
     //===================== 아이템 슬롯 스왑 함수 ========================
@@ -133,6 +138,8 @@ public class ItemDrag : MonoBehaviour
         {
             b.SetItem(temp);
         }
+
+        ItemSlotManager.Instance.SortSlots();
     }
 
     private bool TryAttachItemToChess(Vector2 screenPos)

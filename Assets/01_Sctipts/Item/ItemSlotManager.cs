@@ -44,6 +44,23 @@ public class ItemSlotManager : MonoBehaviour
         return false;
     }
 
+    public void SortSlots()
+    {
+        List<ItemBase> items = new();
+        foreach(var slot in slots)
+        {
+            if (!slot.IsEmpty)
+                items.Add(slot.CurrentItem);
+        }
+
+        foreach (var slot in slots) slot.ClearSlot();
+
+        for (int i = 0; i < items.Count; ++i)
+        {
+            slots[i].SetItem(items[i]);
+        }
+    }
+
     public void ClearAllSlots()
     {
         foreach (var slot in slots)
@@ -51,5 +68,4 @@ public class ItemSlotManager : MonoBehaviour
             slot.ClearSlot();
         }
     }
-
 }

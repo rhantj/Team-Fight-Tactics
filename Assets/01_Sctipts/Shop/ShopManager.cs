@@ -127,6 +127,8 @@ public class ShopManager : Singleton<ShopManager>
             Debug.LogError("[ShopManager] LevelDataTable is invalid");
             maxLevel = 1;
         }
+
+        StaticRegistry<ShopManager>.Add(this);
     }
 
     private void Start()
