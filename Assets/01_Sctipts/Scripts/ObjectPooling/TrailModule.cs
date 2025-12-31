@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(PooledObject))]
 public class TrailModule : MonoBehaviour
 {
-    float speed = 30f;
+    [SerializeField] float speed = 30f;
 
     private void Start()
     {
