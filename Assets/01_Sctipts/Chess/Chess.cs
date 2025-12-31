@@ -22,6 +22,10 @@ public class Chess : ChessStateBase
     //                  타겟 / 이벤트
     //=====================================================
 
+    public event Action OnShoot;
+
+
+
     [SerializeField] private float rotateSpeed = 720f; //회전속도
     public Team team; //유닛 소속을 정합니다 플레이어기물인지 적 기물인지.
     private Chess currentTarget; //현재 공격대상입니다
@@ -364,6 +368,12 @@ public class Chess : ChessStateBase
     //=====================================================
     //                  전투 관련
     //=====================================================
+
+    public void AnimEvent_Shoot()
+    {
+        OnShoot?.Invoke();
+    }
+
     private void ApplyAtkAnimSpeed()
     {
         if (animator == null) return;

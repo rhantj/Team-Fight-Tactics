@@ -14,12 +14,14 @@ public class ChessVFXPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        owner.OnAttack += VFXStart;
+        //owner.OnAttack += VFXStart;
+        owner.OnShoot += VFXStart;
     }
 
     private void OnDisable()
     {
-        owner.OnAttack -= VFXStart;
+        //owner.OnAttack -= VFXStart;
+        owner.OnShoot -= VFXStart;
     }
 
     private void VFXStart()
