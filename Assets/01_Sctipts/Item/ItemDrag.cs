@@ -83,7 +83,7 @@ public class ItemDrag : MonoBehaviour
                 {
                     ItemSlotSwap(originSlot, targetSlot);
 
-                    SettingsUI.PlaySFX("Drop", Vector3.zero, 1f, 1f);
+                    SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
                     return;
                 }
                 var a = originSlot.CurrentItem.Data;
@@ -110,10 +110,10 @@ public class ItemDrag : MonoBehaviour
             originSlot.ClearSlot();
 
             ItemSlotManager.Instance.SortSlots();
-            SettingsUI.PlaySFX("Drop", Vector3.zero, 1f, 1f);
+            SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
             return;
         }
-        SettingsUI.PlaySFX("Drop", Vector3.zero, 1f, 1f);
+        SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
     }
 
     //===================== 아이템 슬롯 스왑 함수 ========================
