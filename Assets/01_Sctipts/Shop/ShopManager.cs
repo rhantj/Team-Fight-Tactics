@@ -814,7 +814,7 @@ public class ShopManager : Singleton<ShopManager>
     /// </summary>
     public void ResetGold()
     {
-        currentGold = 100; // Ω√¿€ ∞ÒµÂ
+        currentGold = 20; // Ω√¿€ ∞ÒµÂ
         UpdateGoldUI();
     }
 
