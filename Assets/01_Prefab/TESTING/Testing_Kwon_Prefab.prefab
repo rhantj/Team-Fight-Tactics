@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5691322999923087631}
   - component: {fileID: 2064925202295567818}
-  - component: {fileID: 7051718689527264412}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,23 +48,11 @@ MonoBehaviour:
   maxRound: 5
   maxLoseCount: 3
   battleTime: 30
-  preparationTime: 5
-  battleStartDelay: 5
-  winResultTime: 2.5
+  preparationTime: 3
+  battleStartDelay: 3
+  winResultTime: 3
   loseResultTime: 2
   starStepMultiplier: 1.5
---- !u!114 &7051718689527264412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191900006163391018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc970371826bb21428d9a6586067cee2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &344144087253927898
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +344,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 1
     preloadCount: 2
-  - id: GarenSpinHit
+  - id: GarenSpin
     prefab:
       m_AssetGUID: 2dd7cce54cc54684bbf475b7e61db48c
       m_SubObjectName: 
@@ -1762,7 +1749,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9186940352477395349}
-  - component: {fileID: 8875306052246359380}
   m_Layer: 0
   m_Name: ItemDebugTest
   m_TagString: Untagged
@@ -1785,24 +1771,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1795107312905281205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8875306052246359380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667735669256732749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dcbddbb4b591a243894ed391ad853ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testItems:
-  - {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
-  - {fileID: 11400000, guid: 38bec68fbff450048a768915be70d906, type: 2}
-  - {fileID: 11400000, guid: add3a432a48c275448b303615cd5ed8c, type: 2}
-  - {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
-  - {fileID: 11400000, guid: 01672e8ad1d6b014b945c4928ddcadd8, type: 2}
 --- !u!1 &3829573438107022222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3641,7 +3609,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8875306052246359380}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ItemDebugTest, Assembly-CSharp
         m_MethodName: SpawnRandomItem
         m_Mode: 1
