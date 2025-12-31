@@ -22,7 +22,7 @@ public static class SoundSystem
 
 public class SFXManager : MonoBehaviour, ISoundable
 {
-    [SerializeField] AudioClip[] preloadSFX;                // 효과음 캐싱
+    [SerializeField] List<AudioClip> preloadSFX = new();    // 효과음 캐싱
     private Dictionary<string, AudioClip> clipDic = new();  // 효과음 분류
     public List<GameObject> usingSound = new();             // 사용중인 사운드
 
