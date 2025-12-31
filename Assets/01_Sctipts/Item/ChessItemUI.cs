@@ -76,6 +76,7 @@ public class ChessItemUI : MonoBehaviour
                 // UI 갱신
                 RefreshUI();
                 ChessInfoUI.Instance?.RefreshItemUIOnly();
+                SettingsUI.PlaySFX("ItemEquip(Comb)", transform.position, 1f, 1f);
                 return true;
             }
         }
@@ -86,7 +87,7 @@ public class ChessItemUI : MonoBehaviour
 
         // 3. 일반 장착
         equippedItems.Add(newItem);
-
+        SettingsUI.PlaySFX("ItemEquip(Mate)", transform.position, 1f, 1f);
         // Handler에 현재 UI 기준 아이템 목록 재적용
         handler.ClearItems();
         foreach (var item in equippedItems)

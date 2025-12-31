@@ -275,6 +275,11 @@ public class GameManager : Singleton<GameManager>
                     c.ForceVictory();
                 }
             }
+            SettingsUI.PlaySFX("Win", Vector3.zero, 1f, 1f);
+        }
+        else
+        {
+            SettingsUI.PlaySFX("Lose", Vector3.zero, 1f, 1f);
         }
     }
 
@@ -597,8 +602,17 @@ public class GameManager : Singleton<GameManager>
         OnTimerMaxTimeChanged?.Invoke(wait);
 
         float t = wait;
+        int lastSec = Mathf.CeilToInt(t);
+
         while (t > 0f)
         {
+            int currentSec = Mathf.CeilToInt(t);
+            if (currentSec != lastSec)
+            {
+                SettingsUI.PlaySFX("Start3Sec", Vector3.zero, 1f, 1f);
+                lastSec = currentSec;
+            }
+
             OnPreparationTimerUpdated?.Invoke(t);
             t -= Time.deltaTime;
             yield return null;

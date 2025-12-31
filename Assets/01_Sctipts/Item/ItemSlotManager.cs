@@ -38,6 +38,7 @@ public class ItemSlotManager : MonoBehaviour
             if(slot.IsEmpty)
             {
                 slot.SetItem(data);
+                SettingsUI.PlaySFX("DragChess", Vector3.zero, 1f, 1f);
                 return true;
             }
         }
