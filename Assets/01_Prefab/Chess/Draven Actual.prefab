@@ -1399,6 +1399,7 @@ GameObject:
   - component: {fileID: 1463171730936642731}
   - component: {fileID: 6419604468738987396}
   - component: {fileID: -3626925720389780843}
+  - component: {fileID: 2684363904368004972}
   m_Layer: 7
   m_Name: Draven Actual
   m_TagString: Untagged
@@ -1605,6 +1606,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   vfxName: Draven_NormalHit_VFX
+--- !u!114 &2684363904368004972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4725810849064639337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55810f567ebf7c04e8a490195e7bdf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  twoStarVFX: VFX_StarUp_2
+  threeStarVFX: VFX_StarUp_3
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &4819117814282417121
 GameObject:
   m_ObjectHideFlags: 0
