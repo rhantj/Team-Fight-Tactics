@@ -501,6 +501,12 @@ public class GameManager : Singleton<GameManager>
             ChessCombineManager.Instance.ResetAll();
         }
 
+        // ===== 풀 초기화 =====
+        if (PoolManager.Instance != null)
+        {
+            PoolManager.Instance.ResetAllPools();
+        }
+
 
 
     }
