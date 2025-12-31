@@ -1059,6 +1059,7 @@ GameObject:
   - component: {fileID: -3334210507382433953}
   - component: {fileID: 6644039873597115207}
   - component: {fileID: -3848799739285897553}
+  - component: {fileID: 135219155502286980}
   m_Layer: 7
   m_Name: Galio Actual
   m_TagString: Untagged
@@ -1252,6 +1253,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   vfxName: 
+--- !u!114 &135219155502286980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3393764385007708275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55810f567ebf7c04e8a490195e7bdf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  twoStarVFX: VFX_StarUp_2
+  threeStarVFX: VFX_StarUp_3
+  offset: {x: 0, y: 4, z: 0}
 --- !u!1 &3420743924208388985
 GameObject:
   m_ObjectHideFlags: 0

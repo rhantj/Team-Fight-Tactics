@@ -22,6 +22,8 @@ public class PoolManager : MonoBehaviour
     private Dictionary<string, ObjectPool<UnityEngine.Component>> poolDict
         = new Dictionary<string, ObjectPool<UnityEngine.Component>>();
 
+    private bool isInitialized = false;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -40,35 +42,35 @@ public class PoolManager : MonoBehaviour
     //풀 준비(초기화)
     private void InitializePools()
     {
-        foreach(var config in poolConfigs)
-        {
-            if(string.IsNullOrEmpty(config.id)|| config.prefab == null)
-            {
-                //Debug.LogWarning($"Invalid PoolConfig : {config.id}");
-                continue;
-            }
+        if (isInitialized)
+            return;
 
-            AsyncOperationHandle<GameObject> handle = config.prefab.LoadAssetAsync<GameObject>();
+        isInitialized = true;
+
+        foreach (var config in poolConfigs)
+        {
+            if (string.IsNullOrEmpty(config.id) || config.prefab == null)
+                continue;
+
+            AsyncOperationHandle<GameObject> handle =
+                config.prefab.LoadAssetAsync<GameObject>();
 
             GameObject loadedPF = handle.WaitForCompletion();
+            if (!loadedPF) continue;
 
-            if (!loadedPF)
-            {
-                //Debug.LogError($"Failed Load Addressables : {config.id}");
-                continue;
-            }
-
-            UnityEngine.Component component = loadedPF.GetComponent<UnityEngine.Component>();
+            var component = loadedPF.GetComponent<Component>();
 
             var pool = new ObjectPool<Component>(
                 component,
                 config.preloadCount,
                 config.id,
-                transform);
+                transform
+            );
 
             poolDict.Add(config.id, pool);
         }
     }
+
 
     //풀 꺼내기
     public GameObject Spawn(string id)
@@ -136,5 +138,14 @@ public class PoolManager : MonoBehaviour
 
         Despawn(pooled.poolId, obj);
     }
+
+    public void ResetAllPools()
+    {
+        foreach (var pool in poolDict.Values)
+        {
+            pool.ResetPool();
+        }
+    }
+
 
 }

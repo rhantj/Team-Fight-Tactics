@@ -795,6 +795,8 @@ public class ShopManager : Singleton<ShopManager>
         playerLevel = 1;
         playerExp = 0;
 
+        unitBuyCount.Clear();
+
         // 잠금 해제
         isLocked = false;
         if (lockIconImage != null)

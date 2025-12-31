@@ -2162,6 +2162,7 @@ GameObject:
   - component: {fileID: 3490288044992863030}
   - component: {fileID: -3424944519776226681}
   - component: {fileID: 964187454030509118}
+  - component: {fileID: -6809365286351705566}
   m_Layer: 7
   m_Name: Vi Actual
   m_TagString: Untagged
@@ -2365,6 +2366,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   vfxName: 
+--- !u!114 &-6809365286351705566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7530122370238952693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55810f567ebf7c04e8a490195e7bdf34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  twoStarVFX: VFX_StarUp_2
+  threeStarVFX: VFX_StarUp_3
+  offset: {x: 0, y: 4, z: 0}
 --- !u!1 &7886052316437050819
 GameObject:
   m_ObjectHideFlags: 0

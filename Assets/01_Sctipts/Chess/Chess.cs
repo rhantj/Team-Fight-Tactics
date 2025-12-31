@@ -73,6 +73,8 @@ public class Chess : ChessStateBase
 
     public event Action OnAttack;
 
+    public event Action<int> OnStarUp; // 새 StarLevel 전달용 이벤트입니다 12-31 Won.Add
+
     //=====================================================
     //                  초기화
     //=====================================================
@@ -587,6 +589,8 @@ public class Chess : ChessStateBase
         if (StarLevel >= 3) return;
 
         StarLevel = Mathf.Min(StarLevel + 1, 3);
+
+        OnStarUp?.Invoke(StarLevel);
 
         CurrentHP = MaxHP;   
         CurrentMana = 0;
