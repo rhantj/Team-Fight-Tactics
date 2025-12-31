@@ -702,4 +702,20 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusAttack_Percent = Mathf.Max(0f, bonusAttack_Percent);
         OnStatChanged?.Invoke();
     }
+
+    //¹öÇÁÄ­ µû·Î
+    public float GetBuffAttackSpeedMultiplier()
+    {
+        return bonusAttackSpeed_Buff;
+    }
+
+    public void SetBuffAttackSpeedMultiplier(float multiplier)
+    {
+        bonusAttackSpeed_Buff = Mathf.Max(0.1f, multiplier);
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
+    }
 }
