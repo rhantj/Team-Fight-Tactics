@@ -30,13 +30,11 @@ public class CSVReader
                 string value = values[j];
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
                 object finalvalue = value;
-                int n;
-                float f;
-                if (int.TryParse(value, out n))
+                if (int.TryParse(value, out int n))
                 {
                     finalvalue = n;
                 }
-                else if (float.TryParse(value, out f))
+                else if (float.TryParse(value, out float f))
                 {
                     finalvalue = f;
                 }
@@ -55,16 +53,13 @@ public class CSVReader
         foreach (var row in raw)
         {
             string statName = row[""].ToString();
-
             var values = new List<float>();
 
             foreach (var kvp in row)
             {
                 if (kvp.Key == "") continue;
-
                 values.Add(System.Convert.ToSingle(kvp.Value));
             }
-
             result[statName] = values;
         }
 
@@ -79,13 +74,11 @@ public class CSVReader
         foreach (var row in raw)
         {
             string statName = row[""].ToString();
-
             var wrapper = new FloatListWrapper();
 
             foreach (var kvp in row)
             {
                 if (kvp.Key == "") continue;
-
                 wrapper.values.Add(System.Convert.ToSingle(kvp.Value));
             }
 
@@ -94,5 +87,4 @@ public class CSVReader
 
         return result;
     }
-
 }

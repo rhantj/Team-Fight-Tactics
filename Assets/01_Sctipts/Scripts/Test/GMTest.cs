@@ -7,8 +7,8 @@ public class GMTest : MonoBehaviour
     private int lastSec = -1;
     private void Start()
     {
-        Debug.Log("<color=yellow>=== GameManager 테스트 시작 ===</color>");
-        Debug.Log(GameManager.Instance == null ? "<color=red>GM NULL</color>" : "<color:green>GM FOUND</color>");
+        //Debug.Log("<color=yellow>=== GameManager 테스트 시작 ===</color>");
+        //Debug.Log(GameManager.Instance == null ? "<color=red>GM NULL</color>" : "<color:green>GM FOUND</color>");
         // GameManager 이벤트 연결
         GameManager.Instance.OnRoundStarted += HandleRoundStarted;
         GameManager.Instance.OnPreparationTimerUpdated += HandlePreparationTimer;
@@ -33,7 +33,7 @@ public class GMTest : MonoBehaviour
 
     private void HandleRoundStarted(int round)
     {
-        Debug.Log($"<color=cyan>[RoundStart] 라운드 {round} 시작!</color>");
+        //Debug.Log($"<color=cyan>[RoundStart] 라운드 {round} 시작!</color>");
     }
 
     private void HandlePreparationTimer(float t)
@@ -45,17 +45,17 @@ public class GMTest : MonoBehaviour
 
         if (sec % 5 == 0)
         {
-            Debug.Log($"[PrepTimer] 남은 준비시간: {sec}초");
+            //Debug.Log($"[PrepTimer] 남은 준비시간: {sec}초");
         }
     }
 
     private void HandleRoundEnded(int round, bool win)
     {
-        Debug.Log($"<color=magenta>[RoundEnd] 라운드 {round} 종료! 결과 = {(win ? "승리" : "패배")}</color>");
+        //Debug.Log($"<color=magenta>[RoundEnd] 라운드 {round} 종료! 결과 = {(win ? "승리" : "패배")}</color>");
     }
 
     private void HandleRoundStateChanged(RoundState newState)
     {
-        Debug.Log($"<color=green>[StateChange] 새 라운드 상태: {newState}</color>");
+        ///Debug.Log($"<color=green>[StateChange] 새 라운드 상태: {newState}</color>");
     }
 }

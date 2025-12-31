@@ -148,7 +148,7 @@ public class SettingsUI : MonoBehaviour
     //설정창 닫는 함수
     public void OnClickClose()
     {
-        Debug.Log("CLOSE CLICKED");
+        //Debug.Log("CLOSE CLICKED");
         ToggleSettingsUI();
     }
 
@@ -160,7 +160,7 @@ public class SettingsUI : MonoBehaviour
     {
         if (GameManager.Instance == null)
         {
-            Debug.LogError("[SettingsUI] GameManager.Instance is null");
+            //Debug.LogError("[SettingsUI] GameManager.Instance is null");
             return;
         }
 

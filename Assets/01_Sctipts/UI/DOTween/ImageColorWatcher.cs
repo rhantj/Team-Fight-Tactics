@@ -16,7 +16,7 @@ public class ImageColorWatcher : MonoBehaviour
     {
         if (img.color != last)
         {
-            Debug.Log($"[COLOR CHANGED] {gameObject.name} : {last} -> {img.color}");
+            //Debug.Log($"[COLOR CHANGED] {gameObject.name} : {last} -> {img.color}");
             last = img.color;
         }
     }

@@ -62,7 +62,7 @@ public class BrambleVest : ItemBase
             enemy.TakeDamage(THORN_DAMAGE, ownerChess);
         }
 
-        Debug.Log($"[BrambleVest] 가시 피해 발동 | {ownerChess.name}");
+        //Debug.Log($"[BrambleVest] 가시 피해 발동 | {ownerChess.name}");
     }
     private void ApplyBonusHpAsBuff(int deltaHp)
     {

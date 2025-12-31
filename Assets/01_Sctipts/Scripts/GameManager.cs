@@ -312,7 +312,6 @@ public class GameManager : Singleton<GameManager>
         roundState = RoundState.Preparation;
 
         // 필드 위 아군 기물 전부 풀로 반환
-        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
             var fieldUnits = fieldGrid.GetAllFieldUnits();
@@ -334,7 +333,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 필드 위 적 기물 전부 풀로 반환
-        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
             var enemyUnits = enemyGrid.GetAllFieldUnits();
@@ -366,7 +364,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 벤치 위 기물 전부 풀로 반환
-        //var benchGrid = FindAnyObjectByType<BenchGrid>();
         if (benchGrid != null)
         {
             foreach (var node in benchGrid.FieldGrid)

@@ -594,7 +594,7 @@ public class Chess : ChessStateBase
         NotifyStatChanged();
         NotifyHPChanged();
 
-        Debug.Log($"Á¶ÇÕµÊ ({StarLevel}¼º)");
+        //Debug.Log($"Á¶ÇÕµÊ ({StarLevel}¼º)");
     }
 
 

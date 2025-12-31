@@ -46,8 +46,8 @@ public class SteraksGage : ItemBase
         int shieldAmount = Mathf.RoundToInt(maxHP * SHIELD_RATIO);
         owner.AddShield(shieldAmount, SHIELD_DURATION);
 
-        Debug.Log(
-            $"[Steraks] 발동 | {owner.name} HP {currentHP}/{maxHP} → 보호막 {shieldAmount} ({SHIELD_DURATION}s)"
-        );
+        //Debug.Log(
+        //    $"[Steraks] 발동 | {owner.name} HP {currentHP}/{maxHP} → 보호막 {shieldAmount} ({SHIELD_DURATION}s)"
+        //);
     }
 }

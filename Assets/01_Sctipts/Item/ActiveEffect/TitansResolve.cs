@@ -60,8 +60,8 @@ public class TitansResolve : ItemBase
 
             totalBonusAttack += BONUS_ATK_AT_MAX;
             owner.AddBonusStats(totalBonusAttack, 0, 0);
-            Debug.Log($"[TitansResolve] 최대 중첩 발동 | {owner.name}");
+            //Debug.Log($"[TitansResolve] 최대 중첩 발동 | {owner.name}");
         }
-        Debug.Log($"[TitansResolve] 스택 {stack}/{MAX_STACK} | {owner.name}");
+        //Debug.Log($"[TitansResolve] 스택 {stack}/{MAX_STACK} | {owner.name}");
     }
 }

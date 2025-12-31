@@ -44,7 +44,7 @@ public class GuardianAngel : ItemBase
 
         hpTriggered = true;
 
-        Debug.Log($"[NightEdge] 지정 불가 발동 | {owner.name}");
+        //Debug.Log($"[NightEdge] 지정 불가 발동 | {owner.name}");
 
         owner.StartCoroutine(UntargetableRoutine());
     }
@@ -59,6 +59,6 @@ public class GuardianAngel : ItemBase
         // 지정 가능 복구
         owner.SetTargetable(true);
 
-        Debug.Log($"[NightEdge] 지정 불가 종료 | {owner.name}");
+        //Debug.Log($"[NightEdge] 지정 불가 종료 | {owner.name}");
     }
 }

@@ -38,6 +38,6 @@ public class GiantSlayer : ItemBase
         // 추가 피해는 별도 처리 예정
         target.TakeDamage(bonusDamage, chess);
 
-        Debug.Log($"[GiantSlayer] 난동꾼 대상 추가 피해 {bonusDamage}");
+        //Debug.Log($"[GiantSlayer] 난동꾼 대상 추가 피해 {bonusDamage}");
     }
 }

@@ -32,8 +32,8 @@ public class SpearOfShojin : ItemBase
         //마나 2 충전
         owner.GainMana(MANA_ON_HIT);
 
-        Debug.Log(
-            $"[SpearOfShojin] 기본 공격 적중 | {owner.name} 마나 +{MANA_ON_HIT} (현재 {owner.CurrentMana})"
-        );
+        //Debug.Log(
+        //    $"[SpearOfShojin] 기본 공격 적중 | {owner.name} 마나 +{MANA_ON_HIT} (현재 {owner.CurrentMana})"
+        //);
     }
 }

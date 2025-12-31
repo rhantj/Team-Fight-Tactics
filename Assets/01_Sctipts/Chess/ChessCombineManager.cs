@@ -285,7 +285,7 @@ public class ChessCombineManager : MonoBehaviour
         //overflowÃ³¸®
         if(overflow.Count >0)
         {
-            Debug.LogWarning("Item OverFlow");
+            //Debug.LogWarning("Item OverFlow");
         }
 
         ChessInfoUI.Instance?.RefreshItemUIOnly();

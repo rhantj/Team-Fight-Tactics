@@ -152,7 +152,7 @@ public class ShopManager : Singleton<ShopManager>
         else
             lockIconImage.sprite = defaultUnlockedSprite;
 
-        Debug.Log("Shop Lock State = " + isLocked);
+        //Debug.Log("Shop Lock State = " + isLocked);
     }
 
     // ================================================================
@@ -453,7 +453,7 @@ public class ShopManager : Singleton<ShopManager>
         if (!TrySpendGold(data.cost))
             return;
 
-        Debug.Log(data.unitName + " 구매 시도");
+        //Debug.Log(data.unitName + " 구매 시도");
 
         // 슬롯은 아직 지우지 않고 벤치 배치 성공 여부 확인 후 지우도록 하자
 
@@ -465,7 +465,7 @@ public class ShopManager : Singleton<ShopManager>
 
         if (chess == null)
         {
-            Debug.LogError("Spawn된 오브젝트에서 Chess 컴포넌트를 찾을 수 없습니다.");
+            //Debug.LogError("Spawn된 오브젝트에서 Chess 컴포넌트를 찾을 수 없습니다.");
             return;
         }
 
@@ -478,7 +478,7 @@ public class ShopManager : Singleton<ShopManager>
 
         if (bench == null)
         {
-            Debug.LogError("BenchGrid를 찾을 수 없습니다.");
+            //Debug.LogError("BenchGrid를 찾을 수 없습니다.");
             return;
         }
 
@@ -491,7 +491,7 @@ public class ShopManager : Singleton<ShopManager>
         // 7) 벤치가 꽉 차서 배치 실패한 경우
         if (chess.transform.position == beforePos)
         {
-            Debug.Log("벤치가 가득 차서 구매 불가!");
+            //Debug.Log("벤치가 가득 차서 구매 불가!");
 
             // 유닛 반환
             PoolManager.Instance.Despawn(data.poolID, obj);
@@ -601,7 +601,7 @@ public class ShopManager : Singleton<ShopManager>
         {
             if(ToastUI.Instance != null)
             {
-                ToastUI.Instance.Show("The unit cannot be sold due to insufficient item slots.", Color.yellow);
+                //ToastUI.Instance.Show("The unit cannot be sold due to insufficient item slots.", Color.yellow);
             }
             return false;
             //토스트/팝업 UI연결 필요;
@@ -697,7 +697,7 @@ public class ShopManager : Singleton<ShopManager>
     {
         if (isLocked)
         {
-            Debug.Log("상점이 잠겨 있어 리롤 불가");
+            //Debug.Log("상점이 잠겨 있어 리롤 불가");
             return;
         }
 

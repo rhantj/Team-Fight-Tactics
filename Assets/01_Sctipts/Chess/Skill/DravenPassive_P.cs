@@ -49,7 +49,7 @@ public class DravenPassive_P : MonoBehaviour, IOnHitEffect
         if (attacker.team == Team.Player && ShopManager.Instance != null)
             ShopManager.Instance.AddGold(gain);
 
-        Debug.Log($"[Draven P] HitStack cashout x{cashouts} (+{gain}g), remain stacks={stacks}");
+        //Debug.Log($"[Draven P] HitStack cashout x{cashouts} (+{gain}g), remain stacks={stacks}");
     }
 
     private int GetGoldPerCashout(int starLevel)

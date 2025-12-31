@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SerializedDictionary<TKey, TValue> :
-    IDictionary<TKey, TValue>, ISerializationCallbackReceiver
+public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
 {
-    [SerializeField] private List<TKey> keys = new List<TKey>();
-    [SerializeField] private List<TValue> values = new List<TValue>();
+    [SerializeField] private List<TKey> keys = new();
+    [SerializeField] private List<TValue> values = new();
 
     private Dictionary<TKey, TValue> dict;
 
@@ -27,39 +26,6 @@ public class SerializedDictionary<TKey, TValue> :
             }
 
             return dict;
-        }
-    }
-
-    public void OnBeforeSerialize()
-    {
-        keys.Clear();
-        values.Clear();
-
-        if (dict == null)
-            return;
-
-        foreach (var kvp in dict)
-        {
-            keys.Add(kvp.Key);
-            values.Add(kvp.Value);
-        }
-    }
-
-    public void OnAfterDeserialize()
-    {
-        dict = new Dictionary<TKey, TValue>();
-
-        int count = Mathf.Min(keys.Count, values.Count);
-        for (int i = 0; i < count; i++)
-        {
-            if (!dict.ContainsKey(keys[i]))
-            {
-                dict.Add(keys[i], values[i]);
-            }
-            else
-            {
-                Debug.LogWarning($"[SerializedDictionary] 중복 키 감지: {keys[i]} → 무시");
-            }
         }
     }
 

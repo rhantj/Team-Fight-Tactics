@@ -156,7 +156,7 @@ public class SkillManager : MonoBehaviour
         }
 
         animator.SetFloat(SkillSpeedParam, speed);
-        Debug.Log($"[{chess.name}] BaseAS={chess.BaseAttackSpeed}, FinalAS={chess.FinalAttackSpeed}, set={speed}");
+        //Debug.Log($"[{chess.name}] BaseAS={chess.BaseAttackSpeed}, FinalAS={chess.FinalAttackSpeed}, set={speed}");
     }
 
     private bool HasAnimParam(string param)
