@@ -1048,6 +1048,7 @@ GameObject:
   - component: {fileID: -2505725154672900435}
   - component: {fileID: 6896969570076098828}
   - component: {fileID: -1887461704326980341}
+  - component: {fileID: -6505025592784412506}
   m_Layer: 7
   m_Name: Saion Actual
   m_TagString: Untagged
@@ -1148,6 +1149,8 @@ MonoBehaviour:
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!114 &7217857055681875087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1220,6 +1223,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicAttackSfxName: Sion_BaseAttackSound2
+--- !u!114 &-6505025592784412506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3584358409752814710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: 
 --- !u!1 &4022982593565600715
 GameObject:
   m_ObjectHideFlags: 0

@@ -411,6 +411,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.size
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[32].id
+      value: Caytlin_NormalHit_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[33].id
+      value: Draven_NormalHit_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[34].id
+      value: Vayne_NormalHit_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[35].id
+      value: Xayah_NormalHit_VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[36].id
+      value: Baron_Mesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[32].preloadCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[33].preloadCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[34].preloadCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[35].preloadCount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[36].preloadCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[32].prefab.m_AssetGUID
+      value: 42e687079abfd214b8c3337245ba1873
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[33].prefab.m_AssetGUID
+      value: 460c4140a68e97147855321b198a70dc
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[34].prefab.m_AssetGUID
+      value: e3bee774f77edfd4ba50b94bdf11ff59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[35].prefab.m_AssetGUID
+      value: bac9743e4b5f02348b26e4f39cd589f1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082940907795843700, guid: de67abd2e2ae52846a73860433480e49, type: 3}
+      propertyPath: poolConfigs.Array.data[36].prefab.m_AssetGUID
+      value: c537f3fbc91c9ed41926e4110adda7ef
+      objectReference: {fileID: 0}
     - target: {fileID: 1634713458598283867, guid: de67abd2e2ae52846a73860433480e49, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

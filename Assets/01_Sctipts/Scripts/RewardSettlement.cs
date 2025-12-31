@@ -13,11 +13,6 @@ public class RewardSettlement: MonoBehaviour
         GameManager.Instance.OnRoundReward += Rewards;
     }
 
-    private void OnDisable()
-    {
-        GameManager.Instance.OnRoundEnded -= Rewards;
-    }
-
     private void Rewards(int currentRound, bool lastBattleWin)
     {
         //if (!lastBattleWin) return;

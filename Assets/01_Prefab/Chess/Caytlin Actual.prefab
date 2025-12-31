@@ -869,7 +869,8 @@ MonoBehaviour:
   - {fileID: 811545068, guid: d2114067e0c01df468156d69e641ba88, type: 3}
   - {fileID: 1263935866, guid: d2114067e0c01df468156d69e641ba88, type: 3}
   - {fileID: 2075251048, guid: d2114067e0c01df468156d69e641ba88, type: 3}
-  heightOffset: 7.5
+  extraHeadOffset: 0.3
+  followSmoothTime: 0.05
 --- !u!114 &822671008185700516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3770,6 +3771,7 @@ GameObject:
   - component: {fileID: 3421599710000995682}
   - component: {fileID: 6589392853334098191}
   - component: {fileID: 6119352315348811375}
+  - component: {fileID: -4959083527881187356}
   m_Layer: 7
   m_Name: Caytlin Actual
   m_TagString: Untagged
@@ -3946,6 +3948,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicAttackSfxName: Caitlyn_BaseAttackSound
+--- !u!114 &-4959083527881187356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5493344572489471872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: Caytlin_NormalHit_VFX
 --- !u!1 &5499877839059685607
 GameObject:
   m_ObjectHideFlags: 0

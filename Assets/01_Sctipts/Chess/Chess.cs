@@ -71,6 +71,8 @@ public class Chess : ChessStateBase
     private int deathStateHash;
     private int victoryStateHash;
 
+    public event Action OnAttack;
+
     //=====================================================
     //                  √ ±‚»≠
     //=====================================================
@@ -499,6 +501,7 @@ public class Chess : ChessStateBase
         }
 
         animator.Play(hashToPlay, 0, 0f);
+        OnAttack?.Invoke();
         lastAttackAnimTime = Time.time;
 
 

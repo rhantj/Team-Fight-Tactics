@@ -21,6 +21,32 @@ public class ChessCombineManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnRoundStateChanged += HandleRoundStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnRoundStateChanged -= HandleRoundStateChanged;
+    }
+
+    private void HandleRoundStateChanged(RoundState state)
+    {
+        if (state == RoundState.Preparation)
+            TryCombineAll();
+    }
+
+    private void TryCombineAll()
+    {
+        var keys = new List<string>(chessGroups.Keys);
+        foreach (var k in keys)
+            TryCombine(k);
+    }
+
+
     public bool IsUnitCompleted(ChessStatData data)
     {
         //3성인지
@@ -42,6 +68,8 @@ public class ChessCombineManager : MonoBehaviour
     {
         if (chess == null || chess.BaseData == null) 
             return;
+
+        if (chess.team != Team.Player) return;
 
         if (chess.StarLevel >= 3) //3성 합성에서 제외
         {
@@ -65,6 +93,8 @@ public class ChessCombineManager : MonoBehaviour
 
             TryCombine(key); //등록이후 3개라면 즉시 조합
         }
+        if (CanCombineNow())
+            TryCombine(key);
     }
 
     public void Unregister(Chess chess)
@@ -100,6 +130,10 @@ public class ChessCombineManager : MonoBehaviour
     // =========================
     private void TryCombine(string key)
     {
+        if (GameManager.Instance != null &&
+        GameManager.Instance.roundState != RoundState.Preparation)
+            return;
+
         if (!chessGroups.TryGetValue(key, out var list))
             return;
 
@@ -314,5 +348,10 @@ public class ChessCombineManager : MonoBehaviour
         completedUnits.Clear();
     }
 
+    private bool CanCombineNow()
+    {
+        return GameManager.Instance != null
+            && GameManager.Instance.roundState == RoundState.Preparation;
+    }
 
 }
