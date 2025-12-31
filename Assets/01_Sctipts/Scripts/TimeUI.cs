@@ -34,7 +34,7 @@ public class TimeUI : MonoBehaviour
         gm.OnRoundStateChanged -= UpdateRoundStateText;
         gm.OnPreparationTimerUpdated -= UpdateTimerUI;
         gm.OnBattleTimerUpdated -= UpdateBattleTimerUI;
-        GameManager.Instance.OnTimerMaxTimeChanged -= SetMaxTime;
+        //GameManager.Instance.OnTimerMaxTimeChanged -= SetMaxTime;
 
     }
 

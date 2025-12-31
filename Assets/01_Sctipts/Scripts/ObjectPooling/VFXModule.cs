@@ -9,7 +9,7 @@ public class VFXModule : MonoBehaviour
 
     private void Awake()
     {
-        ps = GetComponent<ParticleSystem>();
+        ps = GetComponentInChildren<ParticleSystem>();
         if (TryGetComponent<PooledObject>(out var po))
         {
             pooled = po;
@@ -19,7 +19,8 @@ public class VFXModule : MonoBehaviour
     private void OnEnable()
     {
         VFXManager.Register(gameObject);
-        ps.Play();
+        if (ps != null)
+            ps.Play();
         StartCoroutine(Co_Return());
     }
 
@@ -31,7 +32,8 @@ public class VFXModule : MonoBehaviour
     IEnumerator Co_Return()
     {
         yield return null;
-        while (ps.IsAlive(true))
+
+        while (ps != null && ps.IsAlive(true))
         {
             yield return null;
         }

@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: -3628056914601512754}
   - component: {fileID: 6468134934056075395}
   - component: {fileID: 2749276131408279699}
+  - component: {fileID: -6165767567951151951}
   m_Layer: 7
   m_Name: Vayne Actual
   m_TagString: Untagged
@@ -446,6 +447,20 @@ MonoBehaviour:
   basicAttackSfxName: VayneAttack
   vayneWSfxName: Vayne_W
   procEveryHits: 3
+--- !u!114 &-6165767567951151951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946968737373124123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: Vayne_NormalHit_VFX
 --- !u!1 &1031833388176531091
 GameObject:
   m_ObjectHideFlags: 0

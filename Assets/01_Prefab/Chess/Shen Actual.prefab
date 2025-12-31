@@ -1824,6 +1824,7 @@ GameObject:
   - component: {fileID: -370532312208172698}
   - component: {fileID: 2330658479806288621}
   - component: {fileID: 1819842386263753189}
+  - component: {fileID: 360621733973129043}
   m_Layer: 7
   m_Name: Shen Actual
   m_TagString: Untagged
@@ -2001,6 +2002,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicAttackSfxName: Shen_BasicAttack1
+--- !u!114 &360621733973129043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404584320565165771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: 
 --- !u!1 &8635253275726878275
 GameObject:
   m_ObjectHideFlags: 0

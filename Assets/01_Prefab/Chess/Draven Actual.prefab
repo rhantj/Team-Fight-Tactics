@@ -1398,6 +1398,7 @@ GameObject:
   - component: {fileID: -931428695407493546}
   - component: {fileID: 1463171730936642731}
   - component: {fileID: 6419604468738987396}
+  - component: {fileID: -3626925720389780843}
   m_Layer: 7
   m_Name: Draven Actual
   m_TagString: Untagged
@@ -1537,9 +1538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebb6d8b55c64d0543b0fb96ec4d3bc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stacksPerKill: 1
+  stacksPerHit: 1
   stacksPerCashout: 11
-  stacks: 0
   goldPerCashout_1Star: 1
   goldPerCashout_2Star: 3
   goldPerCashout_3Star: 5
@@ -1591,6 +1591,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicAttackSfxName: Draven_Normal_Hit1
+--- !u!114 &-3626925720389780843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4725810849064639337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: Draven_NormalHit_VFX
 --- !u!1 &4819117814282417121
 GameObject:
   m_ObjectHideFlags: 0

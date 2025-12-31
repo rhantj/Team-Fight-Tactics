@@ -20,11 +20,8 @@ public static class VFXManager
         if (vfxObjects.Count <= 0) return;
         for (int i = 0; i < vfxObjects.Count; ++i)
         {
-            if (vfxObjects[i].TryGetComponent<VFXModule>(out var vfx))
-            {
-                var pooled = vfx.GetComponent<PooledObject>();
-                pooled.ReturnToPool();
-            }
+            var pooled = vfxObjects[i].GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
 
         vfxObjects.Clear();

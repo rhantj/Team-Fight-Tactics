@@ -923,6 +923,7 @@ GameObject:
   - component: {fileID: -9057966412086887930}
   - component: {fileID: 8894415034427157422}
   - component: {fileID: 2879091544594855701}
+  - component: {fileID: -8056059872941090526}
   m_Layer: 7
   m_Name: Jarvan Actual
   m_TagString: Untagged
@@ -1023,6 +1024,8 @@ MonoBehaviour:
   occupyRadius: 3
   sideStep: 3
   sideTries: 3
+  deathStateName: Death
+  victoryStateName: Victory
 --- !u!114 &4651160062980104659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,6 +1100,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicAttackSfxName: Jarvan_Normal_Hit1
+--- !u!114 &-8056059872941090526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833920127434609807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209b55484c417c24ab926871999216f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  vfxName: 
 --- !u!1 &3877300690438695348
 GameObject:
   m_ObjectHideFlags: 0
