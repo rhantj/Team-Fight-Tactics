@@ -164,6 +164,9 @@ public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHand
             (chess as Chess)?.SetOnField(false);
         }
 
+        // 기물 드랍 효과음 추가
+        SettingsUI.PlaySFX("DropChess", chess.transform.position, 1f);
+
         if (shop != null)
             shop.ExitSellMode();
 
