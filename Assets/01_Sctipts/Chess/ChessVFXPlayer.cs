@@ -25,8 +25,10 @@ public class ChessVFXPlayer : MonoBehaviour
     private void VFXStart()
     {
         if (vfxName != null)
+        {
             vfxObj = PoolManager.Instance.Spawn(vfxName);
-        vfxObj.transform.SetPositionAndRotation(transform.position + offset, Quaternion.identity);
+            vfxObj.transform.SetPositionAndRotation(transform.position + offset, Quaternion.identity);
+        }
 
         var target = owner.CurrentTarget;
         var mod = vfxObj.GetComponent<TrailModule>();
