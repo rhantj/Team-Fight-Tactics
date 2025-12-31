@@ -4,7 +4,7 @@ using System.Collections;
 public class DravenSkill_Q : SkillBase
 {
     [Header("Cast Timing")]
-    [SerializeField] private float windUpTime = 0.2f;
+    [SerializeField] private float windUpTime = 0f;
 
     [Header("Damage (Raw Physical)")]
     [SerializeField, Tooltip("강화 평타 배율 (기본공격 데미지 * 배율)")]
