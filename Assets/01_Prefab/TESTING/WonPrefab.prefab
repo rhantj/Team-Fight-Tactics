@@ -3745,9 +3745,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPanel: {fileID: 8583237805192755359}
   gameOverPanel: {fileID: 7049667189961127483}
-  introBGMKey: BGM6
-  gameBGMKey: BGM1
-  gameOverBGMKey: BGM7
+  introBGMKey: RealIntro
+  gameBGMKey: InGame
+  gameOverBGMKey: Ending
 --- !u!114 &3423087789480859876
 MonoBehaviour:
   m_ObjectHideFlags: 0
