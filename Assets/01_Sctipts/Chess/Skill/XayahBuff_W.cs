@@ -17,8 +17,12 @@ public class XayahBuff_W : MonoBehaviour, IOnHitEffect
     private GameObject hitVfxPrefab;
     private GameObject buffVfxInstance;
 
-    private float prevAtkSpeedMul = 1f;
+    //private float prevAtkSpeedMul = 1f;
     private Coroutine routine;
+
+    //누적공속방지용
+    private float baseBuffAtkSpeedMul = 1f;
+    private bool baseCaptured = false;
 
     public void Begin(
         Chess owner,
@@ -38,6 +42,15 @@ public class XayahBuff_W : MonoBehaviour, IOnHitEffect
         this.hitVfxPrefab = hitVfxPrefab;
 
         endTime = Time.time + duration;
+        if (this.owner == null) return;
+
+        if (!baseCaptured)
+        {
+            baseBuffAtkSpeedMul = this.owner.GetBuffAttackSpeedMultiplier();
+            baseCaptured = true;
+        }
+
+        this.owner.SetBuffAttackSpeedMultiplier(baseBuffAtkSpeedMul * buffAtkSpeedMul);
 
         if (routine != null) StopCoroutine(routine);
         routine = StartCoroutine(Run());
@@ -46,9 +59,6 @@ public class XayahBuff_W : MonoBehaviour, IOnHitEffect
     private IEnumerator Run()
     {
         if (owner == null) yield break;
-
-        prevAtkSpeedMul = owner.AttackSpeedMultiplier;
-        owner.SetAttackSpeedMultiplier(prevAtkSpeedMul * buffAtkSpeedMul);
 
         if (buffVfxPrefab != null)
         {
@@ -60,7 +70,9 @@ public class XayahBuff_W : MonoBehaviour, IOnHitEffect
             yield return null;
 
         if (owner != null && !owner.IsDead)
-            owner.SetAttackSpeedMultiplier(prevAtkSpeedMul);
+            owner.SetBuffAttackSpeedMultiplier(baseBuffAtkSpeedMul);
+
+        baseCaptured = false;
 
         if (buffVfxInstance != null)
             Destroy(buffVfxInstance);
@@ -81,5 +93,27 @@ public class XayahBuff_W : MonoBehaviour, IOnHitEffect
 
         if (hitVfxPrefab != null)
             Instantiate(hitVfxPrefab, target.transform.position, Quaternion.identity);
+    }
+
+    private void OnDisable()
+    {
+        if (routine != null)
+        {
+            StopCoroutine(routine);
+            routine = null;
+        }
+
+        if (buffVfxInstance != null)
+        {
+            Destroy(buffVfxInstance);
+            buffVfxInstance = null;
+        }
+
+        if (owner != null && baseCaptured && !owner.IsDead)
+        {
+            owner.SetBuffAttackSpeedMultiplier(baseBuffAtkSpeedMul);
+        }
+
+        baseCaptured = false;
     }
 }

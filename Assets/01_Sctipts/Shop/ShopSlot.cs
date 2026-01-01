@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 
 /// <summary>
 /// 상점 슬롯 1칸의 UI 및 상호작용을 담당하는 컴포넌트.
@@ -26,7 +27,23 @@ public class ShopSlot : MonoBehaviour
     [SerializeField] private GameObject synergyIconPrefab;   // 시너지 아이콘 프리팹
 
     [Header("Trait Icon Database")]
-    [SerializeField] private TraitIconDatabase traitIconDB;  // 시너지 아이콘 데이터베이스
+    [SerializeField] private TraitIconDataBase traitIconDB;  // 시너지 아이콘 데이터베이스
+
+    [Header("Materials")]
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private Material grayscaleMaterial;
+
+    [Header("Star Hint UI")]
+    [SerializeField] private GameObject starHintRoot;
+    [SerializeField] private Image twoStarImage;
+    [SerializeField] private Image threeStarImage;
+
+    [Header("Border Frame UI")]
+    [SerializeField] private Image borderFrameImage;
+    [SerializeField] private Sprite silverBorderSprite;
+    [SerializeField] private Sprite goldBorderSprite;
+
+
 
     /// <summary>
     /// 현재 슬롯에 표시 중인 유닛 데이터.
@@ -46,14 +63,18 @@ public class ShopSlot : MonoBehaviour
     /// </summary>
     private ShopManager shopManager;
 
+    private Tween starTween;
+
     /// <summary>
-    /// 슬롯 초기화
+    /// 상점 갱신시 샵슬롯의 상태를 완성하는 메서드
     /// </summary>
     public void Init(ChessStatData data, CostUIData uiData, int index, ShopManager manager)
     {
         slotIndex = index;
         shopManager = manager;
         CurrentData = data;
+
+        bgImage.enabled = true;
 
         // 시너지 아이콘 먼저 초기화
         ClearSynergyIcons();
@@ -85,16 +106,24 @@ public class ShopSlot : MonoBehaviour
             Color bg = info.backgroundColor;
             bg.a = 1f;
             bgImage.color = bg;
+
+            // ShopSlotHoverEffect 기준색 캡처
+            bgImage.GetComponent<ShopSlotHoverEffect>()?.CaptureBaseColor();
         }
         else
         {
             bgImage.color = Color.white;
+
+            bgImage.GetComponent<ShopSlotHoverEffect>()?.CaptureBaseColor();
         }
+
 
         // ======================
         //   시너지 아이콘 생성
         // ======================
         GenerateSynergyIcons(data);
+
+        ResetStarHint();
     }
 
     /// <summary>
@@ -133,8 +162,17 @@ public class ShopSlot : MonoBehaviour
         // 배경 투명화
         bgImage.color = new Color(1, 1, 1, 0);
 
+        var button = GetComponent<Button>();
+        if (button != null)
+        {
+            button.interactable = false;
+        }
+        bgImage.enabled = false;
+
         // 시너지 아이콘 제거
         ClearSynergyIcons();
+
+        ResetStarHint();
     }
 
     // ===============================
@@ -205,4 +243,117 @@ public class ShopSlot : MonoBehaviour
 
         }
     }
+
+
+    public void SetAffordable(bool canBuy)
+    {
+        portraitImage.material = canBuy
+            ? defaultMaterial
+            : grayscaleMaterial;
+    }
+
+    public void SetStarHint(bool canMake2Star, bool canMake3Star)
+    {
+        if (starHintRoot == null)
+            return;
+
+        // ====== [1] 항상 초기화 ======
+        starTween?.Kill();
+        starTween = null;
+
+        starHintRoot.SetActive(false);
+
+        if (twoStarImage != null)
+            twoStarImage.gameObject.SetActive(false);
+
+        if (threeStarImage != null)
+            threeStarImage.gameObject.SetActive(false);
+
+        if (borderFrameImage != null)
+            borderFrameImage.gameObject.SetActive(false);
+
+        // ====== [2] 조건 없으면 여기서 종료 ======
+        if (!canMake2Star && !canMake3Star)
+            return;
+
+        // ====== [3] 다시 켜기 ======
+        starHintRoot.SetActive(true);
+
+        if (canMake3Star)
+        {
+            threeStarImage.gameObject.SetActive(true);
+            PlayStarBlink(threeStarImage);
+
+            if (borderFrameImage != null)
+            {
+                borderFrameImage.sprite = goldBorderSprite;
+                borderFrameImage.gameObject.SetActive(true);
+            }
+        }
+        else if (canMake2Star)
+        {
+            twoStarImage.gameObject.SetActive(true);
+            PlayStarBlink(twoStarImage);
+
+            if (borderFrameImage != null)
+            {
+                borderFrameImage.sprite = silverBorderSprite;
+                borderFrameImage.gameObject.SetActive(true);
+            }
+        }
+    }
+
+
+
+
+    private void ResetStarHint()
+    {
+        starTween?.Kill();
+        starTween = null;
+
+        if (starHintRoot != null)
+            starHintRoot.SetActive(false);
+
+        if (twoStarImage != null)
+            twoStarImage.gameObject.SetActive(false);
+
+        if (threeStarImage != null)
+            threeStarImage.gameObject.SetActive(false);
+
+        if (borderFrameImage != null)
+            borderFrameImage.gameObject.SetActive(false);
+    }
+
+
+    // 별표시 효과연출용 메서드
+    private void PlayStarBlink(Image target)
+    {
+        if (target == null)
+            return;
+
+        // 혹시 기존 트윈이 남아있으면 제거
+        starTween?.Kill();
+
+        target.transform.localScale = Vector3.one;
+        Color c = target.color;
+        c.a = 1f;
+        target.color = c;
+
+        // 스케일 + 알파 동시 반복
+        starTween = DOTween.Sequence()
+            .Join(
+                target.transform.DOScale(1.1f, 0.6f)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+            )
+            .Join(
+                target.DOFade(0.6f, 0.6f)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+            );
+    }
+
+
+
+
 }

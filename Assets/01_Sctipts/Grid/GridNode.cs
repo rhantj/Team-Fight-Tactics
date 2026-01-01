@@ -5,27 +5,33 @@ public class GridNode
 {
     public Vector3 worldPosition;
 
-    private GridDivideBase owner;
+    public event Action<GridNode, ChessStateBase, ChessStateBase> OnChessPieceChanged;
+
+    private GridDivideBase Owner;
     private ChessStateBase chessPiece;
     public ChessStateBase ChessPiece
     {
         get => chessPiece;
         set
         {
-            if (chessPiece == value) return;
-            bool before = chessPiece;
+            if (ReferenceEquals(chessPiece, value)) return;
+
+            var beforePiece = chessPiece;
+            bool before = beforePiece != null;
             bool after = value;
 
             chessPiece = value;
 
             if(before && !after)
             {
-                owner.DecreasePieceCount();
+                Owner.DecreasePieceCount();
             }
             else if(!before && after)
             {
-                owner.IncreasePieceCount();
+                Owner.IncreasePieceCount();
             }
+
+            OnChessPieceChanged?.Invoke(this, beforePiece, chessPiece);
         }
     }
 
@@ -35,7 +41,7 @@ public class GridNode
 
     public GridNode(GridDivideBase owner, Vector3 worldPosition, int x, int y, int nodeNum)
     {
-        this.owner = owner;
+        Owner = owner;
         this.worldPosition = worldPosition;
         X = x;
         Y = y;

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,23 +20,27 @@ public class GridDivideBase : MonoBehaviour
     public List<int> unitPerLevel = new();           // 레벨 당 유닛 제한 수
 
     public int CountOfPiece { get; private set; }
+    public event Action<GridDivideBase, GridNode, ChessStateBase, ChessStateBase> OnGridChessPieceChanged;
 
     private void Awake()
     {
         Init();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         InitUnitLimits();
     }
 
-    private void OnDrawGizmos()
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    }
 
+    private void OnDrawGizmos()
+    {
         if (fieldGrid == null) return;
-#if UNITY_EDITOR
         foreach (var n in fieldGrid)
         {
             Gizmos.color = n.ChessPiece ? Color.red : Color.green;
@@ -43,12 +49,14 @@ public class GridDivideBase : MonoBehaviour
             Handles.Label(n.worldPosition + Vector3.up * nodeDiameter, $"{n.NodeNumber}");
 
         }
-#endif
+
     }
+#endif
 
     public void Init()
     {
-        gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
+        if (gridWorldSize == Vector2.zero)
+            gridWorldSize = new Vector2(transform.localScale.x, transform.localScale.z);
         nodeDiameter = nodeRadius * 2;
         gridXCnt = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
         gridYCnt = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -76,6 +84,7 @@ public class GridDivideBase : MonoBehaviour
 
                 var num = y * gridXCnt + x;
                 var node = new GridNode(this,worldPoint,x,y,num);
+                node.OnChessPieceChanged += NodeChessPieceChanged;
 
                 fieldGrid[y, x] = node;
                 nodePerInt.Add(num, node);
@@ -84,6 +93,11 @@ public class GridDivideBase : MonoBehaviour
 
         if (!linePF) return;
         DrawLine();
+    }
+
+    private void NodeChessPieceChanged(GridNode node, ChessStateBase before, ChessStateBase after)
+    {
+        OnGridChessPieceChanged?.Invoke(this, node, before, after);
     }
 
     // 노드별 라인 생성
@@ -130,29 +144,6 @@ public class GridDivideBase : MonoBehaviour
         lr.SetPosition(1, end + offset);
     }
 
-    // 위치에서 가장 가까운 노드 반환
-    /*
-    public GridNode GetNearGridNode(Vector3 pos)
-    {
-        GridNode res = null;
-        float closest = float.PositiveInfinity;
-
-        foreach(var node in fieldGrid)
-        {
-            var nodePos = new Vector2(node.worldPosition.x, node.worldPosition.z);
-            var newPos = new Vector2(pos.x, pos.z);
-            float dist = (nodePos - newPos).sqrMagnitude;
-            
-            if(dist < closest)
-            {
-                closest = dist;
-                res = node;
-            }
-        }
-
-        return res;
-    }
-     */
     public GridNode GetGridNode(Vector3 pos)
     {
         float x = pos.x - worldBottomLeft.x;
@@ -229,7 +220,7 @@ public class GridDivideBase : MonoBehaviour
     {
         foreach(var node in fieldGrid)
         {
-            if(ReferenceEquals(node, piece))
+            if(node.ChessPiece == piece)
             {
                 node.ChessPiece = null;
             }

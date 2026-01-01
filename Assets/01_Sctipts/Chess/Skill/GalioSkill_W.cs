@@ -53,23 +53,32 @@ public class GalioSkill_W : SkillBase
         if (galio == null) yield break;
 
         Vector3 pos = galio.transform.position;
-        pos.y = 1.5f;
+        pos.y = 3f;
 
         GameObject channelVfx = null;
         if (channelVfxPrefab != null)
         {
-            channelVfx = Object.Instantiate(channelVfxPrefab, galio.transform.position, Quaternion.identity, galio.transform);
+            channelVfx = PoolManager.Instance.Spawn("GalioChannel");
+            channelVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
         }
+        // 갈리오 스킬 효과음 추가
+        SettingsUI.PlaySFX("Galio W",galio.transform.position,1f,1f);
 
         if (channelTime > 0f)
             yield return new WaitForSeconds(channelTime);
 
         if (channelVfx != null)
-            Object.Destroy(channelVfx);
+        {
+            var pooled = channelVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
+        }
 
         // VFX
         if (blastVfxPrefab != null)
-            Object.Instantiate(blastVfxPrefab, pos, Quaternion.identity);
+        {
+            var blastVfx = PoolManager.Instance.Spawn("GalioBlast");
+            blastVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        }
 
         //범위피해
         List<Chess> enemies = (galio.team == Team.Player)
@@ -95,10 +104,19 @@ public class GalioSkill_W : SkillBase
         //VFX
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, galio.transform.position, Quaternion.identity, galio.transform);
+            var shieldVfx = PoolManager.Instance.Spawn("GalioShield");
+            shieldVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
 
-            if (shieldDuration > 0f) //vfx제거
-                Object.Destroy(vfx, shieldDuration);
+            float elapsed = shieldDuration;
+            while (elapsed > 0f)
+            {
+                elapsed -= Time.deltaTime;
+                shieldVfx.transform.position = transform.position + Vector3.up * 1.5f;
+                yield return null;
+            }
+            
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 }

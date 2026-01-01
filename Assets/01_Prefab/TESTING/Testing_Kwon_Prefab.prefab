@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5691322999923087631}
   - component: {fileID: 2064925202295567818}
-  - component: {fileID: 7051718689527264412}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,24 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6c2a7746c48440a9bdc91abfff476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingRound: 1
+  maxRound: 5
   maxLoseCount: 3
-  battleTime: 5
-  preparationTime: 5
-  battleStartDelay: 5
-  winResultTime: 2.5
+  battleTime: 30
+  preparationTime: 4
+  battleStartDelay: 4
+  winResultTime: 3
   loseResultTime: 2
---- !u!114 &7051718689527264412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191900006163391018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc970371826bb21428d9a6586067cee2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  starStepMultiplier: 1.5
 --- !u!1 &344144087253927898
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +88,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -525.3, y: -37}
-  m_SizeDelta: {x: 55, y: 50}
+  m_SizeDelta: {x: 68.69, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9032585301980923039
 CanvasRenderer:
@@ -128,9 +118,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '
-
-'
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -139,8 +127,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4287741646
+  m_fontColor: {r: 0.8078432, g: 0.74509805, b: 0.5686275, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -260,7 +248,7 @@ MonoBehaviour:
     preloadCount: 9
   - id: Vi
     prefab:
-      m_AssetGUID: 5a2145e09f806f049aea9f2c2f60c771
+      m_AssetGUID: 1d963996d6777f840949ad7ab4d65540
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
@@ -288,7 +276,7 @@ MonoBehaviour:
     preloadCount: 15
   - id: Saion
     prefab:
-      m_AssetGUID: b9c5e611dcbdd0741b59add974a744d0
+      m_AssetGUID: 14eae2370d165ad4288d9a8f96d8b861
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
@@ -312,7 +300,7 @@ MonoBehaviour:
       m_AssetGUID: 598e7f80ced46e245bc3388e84389f21
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
+      m_EditorAssetChanged: 1
     preloadCount: 12
   - id: SFX Object
     prefab:
@@ -321,6 +309,195 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 1
     preloadCount: 10
+  - id: CaitlynCast
+    prefab:
+      m_AssetGUID: e6eb729988ef2f349a24b0b4ae8fea47
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: CaitlynProjectile
+    prefab:
+      m_AssetGUID: f9f412af9cbae3047acd0d634dbc4356
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 2
+  - id: GalioChannel
+    prefab:
+      m_AssetGUID: 106e80406f0206648b7ccaf2a3d6d010
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GalioBlast
+    prefab:
+      m_AssetGUID: 594dbf2e6d47af1448c23c5bc4b3df45
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GalioShield
+    prefab:
+      m_AssetGUID: 7bc7a473621637646bade3a7f128574e
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: GarenSpin
+    prefab:
+      m_AssetGUID: 2dd7cce54cc54684bbf475b7e61db48c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: JarvanHit
+    prefab:
+      m_AssetGUID: c559f037d1f6f3c48b259cab6ef9bdbc
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: SionShield
+    prefab:
+      m_AssetGUID: 48ce2b63a11c2f44dbc5ae55d03d9a27
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: JarvanFlag
+    prefab:
+      m_AssetGUID: d632561de57d9f24194eff48e0dc8687
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 2
+  - id: ShenCast
+    prefab:
+      m_AssetGUID: fed7c97a88174e245b699436089f8291
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ShenShield
+    prefab:
+      m_AssetGUID: 5ce6cc67dc61e344b97619ac6f58b70b
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: VayneHit
+    prefab:
+      m_AssetGUID: 997b515cf158b5b429888d331178f939
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ViCast
+    prefab:
+      m_AssetGUID: 898f5d1fd628fe84d9c61d748894a899
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: ViHit
+    prefab:
+      m_AssetGUID: ebb8aafa1f5669b4dbae1bd94495215a
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahCast
+    prefab:
+      m_AssetGUID: 922870f9504e6b0438e21b87a73fe631
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahBuff
+    prefab:
+      m_AssetGUID: da28829cce8256a4d82e1b8e4c5d8c3c
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: XayahHit
+    prefab:
+      m_AssetGUID: 0777bc22e9e6ace47a89e97740ea56e9
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 1
+    preloadCount: 2
+  - id: Red_Mesh
+    prefab:
+      m_AssetGUID: d682ddba9dbf99e41975ef2ec0e2d293
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 1
+  - id: Blue_Mesh
+    prefab:
+      m_AssetGUID: 75330ca3a08013d49984fc212b57efa9
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 1
+  - id: Shelly_Mesh
+    prefab:
+      m_AssetGUID: 1e465c33ec0253947a4e8e06d2c7a8fa
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 2
+  - id: Baron_Mesh
+    prefab:
+      m_AssetGUID: c537f3fbc91c9ed41926e4110adda7ef
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 1
+  - id: Caytlin_NormalHit_VFX
+    prefab:
+      m_AssetGUID: 42e687079abfd214b8c3337245ba1873
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 5
+  - id: Draven_NormalHit_VFX
+    prefab:
+      m_AssetGUID: 460c4140a68e97147855321b198a70dc
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 5
+  - id: Vayne_NormalHit_VFX
+    prefab:
+      m_AssetGUID: e3bee774f77edfd4ba50b94bdf11ff59
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 5
+  - id: Xayah_NormalHit_VFX
+    prefab:
+      m_AssetGUID: bac9743e4b5f02348b26e4f39cd589f1
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 5
+  - id: VFX_StarUp_2
+    prefab:
+      m_AssetGUID: 6bba270f8f35e1541a95abe10ad620a4
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 3
+  - id: VFX_StarUp_3
+    prefab:
+      m_AssetGUID: ece435b3110e7d1458b368b7b864b100
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+    preloadCount: 3
 --- !u!1 &690265722023642297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,7 +1791,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9186940352477395349}
-  - component: {fileID: 8875306052246359380}
   m_Layer: 0
   m_Name: ItemDebugTest
   m_TagString: Untagged
@@ -1637,24 +1813,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1795107312905281205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8875306052246359380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667735669256732749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dcbddbb4b591a243894ed391ad853ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testItems:
-  - {fileID: 11400000, guid: 17c45e36b8227d94a88e0b937e15dcac, type: 2}
-  - {fileID: 11400000, guid: 38bec68fbff450048a768915be70d906, type: 2}
-  - {fileID: 11400000, guid: add3a432a48c275448b303615cd5ed8c, type: 2}
-  - {fileID: 11400000, guid: b7360990c04ce4440833500286227964, type: 2}
-  - {fileID: 11400000, guid: 01672e8ad1d6b014b945c4928ddcadd8, type: 2}
 --- !u!1 &3829573438107022222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3238,7 +3396,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.8078432, g: 0.74509805, b: 0.5686275, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3493,7 +3651,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8875306052246359380}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ItemDebugTest, Assembly-CSharp
         m_MethodName: SpawnRandomItem
         m_Mode: 1

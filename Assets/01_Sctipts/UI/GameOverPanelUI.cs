@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameOverPanelUI : MonoBehaviour
 {
@@ -16,8 +17,16 @@ public class GameOverPanelUI : MonoBehaviour
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button exitButton;
 
+    [Header("Round Info")]
+    [SerializeField] private TMP_Text survivedRoundText;
+
+    [Header("Star Sprites")]
+    [SerializeField] private Sprite silverStarSprite;
+    [SerializeField] private Sprite goldStarSprite;
+
     private readonly List<Image> spawnedPortraits = new();
 
+    // 버튼 할당
     private void Awake()
     {
         if (panelRoot == null)
@@ -35,6 +44,14 @@ public class GameOverPanelUI : MonoBehaviour
             exitButton.onClick.AddListener(OnClickExit);
     }
 
+    // 게임종료 이벤트 구독
+    private void Start()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnGameOver += Show;
+    }
+
+
     // ==============================
     // Public API
     // ==============================
@@ -46,6 +63,7 @@ public class GameOverPanelUI : MonoBehaviour
     {
         panelRoot.SetActive(true);
         RefreshChessPortraits();
+        RefreshRoundText();
     }
 
     public void Hide()
@@ -62,36 +80,49 @@ public class GameOverPanelUI : MonoBehaviour
     {
         ClearPortraits();
 
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
-        if (fieldGrid == null)
-        {
-            Debug.LogWarning("[GameOverPanelUI] FieldGrid not found.");
+        if (GameManager.Instance == null)
             return;
-        }
 
-        var fieldUnits = fieldGrid.GetAllFieldUnits();
-        foreach (var unit in fieldUnits)
+        var snapshots = GameManager.Instance.LastBattleUnits;
+        foreach (var data in snapshots)
         {
-            var chess = unit.GetComponent<Chess>();
-            if (chess == null) continue;
-
-            CreatePortrait(chess);
+            CreatePortrait(data);
         }
     }
 
-    private void CreatePortrait(Chess chess)
+    // 초상화 생성
+    private void CreatePortrait(EndGameUnitSnapshot data)
     {
         var portrait = Instantiate(chessPortraitPrefab, chessPortraitList);
+        portrait.sprite = data.portrait;
         portrait.gameObject.SetActive(true);
 
-        // 여기서 마지막 라운드 필드 위에 배치된 애들 정보만 가져와서
-        // 초상화 배치하기
-        
-        
+        // ★ StarImage는 기본적으로 꺼둔다
+        var starTf = portrait.transform.Find("StarImage");
+        if (starTf != null)
+        {
+            starTf.gameObject.SetActive(false);
+
+            // 2성 / 3성만 표시
+            if (data.starLevel >= 2)
+            {
+                var starImg = starTf.GetComponent<Image>();
+                if (starImg != null)
+                {
+                    starImg.sprite = data.starLevel == 3
+                        ? goldStarSprite
+                        : silverStarSprite;
+
+                    starTf.gameObject.SetActive(true);
+                }
+            }
+        }
 
         spawnedPortraits.Add(portrait);
     }
 
+
+    // 초상화 비우기
     private void ClearPortraits()
     {
         foreach (var img in spawnedPortraits)
@@ -102,6 +133,22 @@ public class GameOverPanelUI : MonoBehaviour
         spawnedPortraits.Clear();
     }
 
+    private void RefreshRoundText()
+    {
+        if (survivedRoundText == null)
+            return;
+
+        if (GameManager.Instance == null)
+            return;
+
+        int round = GameManager.Instance.LastReachedRound;
+
+        survivedRoundText.text = $"{round} 라운드까지 생존!!";
+        // 또는
+        // survivedRoundText.text = $"{round} 라운드까지 생존";
+    }
+
+
     // ==============================
     // Button Callbacks
     // ==============================
@@ -109,18 +156,28 @@ public class GameOverPanelUI : MonoBehaviour
     private void OnClickRetry()
     {
         Hide();
-        GameManager.Instance?.StartGame();
+        if (GameManager.Instance == null)
+            return;
+
+        GameManager.Instance.RestartGame();
+        GameManager.Instance.StartGameFromMainMenu();
     }
 
     private void OnClickMainMenu()
     {
         Hide();
-        // 메인메뉴로 가는 로직 추가하기
-        // 게임매니저에서 만들면 좋을듯
+        GameManager.Instance?.ReturnToMainMenu();
     }
 
     private void OnClickExit()
     {
         Application.Quit();
+    }
+
+    // 게임종료 이벤트 구독 해제
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnGameOver -= Show;
     }
 }

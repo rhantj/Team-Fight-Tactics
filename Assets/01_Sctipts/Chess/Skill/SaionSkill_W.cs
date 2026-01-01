@@ -38,15 +38,27 @@ public class SionSkill_W : SkillBase
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        //사이온 W스킬 효과음
+        SettingsUI.PlaySFX("Sion_WSkillSound",sion.transform.position,1f,1f);
+
         int shield = Mathf.Max(1, Mathf.RoundToInt(sion.MaxHP * shieldHpMultiplier) + shieldFlat);
         sion.AddShield(shield, shieldDuration);
 
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, sion.transform.position, Quaternion.identity, sion.transform);
+            var pos = transform.position + Vector3.up * 3f;
+            var shieldVfx = PoolManager.Instance.Spawn("SionShield");
+            shieldVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
 
-            if (shieldDuration > 0f)
-                Object.Destroy(vfx, shieldDuration);
+            float elapsed = shieldDuration;
+            while (elapsed > 0f)
+            {
+                elapsed -= Time.deltaTime;
+                shieldVfx.transform.position = pos;
+                yield return null;
+            }
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 }

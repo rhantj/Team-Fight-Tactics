@@ -37,12 +37,13 @@ public class GameManager : Singleton<GameManager>
     public GameState gameState { get; private set; }
     public RoundState roundState { get; private set; }
     public int currentRound { get; private set; }
+    public int LastReachedRound => currentRound;
 
     private int loseCount = 0;
 
     [Header("Round Info")]
-    //[SerializeField] private int startingRound = 1; //시작 라운드
-    //[SerializeField] private int maxRound = 5; //마지막 라운드
+    [SerializeField] private int startingRound = 1; //시작 라운드
+    [SerializeField] private int maxRound = 5; //마지막 라운드
     [SerializeField] private int maxLoseCount = 3;  //게임 종료 패배 횟수
     public float battleTime = 30f; // 전투시간
     public float preparationTime = 60f; // 준비시간
@@ -53,6 +54,7 @@ public class GameManager : Singleton<GameManager>
     public event Action<int, bool> OnRoundEnded;    //라운드 종료 이벤트 2
     public event Action<RoundState> OnRoundStateChanged;
     public event Action<int, bool> OnRoundReward; //정산때 보상이벤트 추가 12-16 Won Add
+    public event Action OnGameOver;
 
     [SerializeField] private float battleStartDelay = 5f; //12.12 add Kim
     [SerializeField] private float winResultTime = 2.5f; //승리시 2.5초 춤추는거 볼 시간. (12.12 add Kim)
@@ -61,7 +63,16 @@ public class GameManager : Singleton<GameManager>
     public event Action<float> OnTimerMaxTimeChanged; //12.18 add Kim
     private Coroutine battleCountdownCo; //12.18 add Kim
     private bool isReady = false;
+    private Coroutine roundRoutineCo;
+
+    // 필드에 스냅샷 저장소 추가
+    private List<EndGameUnitSnapshot> lastBattleUnits = new();
+    public IReadOnlyList<EndGameUnitSnapshot> LastBattleUnits => lastBattleUnits;
+
     //참조
+    FieldGrid fieldGrid;
+    EnemyGrid enemyGrid;
+    BenchGrid benchGrid;
     /*
     public Player player;
     public BattleSystem battleSystem;
@@ -69,53 +80,61 @@ public class GameManager : Singleton<GameManager>
     */
 
     //게임 시작
+    [Header("등급 관련.")]
+    [SerializeField] private float starStepMultiplier = 1.5f;
 
+    public float GetStarMultiplier(int starLevel)
+    {
+        int lv = Mathf.Max(1, starLevel);
+        return Mathf.Pow(starStepMultiplier, lv - 1);
+    }
     private void Start()
     {
         StartGame();
+        fieldGrid = StaticRegistry<FieldGrid>.Find();
+        enemyGrid = StaticRegistry<EnemyGrid>.Find();
+        benchGrid = StaticRegistry<BenchGrid>.Find();
     }
     public void StartGame()
     {
         gameState = GameState.Playing;
-        roundState = RoundState.None;
+        roundState = RoundState.None; 
 
         currentRound = 1;
         loseCount = 0;
 
         //player.Initialize(); //골드/레벨/상점기물확률 초기화
-
-        StartRound();
     }
 
     //라운드 시작
     private void StartRound()
     {
+        // 기존 라운드 코루틴이 살아있다면 종료
+        if (roundRoutineCo != null)
+        {
+            StopCoroutine(roundRoutineCo);
+            roundRoutineCo = null;
+        }
+
+        ClearAllVFX();
+        ResetPlayerUnitsForNewRound();
+        ResetEnemyUnitsForNewRound();
         UnitCountManager.Instance.Clear();
 
         SetRoundState(RoundState.Preparation);
 
         OnRoundStarted?.Invoke(currentRound);
 
-        StartCoroutine(RoundRoutine());
+        // 새 라운드 코루틴은 하나만 실행
+        roundRoutineCo = StartCoroutine(RoundRoutine());
     }
+
 
     //라운드 흐름 코루틴
     private IEnumerator RoundRoutine()
     {
         // 준비단계
         isReady = false;
-
-        //while (!isReady)
-        //{
-        //    yield return null;  
-        //}
-        //float t = battleStartDelay;
-        //while (t > 0f)
-        //{
-        //    OnPreparationTimerUpdated?.Invoke(t); // TimeUI가 여기로 받으면 됨
-        //    t -= Time.deltaTime;
-        //    yield return null;
-        //}
         while (!isReady)
             yield return null;
         StartBattle();
@@ -154,6 +173,8 @@ public class GameManager : Singleton<GameManager>
             yield return null;
         }
 
+        // 전투 후 VFX 정리
+        ClearAllVFX();
 
         //결과 계산
         SetRoundState(RoundState.Result);
@@ -161,18 +182,27 @@ public class GameManager : Singleton<GameManager>
         // 정산(보상) 타이밍 알림
         OnRoundReward?.Invoke(currentRound, lastBattleWin);
 
-        //연출시간.
+        // 연출시간.
         yield return new WaitForSeconds(lastBattleWin ? winResultTime : loseResultTime);
 
         CleanupDeadUnits();
-        //다음 라운드or게임 오버
+        // 다음 라운드or게임 오버
         if (loseCount >= maxLoseCount)
         {
             EndGame();
             yield break;
         }
 
+        // 현재라운드가 최대 라운드라면 종료
+        if (currentRound >= maxRound)
+        {
+            EndGame();
+            yield break;
+        }
+
         currentRound++;
+        StaticRegistry<EnemyGrid>.Find()?.SpawnEnemy(currentRound); //적 리스폰
+
         StartRound();
     }
 
@@ -181,8 +211,8 @@ public class GameManager : Singleton<GameManager>
     {
         UnitCountManager.Instance.Clear();
 
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
 
         if (fieldGrid != null)
         {
@@ -191,6 +221,8 @@ public class GameManager : Singleton<GameManager>
                 var chess = unit.GetComponent<Chess>();
                 if (chess == null) continue;
                 UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+
+                chess.NotifyBattleStart();
             }
         }
 
@@ -201,10 +233,12 @@ public class GameManager : Singleton<GameManager>
                 var chess = unit.GetComponent<Chess>(); 
                 if (chess == null) continue;
                 UnitCountManager.Instance.RegisterUnit(chess, chess.team == Team.Player);
+
+                chess.NotifyBattleStart();
             }
         }
 
-        Debug.Log($"[StartBattle] Player={UnitCountManager.Instance.GetPlayerAliveCount()}, Enemy={UnitCountManager.Instance.GetEnemyAliveCount()}");
+        //Debug.Log($"[StartBattle] Player={UnitCountManager.Instance.GetPlayerAliveCount()}, Enemy={UnitCountManager.Instance.GetEnemyAliveCount()}");
 
         SetRoundState(RoundState.Battle);
     }
@@ -218,13 +252,16 @@ public class GameManager : Singleton<GameManager>
     private void EndRound(bool win)
     {
         lastBattleWin = win;
+
+        SaveLastBattleUnits();
+
         OnRoundEnded?.Invoke(currentRound, win);
 
         if (!win) loseCount++;
 
         if (win)
         {
-            var fieldGrid = FindAnyObjectByType<FieldGrid>();
+            //var fieldGrid = FindAnyObjectByType<FieldGrid>();
             if (fieldGrid != null)
             {
                 var units = fieldGrid.GetAllFieldUnits();
@@ -238,6 +275,11 @@ public class GameManager : Singleton<GameManager>
                     c.ForceVictory();
                 }
             }
+            SettingsUI.PlaySFX("Win", Vector3.zero, 1f, 1f);
+        }
+        else
+        {
+            SettingsUI.PlaySFX("Lose", Vector3.zero, 1f, 1f);
         }
     }
 
@@ -245,12 +287,17 @@ public class GameManager : Singleton<GameManager>
     //게임 종료 메서드
     private void EndGame()
     {
+        //Debug.Log($"[CHECK] EndGame CALLED | frame={Time.frameCount}");
         gameState = GameState.GameOver;
+        OnGameOver?.Invoke();
     }
 
     //게임 재시작 메서드 12-19 Won Add 아직 수정 덜함
     public void RestartGame()
     {
+        // 마지막 라운드 전투 기물정보 초기화
+        lastBattleUnits.Clear();
+
         // ===== 라운드 관련 상태 초기화 =====
         currentRound = 1;
         loseCount = 0;
@@ -270,7 +317,6 @@ public class GameManager : Singleton<GameManager>
         roundState = RoundState.Preparation;
 
         // 필드 위 아군 기물 전부 풀로 반환
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
             var fieldUnits = fieldGrid.GetAllFieldUnits();
@@ -292,7 +338,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 필드 위 적 기물 전부 풀로 반환
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
             var enemyUnits = enemyGrid.GetAllFieldUnits();
@@ -324,7 +369,6 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 벤치 위 기물 전부 풀로 반환
-        var benchGrid = FindAnyObjectByType<BenchGrid>();
         if (benchGrid != null)
         {
             foreach (var node in benchGrid.FieldGrid)
@@ -412,14 +456,13 @@ public class GameManager : Singleton<GameManager>
             itemUI.ClearAll();
         }
 
-        // SettingsUI 닫기
+        // 켜있다면 SettingsUI 닫기
         var settingsUI = FindAnyObjectByType<SettingsUI>(
-            FindObjectsInactive.Include
-        );
+                           FindObjectsInactive.Include);
 
-        if (settingsUI != null)
+        if (settingsUI != null && settingsUI.gameObject.activeSelf)
         {
-            settingsUI.ToggleSettingsUI();
+             settingsUI.Hide();
         }
 
         // 기물정보UI 닫기
@@ -438,8 +481,38 @@ public class GameManager : Singleton<GameManager>
             playerHPUI.ResetHP();
         }
 
-        // 라운드 완성되면 라운드 UI랑 연동 잘되는지 체크
-        // 재시작후 일부 기물이 합성하거나 구매할때 사라지는 버그가 있음
+        // 라운드UI 초기화
+        var roundUI = FindAnyObjectByType<RoundPrograssUI>();
+        if (roundUI != null)
+        {
+            roundUI.ResetUI();
+        }
+
+        // ===== 적 정보(CSV 스탯) 재적용 =====
+        if (enemyGrid != null)
+        {
+            foreach (var unit in enemyGrid.GetAllFieldUnits())
+            {
+                var enemy = unit as Enemy;
+                if (enemy == null) continue;
+
+                enemy.SetStats(1);
+            }
+        }
+
+        // ===== 기물 합성 데이터 초기화 =====
+        if (ChessCombineManager.Instance != null)
+        {
+            ChessCombineManager.Instance.ResetAll();
+        }
+
+        // ===== 풀 초기화 =====
+        if (PoolManager.Instance != null)
+        {
+            PoolManager.Instance.ResetAllPools();
+        }
+
+
 
     }
 
@@ -462,7 +535,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            Debug.LogError("[ReturnToMainMenu] StartPanelUI not found");
+            //Debug.LogError("[ReturnToMainMenu] StartPanelUI not found");
         }
 
         // 인트로 BGM 재생
@@ -485,6 +558,10 @@ public class GameManager : Singleton<GameManager>
             ShopManager.Instance.RefreshShop();
         }
 
+        if (enemyGrid != null)
+        {
+            enemyGrid.SpawnEnemy(1);
+        }
         // 라운드 시작
         StartRound();
 
@@ -496,10 +573,10 @@ public class GameManager : Singleton<GameManager>
         );
     }
 
+
     //라운드 상태 변경 메서드
     private void SetRoundState(RoundState newState)
     {
-        Debug.Log($"RoundState => {newState}");
         roundState = newState;
         OnRoundStateChanged?.Invoke(newState);
     }
@@ -525,8 +602,17 @@ public class GameManager : Singleton<GameManager>
         OnTimerMaxTimeChanged?.Invoke(wait);
 
         float t = wait;
+        int lastSec = Mathf.CeilToInt(t);
+
         while (t > 0f)
         {
+            int currentSec = Mathf.CeilToInt(t);
+            if (currentSec != lastSec)
+            {
+                SettingsUI.PlaySFX("Start3Sec", Vector3.zero, 1f, 1f);
+                lastSec = currentSec;
+            }
+
             OnPreparationTimerUpdated?.Invoke(t);
             t -= Time.deltaTime;
             yield return null;
@@ -540,43 +626,123 @@ public class GameManager : Singleton<GameManager>
 
     private void CleanupDeadUnits()
     {
-        //적 유닛 정리
-        var enemyGrid = FindAnyObjectByType<EnemyGrid>();
+        // 적 유닛
+        //var enemyGrid = FindAnyObjectByType<EnemyGrid>();
         if (enemyGrid != null)
         {
-            var enemies = enemyGrid.GetAllFieldUnits();
-            foreach (var unit in enemies)
+            foreach (var unit in enemyGrid.GetAllFieldUnits())
             {
                 var chess = unit.GetComponent<Chess>();
                 if (chess != null && chess.IsDead)
                 {
-                    var pooled = unit.GetComponentInParent<PooledObject>();
-                    if (pooled != null)
-                        pooled.ReturnToPool();
-                    else
-                        unit.gameObject.SetActive(false);
+                    unit.gameObject.SetActive(false); 
                 }
             }
         }
 
-        //플레이어 유닛도 죽은 것 정리
-        var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        //플레이어 
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
         if (fieldGrid != null)
         {
-            var players = fieldGrid.GetAllFieldUnits();
-            foreach (var unit in players)
+            foreach (var unit in fieldGrid.GetAllFieldUnits())
             {
                 var chess = unit.GetComponent<Chess>();
                 if (chess != null && chess.IsDead)
                 {
-                    var pooled = unit.GetComponentInParent<PooledObject>();
-                    if (pooled != null)
-                        pooled.ReturnToPool();
-                    else
-                        unit.gameObject.SetActive(false);
+                    unit.gameObject.SetActive(false);  
                 }
             }
         }
     }
 
+
+    private void ResetEnemyUnitsForNewRound()
+    {
+        //var enemyGrid = StaticRegistry<EnemyGrid>.Find();
+        if (enemyGrid == null) return;
+
+        foreach (var node in enemyGrid.FieldGrid)
+        {
+            if (node.ChessPiece == null) continue;
+
+            var chess = node.ChessPiece.GetComponent<Chess>();
+            if (chess == null) continue;
+
+            if (!chess.gameObject.activeSelf)
+                chess.gameObject.SetActive(true);
+
+            chess.SetPosition(node.worldPosition);
+            chess.SetOnField(true);
+            chess.ResetForNewRound_Chess();
+        }
+    }
+    private void ResetPlayerUnitsForNewRound()
+    {
+        //var fieldGrid = StaticRegistry<FieldGrid>.Find();
+        if (fieldGrid != null)
+        {
+            foreach (var node in fieldGrid.FieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                var chess = node.ChessPiece.GetComponent<Chess>();
+                if (chess == null) continue;
+
+                if (!chess.gameObject.activeSelf)
+                    chess.gameObject.SetActive(true);
+
+                chess.SetPosition(node.worldPosition);
+                chess.SetOnField(true);
+                chess.ResetForNewRound_Chess();
+
+                ChessCombineManager.Instance?.Register(chess);
+            }
+        }
+
+        //var benchGrid = StaticRegistry<BenchGrid>.Find();
+        if (benchGrid != null)
+        {
+            foreach (var node in benchGrid.FieldGrid)
+            {
+                if (node.ChessPiece == null) continue;
+
+                var chess = node.ChessPiece.GetComponent<Chess>();
+                if (chess == null) continue;
+
+                if (!chess.gameObject.activeSelf)
+                    chess.gameObject.SetActive(true);
+
+                chess.SetPosition(node.worldPosition);
+                chess.SetOnField(false);
+                chess.ResetForNewRound_Chess();
+
+                ChessCombineManager.Instance?.Register(chess);
+            }
+        }
+    }
+
+    // 마지막전투기물들을 저장하는 메서드
+    private void SaveLastBattleUnits()
+    {
+        lastBattleUnits.Clear();
+
+        //var fieldGrid = FindAnyObjectByType<FieldGrid>();
+        if (fieldGrid == null) return;
+
+        foreach (var unit in fieldGrid.GetAllFieldUnits())
+        {
+            var chess = unit.GetComponent<Chess>();
+            if (chess == null) continue;
+            if (chess.team != Team.Player) continue;
+
+            lastBattleUnits.Add(new EndGameUnitSnapshot
+            {
+                portrait = chess.BaseData.gameOverPortrait,
+                starLevel = chess.StarLevel,
+                unitName = chess.BaseData.unitName
+            });
+        }
+    }
+
+    private void ClearAllVFX() => VFXManager.ClearAllVFX();
 }

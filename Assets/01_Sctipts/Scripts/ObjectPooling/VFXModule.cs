@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PooledObject))]
@@ -10,7 +9,8 @@ public class VFXModule : MonoBehaviour
 
     private void Awake()
     {
-        if(TryGetComponent<PooledObject>(out var po))
+        ps = GetComponentInChildren<ParticleSystem>();
+        if (TryGetComponent<PooledObject>(out var po))
         {
             pooled = po;
         }
@@ -18,18 +18,27 @@ public class VFXModule : MonoBehaviour
 
     private void OnEnable()
     {
-        ps.Play();
+        VFXManager.Register(gameObject);
+        if (ps != null)
+            ps.Play();
         StartCoroutine(Co_Return());
+    }
+
+    private void OnDisable()
+    {
+        VFXManager.Unregister(gameObject);
     }
 
     IEnumerator Co_Return()
     {
         yield return null;
-        while (ps.IsAlive(true))
+
+        while (ps != null && ps.IsAlive(true))
         {
             yield return null;
         }
 
+        VFXManager.Unregister(gameObject);
         pooled.ReturnToPool();
     }
 }

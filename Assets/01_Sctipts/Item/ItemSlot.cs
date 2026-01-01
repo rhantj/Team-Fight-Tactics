@@ -26,21 +26,18 @@ public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHa
     {
         CurrentItem = new ItemBase(data);
         itemIcon.sprite = data.icon;
-        itemIcon.enabled = true;
     }
 
     public void SetItem(ItemBase item) //이건 슬롯 간 교환
     {
         CurrentItem = item;
         itemIcon.sprite = item.Data.icon;
-        itemIcon.enabled = true;
     }
 
     public void ClearSlot() //슬롯 비우기
     {
         CurrentItem = null;
         itemIcon.sprite = null;
-        itemIcon.enabled = false;
     }
 
     //========================= 마우스 오버 ==================================

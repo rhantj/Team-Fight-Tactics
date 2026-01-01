@@ -8,16 +8,16 @@ public class ItemDebugTest : MonoBehaviour
 
     public void SpawnRandomItem()
     {
-        Debug.Log("버튼 눌림");
+        //Debug.Log("버튼 눌림");
         if (ItemSlotManager.Instance == null)
         {
-            Debug.LogError("ItemSlotManager.Instance 없음");
+            //Debug.LogError("ItemSlotManager.Instance 없음");
             return;
         }
 
         if (testItems == null || testItems.Length == 0)
         {
-            Debug.LogError("testItems 비어있음");
+            //Debug.LogError("testItems 비어있음");
             return;
         }
 
@@ -26,7 +26,7 @@ public class ItemDebugTest : MonoBehaviour
         bool success = ItemSlotManager.Instance.AddItem(item);
         if (!success)
         {
-            Debug.Log("빈 슬롯이 없습니다.");
+            //Debug.Log("빈 슬롯이 없습니다.");
         }
     }
 }

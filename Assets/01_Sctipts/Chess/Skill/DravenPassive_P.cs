@@ -1,54 +1,55 @@
 using UnityEngine;
 
-public class DravenPassive_P : MonoBehaviour, IOnKillEffect
+public class DravenPassive_P : MonoBehaviour, IOnHitEffect
 {
     //=====================================================
     //                  Stack
     //=====================================================
     [Header("Stack")]
-    [SerializeField, Tooltip("킬 당 얻는 스택")]
-    private int stacksPerKill = 1;
+    [SerializeField, Tooltip("평타시 얻는 스택량")]
+    private int stacksPerHit = 1;
 
-    [SerializeField, Tooltip("몇 스택마다 골드로 환전되는지")]
-    private int stacksPerCashout = 11;
-
-    [SerializeField, Tooltip("현재 스택")]
+    [SerializeField, Tooltip("몇 스택 부터 환전될지.")]
+    private int stacksPerCashout = 10;
     private int stacks = 0;
 
     //=====================================================
     //                  Gold
     //=====================================================
-    [Header("Gold Per 11 Stacks")]
-    [SerializeField, Tooltip("1성: 11스택당 골드")]
+    [Header("패시브 관련")]
+    [SerializeField, Tooltip("1성: 환전량")]
     private int goldPerCashout_1Star = 1;
 
-    [SerializeField, Tooltip("2성: 11스택당 골드")]
+    [SerializeField, Tooltip("2성: 환전량")]
     private int goldPerCashout_2Star = 3;
 
-    [SerializeField, Tooltip("3성: 11스택당 골드")]
+    [SerializeField, Tooltip("3성: 환전량")]
     private int goldPerCashout_3Star = 5;
 
-    public void OnKill(Chess killer, Chess victim)
+    //InvokeOnHitEffects로 바꿧어요.
+    public void OnHit(Chess attacker, Chess target)
     {
-        if (killer == null || victim == null) return;
-        if (killer.gameObject != gameObject) return;
+        if (attacker == null || target == null) return;
 
-        stacks += stacksPerKill;
+        if (attacker.gameObject != gameObject) return;
 
-        int cashouts = stacks / stacksPerCashout;
+        stacks += stacksPerHit;
+
+        int cashouts = stacksPerCashout > 0 ? (stacks / stacksPerCashout) : 0;
         if (cashouts <= 0) return;
 
         stacks -= cashouts * stacksPerCashout;
 
-        int goldPer = GetGoldPerCashout(killer.StarLevel);
+        // 드레이븐 패시브 효과음 추가
+        SettingsUI.PlaySFX("Draven_Passive", Vector3.zero, 1f, 1f);
+
+        int goldPer = GetGoldPerCashout(attacker.StarLevel);
         int gain = cashouts * goldPer;
 
-        if (killer.team == Team.Player && ShopManager.Instance != null)
-        {
+        if (attacker.team == Team.Player && ShopManager.Instance != null)
             ShopManager.Instance.AddGold(gain);
-        }
 
-        Debug.Log($"[Draven P] Cashout x{cashouts} (+{gain}g), remain stacks={stacks}");
+        //Debug.Log($"[Draven P] HitStack cashout x{cashouts} (+{gain}g), remain stacks={stacks}");
     }
 
     private int GetGoldPerCashout(int starLevel)

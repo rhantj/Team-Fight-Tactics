@@ -45,3 +45,6 @@ public class LevelDataTable : ScriptableObject
     [Tooltip("플레이어 레벨별 설정 데이터 배열")]
     public LevelData[] levels;
 }
+
+/// 이 데이터는 런타임 중 수정되지 않으며,
+/// 게임 밸런스 조정은 인스펙터를 통해서만 이루어진다.

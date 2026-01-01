@@ -32,15 +32,6 @@ public class ChessItemUI : MonoBehaviour
     {
         // 씬 내에서 ItemCombineManager 탐색
         combineManager = FindObjectOfType<ItemCombineManager>();
-
-        // 조합 매니저가 없을 경우 명확한 에러 로그 출력
-        if (combineManager == null)
-        {
-            Debug.LogError(
-                "[ChessItemUI] ItemCombineManager not found in scene. " +
-                "씬에 ItemCombineManager가 존재해야 합니다."
-            );
-        }
     }
 
     /// <summary>
@@ -60,7 +51,6 @@ public class ChessItemUI : MonoBehaviour
         var handler = GetComponentInParent<ChessItemHandler>();
         if (handler == null)
         {
-            Debug.LogError("[ChessItemUI] ChessItemHandler not found");
             return false;
         }
 
@@ -86,6 +76,7 @@ public class ChessItemUI : MonoBehaviour
                 // UI 갱신
                 RefreshUI();
                 ChessInfoUI.Instance?.RefreshItemUIOnly();
+                SettingsUI.PlaySFX("ItemEquip(Comb)", transform.position, 1f, 1f);
                 return true;
             }
         }
@@ -96,7 +87,7 @@ public class ChessItemUI : MonoBehaviour
 
         // 3. 일반 장착
         equippedItems.Add(newItem);
-
+        SettingsUI.PlaySFX("ItemEquip(Mate)", transform.position, 1f, 1f);
         // Handler에 현재 UI 기준 아이템 목록 재적용
         handler.ClearItems();
         foreach (var item in equippedItems)
@@ -146,6 +137,18 @@ public class ChessItemUI : MonoBehaviour
     public void ClearAll()
     {
         equippedItems.Clear();
+        RefreshUI();
+    }
+
+    public void SyncFromHandler()
+    {
+        var handler = GetComponentInParent<ChessItemHandler>();
+
+        if (handler == null) return;
+
+        equippedItems.Clear();
+        equippedItems.AddRange(handler.EquippedItems);
+
         RefreshUI();
     }
 }

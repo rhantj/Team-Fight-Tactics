@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class ChessStateBase : MonoBehaviour
@@ -9,12 +11,22 @@ public abstract class ChessStateBase : MonoBehaviour
     [Header("템플릿")]
     [SerializeField]
     protected ChessStatData baseData;
+    protected SkillManager skillManager;
     public ChessStatData BaseData => baseData;
 
     public int CurrentHP { get; protected set; }
     public int CurrentMana { get; protected set; }
     public int StarLevel { get; protected set; }
     public bool IsDead => CurrentHP <= 0;
+
+    public bool IsTargetable { get; private set; } = true;
+
+    public float BaseAttackSpeed => baseData.attackSpeed;
+    public float FinalAttackSpeed => baseData.attackSpeed * attackSpeedMultiplier;
+    private bool deadEventFired = false;
+
+    
+
 
     //=====================================================
     //          보너스 스탯 (시너지 / 아이템 분리)
@@ -24,28 +36,70 @@ public abstract class ChessStateBase : MonoBehaviour
     protected int bonusMaxHP_Synergy;
     protected int bonusAttack_Synergy;
     protected int bonusArmor_Synergy;
+    protected float bonusAttackSpeed_Synergy = 1f;
 
     // 아이템 보너스
     protected int bonusMaxHP_Item;
     protected int bonusAttack_Item;
     protected int bonusArmor_Item;
+    protected float bonusAttackSpeed_Item = 1f;
+    protected float damageReduction; // 덤불조끼 피해감소 변수
+
+    // 글로벌 버프 보너스
+    protected int bonusMaxHP_Buff;
+    protected int bonusAttack_Buff;
+    protected int bonusArmor_Buff;
+    protected float bonusAttackSpeed_Buff = 1f;
+
+    protected float bonusMaxHP_Percent;
+    protected float bonusAttack_Percent;
 
     // ================== 최종 스탯 계산 ==================
-    public int MaxHP =>
-        (baseData != null ? baseData.maxHP : 0)
-        + bonusMaxHP_Synergy
-        + bonusMaxHP_Item;
 
-    public int AttackDamage =>
-        (baseData != null ? baseData.attackDamage : 0)
+    public int FlatMaxHP =>
+    (baseData != null ? Mathf.RoundToInt(baseData.maxHP * StarMul) : 0)
+    + bonusMaxHP_Synergy
+    + bonusMaxHP_Item
+    + bonusMaxHP_Buff; 
+
+    public int FlatAttack =>
+        (baseData != null ? Mathf.RoundToInt(baseData.attackDamage * StarMul) : 0)
         + bonusAttack_Synergy
-        + bonusAttack_Item;
+        + bonusAttack_Item
+        + bonusAttack_Buff;
+
+    public int MaxHP
+    {
+        get
+        {
+            float percentMultiplier = 1f + bonusMaxHP_Percent;
+            return Mathf.RoundToInt(FlatMaxHP * percentMultiplier);
+        }
+    }
+
+    public int AttackDamage
+    {
+        get
+        {
+            float multiplier = 1f + bonusAttack_Percent;
+            return Mathf.RoundToInt(FlatAttack * multiplier);
+        }
+    }
 
     public int Armor =>
-        (baseData != null ? baseData.armor : 0)
-        + bonusArmor_Synergy
-        + bonusArmor_Item;
+    (baseData != null ? Mathf.RoundToInt(baseData.armor * StarMul) : 0)
+    + bonusArmor_Synergy
+    + bonusArmor_Item
+    + bonusArmor_Buff;
 
+    //=====================================================
+    //                  전투 이벤트 addtoKwon
+    //=====================================================
+    public event System.Action OnBattleStart;
+    public event System.Action<int, int> OnHPChanged;
+    public event System.Action OnStatChanged;
+    public event System.Action OnBasicAttackHit;
+    public event Action<Chess> OnDamagedByBasicAttack;
     //=====================================================
     //                  전투 / 마나 설정
     //=====================================================
@@ -60,11 +114,14 @@ public abstract class ChessStateBase : MonoBehaviour
     [SerializeField] protected int manaOnDamaged = 5;
 
     protected float baseAttackInterval;
+
     protected float attackSpeedMultiplier = 1f;
-    public float attackTimer; // protected -> public으로 변경
+    public float AttackSpeedMultiplier => attackSpeedMultiplier;
+
+    public float attackTimer;
+
     protected Animator animator;
     protected StateMachine stateMachine;
-    public float AttackSpeedMultiplier => attackSpeedMultiplier;
 
     //=====================================================
     //                  Shield (Barrier)
@@ -78,6 +135,16 @@ public abstract class ChessStateBase : MonoBehaviour
     private Coroutine shieldCoroutine;
     private int shieldVersion = 0;
 
+
+    //===================================
+    //성급 관련
+    //===================================
+
+    protected float StarMul =>
+        (GameManager.Instance != null)
+            ? GameManager.Instance.GetStarMultiplier(StarLevel)
+            : Mathf.Pow(1.5f, Mathf.Max(0, StarLevel - 1));
+
     //=====================================================
     //                  Shield API
     //=====================================================
@@ -87,6 +154,7 @@ public abstract class ChessStateBase : MonoBehaviour
         if (amount <= 0) return;
 
         currentShield += amount;
+
         if (duration > 0f)
         {
             shieldVersion++;
@@ -94,7 +162,9 @@ public abstract class ChessStateBase : MonoBehaviour
             if (shieldCoroutine != null)
                 StopCoroutine(shieldCoroutine);
 
-            shieldCoroutine = StartCoroutine(ShieldExpireRoutine(shieldVersion, duration));
+            shieldCoroutine = StartCoroutine(
+                ShieldExpireRoutine(shieldVersion, duration)
+            );
         }
     }
 
@@ -113,7 +183,8 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
 
-        if (version != shieldVersion) yield break;
+        if (version != shieldVersion)
+            yield break;
 
         currentShield = 0;
         shieldCoroutine = null;
@@ -126,15 +197,15 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         stateMachine = GetComponent<StateMachine>();
+        skillManager = GetComponent<SkillManager>();
         InitFromSO();
     }
 
     protected virtual void OnEnable()
     {
         currentShield = 0;
-        deathHandled = false; // 사망 플래그 리셋 (풀링 재활성화 시 부활 가능하게)
+        deathHandled = false;
 
-        // 애니메이터 리셋 (Die 상태에서 빠져나오기)
         if (animator != null)
         {
             animator.Rebind();
@@ -144,7 +215,6 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public virtual void SetBaseData(ChessStatData newData)
     {
-        // 같은 SO면 재초기화 방지 (이동 / 드롭 보호)
         if (baseData == newData)
             return;
 
@@ -162,14 +232,24 @@ public abstract class ChessStateBase : MonoBehaviour
         bonusMaxHP_Synergy = 0;
         bonusAttack_Synergy = 0;
         bonusArmor_Synergy = 0;
+        bonusAttackSpeed_Synergy = 1f;
 
         bonusMaxHP_Item = 0;
         bonusAttack_Item = 0;
         bonusArmor_Item = 0;
+        bonusAttackSpeed_Item = 1f;
+
+        bonusMaxHP_Buff = 0;
+        bonusAttack_Buff = 0;
+        bonusArmor_Buff = 0;
+        bonusAttackSpeed_Buff = 1f;
+
+        bonusMaxHP_Percent = 0f;
+        bonusAttack_Percent = 0f;
 
         CurrentHP = MaxHP;
         CurrentMana = 0;
-        deathHandled = false; // 사망 플래그 리셋
+        deathHandled = false;
 
         if (baseData.attackSpeed > 0f)
         {
@@ -177,14 +257,35 @@ public abstract class ChessStateBase : MonoBehaviour
             attackInterval = baseAttackInterval;
         }
 
-        attackTimer = 0f; // attackInterval에서 0f로 변경 - 생성 시 즉시 공격 가능
+        attackTimer = 0f;
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+    }
+
+    public void InitOnPrepare()
+    {
+        CurrentHP = MaxHP;
+        CurrentMana = 0;
+    }
+
+    protected void NotifyStatChanged()
+    {
+        OnStatChanged?.Invoke();
+    }
+
+    //=====================================================
+    //                  전투 시작 알림
+    //=====================================================
+    public void NotifyBattleStart()
+    {
+        OnBattleStart?.Invoke();
     }
 
     //=====================================================
     //                  Kill Tracking
     //=====================================================
     protected Chess lastAttacker;
-    private bool deathHandled = false;
+    protected bool deathHandled = false;
 
     //=====================================================
     //                  전투 / 피격
@@ -194,7 +295,16 @@ public abstract class ChessStateBase : MonoBehaviour
         if (IsDead) return;
         if (attacker != null) lastAttacker = attacker;
 
-        int finalDamage = Mathf.Max(1, amount - Armor);
+        float damageMultiplier = 100f / (100f + Armor);
+        int finalDamage = Mathf.Max(
+            1,
+            Mathf.RoundToInt(amount * damageMultiplier)
+        );
+
+        if(damageReduction >0f)
+        {
+            finalDamage = Mathf.RoundToInt(finalDamage * (1f - damageReduction));
+        }
 
         if (currentShield > 0)
         {
@@ -207,6 +317,14 @@ public abstract class ChessStateBase : MonoBehaviour
         {
             CurrentHP -= finalDamage;
             if (CurrentHP < 0) CurrentHP = 0;
+
+            OnHPChanged?.Invoke(CurrentHP, MaxHP);
+
+            //기본 공격 피격 이벤트
+            if(attacker != null)
+            {
+                OnDamagedByBasicAttack?.Invoke(attacker);
+            }
         }
 
         GainMana(manaOnDamaged);
@@ -224,33 +342,25 @@ public abstract class ChessStateBase : MonoBehaviour
     {
         if (IsDead) return;
         if (baseData == null) return;
-
-        //이미 풀마나면 또 쌓지 않음 (원하면 유지)
+        if (skillManager != null && skillManager.IsCasting)
+            return;
         if (CurrentMana >= baseData.mana) return;
 
         CurrentMana += amount;
+
         if (CurrentMana >= baseData.mana)
         {
             CurrentMana = baseData.mana;
 
             if (TryCastSkillInternal())
-            {
                 CurrentMana = 0;
-            }
-            else
-            {
-                CurrentMana = baseData.mana;
-            }
         }
     }
+
     private bool TryCastSkillInternal()
     {
-        var manager = GetComponent<SkillManager>();
-        if (manager != null)
-        {
-            return manager.TryCastSkill();
-        }
-
+        if (skillManager != null)
+            return skillManager.TryCastSkill();
 
         if (HasAnimParam("UseSkill"))
         {
@@ -258,23 +368,31 @@ public abstract class ChessStateBase : MonoBehaviour
             animator.SetTrigger("UseSkill");
             return true;
         }
+
         return false;
     }
-
 
     protected virtual void CastSkill()
     {
         TryCastSkillInternal();
     }
 
-
     //=====================================================
     //                  사망 처리
     //=====================================================
+
     protected virtual void Die()
     {
         if (!IsDead || deathHandled) return;
         deathHandled = true;
+
+        stateMachine?.Lock();
+
+        var statusUI = GetComponentInChildren<ChessStatusUI>();
+        if (statusUI != null)
+        {
+            statusUI.ForceRefreshHP();
+        }
 
         if (lastAttacker != null && lastAttacker != (this as Chess))
         {
@@ -290,7 +408,6 @@ public abstract class ChessStateBase : MonoBehaviour
             animator.ResetTrigger("Die");
             animator.SetTrigger("Die");
         }
-
     }
 
     //=====================================================
@@ -300,86 +417,162 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public bool HasTrait(TraitType trait)
     {
-        if (baseData == null || baseData.traits == null) return false;
+        if (baseData == null || baseData.traits == null)
+            return false;
 
         foreach (var t in baseData.traits)
-        {
             if (t == trait) return true;
-        }
 
         return false;
     }
 
     //=====================================================
-    //                  공속 보정 (시너지 등)
+    //                  공속 계산 핵심
     //=====================================================
-    public void SetAttackSpeedMultiplier(float multiplier)
+    private void RecalculateAttackSpeed()
     {
-        Debug.Log($"[{gameObject.name}] SetAttackSpeedMultiplier: {attackSpeedMultiplier} -> {multiplier}, attackTimer={attackTimer}");
+        attackSpeedMultiplier =
+            bonusAttackSpeed_Synergy
+            * bonusAttackSpeed_Item
+            * bonusAttackSpeed_Buff;
 
-        attackSpeedMultiplier = Mathf.Max(0.1f, multiplier);
+        attackSpeedMultiplier = Mathf.Max(0.1f, attackSpeedMultiplier);
 
         if (baseAttackInterval > 0f)
         {
-            float oldInterval = attackInterval;
             attackInterval = baseAttackInterval / attackSpeedMultiplier;
-
-            // 타이머 비율 유지 (공속 변경 시 현재 진행도 보존)
-            if (oldInterval > 0f && attackTimer > 0f)
-            {
-                float progress = attackTimer / oldInterval;
-                attackTimer = attackInterval * progress;
-            }
         }
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
 
-        Debug.Log($"[{gameObject.name}] 결과: attackInterval={attackInterval}, attackTimer={attackTimer}");
     }
 
-    //=====================================================
-    //                  보너스 스탯 API (외부 호환 유지)
-    //=====================================================
-
-    // 기존 SynergyManager 호출용
-    public void AddBonusStats(int attack, int armor, int hp)
+    // ================================
+    // 기존 코드 호환용 API (절대 삭제 X)
+    // ================================
+    public void SetAttackSpeedMultiplier(float multiplier)
     {
-        SetSynergyBonusStats(attack, armor, hp);
+        // 기존 호출부는 "최종 배수"를 넣는다고 생각함
+        // 그 값을 시너지 공속으로 흡수
+        bonusAttackSpeed_Synergy = Mathf.Max(0.1f, multiplier);
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+        {
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
+        }
     }
 
-    public void SetSynergyBonusStats(int attack, int armor, int hp)
+
+    //=====================================================
+    //                  보너스 스탯 API
+    //=====================================================
+    public void AddBonusStats(int attack, int armor, int hp, float attackSpeed = 1f)
+    {
+        SetSynergyBonusStats(attack, armor, hp, attackSpeed);
+    }
+
+    public void SetSynergyBonusStats(int attack, int armor, int hp, float attackSpeed = 1f)
     {
         float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
 
         bonusAttack_Synergy = attack;
         bonusArmor_Synergy = armor;
         bonusMaxHP_Synergy = hp;
+        bonusAttackSpeed_Synergy = attackSpeed;
 
         CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
     }
 
-    public void SetItemBonusStats(int attack, int armor, int hp)
+    public void SetItemBonusStats(int attack, int armor, int hp, float attackSpeed = 1f)
     {
         float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
 
         bonusAttack_Item = attack;
         bonusArmor_Item = armor;
         bonusMaxHP_Item = hp;
+        bonusAttackSpeed_Item = attackSpeed;
 
         CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
     }
 
+    public void GlobalBuffApply(float multiplier)
+    {
+        if (baseData.traits.Contains(TraitType.Melee))
+        {
+            bonusArmor_Buff = (int)(Armor * (multiplier - 1f));
+            bonusMaxHP_Buff = (int)(MaxHP * (multiplier - 1f));
+        }
+        else if (baseData.traits.Contains(TraitType.Ranged))
+        {
+            bonusAttack_Buff = (int)(AttackDamage * (multiplier - 1f));
+            bonusAttackSpeed_Buff *= multiplier;
+        }
+        CurrentHP += bonusMaxHP_Buff;
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+    }
+    
+    //뎀감 Setter
+    public void AddDamageReduction(float value)
+    {
+        damageReduction += value;
+    }
+    public void AddMaxHpBuff(int deltaHp)
+    {
+        // 현재 HP 비율 유지
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusMaxHP_Buff += deltaHp;
+
+        // 현재 HP는 비율 유지 (MaxHP 변화에 따라 자연스러운 유지)
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP) CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
     //=====================================================
-    //                  시너지 리셋 (기존 API 유지)
+    //                  리셋
     //=====================================================
     public void ResetSynergyStats()
     {
-        SetAttackSpeedMultiplier(1f);
         bonusAttack_Synergy = 0;
         bonusArmor_Synergy = 0;
         bonusMaxHP_Synergy = 0;
+        bonusAttackSpeed_Synergy = 1f;
+
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+    }
+
+    public void ClearAllBuffs()
+    {
+        bonusAttack_Buff = 0;
+        bonusArmor_Buff = 0;
+        bonusMaxHP_Buff = 0;
+        bonusAttackSpeed_Buff = 1f;
+
+        bonusMaxHP_Percent = 0f;
+
+        CurrentHP = MaxHP;
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
     }
 
     //=====================================================
-    //                  위치 변경
+    //                  위치 / 기타
     //=====================================================
     public void SetPosition(Vector3 position)
     {
@@ -389,12 +582,9 @@ public abstract class ChessStateBase : MonoBehaviour
 
     public void OnDieAnimationEnd()
     {
-        var pooled = GetComponentInParent<PooledObject>();
-        if (pooled != null) pooled.ReturnToPool();
-        else gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    // 공속 읽기전용
     public float AttackSpeed
     {
         get
@@ -409,12 +599,123 @@ public abstract class ChessStateBase : MonoBehaviour
         if (animator == null) return false;
 
         foreach (var p in animator.parameters)
-        {
-            if (p.name == param)
-                return true;
-        }
+            if (p.name == param) return true;
 
         return false;
     }
 
+    public void SetTargetable(bool value)
+    {
+        IsTargetable = value;
+    }
+
+    //공격 적중 알림용 메서드
+    protected void NotifyBasicAttackHit()
+    {
+        OnBasicAttackHit?.Invoke();
+    }
+
+    //초기화 관련
+
+    public virtual void ResetForNewRound()
+    {
+        stateMachine?.Unlock();
+        //스킬 캐스팅 중이면 강제 종료
+        skillManager?.ForceStopCasting();
+
+        //전투중 임시 버프(전투버프) 제거 + 공속 재계산 + HP 최대치로
+        ClearAllBuffs();
+
+        //마나/실드/타겟팅 관련 초기화
+        CurrentMana = 0;
+        ClearShield();
+        lastAttacker = null;
+        deathHandled = false;
+        SetTargetable(true);
+
+        //공격 타이머는 다음 라운드에서 바로 때리게 하려면 0,
+        //“조금 텀” 주려면 attackInterval
+        attackTimer = 0f;
+
+        NotifyHPChanged();
+    }
+    protected void NotifyHPChanged()
+    {
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
+    //고정뎀
+    public void TakeTrueDamage(int damage)
+    {
+        if (IsDead) return;
+
+        CurrentHP -= damage;
+        if (CurrentHP < 0)
+            CurrentHP = 0;
+
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+    //퍼센트 체력 적용 / 해제 API
+    public void AddMaxHpPercent(float percent)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusMaxHP_Percent += percent;
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
+    public void RemoveMaxHpPercent(float percent)
+    {
+        float ratio = MaxHP > 0 ? (float)CurrentHP / MaxHP : 1f;
+
+        bonusMaxHP_Percent -= percent;
+        bonusMaxHP_Percent = Mathf.Max(0f, bonusMaxHP_Percent);
+
+        CurrentHP = Mathf.RoundToInt(MaxHP * ratio);
+        if (CurrentHP > MaxHP)
+            CurrentHP = MaxHP;
+
+        OnStatChanged?.Invoke();
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
+
+    public void AddAttackPercent(float percent)
+    {
+        bonusAttack_Percent += percent;
+        OnStatChanged?.Invoke();
+    }
+
+    public void RemoveAttackPercent(float percent)
+    {
+        bonusAttack_Percent -= percent;
+        bonusAttack_Percent = Mathf.Max(0f, bonusAttack_Percent);
+        OnStatChanged?.Invoke();
+    }
+
+    //버프칸 따로
+    public float GetBuffAttackSpeedMultiplier()
+    {
+        return bonusAttackSpeed_Buff;
+    }
+
+    public void SetBuffAttackSpeedMultiplier(float multiplier)
+    {
+        bonusAttackSpeed_Buff = Mathf.Max(0.1f, multiplier);
+        RecalculateAttackSpeed();
+        OnStatChanged?.Invoke();
+
+        if (animator != null && HasAnimParam("AtkAnimSpeed"))
+            animator.SetFloat("AtkAnimSpeed", attackSpeedMultiplier);
+    }
 }

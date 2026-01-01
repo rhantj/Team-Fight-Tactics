@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Jarvan SO
   m_EditorClassIdentifier: 
   unitName: "\uC790\uB974\uBC18 4\uC138"
-  maxHP: 100
-  armor: 20
-  attackDamage: 20
+  maxHP: 200
+  armor: 22
+  attackDamage: 30
   attackSpeed: 1
-  mana: 15
+  mana: 10
   attackRange: 10
   moveSpeed: 10
   starLevel: 1
@@ -27,6 +27,10 @@ MonoBehaviour:
   prefab: {fileID: 6135306812765045976, guid: 544a5d45814e3dd489097de5e76de26e, type: 3}
   skillIcon: {fileID: 21300000, guid: 6de5fbec0eb195a47b7bd0cbedfcdb79, type: 3}
   skillName: "\uB370\uB9C8\uC2DC\uC544\uC758 \uAE43\uBC1C"
-  skillDescription: "\uB370\uB9C8\uC2DC\uC544\uC758 \uAE43\uBC1C : "
+  skillDescription: "\uC2A4\uD0AC : \uC790\uB974\uBC18\uC774 \uC804\uBC29\uC5D0 \uAE43\uBC1C\uC744
+    \uB358\uC838 \uAE43\uBC1C\uBC94\uC704\uC758 \uC801\uB4E4\uC5D0\uAC8C \uD53C\uD574\uB97C
+    \uC90D\uB2C8\uB2E4."
   poolID: Jarvan
   useBattleState: 0
+  gameOverPortrait: {fileID: 21300000, guid: fcb90b1220f2d4942a34ddc737a2cffb, type: 3}
+  victoryVoice: {fileID: 8300000, guid: 10d2ce86fc41d8844a95ff4b4629ea2b, type: 3}

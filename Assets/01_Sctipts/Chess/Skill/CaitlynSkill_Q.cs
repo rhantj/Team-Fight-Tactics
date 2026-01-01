@@ -17,7 +17,7 @@ public class CaitlynSkill_Q : SkillBase
     [Header("VFX")]
     [SerializeField] private GameObject castVfxPrefab;       // 캐스팅 이펙트
     [SerializeField] private GameObject projectilePrefab;    // 투사체(연출용)
-    [SerializeField] private Transform firePoint;            // 총구 위치
+    [SerializeField] private Transform firePoint;// 총구 위치
 
     public override IEnumerator Execute(ChessStateBase caster)
     {
@@ -28,16 +28,28 @@ public class CaitlynSkill_Q : SkillBase
         Chess target = cait.CurrentTarget;
         if (target == null || target.IsDead) yield break;
 
+        
+
         // 캐스팅 VFX
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, caster.transform.position, Quaternion.identity);
+        {
+            var castVfx = PoolManager.Instance.Spawn("CaitlynCast");
+            castVfx.transform.SetPositionAndRotation(caster.transform.position, Quaternion.identity);
+        }
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
+        // 테스트용 케이틀린 효과음
+        SettingsUI.PlaySFX("Caitlyn_QSkillSound",caster.transform.position,1f,1f);
+
+
         // 투사체(연출용)
         if (projectilePrefab != null && firePoint != null)
-            Object.Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        {
+            var projectileVfx = PoolManager.Instance.Spawn("CaitlynProjectile");
+            projectileVfx.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
+        }
 
         // 실제 데미지
         int dmg = Mathf.Max(1, Mathf.RoundToInt(cait.AttackDamage * damageMultiplier) + flatBonusDamage);

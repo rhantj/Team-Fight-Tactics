@@ -56,8 +56,15 @@ public class ShenSkill_R : SkillBase
         Chess target = FindLowestHpRatioAlly(shen, allies, searchRadius, includeSelf);
         if (target == null) yield break;
 
+        var pos = transform.position + Vector3.up * 3f;
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, shen.transform.position, Quaternion.identity);
+        {
+            var castVfx = PoolManager.Instance.Spawn("ShenCast");
+            castVfx.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        }
+        
+        //쉔 R스킬 효과음 추가
+        SettingsUI.PlaySFX("Shen_R_Use",shen.transform.position,1f,1f);
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
@@ -67,10 +74,19 @@ public class ShenSkill_R : SkillBase
 
         if (shieldVfxPrefab != null)
         {
-            GameObject vfx = Object.Instantiate(shieldVfxPrefab, target.transform.position, Quaternion.identity, target.transform);
+            var shieldVfx = PoolManager.Instance.Spawn("ShenShield");
+            shieldVfx.transform.SetPositionAndRotation(target.transform.position + Vector3.up * 3f, Quaternion.identity);
 
-            if (shieldDuration > 0f)
-                Object.Destroy(vfx, shieldDuration);
+            float elapsed = shieldDuration;
+            while (elapsed > 0f)
+            {
+                elapsed -= Time.deltaTime;
+                shieldVfx.transform.position = pos;
+                yield return null;
+            }
+
+            var pooled = shieldVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
         }
     }
 

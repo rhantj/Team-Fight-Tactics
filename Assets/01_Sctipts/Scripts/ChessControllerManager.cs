@@ -37,11 +37,10 @@ public class ChessControllerManager : MonoBehaviour
                 case RoundState.Preparation:
                 case RoundState.Result:
                     chess.overrideState = true;
-                    chess.ForceIdle();
                     break;
 
                 case RoundState.Battle:
-                    chess.overrideState = true;
+                    chess.overrideState = false; //12.22 Kim add : true -> false로 바꿨습니다
                     chess.ForceBattle();
                     break;
             }

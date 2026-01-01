@@ -39,13 +39,18 @@ public class XayahSkill_W : SkillBase
     [SerializeField, Tooltip("히트 VFX")]
     private GameObject hitVfxPrefab;
 
+    Vector3 offset = Vector3.up * 3f;
+
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess xayah = caster as Chess;
         if (xayah == null) yield break;
 
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, xayah.transform.position, Quaternion.identity);
+            Object.Instantiate(castVfxPrefab, xayah.transform.position + offset, Quaternion.identity);
+
+        // 자야 스킬 효과음 추가
+        SettingsUI.PlaySFX("Xayah_W", Vector3.zero, 1f, 1f);
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);

@@ -19,9 +19,10 @@ public class ItemData : ScriptableObject
     [Header("Item Stat")]
     public int addAttack;       //공격력
     public int addDefense;      //방어력
-    public int addHp;           //체력
+    public int addHp;           //체력, 고정값
     public int addMp;           //마나
     public int addAttackSpeed;  //공속
+    public float addHpPercent;  //퍼센트 비례 체력
 
     [Header("Combine Recipe")]
     public ItemData combineA;     //재료 A  

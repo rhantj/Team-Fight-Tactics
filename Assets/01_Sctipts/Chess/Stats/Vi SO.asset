@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Vi SO
   m_EditorClassIdentifier: 
   unitName: "\uBC14\uC774"
-  maxHP: 100
-  armor: 20
-  attackDamage: 20
+  maxHP: 150
+  armor: 18
+  attackDamage: 22
   attackSpeed: 1
-  mana: 15
+  mana: 10
   attackRange: 10
   moveSpeed: 10
   starLevel: 1
@@ -27,6 +27,10 @@ MonoBehaviour:
   prefab: {fileID: 4817332306984177319, guid: a95303a206cd34342b6d76eb23756b9a, type: 3}
   skillIcon: {fileID: 21300000, guid: acc57c62b2248924cbf1ccbec1b137bb, type: 3}
   skillName: "\uB048\uC9C8\uAE34 \uD798"
-  skillDescription: "\uB048\uC9C8\uAE34 \uD798 : "
+  skillDescription: "\uC2A4\uD0AC : \uBC14\uC774\uAC00 \uC804\uBC29\uC744 \uAC15\uD0C0\uD574
+    \uACF5\uACA9\uD55C \uB300\uC0C1\uACFC \uB4B7\uB77C\uC778\uC5D0 \uBD80\uCC44\uAF34
+    \uBC94\uC704\uC758 \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4."
   poolID: Vi
   useBattleState: 0
+  gameOverPortrait: {fileID: 21300000, guid: 9cc1474c7c082ec49aef32fe49d78153, type: 3}
+  victoryVoice: {fileID: 8300000, guid: 4cd4c214e2956c241a8afb5f02150f3d, type: 3}

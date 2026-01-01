@@ -15,7 +15,7 @@ public class SynergyUIController : MonoBehaviour
 
     [Header("Databases")]
     [SerializeField] private TraitSynergyIconDatabase synergyIconDB;
-    [SerializeField] private TraitIconDatabase traitIconDB; // 이름 표시용
+    [SerializeField] private TraitIconDataBase traitIconDB; // 이름 표시용
 
     [Header("Tooltip Data")]
     [SerializeField] private TraitTooltipData[] tooltipDatas;
@@ -34,8 +34,30 @@ public class SynergyUIController : MonoBehaviour
 
         var states = SynergyManager.Instance.GetSynergyUIStates();
 
+        // 시너지 정렬 (금 > 은 > 동 > 비활성)
+        states.Sort((a, b) =>
+        {
+            // 1. 활성 여부 (활성이 위)
+            bool aActive = a.active != null;
+            bool bActive = b.active != null;
+
+            if (aActive != bActive)
+                return bActive.CompareTo(aActive);
+
+            // 2. 둘 다 활성일 경우: requiredCount 큰 쪽이 위 (금 > 은 > 동)
+            if (aActive && bActive)
+            {
+                int tierCompare = b.active.requiredCount.CompareTo(a.active.requiredCount);
+                if (tierCompare != 0)
+                    return tierCompare;
+            }
+
+            // 3. 같은 단계면 count 큰 쪽이 위
+            return b.count.CompareTo(a.count);
+        });
         // 이번 프레임에 실제로 사용된 Trait 기록
         HashSet<TraitType> usedTraits = new();
+        int siblingIndex = 0;
 
         foreach (var state in states)
         {
@@ -50,6 +72,11 @@ public class SynergyUIController : MonoBehaviour
                 ui = Instantiate(synergyUIPrefab, synergyUIParent);
                 uiMap.Add(state.trait, ui);
             }
+
+            // 정렬된 순서대로 UI 위치 재배치
+            ui.transform.SetSiblingIndex(siblingIndex);
+            siblingIndex++;
+
 
             // 아이콘 선택 (Trait + count 기준)
             Sprite icon = synergyIconDB != null

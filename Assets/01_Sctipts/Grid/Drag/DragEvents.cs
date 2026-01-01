@@ -1,12 +1,8 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using TMPro;
-using UnityEditor;
+﻿using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class DragEvents : AutoAdder<DragEvents>, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] GridDivideBase[] grids;    // 어떤 그리드 인지
     [SerializeField] ChessStateBase chess;      // 잡고있는 기물
@@ -40,6 +36,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 시작시
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (GameManager.Instance)
         {
             CanDrag = GameManager.Instance.roundState == RoundState.Preparation;
@@ -55,8 +53,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             chess = null;
             return;
         }
-        ChessInfoUI.Instance.ShowInfo(chess);
 
+        // 기물 드래그 효과음 추가
+        SettingsUI.PlaySFX("DragChess",chess.transform.position, 1f);
         chessFirstPos = chess.transform.position;
         prevGrid = FindGrid(chessFirstPos);
         prevNode = prevGrid?.GetGridNode(chessFirstPos);
@@ -83,7 +82,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 중
     public void OnDrag(PointerEventData eventData)
     {
-
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (!chess) return;
         chess.SetPosition(_worldPos);
     }
@@ -91,7 +91,8 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     // 드래그 종료
     public void OnEndDrag(PointerEventData eventData)
     {
-
+        if (eventData.button != PointerEventData.InputButton.Left)
+            return;
         if (!chess) return;
 
         ShopManager shop = ShopManager.Instance;
@@ -163,6 +164,9 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             (chess as Chess)?.SetOnField(false);
         }
 
+        // 기물 드랍 효과음 추가
+        SettingsUI.PlaySFX("DropChess", chess.transform.position, 1f);
+
         if (shop != null)
             shop.ExitSellMode();
 
@@ -179,8 +183,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         HideLines();
         shop.UpdateCountUI(field);
     }
-
-
     private void UpdateSynergy()
     {
         FieldGrid fieldGrid = grids[0] as FieldGrid;
@@ -203,7 +205,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
             else
             {
                 chess.SetPosition(chessFirstPos);
-                //prevNode.ChessPiece = chess;
             }
 
             return true;
@@ -271,6 +272,16 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
 
             targetNode.ChessPiece = chess;
             prevNode.ChessPiece = other;
+            if (other is Chess otherChess)
+            {
+                if (prevGrid is FieldGrid) otherChess.SetOnField(true);
+                else if (prevGrid is BenchGrid) otherChess.SetOnField(false);
+            }
+
+            if (prevGrid is BenchGrid)
+            {
+                other.SetSynergyBonusStats(0, 0, 0);
+            }
         }
         else
         {
@@ -285,9 +296,6 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         prevGrid = targetGrid;
         prevNode = targetNode;
     }
-
-    // 기물 판매
-  
 
     // 마우스 위치를 월드 위치로 변환
     void CalculateWorldPosition(Ray ray)
@@ -371,17 +379,7 @@ public class DragEvents : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         if (shop == null) shop = FindObjectOfType<ShopManager>();
         if (!shop) return false;
 
-        FieldInfo baseDataField = typeof(ChessStateBase).GetField(
-            "baseData", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        ChessStatData chessData = baseDataField.GetValue(chess) as ChessStatData;
-        if (chessData == null)
-        {
-            Debug.LogError("[TrySellFromDrag] chessData is null");
-            return false;
-        }
-
-        bool sold = shop.TrySellUnit(chessData, chess.gameObject);
+        bool sold = shop.TrySellUnit(chess.BaseData, chess.gameObject);
         if (!sold) return false;
 
         if (ChessInfoUI.Instance != null)

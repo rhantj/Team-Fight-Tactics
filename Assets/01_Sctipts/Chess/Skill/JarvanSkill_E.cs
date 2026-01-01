@@ -28,6 +28,11 @@ public class JarvanSkill_E : SkillBase
     [SerializeField, Tooltip("È÷Æ® ÀÌÆåÆ®")]
     private GameObject hitVfxPrefab;
 
+    private void Awake()
+    {
+        endByAnimEvent = false; 
+    }
+
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess jarvan = caster as Chess;
@@ -47,6 +52,8 @@ public class JarvanSkill_E : SkillBase
 
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
+
+        SettingsUI.PlaySFX("Jarvan_E",Vector3.zero, 1f,1f);
 
         List<Chess> enemies = (jarvan.team == Team.Player)
             ? UnitCountManager.Instance.enemyUnits

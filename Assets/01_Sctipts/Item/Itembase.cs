@@ -5,11 +5,20 @@ using UnityEngine;
 public class ItemBase
 {
     public ItemData Data { get; private set; }
+    protected ChessStateBase owner;
 
     public ItemBase(ItemData data)
     {
         Data = data;
     }
 
-    //유닛 장착시 효과 계산 여기서
+    public virtual void OnEquip(ChessStateBase chess)
+    {
+        owner = chess;
+    }
+
+    public virtual void OnUnequip()
+    {
+        owner = null;
+    }
 }

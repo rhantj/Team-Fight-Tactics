@@ -24,10 +24,25 @@ public class GarenSkill_E : SkillBase
     [Tooltip("Hit Effect")]
     [SerializeField] private GameObject hitVfxPrefab;
 
+    [Header("Animator")]
+    [Tooltip("Animator Bool 파라미터 이름")]
+    [SerializeField] private string isSpinningBool = "IsSpinning";
+
+
+    private void Awake()
+    {
+        repeatCount = 3;       
+        repeatInterval = 0f;
+        endByAnimEvent = false;
+        //blockUpdateWhileCasting = false;
+    }
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess garen = caster as Chess;
         if (garen == null) yield break;
+        Animator anim = garen.GetComponent<Animator>();
+        if (anim != null && !string.IsNullOrEmpty(isSpinningBool))
+            anim.SetBool(isSpinningBool, true);
         //누굴 공격할지.
         List<Chess> enemyList = (garen.team == Team.Player)
             ? UnitCountManager.Instance.enemyUnits
@@ -37,8 +52,12 @@ public class GarenSkill_E : SkillBase
         GameObject spinVfx = null;
         if (spinVfxPrefab != null)
         {
-            spinVfx = Object.Instantiate(spinVfxPrefab, garen.transform.position, Quaternion.identity, garen.transform);
+            spinVfx = PoolManager.Instance.Spawn("GarenSpin");
+            spinVfx.transform.SetPositionAndRotation(garen.transform.position, Quaternion.identity);
         }
+
+        // 가렌 스킬 효과음 추가
+        SettingsUI.PlaySFX("Garen E", garen.transform.position, 1f, 1f);
 
         float elapsed = 0f;
         float tickTimer = 0f;
@@ -64,14 +83,22 @@ public class GarenSkill_E : SkillBase
                     target.TakeDamage(dmg, garen);
 
                     if (hitVfxPrefab != null)
-                        Object.Instantiate(hitVfxPrefab, target.transform.position, Quaternion.identity);
+                    {
+                        var hitVfx = PoolManager.Instance.Spawn("GarenSpinHit");
+                        hitVfx.transform.SetPositionAndRotation(target.transform.position, Quaternion.identity);
+                    }
                 }
             }
 
             yield return null;
         }
-
+        if (anim != null && !string.IsNullOrEmpty(isSpinningBool))
+            anim.SetBool(isSpinningBool, false);
         if (spinVfx != null)
-            Object.Destroy(spinVfx);
+        {
+            var pooled = spinVfx.GetComponent<PooledObject>();
+            pooled.ReturnToPool();
+        }
+            
     }
 }

@@ -31,6 +31,8 @@ public class ViSkill_E : SkillBase
     [SerializeField, Tooltip("Hit Effect)")]
     private GameObject hitVfxPrefab;
 
+    Vector3 offset = Vector3.up * 3f;
+
     public override IEnumerator Execute(ChessStateBase caster)
     {
         Chess vi = caster as Chess;
@@ -46,11 +48,17 @@ public class ViSkill_E : SkillBase
 
         //캐스팅 VFX
         if (castVfxPrefab != null)
-            Object.Instantiate(castVfxPrefab, vi.transform.position, Quaternion.identity);
+        {
+            var castVfx = PoolManager.Instance.Spawn("ViCast");
+            castVfx.transform.SetPositionAndRotation(vi.transform.position + offset, Quaternion.identity);
+        }
 
         //모션 타이밍
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
+
+        //바이 E스킬 사운드 추가
+        SettingsUI.PlaySFX("Vi_E_Hit",vi.transform.position,1f,1f);
 
         //방향
         Vector3 dir = (mainTarget.transform.position - vi.transform.position);
@@ -63,7 +71,10 @@ public class ViSkill_E : SkillBase
         mainTarget.TakeDamage(mainDmg, vi);
 
         if (hitVfxPrefab != null)
-            Object.Instantiate(hitVfxPrefab, mainTarget.transform.position, Quaternion.identity);
+        {
+            var hitVfx = PoolManager.Instance.Spawn("ViHit");
+            hitVfx.transform.SetPositionAndRotation(mainTarget.transform.position + offset, Quaternion.identity);
+        }
 
         //Cone Splash 
         float halfAngle = coneAngle * 0.5f;

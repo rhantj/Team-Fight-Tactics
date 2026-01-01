@@ -37,6 +37,8 @@ public class ItemDrag : MonoBehaviour
         originSlot = startSlot;
         dragIcon.sprite = icon;
         dragIcon.enabled = true;
+
+        SettingsUI.PlaySFX("DragChess", Vector3.zero, 1f, 1f);
     }
 
     //===================== 드래그 중 ========================
@@ -80,6 +82,8 @@ public class ItemDrag : MonoBehaviour
                 if(targetSlot.IsEmpty)
                 {
                     ItemSlotSwap(originSlot, targetSlot);
+
+                    SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
                     return;
                 }
                 var a = originSlot.CurrentItem.Data;
@@ -89,6 +93,10 @@ public class ItemDrag : MonoBehaviour
                 {
                     targetSlot.SetItem(combined);
                     originSlot.ClearSlot();
+
+                    ItemSlotManager.Instance.SortSlots();
+
+                    SettingsUI.PlaySFX("ItemEquip(Comb)", Vector3.zero, 1f, 1f);
                     return;
                 }
 
@@ -100,9 +108,12 @@ public class ItemDrag : MonoBehaviour
         if (TryAttachItemToChess(eventData.position))
         {
             originSlot.ClearSlot();
+
+            ItemSlotManager.Instance.SortSlots();
+            SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
             return;
         }
-        
+        SettingsUI.PlaySFX("DropChess", Vector3.zero, 1f, 1f);
     }
 
     //===================== 아이템 슬롯 스왑 함수 ========================
@@ -133,6 +144,8 @@ public class ItemDrag : MonoBehaviour
         {
             b.SetItem(temp);
         }
+
+        ItemSlotManager.Instance.SortSlots();
     }
 
     private bool TryAttachItemToChess(Vector2 screenPos)
