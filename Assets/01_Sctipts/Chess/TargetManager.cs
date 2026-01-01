@@ -95,17 +95,31 @@ public class TargetManager : MonoBehaviour
         playerUnits.Clear();
         enemyUnits.Clear();
 
-        Chess[] allChess = FindObjectsOfType<Chess>();
-        foreach (var chess in allChess)
+        var fieldGrid = StaticRegistry<FieldGrid>.Find();
+        if (fieldGrid != null)
         {
-            if (chess.IsDead) continue;
-            if (chess.team == Team.Player)
+            foreach (var unit in fieldGrid.GetAllFieldUnits())
+            {
+                if (unit == null) continue;
+                var chess = unit.GetComponent<Chess>();
+                if (chess == null || chess.IsDead) continue;
                 playerUnits.Add(chess);
-            else if (chess.team == Team.Enemy)
-                enemyUnits.Add(chess);
+            }
         }
 
+        var enemyGrid = StaticRegistry<EnemyGrid>.Find();
+        if (enemyGrid != null)
+        {
+            foreach (var unit in enemyGrid.GetAllFieldUnits())
+            {
+                if (unit == null) continue;
+                var chess = unit.GetComponent<Chess>();
+                if (chess == null || chess.IsDead) continue;
+                enemyUnits.Add(chess);
+            }
+        }
     }
+
     //================================================
     //                  Å¸°Ù ÇÒ´ç
     //================================================

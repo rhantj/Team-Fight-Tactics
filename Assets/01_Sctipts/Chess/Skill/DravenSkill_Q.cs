@@ -26,11 +26,12 @@ public class DravenSkill_Q : SkillBase
         Chess target = draven.CurrentTarget;
         if (target == null || target.IsDead) yield break;
 
+        SettingsUI.PlaySFX("Darius_Normal_Hit1", draven.transform.position, 1f, 1f);
+
         if (windUpTime > 0f)
             yield return new WaitForSeconds(windUpTime);
 
         int scaledBasic = draven.AttackDamage * Mathf.Max(1, draven.StarLevel);
-
         int starBonus = GetStarBonus(draven.StarLevel);
 
         int rawDamage = Mathf.Max(
@@ -40,6 +41,15 @@ public class DravenSkill_Q : SkillBase
 
         target.TakeDamage(rawDamage, draven);
     }
+
+
+    private bool HasParam(Animator anim, string name)
+    {
+        foreach (var p in anim.parameters)
+            if (p.name == name) return true;
+        return false;
+    }
+
 
     private int GetStarBonus(int starLevel)
     {
