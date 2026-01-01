@@ -171,6 +171,9 @@ public class GameOverPanelUI : MonoBehaviour
 
     private void OnClickExit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
         Application.Quit();
     }
 
