@@ -592,6 +592,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2835549521968201879, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: gameBGMKey
+      value: InGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2835549521968201879, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: introBGMKey
+      value: RealIntro
+      objectReference: {fileID: 0}
+    - target: {fileID: 2835549521968201879, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
+      propertyPath: gameOverBGMKey
+      value: Ending
+      objectReference: {fileID: 0}
     - target: {fileID: 4219078461864785182, guid: 8e8715274c15adb449a26dfe863fc278, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -769,6 +781,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ed7319cab8153bd4f94e08753e5fa19f, type: 3}
   - {fileID: 8300000, guid: b3258fea4fd7fbf4fad91350699cae82, type: 3}
   - {fileID: 8300000, guid: a0b60f9ea9257a643bf3dc26fff8f626, type: 3}
+  - {fileID: 8300000, guid: 21a42025eb671b34b95b2602f653af4a, type: 3}
+  - {fileID: 8300000, guid: a9b1f17b1a5d3f64b9eec1d3788c9f10, type: 3}
+  - {fileID: 8300000, guid: 24d049519ef53474a823bcd6cd0d682a, type: 3}
+  - {fileID: 8300000, guid: c96db2149bdd9c04798145962b31a0c8, type: 3}
   usingSound: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
