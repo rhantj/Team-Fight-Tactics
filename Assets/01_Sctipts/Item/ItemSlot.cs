@@ -13,6 +13,7 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     [SerializeField] private Image itemIcon;
+    Color firstColor;
    
     //슬롯이 들고있는 아이템 인스턴스
     public ItemBase CurrentItem { get; private set; }
@@ -22,22 +23,31 @@ public class ItemSlot : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHa
 
     private bool isHover;
     private bool isDragging;
+
+    private void Awake()
+    {
+        firstColor = itemIcon.color;
+    }
+
     public void SetItem(ItemData data) //랜덤 아이템 넣기(임시임)
     {
         CurrentItem = new ItemBase(data);
         itemIcon.sprite = data.icon;
+        itemIcon.color = Color.white;
     }
 
     public void SetItem(ItemBase item) //이건 슬롯 간 교환
     {
         CurrentItem = item;
         itemIcon.sprite = item.Data.icon;
+        itemIcon.color = Color.white;
     }
 
     public void ClearSlot() //슬롯 비우기
     {
         CurrentItem = null;
         itemIcon.sprite = null;
+        itemIcon.color = firstColor;
     }
 
     //========================= 마우스 오버 ==================================

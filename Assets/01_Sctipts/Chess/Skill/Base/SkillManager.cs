@@ -50,41 +50,28 @@ public class SkillManager : MonoBehaviour
 
         if (animator != null)
             animator.ResetTrigger("Attack");
-
         // 지속형 / 채널링 스킬 (Execute 시간 기준 반복)
         if (!skill.endByAnimEvent)
         {
             isTimeBasedCasting = true;
-
             int repeats = Mathf.Max(1, skill.repeatCount);
-
             for (int i = 0; i < repeats; i++)
             {
                 ApplySkillAnimSpeed();
-
                 if (HasAnimParam("UseSkill"))
                     animator.SetTrigger("UseSkill");
-
                 yield return skill.Execute(chess);
-
                 if (skill.repeatInterval > 0f)
                     yield return new WaitForSeconds(skill.repeatInterval);
             }
-
             EndCasting();
             yield break;
         }
-
-
-        // 기존 스킬 (애니 이벤트 기반)
         isTimeBasedCasting = false;
-
         currentSkill = skill;
         remainingRepeats = Mathf.Max(1, skill.repeatCount);
         isRepeatCasting = true;
-
         ApplySkillAnimSpeed();
-
         if (HasAnimParam("UseSkill"))
             animator.SetTrigger("UseSkill");
 

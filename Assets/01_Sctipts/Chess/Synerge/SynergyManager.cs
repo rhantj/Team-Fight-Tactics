@@ -35,8 +35,6 @@ public class SynergyManager : MonoBehaviour
             ClearSynergies(); //유닛 없으면 시너지 초기화.
             return;
         }
-
-        //Trait별 "서로 다른 기물" 집합
         Dictionary<TraitType, HashSet<ChessStatData>> uniqueByTrait = new(); //중복 방지.
 
         foreach (var unit in fieldUnits)
