@@ -149,7 +149,6 @@ public class ChessCombineManager : MonoBehaviour
                 }
             }
             if (main == null) main = list[0];
-
             // 나머지 2개는 재료로
             Chess material1 = null;
             Chess material2 = null;
@@ -157,33 +156,23 @@ public class ChessCombineManager : MonoBehaviour
             {
                 var c = list[i];
                 if (c == main) continue;
-
                 if (material1 == null) material1 = c;
                 else { material2 = c; break; }
             }
-
             if (material1 == null || material2 == null) break;
-
             string mainID = !string.IsNullOrEmpty(main.BaseData.poolID) ? main.BaseData.poolID : main.BaseData.unitName;
             string mat1ID = !string.IsNullOrEmpty(material1.BaseData.poolID) ? material1.BaseData.poolID : material1.BaseData.unitName;
             string mat2ID = !string.IsNullOrEmpty(material2.BaseData.poolID) ? material2.BaseData.poolID : material2.BaseData.unitName;
-
             if (mainID != mat1ID || mainID != mat2ID) break;
             if (main.StarLevel != material1.StarLevel || main.StarLevel != material2.StarLevel) break;
             if (main.StarLevel >= 3) break;
-
             TransferItemsToMain(main, material1, material2);
-
             main.CombineWith(material1, material2);
-
             list.Remove(main);
             list.Remove(material1);
             list.Remove(material2);
-
             if (list.Count == 0) chessGroups.Remove(key);
-
             Register(main);
-
             if (!chessGroups.TryGetValue(key, out list))
                 break;
         }
